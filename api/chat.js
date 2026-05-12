@@ -1,15 +1,12 @@
 export const config = { runtime: 'edge' };
 
 export default async function handler(req) {
-  // Only allow POST
   if (req.method !== 'POST') {
     return new Response(JSON.stringify({ error: 'Method not allowed' }), {
-      status: 405,
-      headers: { 'Content-Type': 'application/json' }
+      status: 405, headers: { 'Content-Type': 'application/json' }
     });
   }
 
-  // CORS headers - allow your Vercel domain
   const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
@@ -17,7 +14,6 @@ export default async function handler(req) {
     'Content-Type': 'application/json'
   };
 
-  // Handle preflight
   if (req.method === 'OPTIONS') {
     return new Response(null, { status: 200, headers: corsHeaders });
   }
@@ -32,7 +28,6 @@ export default async function handler(req) {
       });
     }
 
-    // Call Anthropic API with key stored safely in Vercel env
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
