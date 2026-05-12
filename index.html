@@ -874,6 +874,212 @@
     padding-left: 4px;
   }
 
+
+  /* ================================================
+     FULL RESPONSIVE — ADMIN PANEL + ALL SECTIONS
+  ================================================ */
+
+  /* ── ADMIN LOGIN BOX ── */
+  @media (max-width: 480px) {
+    .admin-login-box { padding: 28px 20px; border-radius: 16px; }
+    .admin-login-title { font-size: 17px; }
+    .admin-login-sub { font-size: 12px; margin-bottom: 20px; }
+  }
+
+  /* ── ADMIN PANEL TOPBAR ── */
+  @media (max-width: 768px) {
+    .admin-topbar { padding: 10px 14px; gap: 10px; }
+    .admin-topbar-title { font-size: 13px; }
+    .admin-topbar-badge { display: none; }
+    .admin-exit-btn span { display: none; }
+    .admin-exit-btn { padding: 7px 10px; }
+    .admin-tabs { padding: 0 10px; gap: 0; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .admin-tabs::-webkit-scrollbar { display: none; }
+    .admin-tab { padding: 10px 12px; font-size: 11px; gap: 5px; white-space: nowrap; flex-shrink: 0; }
+    .admin-tab svg { flex-shrink: 0; }
+  }
+  @media (max-width: 480px) {
+    .admin-topbar { padding: 9px 12px; }
+    .admin-topbar-logo { width: 28px; height: 28px; font-size: 10px; }
+    .admin-topbar-title { font-size: 12px; }
+    .admin-tab { padding: 9px 10px; font-size: 10px; }
+    .admin-tab svg { width: 11px; height: 11px; }
+  }
+
+  /* ── ADMIN CONTENT PANELS ── */
+  @media (max-width: 900px) {
+    /* Invoice & Proposal iframes — make them scrollable */
+    #invoice-container,
+    #proposal-container { overflow-y: auto; -webkit-overflow-scrolling: touch; }
+    #invoice-container iframe,
+    #proposal-container iframe { min-height: 900px; height: 100%; }
+
+    /* Quick Contacts grid */
+    #contacts-grid { grid-template-columns: 1fr !important; }
+
+    /* Quick Stats grid */
+    #tab-stats > div > div[style*="grid-template-columns:repeat(3"] {
+      grid-template-columns: repeat(2,1fr) !important;
+    }
+    #tab-stats > div > div[style*="grid-template-columns: repeat(3"] {
+      grid-template-columns: repeat(2,1fr) !important;
+    }
+  }
+
+  @media (max-width: 600px) {
+    #tab-stats > div { padding: 20px 14px !important; }
+    #tab-stats > div > div[style*="grid-template-columns"] {
+      grid-template-columns: 1fr 1fr !important;
+      gap: 10px !important;
+    }
+    #tab-leads > div { padding: 20px 14px !important; }
+    /* Quick links wrap */
+    #tab-stats .footer-links { flex-wrap: wrap !important; gap: 8px !important; }
+  }
+
+  /* ── PORTFOLIO SECTIONS ── */
+
+  /* Nav */
+  @media (max-width: 1200px) {
+    nav { padding: 14px 28px; }
+    .nav-links { gap: 20px; }
+    section { padding: 72px 36px; }
+  }
+  @media (max-width: 900px) {
+    nav { padding: 12px 18px; }
+    .nav-links { display: none !important; }
+    section { padding: 52px 18px; }
+    h2 { font-size: 30px !important; letter-spacing: -0.5px; }
+    .section-sub { font-size: 13px !important; margin-bottom: 36px !important; }
+  }
+  @media (max-width: 480px) {
+    nav { padding: 10px 14px; }
+    section { padding: 40px 14px !important; }
+    h2 { font-size: 26px !important; }
+  }
+
+  /* Hero */
+  @media (max-width: 1200px) {
+    .hero-inner { padding: 100px 36px 68px; gap: 28px; }
+  }
+  @media (max-width: 900px) {
+    .hero-inner {
+      grid-template-columns: 1fr !important;
+      padding: 84px 18px 44px !important;
+      gap: 22px !important;
+    }
+    .hero-photo-col { order: 1; justify-content: center; }
+    .hero-photo-wrap { max-width: 190px !important; margin: 0 auto; }
+    .hero-text-col { order: 0; }
+    .hero-card-col { order: 2; }
+    .hero-h1 { font-size: clamp(28px, 8vw, 44px) !important; }
+    .hero-btns { flex-direction: column; gap: 10px; }
+    .hero-btns a { text-align: center !important; }
+    .uc-grid { grid-template-columns: 1fr 1fr !important; }
+  }
+  @media (max-width: 480px) {
+    .hero-inner { padding: 76px 14px 36px !important; gap: 18px !important; }
+    .hero-photo-wrap { max-width: 160px !important; }
+    .hero-h1 { font-size: clamp(24px, 8vw, 34px) !important; }
+    .hero-desc { font-size: 12px !important; }
+    .upwork-card { padding: 12px !important; }
+    .uc-num { font-size: 14px !important; }
+    .uc-sub { font-size: 7px !important; }
+  }
+
+  /* Stats bar */
+  @media (max-width: 900px) {
+    .stats-row { grid-template-columns: repeat(3,1fr) !important; gap: 10px; }
+    #stats-bar > div { padding: 28px 18px; }
+    .stat-big { font-size: 26px !important; }
+  }
+  @media (max-width: 600px) {
+    .stats-row { grid-template-columns: repeat(2,1fr) !important; gap: 8px; }
+    .stat-big { font-size: 22px !important; }
+    #stats-bar > div { padding: 20px 14px; }
+  }
+
+  /* Services */
+  @media (max-width: 1200px) { .services-grid { grid-template-columns: repeat(2,1fr) !important; } }
+  @media (max-width: 600px)  { .services-grid { grid-template-columns: 1fr !important; gap: 12px !important; } }
+
+  /* Achievements */
+  @media (max-width: 600px) {
+    .achievements-grid { grid-template-columns: 1fr !important; gap: 10px !important; }
+    .ach-card { padding: 14px !important; }
+    .ach-stats-row { grid-template-columns: 1fr 1fr !important; gap: 8px !important; }
+  }
+
+  /* Chart */
+  @media (max-width: 900px) {
+    .chart-wrap { padding: 36px 18px !important; gap: 16px !important; }
+    .kpi-grid { grid-template-columns: repeat(2,1fr) !important; gap: 8px !important; }
+    .chart-title { font-size: 24px !important; }
+    .chart-top { flex-direction: column; gap: 10px; }
+    .year-btns-wrap { overflow-x: auto; }
+  }
+  @media (max-width: 480px) {
+    .chart-wrap { padding: 24px 14px !important; }
+    .ybtn { padding: 5px 10px !important; font-size: 10px !important; }
+    .kpi-val { font-size: 15px !important; }
+    .kpi-card { padding: 10px 12px !important; }
+  }
+
+  /* Pricing */
+  @media (max-width: 900px) {
+    .pricing-grid { grid-template-columns: 1fr !important; max-width: 440px; margin-left: auto; margin-right: auto; }
+    .pricing-featured { transform: scale(1) !important; }
+    .pricing-amount { font-size: 42px !important; }
+  }
+  @media (max-width: 480px) {
+    .pricing-card { padding: 20px 14px !important; }
+    .pricing-amount { font-size: 34px !important; }
+    .pricing-features li { font-size: 11px !important; }
+  }
+
+  /* Strategy */
+  @media (max-width: 900px) { .strategy-grid { grid-template-columns: 1fr !important; } }
+
+  /* Team cards */
+  @media (max-width: 900px) { .team-card { padding: 16px !important; } }
+
+  /* Contact */
+  @media (max-width: 900px) {
+    .contact-inner { grid-template-columns: 1fr !important; gap: 28px !important; padding: 40px 18px !important; }
+  }
+  @media (max-width: 480px) {
+    .contact-inner { padding: 32px 14px !important; }
+    #lead-form input, #lead-form select, #lead-form textarea { padding: 9px 11px !important; font-size: 13px !important; }
+  }
+
+  /* Footer */
+  @media (max-width: 900px) {
+    footer { flex-direction: column !important; align-items: center !important;
+             padding: 24px 18px !important; gap: 14px !important; text-align: center; }
+    .footer-links { flex-wrap: wrap !important; justify-content: center !important; gap: 12px !important; }
+  }
+  @media (max-width: 480px) {
+    footer { padding: 20px 14px !important; }
+    .footer-links a { font-size: 11px; }
+  }
+
+  /* Chatbot */
+  @media (max-width: 600px) {
+    #be-win { width: calc(100vw - 14px) !important; right: 7px !important; bottom: 74px !important; border-radius: 16px !important; }
+    #be-fab { bottom: 12px !important; right: 12px !important; }
+    #be-btn { width: 48px !important; height: 48px !important; }
+    .bm .bb { font-size: 12px !important; }
+    .be-qr-row { padding: 0 10px !important; }
+    .be-qr-row .be-qb { font-size: 9px !important; padding: 4px 7px !important; }
+  }
+
+  /* Admin FAB on mobile */
+  @media (max-width: 480px) {
+    #admin-fab { bottom: 74px !important; left: 12px !important; }
+    #admin-fab::before { font-size: 8px !important; }
+    #admin-fab-btn { width: 38px !important; height: 38px !important; border-radius: 10px !important; }
+  }
+
 </style>
 </head>
 <body>
