@@ -6422,6 +6422,130 @@ function renderContacts() {
 var shakeStyle = document.createElement('style');
 shakeStyle.textContent = '@keyframes shake {0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}'
 document.head.appendChild(shakeStyle);
+
+// ============================
+// SETTINGS: Password & Accounts
+// ============================
+var adminAccounts = JSON.parse(localStorage.getItem('be_admin_accounts') || '[]');
+
+function saveAccounts() {
+  localStorage.setItem('be_admin_accounts', JSON.stringify(adminAccounts));
+}
+
+function showSettingsMsg(id, text, type) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = text;
+  el.className = 'ap-msg ' + type;
+  el.style.display = 'block';
+  setTimeout(function() { el.style.display = 'none'; }, 4000);
+}
+
+function togglePw(id, btn) {
+  var inp = document.getElementById(id);
+  if (!inp) return;
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+  if (btn) btn.style.opacity = inp.type === 'text' ? '1' : '0.5';
+}
+
+async function changePassword() {
+  var curPw  = (document.getElementById('s-cur-pw').value  || '').trim();
+  var newPw  = (document.getElementById('s-new-pw').value  || '').trim();
+  var confPw = (document.getElementById('s-conf-pw').value || '').trim();
+  if (!curPw || !newPw || !confPw) {
+    showSettingsMsg('s-pw-msg', 'Please fill in all three fields.', 'error'); return;
+  }
+  if (newPw.length < 8) {
+    showSettingsMsg('s-pw-msg', 'New password must be at least 8 characters.', 'error'); return;
+  }
+  if (newPw !== confPw) {
+    showSettingsMsg('s-pw-msg', 'Passwords do not match.', 'error'); return;
+  }
+  var curHash    = await sha256(curPw);
+  var storedHash = localStorage.getItem('be_admin_pw') || ADMIN_HASH;
+  if (curHash !== storedHash) {
+    showSettingsMsg('s-pw-msg', 'Current password is incorrect.', 'error');
+    document.getElementById('s-cur-pw').value = '';
+    document.getElementById('s-cur-pw').focus();
+    return;
+  }
+  var newHash = await sha256(newPw);
+  localStorage.setItem('be_admin_pw', newHash);
+  ADMIN_HASH = newHash;
+  document.getElementById('s-cur-pw').value  = '';
+  document.getElementById('s-new-pw').value  = '';
+  document.getElementById('s-conf-pw').value = '';
+  showSettingsMsg('s-pw-msg', 'Password changed! Use the new password next time.', 'success');
+}
+
+function renderAccounts() {
+  var list = document.getElementById('accounts-list');
+  var cnt  = document.getElementById('acct-count');
+  if (!list) return;
+  var all = [{ username: 'Abdullah', role: 'Owner', owner: true }].concat(adminAccounts);
+  if (cnt) cnt.textContent = all.length;
+  list.innerHTML = all.map(function(a, i) {
+    var ini = a.username.substring(0,2).toUpperCase();
+    return '<div class="acct-item">' +
+      '<div class="acct-avatar">' + ini + '</div>' +
+      '<div class="acct-info">' +
+        '<div class="acct-name">' + a.username +
+          (a.owner ? ' <span class="acct-owner">Owner</span>' : '') + '</div>' +
+        '<div class="acct-role">' + (a.role||'Admin') + '</div>' +
+      '</div>' +
+      (a.owner ? '' : '<button class="acct-delete" onclick="deleteAccount('+(i-1)+')" title="Delete">&#10005;</button>') +
+    '</div>';
+  }).join('');
+}
+
+function deleteAccount(i) {
+  if (i < 0 || i >= adminAccounts.length) return;
+  if (!confirm('Delete "' + adminAccounts[i].username + '"?')) return;
+  adminAccounts.splice(i, 1);
+  saveAccounts();
+  renderAccounts();
+}
+
+function toggleAddForm() {
+  var form = document.getElementById('add-acct-form');
+  var btn  = document.getElementById('toggle-add-btn');
+  if (!form) return;
+  var open = form.style.display === 'block';
+  form.style.display = open ? 'none' : 'block';
+  if (btn) btn.style.display = open ? 'inline-flex' : 'none';
+  if (!open) {
+    var u = document.getElementById('new-acct-user');
+    var p = document.getElementById('new-acct-pw');
+    if (u) u.value = '';
+    if (p) p.value = '';
+  }
+}
+
+async function createAccount() {
+  var uname = (document.getElementById('new-acct-user').value || '').trim();
+  var pwd   = (document.getElementById('new-acct-pw').value  || '').trim();
+  var role  = document.getElementById('new-acct-role').value;
+  if (uname.length < 3) {
+    showSettingsMsg('s-acct-msg', 'Username must be at least 3 characters.', 'error'); return;
+  }
+  if (pwd.length < 8) {
+    showSettingsMsg('s-acct-msg', 'Password must be at least 8 characters.', 'error'); return;
+  }
+  if (adminAccounts.some(function(a){return a.username.toLowerCase()===uname.toLowerCase();}) ||
+      uname.toLowerCase()==='abdullah') {
+    showSettingsMsg('s-acct-msg', 'Username already taken.', 'error'); return;
+  }
+  var hash = await sha256(pwd);
+  adminAccounts.push({ username: uname, role: role, hash: hash });
+  saveAccounts();
+  renderAccounts();
+  toggleAddForm();
+  showSettingsMsg('s-acct-msg', 'Account "' + uname + '" created!', 'success');
+}
+
+// Restore saved password hash on load
+(function(){ var s=localStorage.getItem('be_admin_pw'); if(s) ADMIN_HASH=s; })();
+
 </script>
 
 </body>
