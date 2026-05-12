@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invoice Maker — Bidder Experts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>:root {
+  --lime:#2D9B3A; --lime-bright:#4FC95A; --lime-light:rgba(45,155,58,0.1);
+  --dark:#0A1A0C; --card:#FFFFFF; --card2:#F4F8F4;
+  --border:rgba(45,155,58,0.2); --text:#2A3A2C; --muted:#6A8A6E; --white:#0A1A0C;
+  --teal:#1A9B7A; --amber:#D4820A; --red:#D63B3B;
+  --sidebar-bg:#0D1F0F; --sidebar-text:#E8F5E9; --sidebar-muted:#5A7A5E;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:#F0F7F0;color:var(--text);overflow-x:hidden;}
+
+/* Animated background */
+.bg-grid{
+  position:fixed;inset:0;z-index:0;
+  background:linear-gradient(135deg,#F0F7F0 0%,#E8F5E9 50%,#F0F7F0 100%);
+  pointer-events:none;
+}
+.bg-grid::before{
+  content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(45,155,58,0.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(45,155,58,0.06) 1px,transparent 1px);
+  background-size:40px 40px;
+  animation:gridFloat 20s ease-in-out infinite alternate;
+}
+@keyframes gridFloat{0%{transform:translate(0,0)}100%{transform:translate(4px,-4px)}}
+.bg-orb{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;}
+.orb1{width:600px;height:600px;background:radial-gradient(circle,rgba(45,155,58,0.15),transparent 70%);top:-200px;right:-100px;animation:orbDrift 12s ease-in-out infinite alternate;}
+.orb2{width:500px;height:500px;background:radial-gradient(circle,rgba(26,155,122,0.1),transparent 70%);bottom:-100px;left:-100px;animation:orbDrift 16s ease-in-out infinite alternate-reverse;}
+.orb3{width:300px;height:300px;background:radial-gradient(circle,rgba(212,130,10,0.08),transparent 70%);top:50%;left:50%;animation:orbDrift 20s ease-in-out infinite;}
+@keyframes orbDrift{0%{transform:translate(0,0) scale(1)}100%{transform:translate(30px,-20px) scale(1.1)}}
+
+/* LAYOUT */
+.app{position:relative;z-index:1;min-height:100vh;display:grid;grid-template-columns:320px 1fr;gap:0;animation:appFadeIn 0.5s ease both;}
+@keyframes appFadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* SIDEBAR — dark green, premium */
+.sidebar{
+  background:var(--sidebar-bg);
+  border-right:1px solid rgba(255,255,255,0.06);
+  padding:24px 20px;overflow-y:auto;
+  height:100vh;position:sticky;top:0;
+  box-shadow:4px 0 40px rgba(0,0,0,0.3);
+}
+.sidebar-logo{display:flex;align-items:center;gap:10px;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.08);}
+.sidebar-logo-icon{width:38px;height:38px;background:rgba(79,201,90,0.15);border:1px solid rgba(79,201,90,0.3);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:12px;font-weight:800;color:#4FC95A;}
+.sidebar-logo-text{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#E8F5E9;}
+.sidebar-logo-sub{font-size:10px;color:var(--sidebar-muted);}
+
+/* FORM in sidebar */
+.form-section{margin-bottom:22px;}
+.form-section-title{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#4FC95A;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.form-section-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.07);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
+.form-row.single{grid-template-columns:1fr;}
+.form-group{display:flex;flex-direction:column;gap:4px;}
+label{font-size:10px;color:var(--sidebar-muted);text-transform:uppercase;letter-spacing:0.8px;}
+input,select,textarea{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px 10px;color:#E8F5E9;font-family:'DM Sans',sans-serif;font-size:12px;outline:none;transition:all 0.2s;width:100%;}
+input:focus,select:focus,textarea:focus{border-color:rgba(79,201,90,0.5);background:rgba(255,255,255,0.09);}
+input::placeholder,textarea::placeholder{color:rgba(255,255,255,0.2);}
+select option{background:#0D1F0F;color:#E8F5E9;}
+textarea{resize:vertical;min-height:60px;}
+
+/* Color swatches */
+.color-row{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:12px;}
+.color-swatch{width:100%;aspect-ratio:1;border-radius:8px;cursor:pointer;border:2px solid transparent;transition:all 0.2s;}
+.color-swatch.active{border-color:#fff;transform:scale(1.12);box-shadow:0 0 10px rgba(255,255,255,0.3);}
+.color-swatch:hover{transform:scale(1.08);}
+.template-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
+.template-btn{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px 6px;cursor:pointer;text-align:center;font-size:10px;color:var(--sidebar-muted);transition:all 0.2s;font-family:'DM Sans',sans-serif;}
+.template-btn:hover{background:rgba(79,201,90,0.1);border-color:rgba(79,201,90,0.3);color:#4FC95A;}
+.template-btn.active{background:rgba(79,201,90,0.12);border-color:rgba(79,201,90,0.4);color:#4FC95A;}
+
+/* Items table in sidebar */
+.items-table{width:100%;border-collapse:collapse;margin-bottom:8px;}
+.items-table th{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--sidebar-muted);padding:6px 6px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.07);}
+.items-table td{padding:4px 4px;}
+.items-table input{padding:6px 8px;border-radius:6px;font-size:11px;}
+.items-table .del-btn{background:none;border:none;color:#FF5C5C;cursor:pointer;font-size:14px;padding:4px;opacity:0.5;transition:opacity 0.2s;}
+.items-table .del-btn:hover{opacity:1;}
+.add-item-btn{width:100%;background:rgba(79,201,90,0.06);border:1px dashed rgba(79,201,90,0.3);border-radius:8px;padding:8px;color:#4FC95A;font-size:11px;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;margin-bottom:8px;}
+.add-item-btn:hover{background:rgba(79,201,90,0.12);}
+
+/* Action buttons */
+.action-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px;}
+.btn{padding:10px 16px;border-radius:10px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.2s;border:none;display:flex;align-items:center;justify-content:center;gap:6px;}
+.btn:active{transform:scale(0.97);}
+.btn-primary{background:#4FC95A;color:#0A1A0C;}
+.btn-primary:hover{background:#3DB84A;box-shadow:0 4px 16px rgba(79,201,90,0.4);}
+.btn-ghost{background:transparent;border:1px solid rgba(79,201,90,0.35);color:#4FC95A;}
+.btn-ghost:hover{background:rgba(79,201,90,0.1);}
+.btn-full{grid-column:span 2;}
+.btn-email{background:linear-gradient(135deg,#4285F4,#34A853);color:#fff;box-shadow:0 2px 12px rgba(66,133,244,0.3);}
+.btn-email:hover{box-shadow:0 4px 20px rgba(66,133,244,0.5);}
+.btn-wa{background:#25D366;color:#fff;box-shadow:0 2px 12px rgba(37,211,102,0.3);}
+.btn-wa:hover{box-shadow:0 4px 20px rgba(37,211,102,0.5);}
+
+/* Payment toggles in sidebar */
+.pay-methods{display:flex;flex-direction:column;gap:8px;}
+.pay-toggle{cursor:pointer;}
+.pay-toggle input[type="checkbox"]{display:none;}
+.pay-card{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;transition:all 0.2s;position:relative;}
+.pay-toggle input:checked + .pay-card{background:rgba(79,201,90,0.08);border-color:rgba(79,201,90,0.35);}
+.pay-bank-logo{width:44px;height:36px;border-radius:8px;border:1px solid;display:flex;align-items:center;justify-content:center;flex-shrink:0;text-align:center;padding:2px;}
+.pay-details{flex:1;min-width:0;}
+.pay-bank-name{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:#E8F5E9;margin-bottom:2px;}
+.pay-acc{font-family:'JetBrains Mono',monospace;font-size:10px;color:#4FC95A;}
+.pay-iban{font-size:9px;color:var(--sidebar-muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pay-check{width:18px;height:18px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:10px;color:transparent;flex-shrink:0;transition:all 0.2s;}
+.pay-toggle input:checked + .pay-card .pay-check{background:#4FC95A;border-color:#4FC95A;color:#0A1A0C;}
+
+/* PREVIEW PANEL */
+.preview-panel{padding:32px 40px;overflow-y:auto;height:100vh;background:transparent;}
+.preview-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;}
+.preview-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#1A3A1C;}
+.preview-badge{background:rgba(45,155,58,0.12);border:1px solid rgba(45,155,58,0.25);border-radius:20px;padding:4px 12px;font-size:10px;color:#2D9B3A;font-weight:600;display:flex;align-items:center;gap:5px;}
+.preview-badge::before{content:'';width:5px;height:5px;border-radius:50%;background:#4FC95A;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+
+/* INVOICE PAPER — white with beautiful shadows */
+.invoice-paper{
+  background:#FFFFFF;
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 4px 6px rgba(0,0,0,0.04),
+    0 10px 20px rgba(0,0,0,0.06),
+    0 30px 60px rgba(0,0,0,0.08),
+    0 0 0 1px rgba(0,0,0,0.03);
+  max-width:720px;
+  margin:0 auto;
+  min-height:900px;
+  transform:translateY(0);
+  transition:transform 0.3s ease,box-shadow 0.3s ease;
+  animation:paperSlideIn 0.6s cubic-bezier(0.16,1,0.3,1) both;
+}
+@keyframes paperSlideIn{
+  from{opacity:0;transform:translateY(20px) scale(0.99);}
+  to{opacity:1;transform:translateY(0) scale(1);}
+}
+.invoice-paper:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 12px rgba(0,0,0,0.05),
+    0 20px 40px rgba(0,0,0,0.08),
+    0 50px 80px rgba(0,0,0,0.1),
+    0 0 0 1px rgba(0,0,0,0.03);
+}
+
+/* TEMPLATE 1 — DARK LUXURY */
+.tpl-luxury .inv-header{background:#0A0E0A;padding:40px 48px;display:flex;justify-content:space-between;align-items:flex-start;}
+.tpl-luxury .inv-brand{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#B8FF3C;letter-spacing:1px;}
+.tpl-luxury .inv-tagline{font-size:11px;color:#4A6A4A;margin-top:3px;}
+.tpl-luxury .inv-meta{text-align:right;}
+.tpl-luxury .inv-number{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:600;color:#fff;letter-spacing:1px;}
+.tpl-luxury .inv-number-label{font-size:10px;color:#4A6A4A;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+.tpl-luxury .inv-status{display:inline-block;background:rgba(184,255,60,0.15);border:1px solid rgba(184,255,60,0.3);border-radius:20px;padding:3px 12px;font-size:10px;color:#B8FF3C;font-weight:700;margin-top:6px;}
+.tpl-luxury .inv-body{padding:36px 48px;}
+.tpl-luxury .inv-parties{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:32px;}
+.tpl-luxury .inv-party-label{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:#999;margin-bottom:8px;font-family:'Syne',sans-serif;}
+.tpl-luxury .inv-party-name{font-size:16px;font-weight:700;color:#111;margin-bottom:4px;font-family:'Syne',sans-serif;}
+.tpl-luxury .inv-party-detail{font-size:12px;color:#555;line-height:1.6;}
+.tpl-luxury .inv-dates{display:grid;grid-template-columns:1fr 1fr;gap:16px;background:#F8F9F8;border-radius:10px;padding:16px 20px;margin-bottom:28px;}
+.tpl-luxury .inv-date-item{}
+.tpl-luxury .inv-date-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#999;margin-bottom:3px;}
+.tpl-luxury .inv-date-val{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;color:#111;}
+.tpl-luxury .inv-table{width:100%;border-collapse:collapse;margin-bottom:24px;}
+.tpl-luxury .inv-table th{background:#0A0E0A;color:#B8FF3C;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;padding:12px 16px;text-align:left;font-family:'Syne',sans-serif;}
+.tpl-luxury .inv-table th:last-child{text-align:right;}
+.tpl-luxury .inv-table td{padding:12px 16px;font-size:13px;color:#333;border-bottom:1px solid #F0F0F0;}
+.tpl-luxury .inv-table td:last-child{text-align:right;font-weight:600;}
+.tpl-luxury .inv-table tr:last-child td{border-bottom:none;}
+.tpl-luxury .inv-totals{margin-left:auto;width:260px;}
+.tpl-luxury .inv-total-row{display:flex;justify-content:space-between;padding:8px 0;font-size:13px;color:#555;border-bottom:1px solid #F0F0F0;}
+.tpl-luxury .inv-total-row.grand{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#0A0E0A;border-bottom:none;padding-top:12px;}
+.tpl-luxury .inv-total-row.grand span:last-child{color:#2D6A1F;}
+.tpl-luxury .inv-notes{background:#F8F9F8;border-left:3px solid #B8FF3C;padding:16px 20px;border-radius:0 8px 8px 0;margin-top:24px;font-size:12px;color:#555;line-height:1.6;}
+.tpl-luxury .inv-footer{background:#0A0E0A;padding:20px 48px;display:flex;justify-content:space-between;align-items:center;}
+.tpl-luxury .inv-footer-text{font-size:11px;color:#4A6A4A;}
+.tpl-luxury .inv-footer-brand{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:#B8FF3C;}
+
+/* TEMPLATE 2 — CLEAN WHITE */
+.tpl-clean .inv-header{padding:40px 48px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #111;}
+.tpl-clean .inv-brand{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:#111;letter-spacing:-0.5px;}
+.tpl-clean .inv-accent-line{width:40px;height:3px;background:var(--accent-color,#B8FF3C);margin-top:6px;border-radius:2px;}
+.tpl-clean .inv-tagline{font-size:11px;color:#888;margin-top:4px;}
+.tpl-clean .inv-meta{text-align:right;}
+.tpl-clean .inv-number{font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:600;color:#111;}
+.tpl-clean .inv-number-label{font-size:10px;color:#999;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+.tpl-clean .inv-status{display:inline-block;background:var(--accent-color,#B8FF3C);color:#111;border-radius:20px;padding:3px 12px;font-size:10px;font-weight:700;margin-top:6px;}
+.tpl-clean .inv-body{padding:36px 48px;}
+.tpl-clean .inv-parties{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:32px;}
+.tpl-clean .inv-party-label{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent-color,#B8FF3C);margin-bottom:8px;font-family:'Syne',sans-serif;font-weight:700;}
+.tpl-clean .inv-party-name{font-size:16px;font-weight:700;color:#111;margin-bottom:4px;font-family:'Syne',sans-serif;}
+.tpl-clean .inv-party-detail{font-size:12px;color:#666;line-height:1.6;}
+.tpl-clean .inv-dates{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px;}
+.tpl-clean .inv-date-item{border-top:2px solid var(--accent-color,#B8FF3C);padding-top:8px;}
+.tpl-clean .inv-date-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#999;margin-bottom:3px;}
+.tpl-clean .inv-date-val{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;color:#111;}
+.tpl-clean .inv-table{width:100%;border-collapse:collapse;margin-bottom:24px;}
+.tpl-clean .inv-table th{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;padding:10px 0;text-align:left;color:#999;border-bottom:1px solid #111;font-family:'Syne',sans-serif;}
+.tpl-clean .inv-table th:last-child{text-align:right;}
+.tpl-clean .inv-table td{padding:14px 0;font-size:13px;color:#333;border-bottom:1px solid #EEE;}
+.tpl-clean .inv-table td:last-child{text-align:right;font-weight:600;}
+.tpl-clean .inv-totals{margin-left:auto;width:240px;}
+.tpl-clean .inv-total-row{display:flex;justify-content:space-between;padding:6px 0;font-size:13px;color:#666;border-bottom:1px solid #EEE;}
+.tpl-clean .inv-total-row.grand{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:#111;border-bottom:2px solid #111;padding:12px 0;}
+.tpl-clean .inv-total-row.grand span:last-child{color:var(--accent-color,#B8FF3C);filter:brightness(0.7);}
+.tpl-clean .inv-notes{border-left:3px solid var(--accent-color,#B8FF3C);padding:14px 18px;margin-top:24px;font-size:12px;color:#666;line-height:1.6;}
+.tpl-clean .inv-footer{padding:20px 48px;border-top:1px solid #EEE;display:flex;justify-content:space-between;align-items:center;}
+.tpl-clean .inv-footer-text{font-size:11px;color:#999;}
+.tpl-clean .inv-footer-brand{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:#111;}
+
+/* TEMPLATE 3 — BOLD GRADIENT */
+.tpl-bold .inv-header{padding:40px 48px;background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);display:flex;justify-content:space-between;align-items:flex-start;}
+.tpl-bold .inv-brand{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#fff;letter-spacing:1px;}
+.tpl-bold .inv-tagline{font-size:11px;color:rgba(255,255,255,0.4);margin-top:3px;}
+.tpl-bold .inv-meta{text-align:right;}
+.tpl-bold .inv-number{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:600;color:var(--accent-color,#B8FF3C);}
+.tpl-bold .inv-number-label{font-size:10px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+.tpl-bold .inv-status{display:inline-block;background:var(--accent-color,#B8FF3C);color:#111;border-radius:4px;padding:3px 10px;font-size:10px;font-weight:700;margin-top:6px;}
+.tpl-bold .inv-body{padding:36px 48px;}
+.tpl-bold .inv-parties{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:32px;}
+.tpl-bold .inv-party-label{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:#999;margin-bottom:8px;font-weight:700;}
+.tpl-bold .inv-party-name{font-size:16px;font-weight:700;color:#111;margin-bottom:4px;font-family:'Syne',sans-serif;}
+.tpl-bold .inv-party-detail{font-size:12px;color:#555;line-height:1.6;}
+.tpl-bold .inv-dates{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px;background:linear-gradient(135deg,#f8f9ff,#f0f4ff);border-radius:10px;padding:16px 20px;}
+.tpl-bold .inv-date-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#999;margin-bottom:3px;}
+.tpl-bold .inv-date-val{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:#1a1a2e;}
+.tpl-bold .inv-table{width:100%;border-collapse:collapse;margin-bottom:24px;}
+.tpl-bold .inv-table th{background:linear-gradient(135deg,#1a1a2e,#0f3460);color:var(--accent-color,#B8FF3C);font-size:10px;text-transform:uppercase;letter-spacing:1.5px;padding:12px 16px;text-align:left;}
+.tpl-bold .inv-table th:last-child{text-align:right;}
+.tpl-bold .inv-table td{padding:12px 16px;font-size:13px;color:#333;border-bottom:1px solid #F0F0F0;}
+.tpl-bold .inv-table td:last-child{text-align:right;font-weight:600;}
+.tpl-bold .inv-totals{margin-left:auto;width:260px;}
+.tpl-bold .inv-total-row{display:flex;justify-content:space-between;padding:8px 0;font-size:13px;color:#555;border-bottom:1px solid #EEE;}
+.tpl-bold .inv-total-row.grand{background:linear-gradient(135deg,#1a1a2e,#0f3460);color:#fff;padding:14px 16px;border-radius:8px;border-bottom:none;margin-top:8px;font-family:'Syne',sans-serif;font-size:16px;font-weight:800;}
+.tpl-bold .inv-total-row.grand span:last-child{color:var(--accent-color,#B8FF3C);}
+.tpl-bold .inv-notes{background:#f8f9ff;border-left:3px solid var(--accent-color,#B8FF3C);padding:16px 20px;border-radius:0 8px 8px 0;margin-top:24px;font-size:12px;color:#555;line-height:1.6;}
+.tpl-bold .inv-footer{background:linear-gradient(135deg,#1a1a2e,#0f3460);padding:20px 48px;display:flex;justify-content:space-between;align-items:center;}
+.tpl-bold .inv-footer-text{font-size:11px;color:rgba(255,255,255,0.4);}
+.tpl-bold .inv-footer-brand{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--accent-color,#B8FF3C);}
+
+
+/* ACCENT COLORS */
+.accent-lime{--accent-color:#2D9B3A;}
+.accent-blue{--accent-color:#1A6BCC;}
+.accent-teal{--accent-color:#1A9B7A;}
+.accent-amber{--accent-color:#D4820A;}
+.accent-purple{--accent-color:#7B3FA8;}
+
+@media(max-width:1100px){
+  .app{grid-template-columns:1fr;}
+  .sidebar{height:auto;position:static;border-right:none;border-bottom:1px solid rgba(255,255,255,0.06);}
+  .preview-panel{padding:20px;}
+}
+@media(max-width:600px){
+  .sidebar{padding:16px 14px;}
+  .preview-panel{padding:14px;}
+  .invoice-paper .inv-header,.invoice-paper .inv-body,.invoice-paper .inv-footer{padding:24px 20px !important;}
+  .inv-parties{grid-template-columns:1fr !important;gap:20px !important;}
+  .inv-dates{grid-template-columns:1fr !important;}
+  .action-row{grid-template-columns:1fr;}
+  .btn-full{grid-column:span 1;}
+}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-orb orb1"></div>
+<div class="bg-orb orb2"></div>
+<div class="bg-orb orb3"></div>
+
+<div class="app">
+
+  <!-- ── SIDEBAR ── -->
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">BE</div>
+      <div>
+        <div class="sidebar-logo-text">Invoice Maker</div>
+        <div class="sidebar-logo-sub">Bidder Experts</div>
+      </div>
+    </div>
+
+    <!-- Template -->
+    <div class="form-section">
+      <div class="form-section-title">Template</div>
+      <div class="template-row">
+        <button class="template-btn active" onclick="setTemplate('luxury')">&#9679; Dark Luxury</button>
+        <button class="template-btn" onclick="setTemplate('clean')">&#9675; Clean White</button>
+        <button class="template-btn" onclick="setTemplate('bold')">&#11022; Bold Dark</button>
+      </div>
+      <div class="form-section-title" style="margin-top:8px;">Accent Color</div>
+      <div class="color-row">
+        <div class="color-swatch active" style="background:#86CC14;" onclick="setAccent('lime',this)" title="Lime"></div>
+        <div class="color-swatch" style="background:#4285F4;" onclick="setAccent('blue',this)" title="Blue"></div>
+        <div class="color-swatch" style="background:#5DCAA5;" onclick="setAccent('teal',this)" title="Teal"></div>
+        <div class="color-swatch" style="background:#F5A623;" onclick="setAccent('amber',this)" title="Amber"></div>
+        <div class="color-swatch" style="background:#9B59B6;" onclick="setAccent('purple',this)" title="Purple"></div>
+      </div>
+    </div>
+
+    <!-- From -->
+    <div class="form-section">
+      <div class="form-section-title">From (Your Details)</div>
+      <div class="form-row single"><div class="form-group"><label>Company Name</label><input id="fromName" value="Bidder Experts" oninput="render()"></div></div>
+      <div class="form-row single"><div class="form-group"><label>Your Name</label><input id="fromPerson" value="Muhammad Abdullah Sohail" oninput="render()"></div></div>
+      <div class="form-row"><div class="form-group"><label>Email</label><input id="fromEmail" value="Abdullahsohail63@gmail.com" oninput="render()"></div><div class="form-group"><label>Phone</label><input id="fromPhone" value="+92 321 4900839" oninput="render()"></div></div>
+      <div class="form-row single"><div class="form-group"><label>Address</label><input id="fromAddress" value="Lahore, Pakistan" oninput="render()"></div></div>
+    </div>
+
+    <!-- To -->
+    <div class="form-section">
+      <div class="form-section-title">Bill To (Client)</div>
+      <div class="form-row single"><div class="form-group"><label>Client Name / Company</label><input id="toName" placeholder="Client Name" oninput="render()"></div></div>
+      <div class="form-row"><div class="form-group"><label>Email</label><input id="toEmail" placeholder="client@email.com" oninput="render()"></div><div class="form-group"><label>Phone</label><input id="toPhone" placeholder="+1 234 567 8900" oninput="render()"></div></div>
+      <div class="form-row single"><div class="form-group"><label>Address</label><input id="toAddress" placeholder="City, Country" oninput="render()"></div></div>
+    </div>
+
+    <!-- Invoice Details -->
+    <div class="form-section">
+      <div class="form-section-title">Invoice Details</div>
+      <div class="form-row"><div class="form-group"><label>Invoice #</label><input id="invNumber" value="INV-001" oninput="render()"></div><div class="form-group"><label>Status</label><select id="invStatus" onchange="render()"><option>UNPAID</option><option>PAID</option><option>PARTIAL</option><option>OVERDUE</option></select></div></div>
+      <div class="form-row"><div class="form-group"><label>Issue Date</label><input id="invDate" type="date" oninput="render()"></div><div class="form-group"><label>Due Date</label><input id="dueDate" type="date" oninput="render()"></div></div>
+      <div class="form-row"><div class="form-group"><label>Currency</label><select id="currency" onchange="render()"><option value="$">USD ($)</option><option value="£">GBP (£)</option><option value="€">EUR (€)</option><option value="AED">AED</option><option value="PKR">PKR</option></select></div><div class="form-group"><label>Tax %</label><input id="taxRate" type="number" value="0" min="0" max="100" oninput="render()"></div></div>
+      <div class="form-row"><div class="form-group"><label>Discount %</label><input id="discRate" type="number" value="0" min="0" max="100" oninput="render()"></div><div class="form-group"><label>Platform</label><select id="platform" onchange="render()"><option value="">Direct</option><option value="Upwork">Upwork</option><option value="Fiverr">Fiverr</option><option value="Freelancer">Freelancer</option></select></div></div>
+    </div>
+
+    <!-- Items -->
+    <div class="form-section">
+      <div class="form-section-title">Line Items</div>
+      <table class="items-table">
+        <thead><tr><th>Description</th><th>Qty</th><th>Rate</th><th></th></tr></thead>
+        <tbody id="itemsBody"></tbody>
+      </table>
+      <button class="add-item-btn" onclick="addItem()">+ Add Line Item</button>
+    </div>
+
+    <!-- Notes -->
+    <div class="form-section">
+      <div class="form-section-title">Payment Methods</div>
+      <div class="pay-methods">
+        <label class="pay-toggle">
+          <input type="checkbox" id="pay-alfalah" checked onchange="render()">
+          <div class="pay-card">
+            <div class="pay-bank-logo" style="background:rgba(0,150,136,0.12);border-color:rgba(0,150,136,0.3);">
+              <span style="color:#009688;font-weight:800;font-size:10px;">ALFALAH</span>
+            </div>
+            <div class="pay-details">
+              <div class="pay-bank-name">Bank Alfalah</div>
+              <div class="pay-acc">05521009543669</div>
+              <div class="pay-iban">IBAN: PK65ALFH0552001009543669</div>
+            </div>
+            <div class="pay-check">&#10003;</div>
+          </div>
+        </label>
+        <label class="pay-toggle">
+          <input type="checkbox" id="pay-hbl" onchange="render()">
+          <div class="pay-card">
+            <div class="pay-bank-logo" style="background:rgba(0,82,204,0.12);border-color:rgba(0,82,204,0.3);">
+              <span style="color:#0052CC;font-weight:800;font-size:12px;">HBL</span>
+            </div>
+            <div class="pay-details">
+              <div class="pay-bank-name">HBL Bank</div>
+              <div class="pay-acc">50097918649703</div>
+              <div class="pay-iban">Account Title: Abdullah</div>
+            </div>
+            <div class="pay-check">&#10003;</div>
+          </div>
+        </label>
+        <label class="pay-toggle">
+          <input type="checkbox" id="pay-payoneer" onchange="render()">
+          <div class="pay-card">
+            <div class="pay-bank-logo" style="background:rgba(255,102,0,0.12);border-color:rgba(255,102,0,0.3);">
+              <span style="color:#FF6600;font-weight:800;font-size:9px;">PAYONEER</span>
+            </div>
+            <div class="pay-details">
+              <div class="pay-bank-name">Payoneer (USD)</div>
+              <div class="pay-acc">Abdullahsohail63@gmail.com</div>
+              <div class="pay-iban">International transfers</div>
+            </div>
+            <div class="pay-check">&#10003;</div>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="form-section-title">Notes & Terms</div>
+      <div class="form-row single"><div class="form-group"><label>Additional Notes</label><textarea id="notes" oninput="render()" placeholder="Any additional notes, terms or message...">Payment due within 14 days. Thank you for your business!</textarea></div></div>
+    </div>
+    <!-- Actions -->
+    <div class="form-section">
+      <div class="form-section-title">Send Invoice</div>
+      <div class="action-row">
+        <button class="btn btn-primary" onclick="printInvoice()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Print / PDF
+        </button>
+        <button class="btn btn-ghost" onclick="downloadHTML()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Save HTML
+        </button>
+        <button class="btn btn-email btn-full" onclick="sendByEmail()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Send via Gmail
+        </button>
+        <button class="btn btn-wa btn-full" onclick="sendByWhatsApp()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Send via WhatsApp
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PREVIEW PANEL ── -->
+  <div class="preview-panel">
+    <div class="preview-header">
+      <div class="preview-title">Live Preview</div>
+      <div class="preview-badge">Auto-updating</div>
+    </div>
+    <div class="invoice-paper tpl-luxury accent-lime" id="invoicePaper"></div>
+  </div>
+
+</div>
+
+<script>
+var items = [
+  { desc: 'Upwork Account Management & Bidding (Monthly)', qty: 1, rate: 250 },
+  { desc: 'Proposal Writing & Lead Generation', qty: 30, rate: 5 },
+  { desc: 'Profile Optimization & JSS Maintenance', qty: 1, rate: 100 }
+];
+
+var currentTemplate = 'luxury';
+var currentAccent = 'lime';
+
+// Set today and +14 days as defaults
+(function() {
+  var today = new Date();
+  var due = new Date(); due.setDate(due.getDate() + 14);
+  document.getElementById('invDate').value = today.toISOString().split('T')[0];
+  document.getElementById('dueDate').value = due.toISOString().split('T')[0];
+})();
+
+function addItem() {
+  items.push({ desc: '', qty: 1, rate: 0 });
+  renderItems();
+  render();
+}
+
+function removeItem(i) {
+  items.splice(i, 1);
+  renderItems();
+  render();
+}
+
+function updateItem(i, field, val) {
+  items[i][field] = field === 'desc' ? val : parseFloat(val) || 0;
+  render();
+}
+
+function renderItems() {
+  var tbody = document.getElementById('itemsBody');
+  tbody.innerHTML = items.map(function(item, i) {
+    return '<tr>' +
+      '<td><input value="' + escHtml(item.desc) + '" placeholder="Description" style="width:100%" oninput="updateItem(' + i + ',\'desc\',this.value)"></td>' +
+      '<td><input type="number" value="' + item.qty + '" min="0" style="width:52px" oninput="updateItem(' + i + ',\'qty\',this.value)"></td>' +
+      '<td><input type="number" value="' + item.rate + '" min="0" style="width:70px" oninput="updateItem(' + i + ',\'rate\',this.value)"></td>' +
+      '<td><button class="del-btn" onclick="removeItem(' + i + ')">&#10005;</button></td>' +
+    '</tr>';
+  }).join('');
+}
+
+function escHtml(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function setTemplate(t) {
+  currentTemplate = t;
+  document.querySelectorAll('.template-btn').forEach(function(b) { b.classList.remove('active'); });
+  event.target.classList.add('active');
+  render();
+}
+
+function setAccent(a, el) {
+  currentAccent = a;
+  document.querySelectorAll('.color-swatch').forEach(function(s) { s.classList.remove('active'); });
+  el.classList.add('active');
+  render();
+}
+
+function getVal(id) { return document.getElementById(id).value || ''; }
+
+function fmt(n) {
+  var sym = getVal('currency') || '$';
+  return sym + parseFloat(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function fmtDate(d) {
+  if (!d) return '';
+  var parts = d.split('-');
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return months[parseInt(parts[1])-1] + ' ' + parts[2] + ', ' + parts[0];
+}
+
+function calcTotals() {
+  var subtotal = items.reduce(function(s, item) { return s + (item.qty * item.rate); }, 0);
+  var discPct  = parseFloat(getVal('discRate')) || 0;
+  var taxPct   = parseFloat(getVal('taxRate')) || 0;
+  var discount = subtotal * discPct / 100;
+  var taxable  = subtotal - discount;
+  var tax      = taxable * taxPct / 100;
+  var total    = taxable + tax;
+  return { subtotal, discount, discPct, tax, taxPct, total };
+}
+
+var PAYMENTS = {
+  alfalah: {
+    name: 'Bank Alfalah',
+    acc: '05521009543669',
+    extra: 'Muhammad Abdullah',
+    iban: 'IBAN: PK65ALFH0552001009543669',
+    color: '#009688'
+  },
+  hbl: {
+    name: 'HBL Bank',
+    acc: '50097918649703',
+    extra: 'Account Title: Abdullah',
+    iban: '',
+    color: '#0052CC'
+  },
+  payoneer: {
+    name: 'Payoneer (USD)',
+    acc: 'Abdullahsohail63@gmail.com',
+    extra: 'International transfers',
+    iban: '',
+    color: '#FF6600'
+  }
+};
+
+function getSelectedPaymentHTML() {
+  var selected = [];
+  if (document.getElementById('pay-alfalah') && document.getElementById('pay-alfalah').checked) selected.push('alfalah');
+  if (document.getElementById('pay-hbl') && document.getElementById('pay-hbl').checked) selected.push('hbl');
+  if (document.getElementById('pay-payoneer') && document.getElementById('pay-payoneer').checked) selected.push('payoneer');
+  if (selected.length === 0) return '';
+  var cols = selected.length === 1 ? '1fr' : selected.length === 2 ? '1fr 1fr' : 'repeat(3,1fr)';
+  var cards = selected.map(function(key) {
+    var p = PAYMENTS[key];
+    return '<div style="background:#fff;border-radius:8px;padding:12px 14px;border:1px solid #E8EEE8;">' +
+      '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#999;margin-bottom:5px;font-family:Syne,sans-serif;font-weight:700;">' + p.name + '</div>' +
+      '<div style="font-family:JetBrains Mono,monospace;font-size:11px;color:' + p.color + ';font-weight:600;margin-bottom:2px;">' + p.acc + '</div>' +
+      '<div style="font-size:10px;color:#666;margin-bottom:1px;">' + p.extra + '</div>' +
+      (p.iban ? '<div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#aaa;margin-top:2px;">' + p.iban + '</div>' : '') +
+      '</div>';
+  }).join('');
+  return '<div style="margin-top:24px;padding:16px 20px;background:#F8FAF8;border-radius:10px;border:1px solid #E8EEE8;">' +
+    '<div style="font-family:Syne,sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#666;margin-bottom:12px;">Payment Methods</div>' +
+    '<div style="display:grid;grid-template-columns:' + cols + ';gap:12px;">' + cards + '</div>' +
+    '</div>';
+}
+
+function getSelectedPaymentText() {
+  var selected = [];
+  if (document.getElementById('pay-alfalah') && document.getElementById('pay-alfalah').checked) selected.push('alfalah');
+  if (document.getElementById('pay-hbl') && document.getElementById('pay-hbl').checked) selected.push('hbl');
+  if (document.getElementById('pay-payoneer') && document.getElementById('pay-payoneer').checked) selected.push('payoneer');
+  if (selected.length === 0) return '';
+  return '--- PAYMENT METHODS ---\n' + selected.map(function(key) {
+    var p = PAYMENTS[key];
+    return p.name + ': ' + p.acc + (p.extra ? ' (' + p.extra + ')' : '') + (p.iban ? ' | ' + p.iban : '');
+  }).join('\n');
+}
+
+function render() {
+  var t = calcTotals();
+  var platform = getVal('platform');
+  var paper = document.getElementById('invoicePaper');
+  paper.className = 'invoice-paper tpl-' + currentTemplate + ' accent-' + currentAccent;
+
+  var itemRows = items.map(function(item) {
+    var lineTotal = item.qty * item.rate;
+    return '<tr><td>' + escHtml(item.desc) + '</td><td>' + item.qty + '</td><td>' + fmt(item.rate) + '</td><td>' + fmt(lineTotal) + '</td></tr>';
+  }).join('');
+
+  var totalsHtml =
+    '<div class="inv-total-row"><span>Subtotal</span><span>' + fmt(t.subtotal) + '</span></div>' +
+    (t.discPct > 0 ? '<div class="inv-total-row"><span>Discount (' + t.discPct + '%)</span><span>-' + fmt(t.discount) + '</span></div>' : '') +
+    (t.taxPct > 0 ? '<div class="inv-total-row"><span>Tax (' + t.taxPct + '%)</span><span>' + fmt(t.tax) + '</span></div>' : '') +
+    '<div class="inv-total-row grand"><span>Total Due</span><span>' + fmt(t.total) + '</span></div>';
+
+  var status = getVal('invStatus');
+  var notes = escHtml(getVal('notes')).replace(/\n/g, '<br>');
+
+  paper.innerHTML =
+    '<div class="inv-header">' +
+      '<div>' +
+        '<div class="inv-brand">' + escHtml(getVal('fromName')) + '</div>' +
+        (currentTemplate === 'clean' ? '<div class="inv-accent-line"></div>' : '') +
+        '<div class="inv-tagline">' + escHtml(getVal('fromPerson')) + ' &nbsp;&middot;&nbsp; ' + escHtml(getVal('fromEmail')) + '</div>' +
+      '</div>' +
+      '<div class="inv-meta">' +
+        '<div class="inv-number-label">Invoice</div>' +
+        '<div class="inv-number">' + escHtml(getVal('invNumber')) + '</div>' +
+        '<div class="inv-status">' + status + (platform ? ' &nbsp;&middot;&nbsp; ' + platform : '') + '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="inv-body">' +
+      '<div class="inv-parties">' +
+        '<div>' +
+          '<div class="inv-party-label">From</div>' +
+          '<div class="inv-party-name">' + escHtml(getVal('fromName')) + '</div>' +
+          '<div class="inv-party-detail">' + escHtml(getVal('fromPerson')) + '<br>' + escHtml(getVal('fromEmail')) + '<br>' + escHtml(getVal('fromPhone')) + '<br>' + escHtml(getVal('fromAddress')) + '</div>' +
+        '</div>' +
+        '<div>' +
+          '<div class="inv-party-label">Bill To</div>' +
+          '<div class="inv-party-name">' + (escHtml(getVal('toName')) || 'Client Name') + '</div>' +
+          '<div class="inv-party-detail">' + escHtml(getVal('toEmail')) + '<br>' + escHtml(getVal('toPhone')) + '<br>' + escHtml(getVal('toAddress')) + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="inv-dates">' +
+        '<div class="inv-date-item"><div class="inv-date-label">Issue Date</div><div class="inv-date-val">' + fmtDate(getVal('invDate')) + '</div></div>' +
+        '<div class="inv-date-item"><div class="inv-date-label">Due Date</div><div class="inv-date-val">' + fmtDate(getVal('dueDate')) + '</div></div>' +
+      '</div>' +
+      '<table class="inv-table">' +
+        '<thead><tr><th>Description</th><th>Qty</th><th>Rate</th><th>Amount</th></tr></thead>' +
+        '<tbody>' + itemRows + '</tbody>' +
+      '</table>' +
+      '<div class="inv-totals">' + totalsHtml + '</div>' +
+      (notes ? '<div class="inv-notes">' + notes + '</div>' : '') +
+    getSelectedPaymentHTML() +
+    '</div>' +
+    '<div class="inv-footer">' +
+      '<div class="inv-footer-text">Generated by Bidder Experts Invoice Maker</div>' +
+      '<div class="inv-footer-brand">' + escHtml(getVal('fromName')) + '</div>' +
+    '</div>';
+}
+
+function printInvoice() {
+  var paper = document.getElementById('invoicePaper').outerHTML;
+  var styles = document.querySelector('style').innerHTML;
+  var win = window.open('', '_blank');
+  win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"><style>' + styles + 'body{background:#fff;margin:0;padding:20px;}@media print{body{padding:0;}}</style></head><body>' + paper + '<script>window.onload=function(){window.print();}<\/script></body></html>');
+  win.document.close();
+}
+
+function downloadHTML() {
+  var paper = document.getElementById('invoicePaper').outerHTML;
+  var styles = document.querySelector('style').innerHTML;
+  var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"><style>' + styles + 'body{background:#fff;margin:0;padding:20px;}</style></head><body>' + paper + '</body></html>';
+  var blob = new Blob([html], { type: 'text/html' });
+  var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = 'invoice-' + (document.getElementById('invNumber').value || 'bidder-experts') + '.html';
+  a.click();
+}
+
+function sendByEmail() {
+  var t = calcTotals();
+  var toEmail = getVal('toEmail');
+  var clientName = getVal('toName') || 'Client';
+  var invNum = getVal('invNumber');
+  var due = fmtDate(getVal('dueDate'));
+  var subject = encodeURIComponent('Invoice ' + invNum + ' from Bidder Experts — Due ' + due);
+  var body = encodeURIComponent(
+    'Hi ' + clientName + ',\n\n' +
+    'Please find your invoice details below:\n\n' +
+    'Invoice #: ' + invNum + '\n' +
+    'Amount Due: ' + (getVal('currency') || '$') + parseFloat(t.total).toFixed(2) + '\n' +
+    'Due Date: ' + due + '\n' +
+    'Status: ' + getVal('invStatus') + '\n\n' +
+    'Line Items:\n' +
+    items.map(function(item) { return '  - ' + item.desc + ' x' + item.qty + ' = ' + (getVal('currency')||'$') + (item.qty * item.rate).toFixed(2); }).join('\n') +
+    '\n\n' + getVal('notes') + '\n\n' +
+    '--- PAYMENT DETAILS ---\n' +
+    'Bank Alfalah: 05521009543669 | IBAN: PK65ALFH0552001009543669\n' +
+    'HBL Bank: 50097918649703\n' +
+    'Payoneer: Abdullahsohail63@gmail.com\n\n' +
+    'Thank you for your business!\n\n' +
+    '--- PAYMENT METHODS ---\n' +
+    'Bank Alfalah: Acc# 05521009543669 | IBAN: PK65ALFH0552001009543669\n' +
+    'HBL Bank: Acc# 50097918649703 (Account Title: Abdullah)\n' +
+    'Payoneer (USD): Abdullahsohail63@gmail.com\n\n' +
+    'Best regards,\n' + getVal('fromPerson') + '\n' + getVal('fromName') + '\n' + getVal('fromEmail') + '\n' + getVal('fromPhone')
+  );
+  var url = 'https://mail.google.com/mail/?view=cm&fs=1' +
+    (toEmail ? '&to=' + encodeURIComponent(toEmail) : '') +
+    '&su=' + subject + '&body=' + body;
+  window.open(url, '_blank');
+}
+
+function sendByWhatsApp() {
+  var t = calcTotals();
+  var clientName = getVal('toName') || 'Client';
+  var invNum = getVal('invNumber');
+  var due = fmtDate(getVal('dueDate'));
+  var sym = getVal('currency') || '$';
+  var msg = encodeURIComponent(
+    'Hi ' + clientName + '!\n\n' +
+    'Here is your invoice from Bidder Experts:\n\n' +
+    'Invoice #: ' + invNum + '\n' +
+    'Amount Due: ' + sym + parseFloat(t.total).toFixed(2) + '\n' +
+    'Due Date: ' + due + '\n\n' +
+    items.map(function(item) { return '- ' + item.desc + ' : ' + sym + (item.qty * item.rate).toFixed(2); }).join('\n') +
+    '\n\nPayment Methods:\n- Bank Alfalah: 05521009543669\n- HBL: 50097918649703\n- Payoneer: Abdullahsohail63@gmail.com\n\nPlease process payment at your earliest convenience. Thank you!\nBidder Experts'
+  );
+  window.open('https://wa.me/?text=' + msg, '_blank');
+}
+
+// Init
+renderItems();
+render();
+</script>
+</body>
+</html>
