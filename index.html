@@ -1080,6 +1080,177 @@
     #admin-fab-btn { width: 38px !important; height: 38px !important; border-radius: 10px !important; }
   }
 
+
+  /* ── SETTINGS TAB ── */
+  .settings-card { background:#111811; border:1px solid rgba(184,255,60,0.12); border-radius:14px; overflow:hidden; }
+  .settings-card-header { display:flex; align-items:center; gap:10px; padding:16px 20px; border-bottom:1px solid rgba(184,255,60,0.08); font-family:'Syne',sans-serif; font-size:13px; font-weight:700; color:var(--white); }
+  .settings-card-body { padding:20px; }
+  .settings-badge { font-size:10px; padding:2px 8px; border-radius:10px; background:rgba(184,255,60,0.1); border:1px solid rgba(184,255,60,0.2); color:var(--lime); font-weight:600; margin-left:auto; }
+  .settings-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px; }
+  .settings-field { display:flex; flex-direction:column; gap:5px; }
+  .settings-label { font-size:10px; text-transform:uppercase; letter-spacing:1px; color:var(--muted); }
+  .settings-input-wrap { position:relative; }
+  .settings-input { width:100%; padding:10px 38px 10px 12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:9px; color:var(--white); font-family:'DM Sans',sans-serif; font-size:13px; outline:none; transition:border-color 0.2s; box-sizing:border-box; }
+  select.settings-input { padding-right:12px; }
+  .settings-input:focus { border-color:rgba(184,255,60,0.4); }
+  .settings-input::placeholder { color:rgba(255,255,255,0.2); }
+  select.settings-input option { background:#111811; }
+  .settings-eye { position:absolute; right:10px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--muted); cursor:pointer; padding:2px; transition:color 0.2s; }
+  .settings-eye:hover { color:var(--lime); }
+  .settings-msg { font-size:12px; border-radius:8px; padding:8px 12px; margin-bottom:12px; }
+  .settings-msg.success { color:#4FC95A; background:rgba(79,201,90,0.1); border:1px solid rgba(79,201,90,0.25); }
+  .settings-msg.error { color:#FF5C5C; background:rgba(255,92,92,0.1); border:1px solid rgba(255,92,92,0.2); }
+  .settings-save-btn { display:inline-flex; align-items:center; gap:6px; padding:10px 18px; background:var(--lime); color:#0A0E0A; font-family:'Syne',sans-serif; font-size:12px; font-weight:800; border:none; border-radius:9px; cursor:pointer; transition:all 0.2s; }
+  .settings-save-btn:hover { background:#9fe030; }
+  .settings-cancel-btn { padding:10px 16px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--muted); font-family:'Syne',sans-serif; font-size:12px; font-weight:600; border-radius:9px; cursor:pointer; transition:all 0.2s; }
+  .settings-cancel-btn:hover { color:var(--white); border-color:rgba(255,255,255,0.2); }
+  .settings-add-btn { display:inline-flex; align-items:center; gap:6px; padding:9px 16px; background:rgba(184,255,60,0.08); border:1px solid rgba(184,255,60,0.22); color:var(--lime); font-family:'Syne',sans-serif; font-size:12px; font-weight:700; border-radius:9px; cursor:pointer; transition:all 0.2s; }
+  .settings-add-btn:hover { background:rgba(184,255,60,0.14); }
+  .add-account-form { background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); border-radius:10px; padding:16px; margin-bottom:12px; }
+  /* Account list items */
+  .acct-item { display:flex; align-items:center; gap:12px; padding:12px 14px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:10px; }
+  .acct-avatar { width:34px; height:34px; border-radius:9px; background:rgba(184,255,60,0.1); border:1px solid rgba(184,255,60,0.2); display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-size:12px; font-weight:800; color:var(--lime); flex-shrink:0; }
+  .acct-info { flex:1; min-width:0; }
+  .acct-name { font-family:'Syne',sans-serif; font-size:13px; font-weight:700; color:var(--white); }
+  .acct-role { font-size:10px; color:var(--muted); margin-top:1px; }
+  .acct-owner { font-size:9px; background:rgba(184,255,60,0.1); border:1px solid rgba(184,255,60,0.2); color:var(--lime); padding:1px 7px; border-radius:10px; font-weight:700; }
+  .acct-delete { background:none; border:none; color:var(--muted); cursor:pointer; font-size:16px; padding:4px; opacity:0.5; transition:opacity 0.2s; }
+  .acct-delete:hover { opacity:1; color:#FF5C5C; }
+  /* Responsive settings */
+  @media(max-width:600px) {
+    .settings-row { grid-template-columns:1fr; }
+    #tab-settings > div { padding:16px !important; }
+    .settings-card-body { padding:14px; }
+  }
+
+
+  /* ================================================
+     RESPONSIVE PATCH -- fills all coverage gaps
+     Tested: 1200px / 900px / 768px / 600px / 480px / 360px
+  ================================================ */
+
+  /* -- TABLET 769px-1024px -- */
+  @media (max-width:1024px) and (min-width:769px) {
+    .hero-inner { gap:22px; padding:96px 28px 56px; }
+    .services-grid { grid-template-columns:repeat(2,1fr) !important; gap:14px; }
+    .achievements-grid { grid-template-columns:repeat(2,1fr) !important; }
+    .kpi-grid { grid-template-columns:repeat(2,1fr) !important; gap:10px; }
+    .stats-row { grid-template-columns:repeat(3,1fr) !important; }
+    .pricing-grid { gap:14px; }
+    .pricing-card { padding:22px 16px; }
+    .strategy-grid { grid-template-columns:repeat(2,1fr) !important; }
+    .team-card { padding:16px; }
+    section { padding:64px 28px; }
+    h2 { font-size:34px !important; }
+  }
+
+  /* -- TABLET 600px-768px -- */
+  @media (max-width:768px) and (min-width:601px) {
+    .hero-inner { grid-template-columns:1fr !important; padding:84px 18px 44px !important; gap:20px !important; }
+    .hero-photo-wrap { max-width:180px !important; margin:0 auto; }
+    .hero-h1 { font-size:clamp(30px,7vw,44px) !important; }
+    .services-grid { grid-template-columns:repeat(2,1fr) !important; gap:12px; }
+    .achievements-grid { grid-template-columns:1fr !important; }
+    .kpi-grid { grid-template-columns:repeat(2,1fr) !important; gap:10px; }
+    .stats-row { grid-template-columns:repeat(3,1fr) !important; }
+    .pricing-grid { grid-template-columns:1fr !important; max-width:420px; margin:0 auto; }
+    .strategy-grid { grid-template-columns:1fr !important; }
+    .team-card { padding:16px; }
+    .contact-inner { grid-template-columns:1fr !important; gap:28px !important; padding:40px 18px !important; }
+    section { padding:52px 18px; }
+    h2 { font-size:28px !important; }
+    .section-sub { font-size:13px !important; }
+    footer { flex-direction:column; text-align:center; gap:14px; padding:24px 18px; }
+    .footer-links { flex-wrap:wrap; justify-content:center; }
+  }
+
+  /* -- MOBILE max 600px -- fills gaps -- */
+  @media (max-width:600px) {
+    .kpi-grid { grid-template-columns:repeat(2,1fr) !important; gap:8px !important; }
+    .kpi-card { padding:10px 12px !important; }
+    .kpi-val  { font-size:16px !important; }
+    .kpi-lbl  { font-size:9px !important; }
+    .team-card { padding:14px !important; border-radius:12px; }
+    .team-card .tc-name { font-size:14px !important; }
+    #be-fab { bottom:12px !important; right:12px !important; }
+    #be-win { width:calc(100vw - 12px) !important; right:6px !important; bottom:70px !important; border-radius:16px !important; max-height:78vh !important; }
+    .admin-topbar { padding:10px 12px !important; gap:8px !important; }
+    .admin-tabs { padding:0 8px !important; overflow-x:auto !important; -webkit-overflow-scrolling:touch; }
+    .admin-tabs::-webkit-scrollbar { display:none; }
+    .admin-tab { padding:9px 10px !important; font-size:10px !important; white-space:nowrap; flex-shrink:0; }
+  }
+
+  /* -- MOBILE max 480px -- fills gaps -- */
+  @media (max-width:480px) {
+    /* Stats grid */
+    .stats-row { grid-template-columns:repeat(2,1fr) !important; gap:8px !important; }
+    .stat-big  { font-size:22px !important; }
+    .stat-box p { font-size:10px !important; }
+    #stats-bar > div { padding:20px 14px !important; }
+    /* Services */
+    .services-grid { grid-template-columns:1fr !important; gap:10px !important; }
+    .service-card  { padding:18px 14px !important; }
+    .svc-icon-wrap { width:40px !important; height:40px !important; }
+    .service-card h3 { font-size:14px !important; }
+    /* Achievements */
+    .achievements-grid { grid-template-columns:1fr !important; gap:10px !important; }
+    .ach-card { padding:12px !important; }
+    /* Pricing */
+    .pricing-grid { grid-template-columns:1fr !important; gap:12px !important; max-width:100% !important; }
+    .pricing-card { padding:20px 14px !important; }
+    .pricing-amount { font-size:34px !important; }
+    .pricing-features li { font-size:11px !important; }
+    .pricing-btn { padding:11px !important; font-size:12px !important; }
+    /* Strategy */
+    .strategy-grid { grid-template-columns:1fr !important; gap:10px !important; }
+    .strat-card { padding:16px 14px !important; }
+    /* Team */
+    .team-card { padding:12px !important; }
+    /* Contact */
+    .contact-inner { padding:32px 14px !important; gap:24px !important; }
+    #lead-form input, #lead-form select, #lead-form textarea { padding:9px 11px !important; font-size:13px !important; }
+    #lf-submit-btn { padding:12px !important; font-size:13px !important; }
+    /* Footer */
+    footer { flex-direction:column !important; padding:18px 14px !important; text-align:center; gap:12px; }
+    .footer-links { flex-wrap:wrap !important; justify-content:center !important; gap:10px !important; }
+    /* Chatbot */
+    .be-hdr { padding:10px 12px !important; }
+    .be-av  { width:34px !important; height:34px !important; font-size:11px !important; }
+    .be-name { font-size:12px !important; }
+    #be-msgs { padding:10px !important; }
+    .bm .bb { font-size:12px !important; padding:8px 10px !important; }
+    .be-inp-row { padding:8px 10px !important; }
+    #be-inp { font-size:12px !important; padding:8px 10px !important; }
+    #be-snd { width:30px !important; height:30px !important; }
+    .be-qr-row { padding:0 10px !important; gap:4px !important; }
+    .be-qr-row .be-qb { font-size:9px !important; padding:4px 6px !important; }
+    .be-qr-label { padding:0 10px 4px !important; font-size:9px !important; }
+    /* Admin FAB repositioned above chatbot */
+    #admin-fab { bottom:72px !important; left:12px !important; }
+    #admin-fab::before { font-size:8px !important; }
+    #admin-fab-btn { width:38px !important; height:38px !important; border-radius:10px !important; }
+    /* Admin settings responsive */
+    .settings-row { grid-template-columns:1fr !important; }
+    #tab-settings > div { padding:16px 12px !important; }
+    .settings-card-body { padding:14px !important; }
+    .settings-card-header { padding:12px 14px !important; font-size:12px !important; }
+    /* Admin contacts */
+    #contacts-grid { grid-template-columns:1fr !important; }
+  }
+
+  /* -- VERY SMALL max 380px -- */
+  @media (max-width:380px) {
+    h2 { font-size:22px !important; }
+    .hero-h1 { font-size:clamp(22px,8vw,32px) !important; }
+    .hero-photo-wrap { max-width:140px !important; }
+    .pricing-amount { font-size:30px !important; }
+    .stats-row { grid-template-columns:1fr 1fr !important; }
+    .be-qr-row { flex-direction:column !important; }
+    .be-qr-row .be-qb { width:100% !important; }
+    nav { padding:9px 12px !important; }
+    section { padding:36px 12px !important; }
+  }
+
 </style>
 </head>
 <body>
@@ -5697,6 +5868,10 @@ function beQuick(topic) {
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
       Quick Stats
     </button>
+    <button class="admin-tab" onclick="adminTab('settings', this)">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      Settings
+    </button>
   </div>
 
   <div class="admin-content">
@@ -5773,6 +5948,116 @@ function beQuick(topic) {
     </div>
 
   </div>
+
+    <!-- SETTINGS TAB -->
+    <div id="tab-settings" class="admin-tab-panel">
+      <div style="padding:32px;max-width:760px;margin:0 auto;overflow-y:auto;height:100%;">
+
+        <h2 style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--white);margin-bottom:6px;">Settings</h2>
+        <p style="color:var(--muted);font-size:13px;margin-bottom:32px;">Manage admin credentials and accounts.</p>
+
+        <!-- CHANGE PASSWORD -->
+        <div class="settings-card">
+          <div class="settings-card-header">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B8FF3C" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            <span>Change Password</span>
+          </div>
+          <div class="settings-card-body">
+            <div class="settings-row">
+              <div class="settings-field">
+                <label class="settings-label">Current Password</label>
+                <div class="settings-input-wrap">
+                  <input type="password" id="s-cur-pw" class="settings-input" placeholder="Enter current password">
+                  <button class="settings-eye" onclick="togglePw('s-cur-pw',this)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="settings-row">
+              <div class="settings-field">
+                <label class="settings-label">New Password</label>
+                <div class="settings-input-wrap">
+                  <input type="password" id="s-new-pw" class="settings-input" placeholder="Min 8 characters">
+                  <button class="settings-eye" onclick="togglePw('s-new-pw',this)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </button>
+                </div>
+              </div>
+              <div class="settings-field">
+                <label class="settings-label">Confirm New Password</label>
+                <div class="settings-input-wrap">
+                  <input type="password" id="s-conf-pw" class="settings-input" placeholder="Repeat new password">
+                  <button class="settings-eye" onclick="togglePw('s-conf-pw',this)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div id="s-pw-msg" class="settings-msg" style="display:none;"></div>
+            <button class="settings-save-btn" onclick="changePassword()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Save New Password
+            </button>
+          </div>
+        </div>
+
+        <!-- ACCOUNTS -->
+        <div class="settings-card" style="margin-top:20px;">
+          <div class="settings-card-header">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B8FF3C" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            <span>Admin Accounts</span>
+            <div class="settings-badge" id="acct-count">0 accounts</div>
+          </div>
+          <div class="settings-card-body">
+            <div id="accounts-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;"></div>
+
+            <!-- Add account form -->
+            <div class="add-account-form" id="add-acct-form" style="display:none;">
+              <div class="settings-row">
+                <div class="settings-field">
+                  <label class="settings-label">Username</label>
+                  <input type="text" id="new-acct-user" class="settings-input" placeholder="e.g. team_member">
+                </div>
+                <div class="settings-field">
+                  <label class="settings-label">Password</label>
+                  <div class="settings-input-wrap">
+                    <input type="password" id="new-acct-pw" class="settings-input" placeholder="Min 8 characters">
+                    <button class="settings-eye" onclick="togglePw('new-acct-pw',this)">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="settings-field" style="margin-bottom:12px;">
+                <label class="settings-label">Role</label>
+                <select id="new-acct-role" class="settings-input">
+                  <option value="admin">Admin (full access)</option>
+                  <option value="viewer">Viewer (read-only)</option>
+                  <option value="invoicer">Invoicer (invoice + proposal)</option>
+                </select>
+              </div>
+              <div id="s-acct-msg" class="settings-msg" style="display:none;"></div>
+              <div style="display:flex;gap:8px;">
+                <button class="settings-save-btn" onclick="createAccount()">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  Create Account
+                </button>
+                <button class="settings-cancel-btn" onclick="toggleAddForm()">Cancel</button>
+              </div>
+            </div>
+
+            <button class="settings-add-btn" id="toggle-add-btn" onclick="toggleAddForm()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add New Account
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
 </div>
 
 
@@ -5810,12 +6095,21 @@ async function adminLogin() {
   var pw = document.getElementById('admin-pw').value;
   if (!pw) return;
   var hash = await sha256(pw);
-  if (hash === ADMIN_HASH) {
+  // Check owner hash or saved hash
+  var storedHash = localStorage.getItem('be_admin_pw') || ADMIN_HASH;
+  // Also check sub-accounts
+  var matchedAccount = null;
+  var subAccounts = JSON.parse(localStorage.getItem('be_admin_accounts') || '[]');
+  for (var i = 0; i < subAccounts.length; i++) {
+    if (subAccounts[i].hash === hash) { matchedAccount = subAccounts[i]; break; }
+  }
+  if (hash === storedHash || matchedAccount) {
     adminLoggedIn = true;
     adminHideLogin();
     document.getElementById('admin-panel').classList.remove('hidden');
     loadInvoiceMaker();
     renderContacts();
+    renderAccounts();
   } else {
     document.getElementById('admin-error').style.display = 'block';
     document.getElementById('admin-pw').value = '';
@@ -5841,6 +6135,7 @@ function adminTab(name, btn) {
   document.getElementById('tab-' + name).classList.add('active');
   if (name === 'invoice')  loadInvoiceMaker();
   if (name === 'proposal') loadProposalWriter();
+  if (name === 'settings') renderAccounts();
 }
 
 // Load invoice maker into the container
