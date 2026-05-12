@@ -552,6 +552,156 @@
     .strat-card p { font-size: 12px; }
   }
 
+
+  /* =============================================
+     FULLY RESPONSIVE — ALL BREAKPOINTS
+  ============================================= */
+
+  /* ── TABLET 901px – 1200px ── */
+  @media (max-width:1200px) and (min-width:901px) {
+    nav { padding:14px 32px; }
+    section { padding:80px 40px; }
+    .hero-inner { grid-template-columns:clamp(180px,19vw,240px) 1fr clamp(220px,24vw,300px); gap:28px; padding:110px 40px 70px; }
+    .hero-h1 { font-size:clamp(34px,4.2vw,58px); }
+    .upwork-card { padding:16px; }
+    .uc-num { font-size:clamp(14px,1.6vw,18px); }
+    .services-grid { grid-template-columns:repeat(2,1fr); gap:16px; }
+    .achievements-grid { grid-template-columns:repeat(2,1fr); gap:14px; }
+    .stats-row { grid-template-columns:repeat(3,1fr); gap:14px; }
+    .kpi-grid { grid-template-columns:repeat(4,1fr); }
+    .pricing-grid { gap:16px; }
+    .pricing-card { padding:24px 20px; }
+    .pricing-amount { font-size:42px; }
+    .strategy-grid { grid-template-columns:repeat(2,1fr); gap:14px; }
+    .contact-inner { gap:48px; padding:64px 40px; }
+    footer { padding:24px 40px; }
+    #stats-bar > div { padding:32px 40px; }
+    .chart-wrap { padding:48px 40px; }
+    h2 { font-size:38px; }
+  }
+
+  /* ── MOBILE 481px – 600px ── */
+  @media (max-width:600px) and (min-width:481px) {
+    section { padding:48px 18px; }
+    h2 { font-size:28px !important; }
+    .section-sub { font-size:13px; }
+    .hero-inner { padding:84px 18px 40px !important; gap:20px !important; }
+    .hero-photo-wrap { max-width:180px !important; }
+    .hero-h1 { font-size:clamp(28px,8vw,38px) !important; }
+    .uc-grid { grid-template-columns:1fr 1fr !important; gap:8px; }
+    .uc-num { font-size:16px !important; }
+    .upwork-card { padding:14px; }
+    .services-grid { grid-template-columns:1fr; gap:12px; }
+    .service-card { padding:20px; }
+    .achievements-grid { grid-template-columns:1fr; gap:12px; }
+    .ach-card { padding:14px; }
+    .stats-row { grid-template-columns:1fr 1fr; gap:10px; }
+    .stat-big { font-size:26px; }
+    .pricing-grid { grid-template-columns:1fr !important; max-width:100%; }
+    .pricing-card { padding:22px 16px; }
+    .pricing-amount { font-size:38px; }
+    .strategy-grid { grid-template-columns:1fr; gap:10px; }
+    .strat-card { padding:18px 16px; }
+    .contact-inner { padding:40px 18px !important; gap:28px !important; }
+    #lead-form input, #lead-form select, #lead-form textarea { font-size:14px !important; }
+    footer { padding:20px 18px; gap:12px; }
+    .footer-links { gap:14px; }
+    .be-qr-row .be-qb { font-size:10px; padding:5px 8px; }
+  }
+
+  /* ── SMALL MOBILE max 480px ── */
+  @media (max-width:480px) {
+    nav { padding:10px 14px; }
+    .logo-bidders { font-size:14px !important; letter-spacing:2px !important; }
+    .logo-expert { font-size:7px !important; }
+    .logo-svg-nav { width:28px !important; height:28px !important; }
+    section { padding:40px 14px !important; }
+    h2 { font-size:24px !important; letter-spacing:-0.5px; }
+    .section-tag { font-size:10px; }
+    .section-sub { font-size:12px !important; margin-bottom:32px !important; }
+    .hero-inner { padding:78px 14px 36px !important; gap:18px !important; }
+    .hero-photo-wrap { max-width:160px !important; }
+    .hero-tag { font-size:9px; padding:4px 10px; }
+    .hero-h1 { font-size:clamp(24px,8vw,34px) !important; margin:10px 0 14px !important; }
+    .hero-desc { font-size:12px !important; margin-bottom:16px !important; }
+    .hero-btns a { padding:11px 18px !important; font-size:12px !important; }
+    .photo-name { font-size:10px !important; }
+    .photo-badge { font-size:8px !important; padding:3px 8px !important; }
+    .upwork-card { padding:12px !important; border-radius:12px; }
+    .uc-label { font-size:8px !important; margin-bottom:8px !important; }
+    .uc-grid { grid-template-columns:1fr 1fr !important; gap:6px !important; margin-bottom:10px !important; }
+    .uc-stat { padding:8px 8px !important; border-radius:8px; }
+    .uc-num { font-size:14px !important; }
+    .uc-sub { font-size:7px !important; }
+    .uc-bar-label { font-size:8px !important; }
+    .uc-bar-val { font-size:8px !important; }
+    .uc-footer { font-size:8px !important; margin-top:8px !important; }
+    #stats-bar > div { padding:20px 14px !important; }
+    .stats-row { grid-template-columns:1fr 1fr !important; gap:8px !important; }
+    .stat-big { font-size:22px !important; }
+    .stat-box p { font-size:10px; }
+    .services-grid { grid-template-columns:1fr !important; gap:10px !important; }
+    .service-card { padding:18px 14px !important; border-radius:14px; }
+    .service-card h3 { font-size:14px; }
+    .service-card p { font-size:12px; }
+    .svc-icon-wrap { width:40px !important; height:40px !important; margin-bottom:12px !important; }
+    .achievements-grid { grid-template-columns:1fr !important; gap:10px !important; }
+    .ach-card { padding:12px !important; border-radius:12px; }
+    .ach-card h3 { font-size:12px !important; }
+    .pricing-grid { grid-template-columns:1fr !important; gap:12px !important; max-width:100% !important; }
+    .pricing-card { padding:20px 14px !important; border-radius:14px; }
+    .pricing-amount { font-size:34px !important; }
+    .pricing-commission { font-size:10px; padding:4px 10px; }
+    .pricing-features li { font-size:11px !important; gap:6px; }
+    .pricing-btn { padding:12px !important; font-size:12px !important; border-radius:10px; }
+    .strategy-grid { grid-template-columns:1fr !important; gap:10px !important; }
+    .strat-card { padding:16px 14px !important; border-radius:14px; gap:10px; }
+    .strat-num { font-size:28px; }
+    .strat-title { font-size:13px; }
+    .strat-desc { font-size:11px; }
+    .strat-pill { font-size:9px; padding:2px 8px; }
+    .team-card { padding:14px !important; border-radius:14px; }
+    .contact-inner { padding:36px 14px !important; gap:24px !important; }
+    #lead-form input, #lead-form select, #lead-form textarea { padding:10px 12px !important; font-size:13px !important; border-radius:10px !important; }
+    #lf-submit-btn { padding:12px !important; font-size:13px !important; }
+    footer { flex-direction:column !important; padding:18px 14px !important; text-align:center; gap:12px; }
+    .footer-links { flex-wrap:wrap !important; justify-content:center !important; gap:12px !important; }
+    .footer-links a { font-size:11px; }
+    #be-win { width:calc(100vw - 12px) !important; right:6px !important; bottom:72px !important; border-radius:16px !important; }
+    #be-fab { bottom:10px !important; right:10px !important; }
+    #be-btn { width:48px !important; height:48px !important; }
+    .be-hdr { padding:10px 12px !important; }
+    .be-av { width:34px !important; height:34px !important; font-size:11px !important; }
+    .be-name { font-size:12px !important; }
+    .be-status-text { font-size:9px !important; }
+    #be-msgs { padding:10px !important; }
+    .bm .bb { font-size:12px !important; padding:8px 10px !important; }
+    .be-inp-row { padding:8px 10px !important; }
+    #be-inp { font-size:12px !important; padding:8px 12px !important; }
+    #be-snd { width:30px !important; height:30px !important; font-size:12px !important; }
+    .be-qr-row { padding:0 10px !important; gap:4px !important; }
+    .be-qr-row .be-qb { font-size:9px !important; padding:4px 7px !important; }
+    .be-qr-label { padding:0 10px 4px !important; font-size:9px !important; }
+    .kpi-grid { grid-template-columns:1fr 1fr !important; gap:8px !important; }
+    .kpi-card { padding:10px 12px !important; }
+    .kpi-val { font-size:15px !important; }
+    .ybtn { padding:5px 10px !important; font-size:10px !important; }
+    .year-btns { gap:5px !important; }
+    .chart-wrap { padding:24px 14px !important; gap:12px !important; }
+    .chart-title { font-size:20px !important; }
+    .ach-stats-row { grid-template-columns:1fr 1fr !important; gap:8px !important; }
+  }
+
+  /* ── VERY SMALL max 360px ── */
+  @media (max-width:360px) {
+    .hero-h1 { font-size:22px !important; }
+    .hero-photo-wrap { max-width:140px !important; }
+    .be-qr-row { flex-direction:column; }
+    .be-qr-row .be-qb { width:100%; }
+    .pricing-amount { font-size:30px !important; }
+    h2 { font-size:22px !important; }
+  }
+
 </style>
 </head>
 <body>
