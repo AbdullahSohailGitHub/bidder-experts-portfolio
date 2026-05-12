@@ -308,11 +308,35 @@ textarea{resize:vertical;min-height:60px;}
 
     <!-- From -->
     <div class="form-section">
-      <div class="form-section-title">From (Your Details)</div>
+      <div class="form-section-title">From (Freelancer Profile)</div>
+      <div class="form-row single">
+        <div class="form-group">
+          <label>Select Profile</label>
+          <select id="profileSelect" onchange="loadProfile(this.value)" style="background:rgba(255,255,255,0.05);border:1px solid rgba(184,255,60,0.25);border-radius:9px;padding:9px 11px;color:var(--white);font-family:DM Sans,sans-serif;font-size:13px;outline:none;width:100%;">
+            <option value="moeed">Abdul Moeed — MERN Stack ($40K+)</option>
+            <option value="hassan">Hassan Nawaz — MERN Stack ($76K+)</option>
+            <option value="umair">Umair Raza — Ruby on Rails ($300K+)</option>
+            <option value="hafiz">Hafiz Khuram — Rails / MERN ($350K+)</option>
+            <option value="taha">Taha Atiq — WordPress / Shopify ($60K+)</option>
+            <option value="salman">Salman Ali — WordPress TOP 3% ($85K+)</option>
+            <option value="husnain">Husnain Ahmad — Voice AI / LLM ($120K+)</option>
+            <option value="shahzeb">Shahzeb Khalid — AI / SaaS ($35K+)</option>
+            <option value="umar">Umar Farooq — React / Node ($28K+)</option>
+            <option value="daniyal">Daniyal Khalid — Healthcare AI</option>
+            <option value="hassan_karim">Hassan Karim — MERN / React Native</option>
+            <option value="saim">Muhammad Saim — WordPress</option>
+            <option value="usman">Usman Basharat — Shopify</option>
+            <option value="design_team">Abdullah (UI/UX) — Figma Designer</option>
+            <option value="abdullah">Abdullah Sohail — CEO / Lead Dev</option>
+          </select>
+        </div>
+      </div>
       <div class="form-row single"><div class="form-group"><label>Company Name</label><input id="fromName" value="Bidder Experts" oninput="render()"></div></div>
-      <div class="form-row single"><div class="form-group"><label>Your Name</label><input id="fromPerson" value="Muhammad Abdullah Sohail" oninput="render()"></div></div>
+      <div class="form-row single"><div class="form-group"><label>Freelancer Name</label><input id="fromPerson" value="Muhammad Abdul Moeed" oninput="render()"></div></div>
       <div class="form-row"><div class="form-group"><label>Email</label><input id="fromEmail" value="Abdullahsohail63@gmail.com" oninput="render()"></div><div class="form-group"><label>Phone</label><input id="fromPhone" value="+92 321 4900839" oninput="render()"></div></div>
       <div class="form-row single"><div class="form-group"><label>Address</label><input id="fromAddress" value="Lahore, Pakistan" oninput="render()"></div></div>
+      <!-- Profile skills badge -->
+      <div id="profile-skills-badge" style="margin-top:8px;padding:8px 12px;background:rgba(184,255,60,0.06);border:1px solid rgba(184,255,60,0.15);border-radius:8px;font-size:11px;color:#5DCAA5;line-height:1.5;display:none;"></div>
     </div>
 
     <!-- To -->
@@ -328,7 +352,26 @@ textarea{resize:vertical;min-height:60px;}
       <div class="form-section-title">Invoice Details</div>
       <div class="form-row"><div class="form-group"><label>Invoice #</label><input id="invNumber" value="INV-001" oninput="render()"></div><div class="form-group"><label>Status</label><select id="invStatus" onchange="render()"><option>UNPAID</option><option>PAID</option><option>PARTIAL</option><option>OVERDUE</option></select></div></div>
       <div class="form-row"><div class="form-group"><label>Issue Date</label><input id="invDate" type="date" oninput="render()"></div><div class="form-group"><label>Due Date</label><input id="dueDate" type="date" oninput="render()"></div></div>
-      <div class="form-row"><div class="form-group"><label>Currency</label><select id="currency" onchange="render()"><option value="$">USD ($)</option><option value="£">GBP (£)</option><option value="€">EUR (€)</option><option value="AED">AED</option><option value="PKR">PKR</option></select></div><div class="form-group"><label>Tax %</label><input id="taxRate" type="number" value="0" min="0" max="100" oninput="render()"></div></div>
+      <div class="form-row"><div class="form-group"><label>Currency</label><select id="currency" onchange="render()"><option value="$">USD — US Dollar ($)</option>
+          <option value="£">GBP — British Pound (£)</option>
+          <option value="€">EUR — Euro (€)</option>
+          <option value="AED">AED — UAE Dirham</option>
+          <option value="SAR">SAR — Saudi Riyal</option>
+          <option value="PKR">PKR — Pakistani Rupee</option>
+          <option value="CAD">CAD — Canadian Dollar</option>
+          <option value="AUD">AUD — Australian Dollar</option>
+          <option value="SGD">SGD — Singapore Dollar</option>
+          <option value="INR">INR — Indian Rupee</option>
+          <option value="QAR">QAR — Qatari Riyal</option>
+          <option value="KWD">KWD — Kuwaiti Dinar</option>
+          <option value="BHD">BHD — Bahraini Dinar</option>
+          <option value="OMR">OMR — Omani Rial</option>
+          <option value="EGP">EGP — Egyptian Pound</option>
+          <option value="TRY">TRY — Turkish Lira</option>
+          <option value="MYR">MYR — Malaysian Ringgit</option>
+          <option value="CHF">CHF — Swiss Franc</option>
+          <option value="JPY">JPY — Japanese Yen</option>
+          <option value="CNY">CNY — Chinese Yuan</option></select></div><div class="form-group"><label>Tax %</label><input id="taxRate" type="number" value="0" min="0" max="100" oninput="render()"></div></div>
       <div class="form-row"><div class="form-group"><label>Discount %</label><input id="discRate" type="number" value="0" min="0" max="100" oninput="render()"></div><div class="form-group"><label>Platform</label><select id="platform" onchange="render()"><option value="">Direct</option><option value="Upwork">Upwork</option><option value="Fiverr">Fiverr</option><option value="Freelancer">Freelancer</option></select></div></div>
     </div>
 
@@ -717,6 +760,54 @@ function sendByWhatsApp() {
 document.documentElement.style.setProperty('--accent-color', '#B8FF3C');
 renderItems();
 render();
+
+
+//  INVOICE PROFILES 
+var INV_PROFILES = {
+  moeed:       { name:'Muhammad Abdul Moeed',    company:'Bidder Experts', email:'Abdullahsohail63@gmail.com', phone:'+92 321 4900839', address:'Lahore, Pakistan', skills:'MERN Stack, React.js, Node.js, Next.js, TypeScript, MongoDB, AWS' },
+  hassan:      { name:'Hassan Nawaz',             company:'Bidder Experts', email:'Abdullahsohail63@gmail.com', phone:'+92 321 4900839', address:'Lahore, Pakistan', skills:'React.js, Node.js, Next.js, MongoDB, Socket.io, AWS, TypeScript' },
+  umair:       { name:'Muhammad Umair Raza',      company:'Bidder Experts', email:'Abdullahsohail63@gmail.com', phone:'+92 321 4900839', address:'Lahore, Pakistan', skills:'Ruby on Rails, React.js, PostgreSQL, Sidekiq, AWS, Stripe, Redis' },
+  hafiz:       { name:'Hafiz Khuram',             company:'Bidder Experts', email:'Abdullahsohail63@gmail.com', phone:'+92 321 4900839', address:'Lahore, Pakistan', skills:'Ruby on Rails, MERN Stack, PostgreSQL, MySQL, Docker, AWS, Stripe' },
+  taha:        { name:'Taha Atiq',                company:'Bidder Experts', email:'Abdullahsohail63@gmail.com', phone:'+92 321 4900839', address:'Lahore, Pakistan', skills:'WordPress, WooCommerce, Shopify, Elementor, PHP, SEO, CSS' },
+  salman:      { name:'Salman Ali',               company:'Bidder Experts', email:'Abdullahsohail63@gmail.com', phone:'+92 321 4900839', address:'Lahore, Pakistan', skills:'WordPress TOP 3%, Elementor, Divi, WooCommerce, Webflow, SEO, PHP' },
+  husnain:     { name:'Husnain Ahmad',            company:'Bidder Experts', email:'Abdullahsohail63@gmail.com', phone:'+92 321 4900839', address:'Lahore, Pakistan', skills:'Voice AI, LangChain, OpenAI, Python, Node.js, n8n, Twilio, SaaS' },
+  shahzeb:     { name:'Shahzeb Khalid',           company:'Bidder Experts', email:'Abdullahsohail63@gmail.com', phone:'+92 321 4900839', address:'Lahore, Pakistan', skills:'LangChain, OpenAI, Python, React, Node.js, RAG, Pinecone, FastAPI' },
+  umar:        { name:'Umar Farooq',              company:'Bidder Experts', email:'Abdullahsohail63@gmail.com', phone:'+92 321 4900839', address:'Lahore, Pakistan', skills:'React.js, Node.js, Ruby on Rails, TypeScript, PostgreSQL, MongoDB' },
+  daniyal:     { name:'Daniyal Khalid',           company:'Bidder Experts', email:'Abdullahsohail63@gmail.com', phone:'+92 321 4900839', address:'Lahore, Pakistan', skills:'Python, AI/ML, Healthcare Tech, FastAPI, React, PostgreSQL, TensorFlow' },
+  hassan_karim:{ name:'Hassan Karim',             company:'Bidder Experts', email:'Abdullahsohail63@gmail.com', phone:'+92 321 4900839', address:'Lahore, Pakistan', skills:'MERN Stack, React Native, TypeScript, Firebase, Redux, TailwindCSS' },
+  saim:        { name:'Muhammad Saim Rasool',     company:'Bidder Experts', email:'Abdullahsohail63@gmail.com', phone:'+92 321 4900839', address:'Lahore, Pakistan', skills:'WordPress, Elementor, WooCommerce, PHP, CSS, jQuery, SEO' },
+  usman:       { name:'Usman Basharat',           company:'Bidder Experts', email:'Abdullahsohail63@gmail.com', phone:'+92 321 4900839', address:'Lahore, Pakistan', skills:'Shopify, Liquid, Klaviyo, JavaScript, CSS, Theme Customization, Shopify Plus' },
+  design_team: { name:'Muhammad Abdullah (UI/UX)',company:'Bidder Experts', email:'Abdullahsohail63@gmail.com', phone:'+92 321 4900839', address:'Lahore, Pakistan', skills:'Figma, UI Design, UX Research, Wireframing, Prototyping, Design Systems' },
+  abdullah:    { name:'Muhammad Abdullah Sohail', company:'Bidder Experts', email:'Abdullahsohail63@gmail.com', phone:'+92 321 4900839', address:'Lahore, Pakistan', skills:'MERN Stack, React Native, Ruby on Rails, AI/LLM, Blockchain, Figma, Upwork Lead Gen' }
+};
+
+function loadProfile(key) {
+  var p = INV_PROFILES[key];
+  if (!p) return;
+  var nameEl    = document.getElementById('fromName');
+  var personEl  = document.getElementById('fromPerson');
+  var emailEl   = document.getElementById('fromEmail');
+  var phoneEl   = document.getElementById('fromPhone');
+  var addressEl = document.getElementById('fromAddress');
+  var badge     = document.getElementById('profile-skills-badge');
+
+  if (nameEl)    { nameEl.value    = p.company;   }
+  if (personEl)  { personEl.value  = p.name;       }
+  if (emailEl)   { emailEl.value   = p.email;      }
+  if (phoneEl)   { phoneEl.value   = p.phone;      }
+  if (addressEl) { addressEl.value = p.address;    }
+
+  if (badge) {
+    badge.style.display = 'block';
+    badge.innerHTML = '<strong style="color:var(--lime);font-size:10px;text-transform:uppercase;letter-spacing:1px;">Skills:</strong> ' + p.skills;
+  }
+
+  render();
+}
+
+// Init with first profile
+loadProfile('moeed');
+
 </script>
 </body>
 </html>
