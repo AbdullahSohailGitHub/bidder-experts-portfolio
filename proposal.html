@@ -27,11 +27,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);d
 /* LAYOUT */
 .layout{display:grid;grid-template-columns:360px 1fr;flex:1;overflow:hidden;}
 
-/* ── SIDEBAR ── */
-.sidebar{background:#0D120D;border-right:1px solid var(--border);overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(184,255,60,0.1) transparent;}
+/* -- SIDEBAR -- */
+.sidebar{background:#0D120D;border-right:1px solid var(--border);overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:rgba(184,255,60,0.1) transparent;height:100%;}
 .sidebar::-webkit-scrollbar{width:3px;}
 .sidebar::-webkit-scrollbar-thumb{background:rgba(184,255,60,0.1);border-radius:4px;}
-.sb{padding:16px 18px;}
+.sb{padding:16px 18px 32px;}
 
 .sec{margin-bottom:16px;}
 .sec-title{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--lime);font-family:'Syne',sans-serif;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
@@ -75,12 +75,12 @@ select option{background:#111811;}
 .qf-btn:hover{background:rgba(184,255,60,0.05);border-color:rgba(184,255,60,0.2);color:var(--lime);}
 
 /* SIDEBAR BUTTONS */
-.btn-gen{width:100%;padding:12px;background:var(--lime);color:#0A0E0A;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;border:none;border-radius:10px;cursor:pointer;transition:all 0.22s;display:flex;align-items:center;justify-content:center;gap:7px;box-shadow:0 4px 18px rgba(184,255,60,0.28);margin-bottom:7px;}
+.btn-gen{width:100%;padding:12px;background:var(--lime);color:#0A0E0A;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;border:none;border-radius:10px;margin-top:20px;cursor:pointer;transition:all 0.22s;display:flex;align-items:center;justify-content:center;gap:7px;box-shadow:0 4px 18px rgba(184,255,60,0.28);margin-bottom:7px;}
 .btn-gen:hover{background:#9fe030;transform:translateY(-1px);}
-.btn-pres{width:100%;padding:10px;background:rgba(184,255,60,0.07);border:1px solid rgba(184,255,60,0.22);border-radius:10px;color:var(--lime);font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:7px;}
+
 .btn-pres:hover{background:rgba(184,255,60,0.13);}
 
-/* ── MAIN ── */
+/* -- MAIN -- */
 .main{display:flex;flex-direction:column;overflow:hidden;}
 
 /* TABS */
@@ -153,6 +153,39 @@ select option{background:#111811;}
   .al-btn{justify-content:center;}
   .tabs-right .ai-pill span{display:none;}
 }
+
+  /* -- GENERATE BUTTONS -- always visible at bottom -- */
+  .btn-gen-wrap {
+    position: sticky;
+    bottom: 0;
+    background: #0D120D;
+    padding: 14px 18px 18px;
+    margin: 0 -18px;
+    border-top: 1px solid rgba(184,255,60,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .btn-gen {
+    width: 100%; padding: 12px;
+    background: var(--lime); color: #0A0E0A;
+    font-family: 'Syne',sans-serif; font-size: 13px; font-weight: 800;
+    border: none; border-radius: 10px; cursor: pointer;
+    transition: all 0.22s;
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+    box-shadow: 0 4px 18px rgba(184,255,60,0.28);
+  }
+  .btn-gen:hover { background: #9fe030; transform: translateY(-1px); }
+  .btn-pres {
+    width: 100%; padding: 10px;
+    background: rgba(184,255,60,0.07);
+    border: 1px solid rgba(184,255,60,0.22);
+    border-radius: 10px; color: var(--lime);
+    font-family: 'Syne',sans-serif; font-size: 12px; font-weight: 700;
+    cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+  }
+  .btn-pres:hover { background: rgba(184,255,60,0.14); }
 </style>
 </head>
 <body>
@@ -298,14 +331,16 @@ select option{background:#111811;}
   </div>
 
   <!-- GENERATE -->
-  <button class="btn-gen" onclick="genPrompt()">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-    Generate AI Prompt
-  </button>
-  <button class="btn-pres" onclick="genPres('gemini')">
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-    Generate Presentation Prompt
-  </button>
+  <div class="btn-gen-wrap">
+    <button class="btn-gen" onclick="genPrompt()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Generate AI Prompt
+    </button>
+    <button class="btn-pres" onclick="genPres('gemini')">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      Generate Presentation Prompt
+    </button>
+  </div>
 
 </div>
 </div>
