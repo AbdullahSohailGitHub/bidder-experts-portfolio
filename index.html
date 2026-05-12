@@ -1251,6 +1251,104 @@
     section { padding:36px 12px !important; }
   }
 
+
+  /* ================================================
+     ADMIN PANEL — CLEAN PAGE STYLES
+  ================================================ */
+  .admin-tab-panel { height:100%; display:none; overflow-y:auto; }
+  .admin-tab-panel.active { display:block; }
+
+  .ap-wrap { padding:28px 32px; max-width:960px; margin:0 auto; }
+  .ap-page-header { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:24px; flex-wrap:wrap; }
+  .ap-title { font-family:'Syne',sans-serif; font-size:22px; font-weight:800; color:var(--white); margin-bottom:4px; }
+  .ap-sub { font-size:13px; color:var(--muted); }
+  .ap-action-btn { display:inline-flex; align-items:center; gap:6px; padding:9px 16px; background:rgba(184,255,60,0.1); border:1px solid rgba(184,255,60,0.3); border-radius:9px; color:var(--lime); font-family:'Syne',sans-serif; font-size:12px; font-weight:700; cursor:pointer; transition:all 0.2s; text-decoration:none; flex-shrink:0; }
+  .ap-action-btn:hover { background:rgba(184,255,60,0.18); }
+
+  /* FORM CARD */
+  .ap-form-card { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:16px 18px; }
+  .ap-form-title { font-family:'Syne',sans-serif; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--lime); margin-bottom:14px; }
+  .ap-form-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .ap-field { display:flex; flex-direction:column; gap:5px; }
+  .ap-label { font-size:10px; text-transform:uppercase; letter-spacing:1px; color:var(--muted); }
+  .ap-input-wrap { position:relative; }
+  .ap-input { width:100%; padding:9px 36px 9px 11px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; color:var(--white); font-family:'DM Sans',sans-serif; font-size:13px; outline:none; transition:border-color 0.2s; box-sizing:border-box; }
+  select.ap-input { padding-right:11px; }
+  .ap-input:focus { border-color:rgba(184,255,60,0.4); }
+  .ap-input::placeholder { color:rgba(255,255,255,0.2); }
+  select.ap-input option { background:#111811; }
+  .ap-eye { position:absolute; right:9px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--muted); cursor:pointer; padding:2px; transition:color 0.2s; }
+  .ap-eye:hover { color:var(--lime); }
+  .ap-save-btn { display:inline-flex; align-items:center; justify-content:center; gap:6px; padding:10px 16px; background:var(--lime); color:#0A0E0A; font-family:'Syne',sans-serif; font-size:12px; font-weight:800; border:none; border-radius:8px; cursor:pointer; transition:all 0.2s; white-space:nowrap; }
+  .ap-save-btn:hover { background:#9fe030; }
+  .ap-cancel-btn { padding:10px 14px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--muted); font-family:'Syne',sans-serif; font-size:12px; font-weight:600; border-radius:8px; cursor:pointer; transition:all 0.2s; white-space:nowrap; }
+  .ap-cancel-btn:hover { color:var(--white); }
+  .ap-add-btn { display:inline-flex; align-items:center; gap:6px; padding:8px 14px; background:rgba(184,255,60,0.07); border:1px dashed rgba(184,255,60,0.25); border-radius:8px; color:var(--lime); font-family:'Syne',sans-serif; font-size:12px; font-weight:700; cursor:pointer; transition:all 0.2s; }
+  .ap-add-btn:hover { background:rgba(184,255,60,0.12); border-style:solid; }
+  .ap-msg { font-size:12px; border-radius:8px; padding:8px 12px; }
+  .ap-msg.success { color:#4FC95A; background:rgba(79,201,90,0.1); border:1px solid rgba(79,201,90,0.25); }
+  .ap-msg.error { color:#FF5C5C; background:rgba(255,92,92,0.1); border:1px solid rgba(255,92,92,0.2); }
+  .ap-badge { font-size:10px; padding:2px 8px; border-radius:10px; background:rgba(184,255,60,0.1); border:1px solid rgba(184,255,60,0.2); color:var(--lime); font-weight:600; margin-left:auto; }
+
+  /* SECTION CARD */
+  .ap-section-card { background:#111811; border:1px solid rgba(184,255,60,0.1); border-radius:14px; overflow:hidden; }
+  .ap-section-title { display:flex; align-items:center; gap:8px; padding:14px 18px; border-bottom:1px solid rgba(255,255,255,0.05); font-family:'Syne',sans-serif; font-size:12px; font-weight:700; color:var(--white); text-transform:uppercase; letter-spacing:1px; }
+  .ap-section-title svg { color:var(--lime); flex-shrink:0; }
+  .ap-section-body { padding:18px; }
+
+  /* STATS GRID */
+  .ap-stats-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:4px; }
+  .ap-stat-card { background:#111811; border:1px solid rgba(184,255,60,0.1); border-radius:14px; padding:20px 16px; display:flex; flex-direction:column; gap:8px; transition:border-color 0.2s; }
+  .ap-stat-card:hover { border-color:rgba(184,255,60,0.25); }
+  .ap-stat-num { font-family:'Syne',sans-serif; font-size:32px; font-weight:800; line-height:1; }
+  .ap-stat-icon { color:rgba(255,255,255,0.2); }
+  .ap-stat-label { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; }
+
+  /* QUICK LINKS */
+  .ap-links-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+  .ap-link-card { display:flex; align-items:center; gap:8px; padding:12px 14px; border-radius:10px; text-decoration:none; font-family:'Syne',sans-serif; font-size:12px; font-weight:700; transition:all 0.2s; border:1px solid; }
+  .ap-link-card:hover { transform:translateY(-2px); filter:brightness(1.1); }
+  .ap-link-lime  { background:rgba(184,255,60,0.08); border-color:rgba(184,255,60,0.2); color:var(--lime); }
+  .ap-link-blue  { background:rgba(66,133,244,0.08); border-color:rgba(66,133,244,0.2); color:#4285F4; }
+  .ap-link-wa    { background:rgba(37,211,102,0.08); border-color:rgba(37,211,102,0.2); color:#25D366; }
+  .ap-link-amber { background:rgba(245,166,35,0.08); border-color:rgba(245,166,35,0.2); color:#F5A623; }
+  .ap-link-white { background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.1); color:var(--white); }
+
+  /* CONTACTS */
+  .ap-contacts-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  .ap-contact-card { background:#111811; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:16px; display:flex; flex-direction:column; gap:10px; }
+  .ap-contact-name { font-family:'Syne',sans-serif; font-size:13px; font-weight:700; color:var(--white); }
+  .ap-contact-btns { display:flex; gap:7px; }
+  .ap-empty-state { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:48px 24px; color:var(--muted); font-size:13px; text-align:center; }
+
+  /* ACCOUNT LIST ITEMS */
+  .acct-item { display:flex; align-items:center; gap:12px; padding:11px 14px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:9px; }
+  .acct-avatar { width:34px; height:34px; border-radius:8px; background:rgba(184,255,60,0.1); border:1px solid rgba(184,255,60,0.2); display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-size:12px; font-weight:800; color:var(--lime); flex-shrink:0; }
+  .acct-info { flex:1; min-width:0; }
+  .acct-name { font-family:'Syne',sans-serif; font-size:13px; font-weight:700; color:var(--white); }
+  .acct-role { font-size:10px; color:var(--muted); margin-top:1px; }
+  .acct-owner { font-size:9px; background:rgba(184,255,60,0.1); border:1px solid rgba(184,255,60,0.2); color:var(--lime); padding:1px 7px; border-radius:10px; font-weight:700; margin-left:6px; }
+  .acct-delete { background:none; border:none; color:var(--muted); cursor:pointer; font-size:14px; padding:4px 6px; border-radius:6px; transition:all 0.2s; }
+  .acct-delete:hover { color:#FF5C5C; background:rgba(255,92,92,0.1); }
+
+  /* RESPONSIVE */
+  @media (max-width:900px) {
+    .ap-wrap { padding:20px 16px; }
+    .ap-stats-grid { grid-template-columns:repeat(2,1fr) !important; }
+    .ap-links-grid { grid-template-columns:repeat(2,1fr) !important; }
+    .ap-contacts-grid { grid-template-columns:1fr 1fr !important; }
+    .ap-form-grid { grid-template-columns:1fr !important; }
+  }
+  @media (max-width:600px) {
+    .ap-wrap { padding:14px 12px; }
+    .ap-stats-grid { grid-template-columns:1fr 1fr !important; gap:10px !important; }
+    .ap-links-grid { grid-template-columns:1fr 1fr !important; gap:8px !important; }
+    .ap-contacts-grid { grid-template-columns:1fr !important; }
+    .ap-stat-num { font-size:26px !important; }
+    .ap-title { font-size:18px !important; }
+    .ap-link-card { padding:10px 12px !important; font-size:11px !important; }
+  }
+
 </style>
 </head>
 <body>
@@ -5888,167 +5986,259 @@ function beQuick(topic) {
 
     <!-- LEADS TAB -->
     <div id="tab-leads" class="admin-tab-panel">
-      <div style="padding:40px;max-width:800px;margin:0 auto;">
-        <h2 style="font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--white);margin-bottom:8px;">Quick Contacts</h2>
-        <p style="color:var(--muted);font-size:13px;margin-bottom:32px;">One-click to reach your clients or team via WhatsApp or Email.</p>
-        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;" id="contacts-grid">
-          <div style="background:#111811;border:1px solid var(--border);border-radius:14px;padding:20px;">
-            <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Add Quick Contact</div>
-            <input id="qc-name" placeholder="Name" style="width:100%;margin-bottom:8px;padding:9px 12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:var(--white);font-family:DM Sans,sans-serif;font-size:12px;outline:none;">
-            <input id="qc-wa" placeholder="WhatsApp (with country code)" style="width:100%;margin-bottom:8px;padding:9px 12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:var(--white);font-family:DM Sans,sans-serif;font-size:12px;outline:none;">
-            <input id="qc-email" placeholder="Email" style="width:100%;margin-bottom:12px;padding:9px 12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:var(--white);font-family:DM Sans,sans-serif;font-size:12px;outline:none;">
-            <button onclick="addContact()" style="width:100%;padding:9px;background:var(--lime);color:#0A0E0A;font-family:Syne,sans-serif;font-size:12px;font-weight:700;border:none;border-radius:8px;cursor:pointer;">Add Contact</button>
+      <div class="ap-wrap">
+        <div class="ap-page-header">
+          <div>
+            <h2 class="ap-title">Quick Contacts</h2>
+            <p class="ap-sub">One-click to reach clients or team via WhatsApp or Email.</p>
+          </div>
+          <button class="ap-action-btn" onclick="showAddContact()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Contact
+          </button>
+        </div>
+
+        <!-- Add contact form (hidden by default) -->
+        <div class="ap-form-card" id="add-contact-form" style="display:none;margin-bottom:20px;">
+          <div class="ap-form-title">New Contact</div>
+          <div class="ap-form-grid">
+            <div class="ap-field">
+              <label class="ap-label">Name</label>
+              <input id="qc-name" class="ap-input" placeholder="Client / Team member name">
+            </div>
+            <div class="ap-field">
+              <label class="ap-label">WhatsApp Number</label>
+              <input id="qc-wa" class="ap-input" placeholder="+92 321 4900839">
+            </div>
+            <div class="ap-field">
+              <label class="ap-label">Email Address</label>
+              <input id="qc-email" class="ap-input" placeholder="client@email.com">
+            </div>
+            <div class="ap-field" style="display:flex;align-items:flex-end;gap:8px;">
+              <button class="ap-save-btn" onclick="addContact()" style="flex:1;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                Save Contact
+              </button>
+              <button class="ap-cancel-btn" onclick="hideAddContact()">Cancel</button>
+            </div>
           </div>
         </div>
+
+        <!-- Empty state -->
+        <div id="contacts-empty" class="ap-empty-state" style="display:none;">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(184,255,60,0.3)" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          <p>No contacts yet. Click "Add Contact" to get started.</p>
+        </div>
+
+        <!-- Contacts grid -->
+        <div class="ap-contacts-grid" id="contacts-grid"></div>
       </div>
     </div>
 
-    <!-- STATS TAB -->
     <div id="tab-stats" class="admin-tab-panel">
-      <div style="padding:40px;max-width:900px;margin:0 auto;">
-        <h2 style="font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--white);margin-bottom:8px;">Quick Stats</h2>
-        <p style="color:var(--muted);font-size:13px;margin-bottom:32px;">Your Upwork performance at a glance.</p>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;">
-          <div style="background:#111811;border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center;">
-            <div style="font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:var(--lime);">100+</div>
-            <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-top:6px;">Total Contracts</div>
+      <div class="ap-wrap">
+        <div class="ap-page-header">
+          <div>
+            <h2 class="ap-title">Quick Stats</h2>
+            <p class="ap-sub">Your Upwork performance at a glance.</p>
           </div>
-          <div style="background:#111811;border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center;">
-            <div style="font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:var(--lime);">$500K+</div>
-            <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-top:6px;">Total Earned</div>
+          <a href="https://www.upwork.com" target="_blank" class="ap-action-btn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Open Upwork
+          </a>
+        </div>
+
+        <!-- Stats grid -->
+        <div class="ap-stats-grid">
+          <div class="ap-stat-card">
+            <div class="ap-stat-num" style="color:var(--lime);">100+</div>
+            <div class="ap-stat-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <div class="ap-stat-label">Total Contracts</div>
           </div>
-          <div style="background:#111811;border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center;">
-            <div style="font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:#5DCAA5;">5.0 &#9733;</div>
-            <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-top:6px;">Average Rating</div>
+          <div class="ap-stat-card">
+            <div class="ap-stat-num" style="color:var(--lime);">$500K+</div>
+            <div class="ap-stat-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+            </div>
+            <div class="ap-stat-label">Total Earned</div>
           </div>
-          <div style="background:#111811;border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center;">
-            <div style="font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:#F5A623;">95%+</div>
-            <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-top:6px;">JSS Score</div>
+          <div class="ap-stat-card">
+            <div class="ap-stat-num" style="color:#5DCAA5;">5.0 &#9733;</div>
+            <div class="ap-stat-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <div class="ap-stat-label">Average Rating</div>
           </div>
-          <div style="background:#111811;border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center;">
-            <div style="font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:var(--lime);">14+</div>
-            <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-top:6px;">Team Members</div>
+          <div class="ap-stat-card">
+            <div class="ap-stat-num" style="color:#F5A623;">95%+</div>
+            <div class="ap-stat-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div class="ap-stat-label">Job Success Score</div>
           </div>
-          <div style="background:#111811;border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center;">
-            <div style="font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:var(--lime);">$1M+</div>
-            <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-top:6px;">Projects Closed</div>
+          <div class="ap-stat-card">
+            <div class="ap-stat-num" style="color:var(--lime);">14+</div>
+            <div class="ap-stat-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            </div>
+            <div class="ap-stat-label">Team Members</div>
+          </div>
+          <div class="ap-stat-card">
+            <div class="ap-stat-num" style="color:var(--lime);">$1M+</div>
+            <div class="ap-stat-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+            <div class="ap-stat-label">Projects Closed</div>
           </div>
         </div>
-        <div style="background:#111811;border:1px solid var(--border);border-radius:16px;padding:24px;">
-          <div style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--lime);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;">Quick Links</div>
-          <div style="display:flex;flex-wrap:wrap;gap:10px;">
-            <a href="https://www.upwork.com" target="_blank" style="padding:8px 16px;background:rgba(184,255,60,0.08);border:1px solid rgba(184,255,60,0.2);border-radius:8px;color:var(--lime);text-decoration:none;font-size:12px;font-weight:600;">Upwork Dashboard</a>
-            <a href="https://mail.google.com" target="_blank" style="padding:8px 16px;background:rgba(66,133,244,0.08);border:1px solid rgba(66,133,244,0.2);border-radius:8px;color:#4285F4;text-decoration:none;font-size:12px;font-weight:600;">Gmail</a>
-            <a href="https://wa.me/923214900839" target="_blank" style="padding:8px 16px;background:rgba(37,211,102,0.08);border:1px solid rgba(37,211,102,0.2);border-radius:8px;color:#25D366;text-decoration:none;font-size:12px;font-weight:600;">WhatsApp</a>
-            <a href="https://dashboard.emailjs.com" target="_blank" style="padding:8px 16px;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);border-radius:8px;color:#F5A623;text-decoration:none;font-size:12px;font-weight:600;">EmailJS</a>
-            <a href="https://vercel.com/dashboard" target="_blank" style="padding:8px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:var(--white);text-decoration:none;font-size:12px;font-weight:600;">Vercel</a>
+
+        <!-- Quick Links -->
+        <div class="ap-section-card" style="margin-top:20px;">
+          <div class="ap-section-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+            Quick Links
+          </div>
+          <div class="ap-links-grid">
+            <a href="https://www.upwork.com" target="_blank" class="ap-link-card ap-link-lime">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Upwork
+            </a>
+            <a href="https://mail.google.com" target="_blank" class="ap-link-card ap-link-blue">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              Gmail
+            </a>
+            <a href="https://wa.me/923214900839" target="_blank" class="ap-link-card ap-link-wa">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              WhatsApp
+            </a>
+            <a href="https://vercel.com/dashboard" target="_blank" class="ap-link-card ap-link-white">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 22.525H0l12-21.05 12 21.05z"/></svg>
+              Vercel
+            </a>
+            <a href="https://dashboard.emailjs.com" target="_blank" class="ap-link-card ap-link-amber">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              EmailJS
+            </a>
+            <a href="https://aistudio.google.com" target="_blank" class="ap-link-card ap-link-blue">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              AI Studio
+            </a>
+            <a href="https://github.com/AbdullahSohailGitHub" target="_blank" class="ap-link-card ap-link-white">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+              GitHub
+            </a>
+            <a href="https://upwork.com/freelancers/~abdullahsohail" target="_blank" class="ap-link-card ap-link-lime">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              My Profile
+            </a>
           </div>
         </div>
+
       </div>
     </div>
 
-  </div>
-
-    <!-- SETTINGS TAB -->
     <div id="tab-settings" class="admin-tab-panel">
-      <div style="padding:32px;max-width:760px;margin:0 auto;overflow-y:auto;height:100%;">
-
-        <h2 style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--white);margin-bottom:6px;">Settings</h2>
-        <p style="color:var(--muted);font-size:13px;margin-bottom:32px;">Manage admin credentials and accounts.</p>
+      <div class="ap-wrap">
+        <div class="ap-page-header">
+          <div>
+            <h2 class="ap-title">Settings</h2>
+            <p class="ap-sub">Manage admin credentials and accounts.</p>
+          </div>
+        </div>
 
         <!-- CHANGE PASSWORD -->
-        <div class="settings-card">
-          <div class="settings-card-header">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B8FF3C" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-            <span>Change Password</span>
+        <div class="ap-section-card">
+          <div class="ap-section-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            Change Password
           </div>
-          <div class="settings-card-body">
-            <div class="settings-row">
-              <div class="settings-field">
-                <label class="settings-label">Current Password</label>
-                <div class="settings-input-wrap">
-                  <input type="password" id="s-cur-pw" class="settings-input" placeholder="Enter current password">
-                  <button class="settings-eye" onclick="togglePw('s-cur-pw',this)">
+          <div class="ap-section-body">
+            <div class="ap-form-grid">
+              <div class="ap-field">
+                <label class="ap-label">Current Password</label>
+                <div class="ap-input-wrap">
+                  <input type="password" id="s-cur-pw" class="ap-input" placeholder="Enter current password">
+                  <button class="ap-eye" onclick="togglePw('s-cur-pw',this)">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                   </button>
                 </div>
+              </div>
+              <div class="ap-field">
+                <label class="ap-label">New Password</label>
+                <div class="ap-input-wrap">
+                  <input type="password" id="s-new-pw" class="ap-input" placeholder="Min 8 characters">
+                  <button class="ap-eye" onclick="togglePw('s-new-pw',this)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </button>
+                </div>
+              </div>
+              <div class="ap-field">
+                <label class="ap-label">Confirm Password</label>
+                <div class="ap-input-wrap">
+                  <input type="password" id="s-conf-pw" class="ap-input" placeholder="Repeat new password">
+                  <button class="ap-eye" onclick="togglePw('s-conf-pw',this)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </button>
+                </div>
+              </div>
+              <div class="ap-field" style="display:flex;align-items:flex-end;">
+                <button class="ap-save-btn" onclick="changePassword()" style="width:100%;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                  Save Password
+                </button>
               </div>
             </div>
-            <div class="settings-row">
-              <div class="settings-field">
-                <label class="settings-label">New Password</label>
-                <div class="settings-input-wrap">
-                  <input type="password" id="s-new-pw" class="settings-input" placeholder="Min 8 characters">
-                  <button class="settings-eye" onclick="togglePw('s-new-pw',this)">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                  </button>
-                </div>
-              </div>
-              <div class="settings-field">
-                <label class="settings-label">Confirm New Password</label>
-                <div class="settings-input-wrap">
-                  <input type="password" id="s-conf-pw" class="settings-input" placeholder="Repeat new password">
-                  <button class="settings-eye" onclick="togglePw('s-conf-pw',this)">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div id="s-pw-msg" class="settings-msg" style="display:none;"></div>
-            <button class="settings-save-btn" onclick="changePassword()">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-              Save New Password
-            </button>
+            <div id="s-pw-msg" class="ap-msg" style="display:none;"></div>
           </div>
         </div>
 
         <!-- ACCOUNTS -->
-        <div class="settings-card" style="margin-top:20px;">
-          <div class="settings-card-header">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B8FF3C" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
-            <span>Admin Accounts</span>
-            <div class="settings-badge" id="acct-count">0 accounts</div>
+        <div class="ap-section-card" style="margin-top:16px;">
+          <div class="ap-section-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            Admin Accounts
+            <span class="ap-badge" id="acct-count">0</span>
           </div>
-          <div class="settings-card-body">
+          <div class="ap-section-body">
             <div id="accounts-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;"></div>
 
             <!-- Add account form -->
-            <div class="add-account-form" id="add-acct-form" style="display:none;">
-              <div class="settings-row">
-                <div class="settings-field">
-                  <label class="settings-label">Username</label>
-                  <input type="text" id="new-acct-user" class="settings-input" placeholder="e.g. team_member">
+            <div class="ap-form-card" id="add-acct-form" style="display:none;margin-bottom:12px;">
+              <div class="ap-form-title">New Account</div>
+              <div class="ap-form-grid">
+                <div class="ap-field">
+                  <label class="ap-label">Username</label>
+                  <input type="text" id="new-acct-user" class="ap-input" placeholder="e.g. team_hassan">
                 </div>
-                <div class="settings-field">
-                  <label class="settings-label">Password</label>
-                  <div class="settings-input-wrap">
-                    <input type="password" id="new-acct-pw" class="settings-input" placeholder="Min 8 characters">
-                    <button class="settings-eye" onclick="togglePw('new-acct-pw',this)">
+                <div class="ap-field">
+                  <label class="ap-label">Password</label>
+                  <div class="ap-input-wrap">
+                    <input type="password" id="new-acct-pw" class="ap-input" placeholder="Min 8 characters">
+                    <button class="ap-eye" onclick="togglePw('new-acct-pw',this)">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                     </button>
                   </div>
                 </div>
+                <div class="ap-field">
+                  <label class="ap-label">Role</label>
+                  <select id="new-acct-role" class="ap-input">
+                    <option value="admin">Admin (full access)</option>
+                    <option value="invoicer">Invoicer (invoice + proposal)</option>
+                    <option value="viewer">Viewer (read-only)</option>
+                  </select>
+                </div>
+                <div class="ap-field" style="display:flex;align-items:flex-end;gap:8px;">
+                  <button class="ap-save-btn" onclick="createAccount()" style="flex:1;">Create</button>
+                  <button class="ap-cancel-btn" onclick="toggleAddForm()">Cancel</button>
+                </div>
               </div>
-              <div class="settings-field" style="margin-bottom:12px;">
-                <label class="settings-label">Role</label>
-                <select id="new-acct-role" class="settings-input">
-                  <option value="admin">Admin (full access)</option>
-                  <option value="viewer">Viewer (read-only)</option>
-                  <option value="invoicer">Invoicer (invoice + proposal)</option>
-                </select>
-              </div>
-              <div id="s-acct-msg" class="settings-msg" style="display:none;"></div>
-              <div style="display:flex;gap:8px;">
-                <button class="settings-save-btn" onclick="createAccount()">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                  Create Account
-                </button>
-                <button class="settings-cancel-btn" onclick="toggleAddForm()">Cancel</button>
-              </div>
+              <div id="s-acct-msg" class="ap-msg" style="display:none;margin-top:10px;"></div>
             </div>
 
-            <button class="settings-add-btn" id="toggle-add-btn" onclick="toggleAddForm()">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <button class="ap-add-btn" id="toggle-add-btn" onclick="toggleAddForm()">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
               Add New Account
             </button>
           </div>
@@ -6056,7 +6246,6 @@ function beQuick(topic) {
 
       </div>
     </div>
-
   </div>
 </div>
 
@@ -6173,6 +6362,14 @@ function loadProposalWriter() {
 }
 
 // Quick Contacts
+function showAddContact() {
+  var f = document.getElementById('add-contact-form');
+  if (f) f.style.display = 'block';
+}
+function hideAddContact() {
+  var f = document.getElementById('add-contact-form');
+  if (f) f.style.display = 'none';
+}
 function addContact() {
   var name  = document.getElementById('qc-name').value.trim();
   var wa    = document.getElementById('qc-wa').value.trim();
@@ -6199,15 +6396,21 @@ function renderContacts() {
   var addCard = grid.firstElementChild;
   grid.innerHTML = '';
   grid.appendChild(addCard);
+  var empty = document.getElementById('contacts-empty');
+  if (contacts.length === 0) {
+    if (empty) empty.style.display = 'flex';
+  } else {
+    if (empty) empty.style.display = 'none';
+  }
   contacts.forEach(function(c, i) {
     var card = document.createElement('div');
-    card.style.cssText = 'background:#111811;border:1px solid var(--border);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:10px;';
+    card.className = 'ap-contact-card';
     card.innerHTML =
       '<div style="display:flex;justify-content:space-between;align-items:center;">' +
-        '<div style="font-family:Syne,sans-serif;font-size:14px;font-weight:700;color:var(--white);">' + c.name + '</div>' +
-        '<button onclick="removeContact(' + i + ')" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;padding:0;">&#10005;</button>' +
+        '<div class="ap-contact-name">' + c.name + '</div>' +
+        '<button onclick="removeContact(' + i + ')" class="acct-delete" title="Delete">&#10005;</button>' +
       '</div>' +
-      '<div style="display:flex;gap:8px;">' +
+      '<div class="ap-contact-btns">' +
         (c.wa ? '<a href="https://wa.me/' + c.wa.replace(/[^0-9]/g,'') + '" target="_blank" style="flex:1;padding:8px;background:rgba(37,211,102,0.08);border:1px solid rgba(37,211,102,0.2);border-radius:8px;color:#25D366;text-decoration:none;font-size:11px;font-weight:600;text-align:center;">&#128241; WhatsApp</a>' : '') +
         (c.email ? '<a href="https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(c.email) + '" target="_blank" style="flex:1;padding:8px;background:rgba(66,133,244,0.08);border:1px solid rgba(66,133,244,0.2);border-radius:8px;color:#4285F4;text-decoration:none;font-size:11px;font-weight:600;text-align:center;">&#9993; Email</a>' : '') +
       '</div>';
