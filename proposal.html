@@ -4,414 +4,594 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Proposal Writer — Bidder Experts</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+/* -- RESET & VARS -- */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --lime:#B8FF3C;--dark:#09100A;--card:#111811;--border:rgba(184,255,60,0.15);
-  --muted:#6A8A6A;--text:#D8E8D8;--white:#F0F5F0;
-  --blue:#4285F4;--green:#10A37F;--orange:#C96A3A;--purple:#7B68EE;
+  --lime:#B8FF3C; --lime-dim:rgba(184,255,60,0.12);
+  --dark:#09100A; --card:#111811; --card2:#0D120D;
+  --border:rgba(184,255,60,0.13); --border2:rgba(255,255,255,0.07);
+  --muted:#5A7A5E; --text:#C8DCC8; --white:#EEF4EE;
+  --blue:#4285F4; --green:#10A37F; --orange:#C96A3A; --purple:#7B68EE;
 }
-html,body{height:100%;overflow:hidden}
-body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);display:flex;flex-direction:column;}
+html,body{height:100%;overflow:hidden;font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);}
 
-/* NAV */
-.nav{height:52px;background:#0D120D;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:12px;flex-shrink:0;}
-.nav-logo{display:flex;align-items:center;gap:8px;}
-.nav-logo-box{width:30px;height:30px;border-radius:8px;background:rgba(184,255,60,0.12);border:1px solid rgba(184,255,60,0.3);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:10px;font-weight:800;color:var(--lime);}
-.nav-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--white);}
-.nav-sub{font-size:11px;color:var(--muted);}
-.nav-spacer{flex:1;}
-.nav-stat{font-size:11px;color:var(--muted);padding:4px 10px;background:rgba(255,255,255,0.04);border-radius:6px;border:1px solid rgba(255,255,255,0.07);}
+/* -- TOPNAV -- */
+.topnav{
+  height:50px;background:var(--card2);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 20px;gap:12px;flex-shrink:0;
+}
+.tn-logo{display:flex;align-items:center;gap:9px;}
+.tn-box{width:28px;height:28px;border-radius:7px;background:var(--lime-dim);border:1px solid rgba(184,255,60,0.3);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:10px;font-weight:800;color:var(--lime);}
+.tn-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--white);}
+.tn-badge{font-size:10px;color:var(--muted);padding:2px 8px;background:rgba(255,255,255,0.04);border:1px solid var(--border2);border-radius:10px;}
+.tn-right{margin-left:auto;display:flex;align-items:center;gap:7px;}
+.tn-wc{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);padding:3px 9px;background:rgba(255,255,255,0.03);border:1px solid var(--border2);border-radius:6px;}
+.tn-btn{padding:6px 13px;border-radius:8px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:all 0.18s;border:none;display:flex;align-items:center;gap:5px;}
+.tn-copy{background:var(--lime-dim);border:1px solid rgba(184,255,60,0.3);color:var(--lime);}
+.tn-copy:hover{background:rgba(184,255,60,0.2);}
+.tn-clear{background:rgba(255,255,255,0.04);border:1px solid var(--border2);color:var(--muted);}
+.tn-clear:hover{color:var(--white);}
 
-/* LAYOUT */
-.layout{display:grid;grid-template-columns:360px 1fr;flex:1;overflow:hidden;}
+/* -- APP LAYOUT -- */
+.app{display:flex;height:calc(100vh - 50px);overflow:hidden;}
 
 /* -- SIDEBAR -- */
-.sidebar{background:#0D120D;border-right:1px solid var(--border);display:flex;flex-direction:column;height:100%;overflow:hidden;}
-.sidebar::-webkit-scrollbar{width:3px;}
-.sidebar::-webkit-scrollbar-thumb{background:rgba(184,255,60,0.1);border-radius:4px;}
-.sb{padding:16px 18px 20px;flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:rgba(184,255,60,0.1) transparent;}
-  .sb::-webkit-scrollbar{width:3px;}
-  .sb::-webkit-scrollbar-thumb{background:rgba(184,255,60,0.1);border-radius:4px;}
+.sidebar{
+  width:340px;min-width:340px;
+  background:var(--card2);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.sb-scroll{flex:1;overflow-y:auto;overflow-x:hidden;padding:16px 16px 8px;scrollbar-width:thin;scrollbar-color:rgba(184,255,60,0.08) transparent;}
+.sb-scroll::-webkit-scrollbar{width:3px;}
+.sb-scroll::-webkit-scrollbar-thumb{background:rgba(184,255,60,0.08);border-radius:4px;}
 
-.sec{margin-bottom:16px;}
-.sec-title{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--lime);font-family:'Syne',sans-serif;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
-.sec-title::after{content:'';flex:1;height:1px;background:rgba(184,255,60,0.1);}
+/* SECTION TITLES */
+.sec-hd{
+  display:flex;align-items:center;gap:8px;
+  font-family:'Syne',sans-serif;font-size:10px;font-weight:700;
+  text-transform:uppercase;letter-spacing:2px;color:var(--lime);
+  margin:14px 0 9px;
+}
+.sec-hd::before{content:attr(data-n);width:18px;height:18px;border-radius:50%;background:var(--lime-dim);border:1px solid rgba(184,255,60,0.25);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;flex-shrink:0;}
+.sec-hd::after{content:'';flex:1;height:1px;background:rgba(184,255,60,0.08);}
+.sec-hd:first-child{margin-top:0;}
 
-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);display:block;margin-bottom:4px;}
-input,select,textarea{width:100%;padding:8px 10px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-radius:8px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color 0.2s,background 0.2s;resize:vertical;}
-input:focus,select:focus,textarea:focus{border-color:rgba(184,255,60,0.45);background:rgba(255,255,255,0.07);}
-input::placeholder,textarea::placeholder{color:rgba(255,255,255,0.18);}
-select option{background:#111811;}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.fg{margin-bottom:10px;}
+/* FORM FIELDS */
+.fg{margin-bottom:9px;}
+label.lbl{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);display:block;margin-bottom:4px;}
+.req{color:var(--lime);}
+input.inp,select.inp,textarea.inp{
+  width:100%;padding:8px 10px;
+  background:rgba(255,255,255,0.04);border:1px solid var(--border2);
+  border-radius:8px;color:var(--white);font-family:'DM Sans',sans-serif;
+  font-size:12px;outline:none;transition:border-color 0.2s,background 0.2s;resize:none;
+}
+input.inp:focus,select.inp:focus,textarea.inp:focus{border-color:rgba(184,255,60,0.4);background:rgba(255,255,255,0.06);}
+input.inp::placeholder,textarea.inp::placeholder{color:rgba(255,255,255,0.16);}
+select.inp option{background:#0D120D;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 
 /* TEMPLATE CARDS */
-.tpl-cards{display:flex;flex-direction:column;gap:6px;}
-.tc{padding:10px 12px;border-radius:9px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);cursor:pointer;transition:all 0.18s;position:relative;}
+.tpl-list{display:flex;flex-direction:column;gap:5px;margin-bottom:4px;}
+.tc{
+  padding:9px 11px;border-radius:8px;
+  background:rgba(255,255,255,0.03);border:1px solid var(--border2);
+  cursor:pointer;transition:all 0.18s;position:relative;
+}
 .tc:hover{background:rgba(184,255,60,0.04);border-color:rgba(184,255,60,0.2);}
-.tc.active{background:rgba(184,255,60,0.08);border-color:rgba(184,255,60,0.4);}
-.tc-dot{position:absolute;top:11px;right:11px;width:7px;height:7px;border-radius:50%;background:var(--lime);display:none;}
-.tc.active .tc-dot{display:block;}
-.tc-tag{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:2px;}
+.tc.active{background:rgba(184,255,60,0.07);border-color:rgba(184,255,60,0.38);}
+.tc-tag{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:700;margin-bottom:2px;}
 .tc.active .tc-tag{color:var(--lime);}
-.tc-name{font-size:12px;font-weight:600;color:var(--white);}
-.tc-hint{font-size:10px;color:var(--muted);margin-top:2px;line-height:1.4;}
+.tc-name{font-size:12px;font-weight:600;color:var(--white);margin-bottom:1px;}
+.tc-desc{font-size:10px;color:var(--muted);line-height:1.4;}
+.tc-dot{position:absolute;top:10px;right:10px;width:6px;height:6px;border-radius:50%;background:var(--lime);display:none;}
+.tc.active .tc-dot{display:block;}
 
-/* TONE */
-.tone-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;}
-.tone-pill{padding:6px 4px;border-radius:7px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);color:var(--muted);font-size:11px;cursor:pointer;text-align:center;transition:all 0.18s;font-family:'DM Sans',sans-serif;}
-.tone-pill:hover{color:var(--lime);border-color:rgba(184,255,60,0.25);}
-.tone-pill.active{background:rgba(184,255,60,0.1);border-color:rgba(184,255,60,0.35);color:var(--lime);}
+/* TONE PILLS */
+.tone-row{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;}
+.tp{padding:5px 4px;border-radius:6px;background:rgba(255,255,255,0.03);border:1px solid var(--border2);color:var(--muted);font-size:10px;cursor:pointer;text-align:center;transition:all 0.18s;font-family:'DM Sans',sans-serif;}
+.tp:hover{color:var(--lime);border-color:rgba(184,255,60,0.25);}
+.tp.on{background:rgba(184,255,60,0.09);border-color:rgba(184,255,60,0.35);color:var(--lime);}
 
 /* CHECKBOXES */
-.cb-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;}
-.cb-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text);cursor:pointer;padding:4px 6px;border-radius:6px;}
-.cb-item:hover{background:rgba(255,255,255,0.03);}
-.cb-item input{accent-color:var(--lime);width:13px;height:13px;flex-shrink:0;}
+.cb-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px;}
+.cb{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text);cursor:pointer;padding:3px 5px;border-radius:5px;}
+.cb:hover{background:rgba(255,255,255,0.03);}
+.cb input{accent-color:var(--lime);width:12px;height:12px;flex-shrink:0;}
 
 /* QUICK FILL */
-.qf-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
-.qf-btn{padding:8px 6px;border-radius:8px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);color:var(--muted);font-size:11px;cursor:pointer;transition:all 0.18s;font-family:'DM Sans',sans-serif;text-align:left;}
-.qf-btn:hover{background:rgba(184,255,60,0.05);border-color:rgba(184,255,60,0.2);color:var(--lime);}
+.qf-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;}
+.qf{padding:7px 8px;border-radius:7px;background:rgba(255,255,255,0.03);border:1px solid var(--border2);color:var(--muted);font-size:10px;cursor:pointer;transition:all 0.18s;text-align:left;font-family:'DM Sans',sans-serif;}
+.qf:hover{background:rgba(184,255,60,0.05);border-color:rgba(184,255,60,0.2);color:var(--lime);}
 
-/* SIDEBAR BUTTONS */
-.btn-gen{width:100%;padding:12px;background:var(--lime);color:#0A0E0A;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;border:none;border-radius:10px;margin-top:20px;cursor:pointer;transition:all 0.22s;display:flex;align-items:center;justify-content:center;gap:7px;box-shadow:0 4px 18px rgba(184,255,60,0.28);margin-bottom:7px;}
-.btn-gen:hover{background:#9fe030;transform:translateY(-1px);}
+/* SIDEBAR FOOTER BUTTONS */
+.sb-footer{
+  flex-shrink:0;padding:12px 16px 14px;
+  border-top:1px solid rgba(184,255,60,0.1);
+  display:flex;flex-direction:column;gap:7px;
+  background:var(--card2);
+}
+.btn-gen{
+  width:100%;padding:11px;background:var(--lime);color:#09100A;
+  font-family:'Syne',sans-serif;font-size:13px;font-weight:800;
+  border:none;border-radius:9px;cursor:pointer;transition:all 0.2s;
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  box-shadow:0 3px 16px rgba(184,255,60,0.25);
+}
+.btn-gen:hover{background:#a3ef28;transform:translateY(-1px);box-shadow:0 5px 22px rgba(184,255,60,0.38);}
+.btn-gen:active{transform:translateY(0);}
+.btn-pres{
+  width:100%;padding:9px;
+  background:rgba(184,255,60,0.06);border:1px solid rgba(184,255,60,0.2);
+  border-radius:9px;color:var(--lime);font-family:'Syne',sans-serif;
+  font-size:12px;font-weight:700;cursor:pointer;transition:all 0.2s;
+  display:flex;align-items:center;justify-content:center;gap:7px;
+}
+.btn-pres:hover{background:rgba(184,255,60,0.12);border-color:rgba(184,255,60,0.35);}
 
-.btn-pres:hover{background:rgba(184,255,60,0.13);}
+/* -- MAIN AREA -- */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
 
-/* -- MAIN -- */
-.main{display:flex;flex-direction:column;overflow:hidden;}
-
-/* TABS */
-.tabs{height:44px;display:flex;align-items:center;padding:0 20px;border-bottom:1px solid rgba(255,255,255,0.06);background:rgba(9,16,10,0.6);flex-shrink:0;gap:2px;}
-.tab{padding:0 16px;height:44px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;font-family:'Syne',sans-serif;transition:all 0.18s;display:flex;align-items:center;gap:6px;white-space:nowrap;}
-.tab:hover:not(.active){color:var(--white);}
-.tab.active{color:var(--lime);border-bottom-color:var(--lime);}
-.tabs-right{margin-left:auto;display:flex;align-items:center;gap:6px;}
-.ai-pill{padding:5px 12px;border-radius:20px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;cursor:pointer;border:none;color:#fff;transition:all 0.18s;display:flex;align-items:center;gap:5px;}
-.ai-pill:hover{transform:translateY(-1px);filter:brightness(1.12);}
-.ap-g{background:#4285F4;}
-.ap-c{background:#10A37F;}
-.ap-a{background:#C96A3A;}
-.ap-d{background:#7B68EE;}
+/* TABS BAR */
+.tabs-bar{
+  height:46px;background:rgba(9,16,10,0.7);
+  border-bottom:1px solid rgba(255,255,255,0.05);
+  display:flex;align-items:stretch;padding:0 16px;flex-shrink:0;
+  backdrop-filter:blur(10px);
+}
+.tab{
+  padding:0 14px;font-size:12px;font-weight:600;color:var(--muted);
+  cursor:pointer;border-bottom:2px solid transparent;background:none;
+  border-top:none;border-left:none;border-right:none;
+  font-family:'Syne',sans-serif;transition:all 0.18s;
+  display:flex;align-items:center;gap:6px;white-space:nowrap;
+}
+.tab:hover:not(.on){color:var(--white);}
+.tab.on{color:var(--lime);border-bottom-color:var(--lime);}
+.tabs-spacer{flex:1;}
+/* AI write buttons in tab bar */
+.write-bar{display:flex;align-items:center;gap:6px;padding:6px 0;}
+.write-lbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;margin-right:2px;}
+.wb{
+  height:28px;padding:0 11px;border-radius:7px;border:none;
+  font-family:'Syne',sans-serif;font-size:11px;font-weight:700;
+  color:#fff;cursor:pointer;transition:all 0.18s;display:flex;align-items:center;gap:5px;
+}
+.wb:hover{transform:translateY(-1px);filter:brightness(1.12);}
+.wb:active{transform:translateY(0);}
+.wb.wg{background:#4285F4;} .wb.wc{background:#10A37F;}
+.wb.wa{background:#C96A3A;} .wb.wd{background:#7B68EE;}
 
 /* PANELS */
 .panel{display:none;flex:1;flex-direction:column;overflow:hidden;}
-.panel.active{display:flex;}
+.panel.on{display:flex;}
 
 /* COVER LETTER PANEL */
-.cl-panel{flex:1;position:relative;display:flex;flex-direction:column;overflow:hidden;}
-/* empty state */
-.empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:32px;z-index:2;pointer-events:none;}
-.empty.hidden{display:none;}
-.empty-ico{width:64px;height:64px;border-radius:18px;background:rgba(184,255,60,0.07);border:1px solid rgba(184,255,60,0.17);display:flex;align-items:center;justify-content:center;animation:bob 4s ease-in-out infinite;}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-.empty-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:rgba(255,255,255,0.5);}
-.empty-desc{font-size:13px;color:var(--muted);text-align:center;max-width:380px;line-height:1.65;}
-.ai-launch{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;pointer-events:all;}
-.al-btn{padding:10px 18px;border-radius:10px;border:none;cursor:pointer;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:#fff;transition:all 0.2s;display:flex;align-items:center;gap:7px;}
-.al-btn:hover{transform:translateY(-2px);filter:brightness(1.1);}
-.al-g{background:#4285F4;}.al-c{background:#10A37F;}.al-a{background:#C96A3A;}.al-d{background:#7B68EE;}
-.empty-tip{font-size:11px;color:var(--muted);text-align:center;}
-/* editor */
-.editor{width:100%;flex:1;padding:24px 28px;background:transparent;color:var(--white);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.85;border:none;outline:none;resize:none;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(184,255,60,0.08) transparent;}
-.editor::placeholder{color:rgba(255,255,255,0.12);}
-.editor::-webkit-scrollbar{width:4px;}
-.editor::-webkit-scrollbar-thumb{background:rgba(184,255,60,0.08);border-radius:4px;}
-.mono{font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.7;color:var(--text);}
+.letter-area{flex:1;position:relative;display:flex;flex-direction:column;overflow:hidden;}
 
-/* PANEL BAR */
-.panel-bar{padding:8px 20px;background:rgba(184,255,60,0.03);border-bottom:1px solid rgba(184,255,60,0.09);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;font-size:12px;color:var(--muted);}
-.pbar-btn{padding:5px 13px;border-radius:7px;background:rgba(184,255,60,0.1);border:1px solid rgba(184,255,60,0.25);color:var(--lime);font-size:11px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;}
+/* EMPTY STATE */
+.empty{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:14px;padding:32px;z-index:2;
+}
+.empty.gone{display:none;}
+.empty-ico{
+  width:60px;height:60px;border-radius:16px;
+  background:rgba(184,255,60,0.07);border:1px solid rgba(184,255,60,0.16);
+  display:flex;align-items:center;justify-content:center;
+  animation:bob 4s ease-in-out infinite;
+}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.empty-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:rgba(240,244,240,0.5);text-align:center;}
+.empty-desc{font-size:13px;color:var(--muted);text-align:center;max-width:360px;line-height:1.65;}
+.write-btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.wbig{
+  padding:10px 18px;border-radius:9px;border:none;cursor:pointer;
+  font-family:'Syne',sans-serif;font-size:12px;font-weight:700;
+  color:#fff;transition:all 0.2s;display:flex;align-items:center;gap:7px;
+}
+.wbig:hover{transform:translateY(-2px);filter:brightness(1.1);}
+.wbig.g{background:#4285F4;} .wbig.c{background:#10A37F;}
+.wbig.a{background:#C96A3A;} .wbig.d{background:#7B68EE;}
+.empty-tip{font-size:11px;color:var(--muted);text-align:center;}
+
+/* EDITORS */
+.editor{
+  width:100%;flex:1;padding:20px 24px;
+  background:transparent;color:var(--white);
+  font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.85;
+  border:none;outline:none;resize:none;overflow-y:auto;
+  scrollbar-width:thin;scrollbar-color:rgba(184,255,60,0.07) transparent;
+}
+.editor::placeholder{color:rgba(255,255,255,0.12);}
+.editor::-webkit-scrollbar{width:3px;}
+.editor::-webkit-scrollbar-thumb{background:rgba(184,255,60,0.07);border-radius:4px;}
+.mono{font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.75;color:var(--text);}
+
+/* PANEL INFO BAR */
+.pbar{
+  flex-shrink:0;padding:8px 16px;
+  background:rgba(184,255,60,0.04);border-bottom:1px solid rgba(184,255,60,0.08);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.pbar-txt{font-size:12px;color:var(--muted);}
+.pbar-btn{
+  padding:5px 12px;border-radius:7px;
+  background:rgba(184,255,60,0.09);border:1px solid rgba(184,255,60,0.22);
+  color:var(--lime);font-size:11px;font-weight:700;cursor:pointer;
+  font-family:'Syne',sans-serif;transition:all 0.18s;
+}
 .pbar-btn:hover{background:rgba(184,255,60,0.17);}
 
 /* SEND ROW */
-.send-row{padding:10px 20px;border-top:1px solid rgba(255,255,255,0.05);background:rgba(13,18,13,0.95);display:flex;align-items:center;gap:7px;flex-shrink:0;flex-wrap:wrap;}
+.send-row{
+  flex-shrink:0;padding:9px 16px;
+  border-top:1px solid rgba(255,255,255,0.04);
+  background:rgba(13,18,13,0.95);
+  display:flex;align-items:center;gap:7px;flex-wrap:wrap;
+}
 .send-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;flex-shrink:0;}
-.snd{padding:7px 15px;border-radius:8px;border:none;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:#fff;cursor:pointer;transition:all 0.18s;}
+.snd{
+  padding:7px 14px;border-radius:8px;border:none;
+  font-family:'Syne',sans-serif;font-size:11px;font-weight:700;
+  color:#fff;cursor:pointer;transition:all 0.18s;
+}
 .snd:hover{filter:brightness(1.1);transform:translateY(-1px);}
-.snd.g{background:#4285F4;}.snd.c{background:#10A37F;}.snd.a{background:#C96A3A;}.snd.d{background:#7B68EE;}
+.snd.g{background:#4285F4;} .snd.c{background:#10A37F;}
+.snd.a{background:#C96A3A;} .snd.d{background:#7B68EE;}
 
-/* STATS */
-.stats{padding:7px 20px;border-top:1px solid rgba(255,255,255,0.04);background:rgba(9,16,10,0.5);display:flex;align-items:center;gap:16px;flex-shrink:0;}
+/* STATS BAR */
+.stats{
+  flex-shrink:0;height:30px;padding:0 16px;
+  border-top:1px solid rgba(255,255,255,0.03);
+  background:rgba(9,16,10,0.5);display:flex;align-items:center;gap:16px;
+}
 .st{font-size:10px;color:var(--muted);}
-.st b{font-family:'JetBrains Mono',monospace;font-size:10px;color:#5DCAA5;font-weight:400;}
+.st b{font-family:'JetBrains Mono',monospace;color:#5DCAA5;font-weight:400;font-size:10px;}
 
 /* FLASH */
-.flash{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(184,255,60,0.12);border:1px solid rgba(184,255,60,0.35);border-radius:9px;padding:9px 18px;font-size:12px;color:var(--lime);font-weight:600;opacity:0;pointer-events:none;transition:opacity 0.3s;z-index:9999;white-space:nowrap;}
+.flash{
+  position:fixed;bottom:18px;left:50%;transform:translateX(-50%);
+  background:rgba(184,255,60,0.1);border:1px solid rgba(184,255,60,0.3);
+  border-radius:8px;padding:8px 16px;font-size:12px;color:var(--lime);
+  font-weight:600;opacity:0;pointer-events:none;transition:opacity 0.25s;z-index:9999;
+}
 .flash.on{opacity:1;}
 
-/* RESPONSIVE */
+/* -- RESPONSIVE -- */
 @media(max-width:900px){
   html,body{overflow:auto;}
-  .layout{grid-template-columns:1fr;}
-  .sidebar{border-right:none;border-bottom:1px solid var(--border);}
-  .main{min-height:600px;}
+  .app{flex-direction:column;height:auto;}
+  .sidebar{width:100%;min-width:unset;border-right:none;border-bottom:1px solid var(--border);}
+  .main{min-height:620px;}
   .editor{min-height:300px;}
-  .ai-launch{flex-direction:column;align-items:stretch;}
-  .al-btn{justify-content:center;}
-  .tabs-right .ai-pill span{display:none;}
+  .write-btns{flex-direction:column;align-items:stretch;}
+  .wbig{justify-content:center;}
+  .write-bar .write-lbl{display:none;}
+  .wb span{display:none;}
+  .wb{width:32px;justify-content:center;}
+}
+@media(max-width:600px){
+  .topnav{padding:0 12px;}
+  .tn-badge{display:none;}
+  .grid2{grid-template-columns:1fr;}
+  .tone-row{grid-template-columns:repeat(2,1fr);}
+  .qf-grid{grid-template-columns:repeat(3,1fr);}
+  .tabs-bar{padding:0 10px;overflow-x:auto;}
+  .tab{padding:0 10px;font-size:11px;}
+  .editor{padding:14px 16px;font-size:13px;}
+  .send-row{padding:8px 12px;}
+  .stats{padding:0 12px;}
 }
 
-  /* -- GENERATE BUTTONS -- always visible at bottom -- */
-  .btn-gen-wrap {
-    flex-shrink: 0;
-    background: #0D120D;
-    padding: 14px 18px 18px;
-    border-top: 1px solid rgba(184,255,60,0.12);
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  /* -- PROFILE PILLS -- */
+  .profile-pill {
+    padding: 5px 12px; border-radius: 20px;
+    background: rgba(255,255,255,0.04); border: 1px solid var(--border2);
+    color: var(--muted); font-size: 11px; font-weight: 600;
+    cursor: pointer; transition: all 0.18s; font-family: 'DM Sans',sans-serif;
   }
-  .btn-gen {
-    width: 100%; padding: 12px;
-    background: var(--lime); color: #0A0E0A;
-    font-family: 'Syne',sans-serif; font-size: 13px; font-weight: 800;
-    border: none; border-radius: 10px; cursor: pointer;
-    transition: all 0.22s;
-    display: flex; align-items: center; justify-content: center; gap: 7px;
-    box-shadow: 0 4px 18px rgba(184,255,60,0.28);
+  .profile-pill:hover { border-color: rgba(184,255,60,0.3); color: var(--lime); }
+  .profile-pill.active { background: rgba(184,255,60,0.1); border-color: rgba(184,255,60,0.4); color: var(--lime); }
+
+  /* PROJECT PICKER */
+  #project-list button {
+    display: block; width: 100%; text-align: left;
+    padding: 5px 8px; border-radius: 5px;
+    background: none; border: none; color: var(--text);
+    font-size: 11px; cursor: pointer; transition: background 0.15s;
+    font-family: 'DM Sans',sans-serif;
   }
-  .btn-gen:hover { background: #9fe030; transform: translateY(-1px); }
-  .btn-pres {
-    width: 100%; padding: 10px;
-    background: rgba(184,255,60,0.07);
-    border: 1px solid rgba(184,255,60,0.22);
-    border-radius: 10px; color: var(--lime);
-    font-family: 'Syne',sans-serif; font-size: 12px; font-weight: 700;
-    cursor: pointer; transition: all 0.2s;
-    display: flex; align-items: center; justify-content: center; gap: 7px;
+  #project-list button:hover { background: rgba(184,255,60,0.08); color: var(--lime); }
+
+  /* MATCH BADGE */
+  .match-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 9px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--lime);
+    background: rgba(184,255,60,0.08); border: 1px solid rgba(184,255,60,0.2);
+    border-radius: 4px; padding: 1px 6px;
   }
-  .btn-pres:hover { background: rgba(184,255,60,0.14); }
+
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<div class="nav">
-  <div class="nav-logo">
-    <div class="nav-logo-box">BE</div>
-    <div>
-      <div class="nav-title">Proposal Writer</div>
-      <div class="nav-sub">AI-Powered Cover Letters</div>
-    </div>
+<!-- TOP NAV -->
+<div class="topnav">
+  <div class="tn-logo">
+    <div class="tn-box">BE</div>
+    <div class="tn-name">Proposal Writer</div>
+    <div class="tn-badge">AI-Powered</div>
   </div>
-  <div class="nav-spacer"></div>
-  <div class="nav-stat" id="navStat">0 words</div>
+  <div class="tn-right">
+    <div class="tn-wc" id="navWc">0 words</div>
+    <button class="tn-btn tn-clear" onclick="doClear()">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+      Clear
+    </button>
+    <button class="tn-btn tn-copy" onclick="doCopy()">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+      Copy
+    </button>
+  </div>
 </div>
 
-<div class="layout">
+<div class="app">
 
-<!-- ════════════════ SIDEBAR ════════════════ -->
+<!-- ════ SIDEBAR ════ -->
 <div class="sidebar">
-<div class="sb">
+<div class="sb-scroll">
 
-  <!-- JOB DETAILS -->
-  <div class="sec">
-    <div class="sec-title">1. Job Details</div>
-    <div class="fg">
-      <label>Job Title <span style="color:var(--lime)">*</span></label>
-      <input id="jobTitle" placeholder="e.g. Full Stack React Developer needed">
-    </div>
-    <div class="fg">
-      <label>Job Description <span style="color:var(--lime)">*</span></label>
-      <textarea id="jobDesc" rows="6" placeholder="Paste the full Upwork job post here. The more detail you paste, the better your cover letter will be..."></textarea>
-    </div>
-    <div class="row">
-      <div class="fg">
-        <label>Platform</label>
-        <select id="platform"><option>Upwork</option><option>Fiverr</option><option>Freelancer</option><option>Direct</option></select>
-      </div>
-      <div class="fg">
-        <label>Budget</label>
-        <input id="budget" placeholder="$500-$2,000">
-      </div>
-    </div>
-    <div class="row">
-      <div class="fg">
-        <label>Timeline</label>
-        <input id="timeline" placeholder="2-4 weeks">
-      </div>
-      <div class="fg">
-        <label>Category</label>
-        <select id="category">
-          <option>Full-Stack Web</option><option>Mobile App</option><option>AI & Automation</option>
-          <option>Blockchain/Web3</option><option>UI/UX Design</option><option>WordPress/Shopify</option>
-          <option>Ruby on Rails</option><option>Data Science</option><option>Other</option>
-        </select>
-      </div>
-    </div>
+  <!-- 1. JOB DETAILS -->
+  <div class="sec-hd" data-n="1">Job Details</div>
+  <div class="fg">
+    <label class="lbl">Job Title <span class="req">*</span></label>
+    <input class="inp" id="jobTitle" placeholder="e.g. Full Stack React Developer needed" oninput="scheduleAutoMatch()">
   </div>
-
-  <!-- YOUR PROFILE -->
-  <div class="sec">
-    <div class="sec-title">2. Your Profile</div>
-    <div class="fg"><label>Your Name</label><input id="yourName" value="Muhammad Abdullah Sohail"></div>
-    <div class="fg"><label>Key Skills</label><input id="skills" value="MERN Stack, React Native, Ruby on Rails, AI/LLM, Node.js, Python, Figma"></div>
-    <div class="fg"><label>Experience</label><textarea id="experience" rows="2">100+ Upwork contracts, $500K+ earned, 5.0 star, 95%+ JSS. 14-person team. USA/UAE/UK clients.</textarea></div>
-    <div class="fg"><label>Best Matching Project (optional)</label><input id="relProject" placeholder="e.g. Built Voice AI CRM for $36K — similar scope"></div>
+  <div class="fg">
+    <label class="lbl">Job Description <span class="req">*</span></label>
+    <textarea class="inp" id="jobDesc" rows="6" placeholder="Paste the full job post here. The more detail, the better your cover letter..." oninput="scheduleAutoMatch()"></textarea>
   </div>
-
-  <!-- WINNING TEMPLATE -->
-  <div class="sec">
-    <div class="sec-title">3. Winning Template</div>
-    <div class="tpl-cards">
-      <div class="tc active" onclick="setTpl(this,'solver')">
-        <div class="tc-dot"></div>
-        <div class="tc-tag">Template 1 — Most Used</div>
-        <div class="tc-name">&#127919; Problem-Solver Hook</div>
-        <div class="tc-hint">"Your biggest challenge is [X]. I solve it by [Y]."</div>
-      </div>
-      <div class="tc" onclick="setTpl(this,'highticket')">
-        <div class="tc-dot"></div>
-        <div class="tc-tag">Template 2</div>
-        <div class="tc-name">&#128176; High-Ticket Package</div>
-        <div class="tc-hint">Core build + Strategic add-on + 30-day support</div>
-      </div>
-      <div class="tc" onclick="setTpl(this,'roadmap')">
-        <div class="tc-dot"></div>
-        <div class="tc-tag">Template 3</div>
-        <div class="tc-name">&#128202; The Roadmap</div>
-        <div class="tc-hint">Discovery → Execution → Handover. No surprises.</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SETTINGS -->
-  <div class="sec">
-    <div class="sec-title">4. Settings</div>
+  <div class="grid2">
     <div class="fg">
-      <label>Tone</label>
-      <div class="tone-grid">
-        <button class="tone-pill active" onclick="setTone(this,'professional')">Professional</button>
-        <button class="tone-pill" onclick="setTone(this,'friendly')">Friendly</button>
-        <button class="tone-pill" onclick="setTone(this,'confident')">Confident</button>
-        <button class="tone-pill" onclick="setTone(this,'concise')">Concise</button>
-        <button class="tone-pill" onclick="setTone(this,'persuasive')">Persuasive</button>
-        <button class="tone-pill" onclick="setTone(this,'technical')">Technical</button>
-      </div>
-    </div>
-    <div class="row">
-      <div class="fg">
-        <label>Length</label>
-        <select id="length"><option value="short">Short (150-200w)</option><option value="medium" selected>Medium (280-350w)</option><option value="long">Long (400-500w)</option></select>
-      </div>
-      <div class="fg">
-        <label>Language</label>
-        <select id="language"><option>English</option><option>Urdu</option><option>Arabic</option><option>French</option></select>
-      </div>
+      <label class="lbl">Platform</label>
+      <select class="inp" id="platform"><option>Upwork</option><option>Fiverr</option><option>Freelancer</option><option>Direct</option></select>
     </div>
     <div class="fg">
-      <label>Include in Letter</label>
-      <div class="cb-grid">
-        <label class="cb-item"><input type="checkbox" id="i-hook" checked> Hook Opening</label>
-        <label class="cb-item"><input type="checkbox" id="i-proof" checked> Social Proof</label>
-        <label class="cb-item"><input type="checkbox" id="i-plan" checked> Delivery Plan</label>
-        <label class="cb-item"><input type="checkbox" id="i-cta" checked> Call to Action</label>
-        <label class="cb-item"><input type="checkbox" id="i-q" checked> Smart Question</label>
-        <label class="cb-item"><input type="checkbox" id="i-rate"> Rate Mention</label>
-      </div>
+      <label class="lbl">Budget</label>
+      <input class="inp" id="budget" placeholder="$500-$2,000">
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="fg">
+      <label class="lbl">Timeline</label>
+      <input class="inp" id="timeline" placeholder="2-4 weeks">
+    </div>
+    <div class="fg">
+      <label class="lbl">Category</label>
+      <select class="inp" id="category">
+        <option>Full-Stack Web</option><option>Mobile App</option><option>AI & Automation</option>
+        <option>Blockchain/Web3</option><option>UI/UX Design</option><option>WordPress/Shopify</option>
+        <option>Ruby on Rails</option><option>Data Science</option><option>Other</option>
+      </select>
     </div>
   </div>
 
-  <!-- QUICK FILL -->
-  <div class="sec">
-    <div class="sec-title">5. Quick Fill</div>
-    <div class="qf-grid">
-      <button class="qf-btn" onclick="qf('mern')">&#9889; MERN Stack</button>
-      <button class="qf-btn" onclick="qf('mobile')">&#128241; Mobile App</button>
-      <button class="qf-btn" onclick="qf('ai')">&#129302; AI / n8n</button>
-      <button class="qf-btn" onclick="qf('rails')">&#128200; Ruby on Rails</button>
-      <button class="qf-btn" onclick="qf('wp')">&#127760; WordPress</button>
-      <button class="qf-btn" onclick="qf('design')">&#127912; UI/UX Figma</button>
+  <!-- 2. YOUR PROFILE -->
+  <div class="sec-hd" data-n="2">Your Profile</div>
+
+  <!-- PROFILE SELECTOR -->
+  <div class="fg">
+    <label class="lbl">Select Profile
+      <span style="color:var(--lime);font-size:9px;margin-left:6px;font-weight:700;">AUTO-MATCHED</span>
+    </label>
+    <select class="inp" id="profileSelect" onchange="selectProfileFromDropdown(this.value)">
+      <option value="moeed">Abdul Moeed — MERN Stack ($40K+)</option>
+      <option value="hassan">Hassan Nawaz — MERN Stack ($76K+)</option>
+      <option value="umair">Umair Raza — Rails Full-Stack ($300K+)</option>
+      <option value="hafiz">Hafiz Khuram — Rails / MERN ($350K+)</option>
+      <option value="taha">Taha Atiq — WordPress / Shopify ($60K+)</option>
+      <option value="salman">Salman Ali — WordPress TOP 3% ($85K+)</option>
+      <option value="husnain">Husnain Ahmad — Voice AI / LLM ($120K+)</option>
+      <option value="shahzeb">Shahzeb Khalid — AI / SaaS ($35K+)</option>
+      <option value="umar">Umar Farooq — React / Node / Rails ($28K+)</option>
+      <option value="daniyal">Daniyal Khalid — Healthcare AI</option>
+      <option value="hassan_karim">Hassan Karim — MERN / React Native</option>
+      <option value="saim">Muhammad Saim — WordPress</option>
+      <option value="usman">Usman Basharat — Shopify</option>
+      <option value="design_team">Abdullah (UI/UX) — Figma Designer</option>
+      <option value="abdullah">Muhammad Abdullah Sohail — CEO/Lead Dev</option>
+    </select>
+  </div>
+
+  <!-- MATCHED PROFILE PILLS -->
+  <div id="profile-match-row" style="display:none;margin-bottom:10px;">
+    <label class="lbl" style="margin-bottom:5px;">Best matches for this job:</label>
+    <div id="profile-suggestions" style="display:flex;flex-wrap:wrap;gap:5px;"></div>
+  </div>
+
+  <div class="fg"><label class="lbl">Name</label><input class="inp" id="yourName" value="Muhammad Abdul Moeed"></div>
+  <div class="fg"><label class="lbl">Key Skills</label><input class="inp" id="skills" value="MongoDB, Express.js, React.js, Node.js, Next.js, TypeScript, TailwindCSS, AWS, PostgreSQL"></div>
+  <div class="fg"><label class="lbl">Experience</label><textarea class="inp" id="experience" rows="2">$40K+ earned on Upwork. MERN Stack specialist with 4+ years. Full-stack SaaS, dashboards, e-commerce.</textarea></div>
+
+  <!-- PORTFOLIO PROJECT SELECTOR -->
+  <div class="fg">
+    <label class="lbl">Relevant Project
+      <button onclick="showProjectPicker()" style="background:none;border:none;color:var(--lime);font-size:9px;cursor:pointer;font-weight:700;margin-left:5px;">PICK FROM PORTFOLIO &#9660;</button>
+    </label>
+    <input class="inp" id="relProject" placeholder="Auto-filled from portfolio — or type your own">
+    <div id="project-picker" style="display:none;margin-top:5px;background:rgba(255,255,255,0.04);border:1px solid var(--border2);border-radius:8px;padding:8px;max-height:140px;overflow-y:auto;">
+      <div id="project-list"></div>
     </div>
   </div>
 
-</div>
-</div>
+  <!-- 3. WINNING TEMPLATE -->
+  <div class="sec-hd" data-n="3">Winning Template</div>
+  <div class="tpl-list">
+    <div class="tc active" onclick="setTpl(this,'solver')">
+      <div class="tc-dot"></div>
+      <div class="tc-tag">Template 1 — Most Used</div>
+      <div class="tc-name">&#127919; Problem-Solver Hook</div>
+      <div class="tc-desc">"Your biggest challenge is X. I solve it by Y." High response rate.</div>
+    </div>
+    <div class="tc" onclick="setTpl(this,'highticket')">
+      <div class="tc-dot"></div>
+      <div class="tc-tag">Template 2</div>
+      <div class="tc-name">&#128176; High-Ticket Package</div>
+      <div class="tc-desc">Core build + add-on + 30-day support. Justifies premium pricing.</div>
+    </div>
+    <div class="tc" onclick="setTpl(this,'roadmap')">
+      <div class="tc-dot"></div>
+      <div class="tc-tag">Template 3</div>
+      <div class="tc-name">&#128202; The Roadmap</div>
+      <div class="tc-desc">3-step plan: Discovery — Execution — Handover. Removes anxiety.</div>
+    </div>
+  </div>
 
-<!-- GENERATE BUTTONS pinned outside scroll area -->
-<div class="btn-gen-wrap">
+  <!-- 4. SETTINGS -->
+  <div class="sec-hd" data-n="4">Settings</div>
+  <div class="fg">
+    <label class="lbl">Tone</label>
+    <div class="tone-row">
+      <button class="tp on" onclick="setTone(this,'professional')">Professional</button>
+      <button class="tp" onclick="setTone(this,'friendly')">Friendly</button>
+      <button class="tp" onclick="setTone(this,'confident')">Confident</button>
+      <button class="tp" onclick="setTone(this,'concise')">Concise</button>
+      <button class="tp" onclick="setTone(this,'persuasive')">Persuasive</button>
+      <button class="tp" onclick="setTone(this,'technical')">Technical</button>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="fg"><label class="lbl">Length</label>
+      <select class="inp" id="length"><option value="short">Short (150-200w)</option><option value="medium" selected>Medium (280-350w)</option><option value="long">Long (400-500w)</option></select>
+    </div>
+    <div class="fg"><label class="lbl">Language</label>
+      <select class="inp" id="language"><option>English</option><option>Urdu</option><option>Arabic</option><option>French</option></select>
+    </div>
+  </div>
+  <div class="fg">
+    <label class="lbl">Include</label>
+    <div class="cb-grid">
+      <label class="cb"><input type="checkbox" id="i-hook" checked> Hook Opening</label>
+      <label class="cb"><input type="checkbox" id="i-proof" checked> Social Proof</label>
+      <label class="cb"><input type="checkbox" id="i-plan" checked> Delivery Plan</label>
+      <label class="cb"><input type="checkbox" id="i-cta" checked> Call to Action</label>
+      <label class="cb"><input type="checkbox" id="i-q" checked> Smart Question</label>
+      <label class="cb"><input type="checkbox" id="i-rate"> Rate Mention</label>
+    </div>
+  </div>
+
+  <!-- 5. QUICK FILL -->
+  <div class="sec-hd" data-n="5">Quick Fill</div>
+  <div class="qf-grid" style="margin-bottom:6px;">
+    <button class="qf" onclick="qf('mern')">&#9889; MERN Stack</button>
+    <button class="qf" onclick="qf('mobile')">&#128241; Mobile App</button>
+    <button class="qf" onclick="qf('ai')">&#129302; AI / n8n</button>
+    <button class="qf" onclick="qf('rails')">&#128200; Ruby on Rails</button>
+    <button class="qf" onclick="qf('wp')">&#127760; WordPress</button>
+    <button class="qf" onclick="qf('design')">&#127912; UI/UX Figma</button>
+  </div>
+
+</div><!-- /sb-scroll -->
+
+<!-- PINNED FOOTER BUTTONS -->
+<div class="sb-footer">
   <button class="btn-gen" onclick="genPrompt()">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
     Generate AI Prompt
   </button>
-  <button class="btn-pres" onclick="genPres('gemini')">
+  <button class="btn-pres" onclick="genPres()">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
     Generate Presentation Prompt
   </button>
 </div>
-</div>
-<!-- ════════════════ / SIDEBAR ════════════════ -->
 
+</div><!-- /sidebar -->
 
-<!-- ════════════════ MAIN ════════════════ -->
+<!-- ════ MAIN ════ -->
 <div class="main">
 
-  <!-- TABS -->
-  <div class="tabs">
-    <button class="tab active" id="t-letter" onclick="goTab('letter',this)">
-      &#9993; Cover Letter
+  <!-- TABS BAR -->
+  <div class="tabs-bar">
+    <button class="tab on" id="t-letter" onclick="goTab('letter',this)">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Cover Letter
     </button>
     <button class="tab" id="t-prompt" onclick="goTab('prompt',this)">
-      &#128196; AI Prompt
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+      AI Prompt
     </button>
     <button class="tab" id="t-pres" onclick="goTab('pres',this)">
-      &#127912; Presentation
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      Presentation
     </button>
-    <div class="tabs-right">
-      <button class="ai-pill ap-g" onclick="writeWith('gemini')" title="Write with Gemini">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="white"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    <div class="tabs-spacer"></div>
+    <div class="write-bar">
+      <span class="write-lbl">Write with:</span>
+      <button class="wb wg" onclick="writeWith('gemini')" title="Write with Gemini">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="white"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         <span>Gemini</span>
       </button>
-      <button class="ai-pill ap-c" onclick="writeWith('gpt')" title="Write with ChatGPT">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="10"/></svg>
+      <button class="wb wc" onclick="writeWith('gpt')" title="Write with ChatGPT">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="10"/></svg>
         <span>ChatGPT</span>
       </button>
-      <button class="ai-pill ap-a" onclick="writeWith('claude')" title="Write with Claude">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="white"><path d="M12 2L4 7v10l8 5 8-5V7L12 2z"/></svg>
+      <button class="wb wa" onclick="writeWith('claude')" title="Write with Claude">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="white"><path d="M12 2L4 7v10l8 5 8-5V7L12 2z"/></svg>
         <span>Claude</span>
       </button>
-      <button class="ai-pill ap-d" onclick="writeWith('deepseek')" title="Write with DeepSeek">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="white"><path d="M12 2l9 4.5v11L12 22l-9-4.5v-11L12 2z"/></svg>
+      <button class="wb wd" onclick="writeWith('deepseek')" title="Write with DeepSeek">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="white"><path d="M12 2l9 4.5v11L12 22l-9-4.5v-11L12 2z"/></svg>
         <span>DeepSeek</span>
       </button>
     </div>
   </div>
 
-  <!-- ── COVER LETTER PANEL ── -->
-  <div class="panel active" id="p-letter">
-    <div class="cl-panel">
-      <!-- Empty state -->
+  <!-- COVER LETTER PANEL -->
+  <div class="panel on" id="p-letter">
+    <div class="letter-area">
       <div class="empty" id="emptyState">
         <div class="empty-ico">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#B8FF3C" stroke-width="1.5"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#B8FF3C" stroke-width="1.5"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         </div>
         <div class="empty-title">Your cover letter appears here</div>
-        <div class="empty-desc">Paste the job description on the left, pick a template, then click an AI button to write your letter. The prompt is auto-copied — just paste it in the AI tool.</div>
-        <div class="ai-launch">
-          <button class="al-btn al-g" onclick="writeWith('gemini')">&#9733; Write with Gemini</button>
-          <button class="al-btn al-c" onclick="writeWith('gpt')">&#9675; Write with ChatGPT</button>
-          <button class="al-btn al-a" onclick="writeWith('claude')">&#9650; Write with Claude</button>
-          <button class="al-btn al-d" onclick="writeWith('deepseek')">&#9670; Write with DeepSeek</button>
+        <div class="empty-desc">Paste the job description, pick a template, then click one of the AI buttons to write your letter instantly.</div>
+        <div class="write-btns">
+          <button class="wbig g" onclick="writeWith('gemini')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Write with Gemini
+          </button>
+          <button class="wbig c" onclick="writeWith('gpt')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="10"/></svg>
+            Write with ChatGPT
+          </button>
+          <button class="wbig a" onclick="writeWith('claude')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M12 2L4 7v10l8 5 8-5V7L12 2z"/></svg>
+            Write with Claude
+          </button>
+          <button class="wbig d" onclick="writeWith('deepseek')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M12 2l9 4.5v11L12 22l-9-4.5v-11L12 2z"/></svg>
+            Write with DeepSeek
+          </button>
         </div>
-        <div class="empty-tip">After the AI writes your letter, copy it and paste it back here to edit and send.</div>
+        <div class="empty-tip">Prompt is auto-copied — just paste (Ctrl+V) in the AI tool</div>
       </div>
-      <!-- Editable output -->
-      <textarea class="editor" id="letterEditor" placeholder="Your cover letter will appear here after clicking an AI button above. You can also type or paste manually..." oninput="updateStats()"></textarea>
+      <textarea class="editor" id="letterEditor" placeholder="Your cover letter will appear here. You can also type or paste manually..." oninput="updateStats()"></textarea>
     </div>
   </div>
 
-  <!-- ── AI PROMPT PANEL ── -->
+  <!-- AI PROMPT PANEL -->
   <div class="panel" id="p-prompt">
-    <div class="panel-bar">
-      <span>&#128161; Copy this prompt and paste it into your AI tool</span>
-      <button class="pbar-btn" onclick="copyActive()">Copy Prompt</button>
+    <div class="pbar">
+      <span class="pbar-txt">&#128161; Copy this prompt and paste it into your AI tool</span>
+      <button class="pbar-btn" onclick="doCopy()">Copy Prompt</button>
     </div>
-    <textarea class="editor mono" id="promptEditor" placeholder="Click 'Generate AI Prompt' in the sidebar to build your prompt, then paste it into Gemini / ChatGPT / Claude / DeepSeek..." oninput="updateStats()"></textarea>
+    <textarea class="editor mono" id="promptEditor" placeholder="Click 'Generate AI Prompt' in the sidebar to build your prompt. Then copy and paste it into Gemini, ChatGPT, Claude or DeepSeek..." oninput="updateStats()"></textarea>
     <div class="send-row">
       <span class="send-lbl">Open in:</span>
       <button class="snd g" onclick="openAI('gemini')">Gemini</button>
@@ -421,32 +601,30 @@ select option{background:#111811;}
     </div>
   </div>
 
-  <!-- ── PRESENTATION PANEL ── -->
+  <!-- PRESENTATION PANEL -->
   <div class="panel" id="p-pres">
-    <div class="panel-bar">
-      <span>&#127912; 7-slide presentation prompt — paste into any AI tool</span>
-      <button class="pbar-btn" onclick="copyActive()">Copy</button>
+    <div class="pbar">
+      <span class="pbar-txt">&#127912; 7-slide presentation prompt — paste into any AI tool</span>
+      <button class="pbar-btn" onclick="doCopy()">Copy</button>
     </div>
-    <textarea class="editor mono" id="presEditor" placeholder="Click 'Generate Presentation Prompt' in the sidebar to build your slide deck prompt..." readonly></textarea>
+    <textarea class="editor mono" id="presEditor" placeholder="Click 'Generate Presentation Prompt' in the sidebar to create a 7-slide deck prompt..." readonly></textarea>
     <div class="send-row">
-      <button class="snd g" style="flex:1" onclick="openPres('gemini')">Open in Gemini</button>
-      <button class="snd c" style="flex:1" onclick="openPres('gpt')">Open in ChatGPT</button>
-      <button class="snd a" style="flex:1" onclick="openPres('claude')">Open in Claude</button>
+      <button class="snd g" style="flex:1" onclick="presTo('gemini')">Open in Gemini</button>
+      <button class="snd c" style="flex:1" onclick="presTo('gpt')">Open in ChatGPT</button>
+      <button class="snd a" style="flex:1" onclick="presTo('claude')">Open in Claude</button>
     </div>
   </div>
 
-  <!-- STATS -->
+  <!-- STATS BAR -->
   <div class="stats">
-    <div class="st">Words: <b id="sWords">0</b></div>
-    <div class="st">Chars: <b id="sChars">0</b></div>
-    <div class="st">Lines: <b id="sLines">0</b></div>
-    <div class="st" style="margin-left:auto">Read: <b id="sRead">0s</b></div>
+    <div class="st">Words: <b id="sW">0</b></div>
+    <div class="st">Chars: <b id="sC">0</b></div>
+    <div class="st">Lines: <b id="sL">0</b></div>
+    <div class="st" style="margin-left:auto">Read: <b id="sR">0s</b></div>
   </div>
 
-</div>
-<!-- ════════════════ / MAIN ════════════════ -->
-
-</div><!-- /layout -->
+</div><!-- /main -->
+</div><!-- /app -->
 
 <!-- FLASH -->
 <div class="flash" id="flash">&#10003; Done!</div>
@@ -454,24 +632,24 @@ select option{background:#111811;}
 <script>
 var tpl  = 'solver';
 var tone = 'professional';
+var curTab = 'letter';
 var AI_URLS = {
   gemini:   'https://gemini.google.com/app',
   gpt:      'https://chat.openai.com',
   claude:   'https://claude.ai/new',
   deepseek: 'https://chat.deepseek.com'
 };
-var QF_DATA = {
-  mern:   {title:'MERN Stack Developer for SaaS Web App',desc:'We need an experienced MERN Stack developer to build a SaaS platform with user authentication, real-time dashboard, REST APIs, Stripe payments and MongoDB. AWS deployment.',skills:'MongoDB, Express.js, React.js, Node.js, AWS, Stripe, JWT',budget:'$3,000-$8,000',timeline:'5-8 weeks',cat:'Full-Stack Web'},
-  mobile: {title:'React Native Developer for iOS & Android App',desc:'Looking for a React Native developer to build a cross-platform app with Firebase authentication, push notifications, real-time chat and a clean modern UI.',skills:'React Native, iOS, Android, Firebase, Redux, Expo',budget:'$4,000-$10,000',timeline:'8-12 weeks',cat:'Mobile App'},
-  ai:     {title:'AI Automation Expert for Business Workflow',desc:'We need someone to automate business workflows using n8n or Make.com, integrate GPT-4, build a LangChain chatbot and create automated lead nurturing.',skills:'LangChain, OpenAI, n8n, Python, Zapier, GoHighLevel',budget:'$2,000-$6,000',timeline:'3-6 weeks',cat:'AI & Automation'},
-  rails:  {title:'Ruby on Rails Developer for API Backend',desc:'Looking for a Rails expert to build a RESTful API backend with PostgreSQL, Sidekiq background jobs and Stripe payment processing.',skills:'Ruby on Rails, PostgreSQL, Sidekiq, Stripe, RSpec, AWS',budget:'$4,000-$9,000',timeline:'6-10 weeks',cat:'Ruby on Rails'},
-  wp:     {title:'WordPress Developer for Business Website',desc:'We need an experienced WordPress developer to redesign our site using Elementor, integrate WooCommerce, optimize for SEO and speed.',skills:'WordPress, Elementor, WooCommerce, PHP, SEO, CSS',budget:'$1,000-$3,000',timeline:'2-4 weeks',cat:'WordPress/Shopify'},
-  design: {title:'UI/UX Designer for SaaS Dashboard in Figma',desc:'We need a UI/UX designer to redesign our SaaS dashboard, create a design system, improve user flows and deliver production-ready Figma files.',skills:'Figma, UI Design, UX Research, Design Systems, Prototyping',budget:'$1,500-$4,000',timeline:'3-5 weeks',cat:'UI/UX Design'}
+var QF = {
+  mern:   {t:'MERN Stack Developer for SaaS Web App',d:'We need an experienced MERN Stack developer to build a SaaS platform with user authentication, real-time dashboard, REST APIs, Stripe payments and MongoDB. AWS deployment.',sk:'MongoDB, Express.js, React.js, Node.js, AWS, Stripe, JWT',b:'$3,000-$8,000',tl:'5-8 weeks',c:'Full-Stack Web'},
+  mobile: {t:'React Native Developer for iOS & Android App',d:'Looking for a React Native developer to build a cross-platform app with Firebase auth, push notifications, real-time chat and a clean modern UI.',sk:'React Native, iOS, Android, Firebase, Redux, Expo',b:'$4,000-$10,000',tl:'8-12 weeks',c:'Mobile App'},
+  ai:     {t:'AI Automation Expert for Business Workflow',d:'We need someone to automate business workflows using n8n or Make.com, integrate GPT-4, build a LangChain chatbot and create automated lead nurturing.',sk:'LangChain, OpenAI, n8n, Python, Zapier, GoHighLevel',b:'$2,000-$6,000',tl:'3-6 weeks',c:'AI & Automation'},
+  rails:  {t:'Ruby on Rails Developer for API Backend',d:'Looking for a Rails expert to build a RESTful API with PostgreSQL, Sidekiq background jobs and Stripe payment processing.',sk:'Ruby on Rails, PostgreSQL, Sidekiq, Stripe, RSpec, AWS',b:'$4,000-$9,000',tl:'6-10 weeks',c:'Ruby on Rails'},
+  wp:     {t:'WordPress Developer for Business Website',d:'We need a WordPress developer to redesign our site using Elementor, integrate WooCommerce, optimize for SEO and speed.',sk:'WordPress, Elementor, WooCommerce, PHP, SEO, CSS',b:'$1,000-$3,000',tl:'2-4 weeks',c:'WordPress/Shopify'},
+  design: {t:'UI/UX Designer for SaaS Dashboard in Figma',d:'We need a UI/UX designer to redesign our SaaS dashboard, create a design system, improve user flows and deliver production-ready Figma files.',sk:'Figma, UI Design, UX Research, Design Systems, Prototyping',b:'$1,500-$4,000',tl:'3-5 weeks',c:'UI/UX Design'}
 };
 
-//  HELPERS 
-function gv(id){ var el=document.getElementById(id); return el ? el.value.trim() : ''; }
-function gc(id){ var el=document.getElementById(id); return el ? el.checked : false; }
+function gv(id){ var e=document.getElementById(id); return e?e.value.trim():''; }
+function gc(id){ var e=document.getElementById(id); return e?e.checked:false; }
 
 function flash(msg){
   var f=document.getElementById('flash');
@@ -480,160 +658,120 @@ function flash(msg){
 }
 
 function updateStats(){
-  var activePanel = document.querySelector('.panel.active');
-  var ta = activePanel ? activePanel.querySelector('textarea') : null;
+  var tab = document.getElementById('p-'+curTab);
+  var ta  = tab ? tab.querySelector('textarea') : null;
   var txt = ta ? ta.value : '';
   var w = txt.trim() ? txt.trim().split(/\s+/).length : 0;
-  document.getElementById('sWords').textContent = w;
-  document.getElementById('sChars').textContent = txt.length;
-  document.getElementById('sLines').textContent = txt.split('\n').length;
-  document.getElementById('sRead').textContent  = Math.ceil(w/3)<60 ? Math.ceil(w/3)+'s' : Math.ceil(w/180)+'m';
-  document.getElementById('navStat').textContent = w+' words';
-  var empty = document.getElementById('emptyState');
-  if(empty){
-    var le = document.getElementById('letterEditor');
-    if(le && le.value.trim()) empty.classList.add('hidden');
-    else empty.classList.remove('hidden');
-  }
+  document.getElementById('sW').textContent = w;
+  document.getElementById('sC').textContent = txt.length;
+  document.getElementById('sL').textContent = txt.split('\n').length;
+  document.getElementById('sR').textContent = Math.ceil(w/3)<60 ? Math.ceil(w/3)+'s' : Math.ceil(w/180)+'m';
+  document.getElementById('navWc').textContent = w+' words';
+  var es = document.getElementById('emptyState');
+  var le = document.getElementById('letterEditor');
+  if(es && le) { if(le.value.trim()) es.classList.add('gone'); else es.classList.remove('gone'); }
 }
 
-//  UI CONTROLS 
-function setTpl(el, key){
-  tpl = key;
+function setTpl(el,key){
+  tpl=key;
   document.querySelectorAll('.tc').forEach(function(c){c.classList.remove('active');});
   el.classList.add('active');
 }
-
-function setTone(el, t){
-  tone = t;
-  document.querySelectorAll('.tone-pill').forEach(function(p){p.classList.remove('active');});
-  el.classList.add('active');
+function setTone(el,t){
+  tone=t;
+  document.querySelectorAll('.tp').forEach(function(p){p.classList.remove('on');});
+  el.classList.add('on');
 }
-
 function qf(key){
-  var d = QF_DATA[key]; if(!d) return;
-  document.getElementById('jobTitle').value  = d.title;
-  document.getElementById('jobDesc').value   = d.desc;
-  document.getElementById('skills').value    = d.skills;
-  document.getElementById('budget').value    = d.budget;
-  document.getElementById('timeline').value  = d.timeline;
+  var d=QF[key]; if(!d) return;
+  document.getElementById('jobTitle').value = d.t;
+  document.getElementById('jobDesc').value  = d.d;
+  document.getElementById('skills').value   = d.sk;
+  document.getElementById('budget').value   = d.b;
+  document.getElementById('timeline').value = d.tl;
   var s=document.getElementById('category');
-  for(var i=0;i<s.options.length;i++){if(s.options[i].text===d.cat){s.selectedIndex=i;break;}}
-  flash('Quick fill applied! Click an AI button to write your letter.');
+  for(var i=0;i<s.options.length;i++){if(s.options[i].text===d.c){s.selectedIndex=i;break;}}
+  flash('Quick fill applied -- click an AI button to write!');
 }
-
-function goTab(name, el){
-  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
-  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
-  el.classList.add('active');
-  document.getElementById('p-'+name).classList.add('active');
+function goTab(name,el){
+  curTab=name;
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on');});
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});
+  el.classList.add('on');
+  document.getElementById('p-'+name).classList.add('on');
   updateStats();
 }
-
-function copyActive(){
-  var activePanel = document.querySelector('.panel.active');
-  var ta = activePanel ? activePanel.querySelector('textarea') : null;
+function doCopy(){
+  var tab=document.getElementById('p-'+curTab);
+  var ta=tab?tab.querySelector('textarea'):null;
   if(!ta||!ta.value.trim()){flash('Nothing to copy yet!');return;}
-  navigator.clipboard.writeText(ta.value).then(function(){flash('Copied to clipboard!');}).catch(function(){
-    ta.select(); document.execCommand('copy'); flash('Copied!');
-  });
+  navigator.clipboard.writeText(ta.value).then(function(){flash('Copied!');}).catch(function(){ta.select();document.execCommand('copy');flash('Copied!');});
+}
+function doClear(){
+  var le=document.getElementById('letterEditor');
+  if(le){le.value='';updateStats();}
+  var es=document.getElementById('emptyState');
+  if(es) es.classList.remove('gone');
 }
 
-//  PROMPT BUILDER 
 function buildPrompt(){
-  var title   = gv('jobTitle');
-  var desc    = gv('jobDesc');
-  var plat    = gv('platform');
-  var budget  = gv('budget');
-  var tline   = gv('timeline');
-  var cat     = gv('category');
-  var name    = gv('yourName');
-  var skills  = gv('skills');
-  var exp     = gv('experience');
-  var relProj = gv('relProject');
-  var len     = gv('length');
-  var lang    = gv('language');
-  var wt = len==='short'?'150-200':len==='medium'?'280-350':'400-500';
-
-  var tplText = '';
+  var title=gv('jobTitle'), desc=gv('jobDesc'), plat=gv('platform');
+  var bud=gv('budget'), tl=gv('timeline'), cat=gv('category');
+  var name=gv('yourName'), sk=gv('skills'), exp=gv('experience'), rel=gv('relProject');
+  var len=gv('length'), lang=gv('language');
+  var wt=len==='short'?'150-200':len==='medium'?'280-350':'400-500';
+  var tplT='';
   if(tpl==='solver'){
-    tplText = 'OPENING TEMPLATE TO USE (Problem-Solver Hook):\n"It looks like your biggest challenge with [project] is [specific problem from the job post]. I have reviewed your requirements in detail, and we can solve this by [specific solution] to ensure you achieve [client goal]."\nReplace all brackets with REAL specifics from the job description.\n\n';
+    tplT='OPEN WITH THIS TEMPLATE (Problem-Solver Hook):\n"It looks like your biggest challenge with [project] is [specific problem]. I reviewed your requirements and can solve this by [specific solution] to ensure you achieve [goal]."\nFill ALL brackets with REAL specifics from the job description.\n\n';
   } else if(tpl==='highticket'){
-    tplText = 'TEMPLATE TO USE (High-Ticket Package):\nAfter a strong opening hook, include:\n"I provide a complete solution, not just a basic deliverable. My quote includes:\n* The Core Build: [main deliverable]\n* Strategic Add-on: [bonus value: deployment, audit, etc.]\n* Extended Support: 30 days of free technical maintenance post-launch\nThis ensures your project is not just delivered but built for growth."\n\n';
+    tplT='USE THIS TEMPLATE (High-Ticket Package):\nAfter a strong opening hook, include:\n"I provide a complete solution -- not just a basic deliverable. My package includes:\n* Core Build: [main deliverable]\n* Strategic Add-on: [bonus value]\n* 30-day Free Support post-launch\nThis ensures your project is built for growth."\n\n';
   } else {
-    tplText = 'TEMPLATE TO USE (The Roadmap):\nAfter a strong opening hook, include:\n"Here is my proven 3-step process for your project:\n1. Discovery: Defining deliverables, specs and milestones\n2. Execution: Weekly updates with a live staging link for your review\n3. Handover: Final testing, video walkthrough and full documentation\nThis guarantees a smooth launch with zero surprises."\n\n';
+    tplT='USE THIS TEMPLATE (Roadmap):\nAfter a strong opening, include:\n"Here is my 3-step process:\n1. Discovery: Specs, deliverables and milestones\n2. Execution: Weekly updates with live staging link\n3. Handover: Testing, walkthrough and documentation\nZero surprises."\n\n';
   }
-
-  var inclusions = [];
-  if(gc('i-hook'))  inclusions.push('a compelling opening that shows you read and understood the specific job');
-  if(gc('i-proof')) inclusions.push('1-2 specific proof points: relevant past projects, numbers or results');
-  if(gc('i-plan'))  inclusions.push('a brief but specific delivery plan or approach');
-  if(gc('i-cta'))   inclusions.push('a strong closing that invites the client to reply today');
-  if(gc('i-q'))     inclusions.push('one smart discovery question showing deep understanding of their project');
-  if(gc('i-rate'))  inclusions.push('a natural mention of the budget or rate');
-
-  return (
-    'You are a world-class '+plat+' proposal writer with a 70%+ win rate.\n' +
-    'Write a '+tone+', high-converting cover letter for the job below.\n\n' +
-    '== JOB ==\n' +
-    'Title: '+(title||'[Title]')+'\n' +
-    (budget  ? 'Budget: '+budget+'\n'   : '') +
-    (tline   ? 'Timeline: '+tline+'\n' : '') +
-    'Category: '+cat+' | Platform: '+plat+'\n\n' +
-    'Job Description:\n'+(desc||'[Paste job description here]')+'\n\n' +
-    '== FREELANCER ==\n' +
-    'Name: '+(name||'Abdullah')+'\n' +
-    'Skills: '+(skills||'[Skills]')+'\n' +
-    'Experience: '+(exp||'[Experience]')+'\n' +
-    (relProj ? 'Relevant Project: '+relProj+'\n' : '') + '\n' +
-    '== '+tplText +
-    '== REQUIREMENTS ==\n' +
-    'Language: '+lang+' | Tone: '+tone+' | Length: '+wt+' words\n' +
-    (inclusions.length ? 'Must include:\n'+inclusions.map(function(i){return '  - '+i;}).join('\n')+'\n' : '') + '\n' +
-    '== RULES (follow strictly) ==\n' +
-    '1. NEVER start with "I" or your own name - open with the client or their problem\n' +
-    '2. Reference at least 2-3 SPECIFIC details from the job description\n' +
-    '3. NO generic buzzwords: "passionate", "hard-working", "dedicated", "reliable"\n' +
-    '4. Short paragraphs only (2-4 lines) - easy to scan on mobile\n' +
-    '5. End with a specific next step, not "looking forward to hearing from you"\n' +
-    '6. Make the FIRST sentence so strong the client has to keep reading\n\n' +
-    'Write the complete, ready-to-send cover letter now:'
-  );
+  var inc=[];
+  if(gc('i-hook'))  inc.push('a compelling opening that shows you READ the job -- reference specific details');
+  if(gc('i-proof')) inc.push('1-2 specific proof points: past projects, numbers or relevant results');
+  if(gc('i-plan'))  inc.push('a brief specific delivery plan or approach');
+  if(gc('i-cta'))   inc.push('a strong closing that invites the client to reply today');
+  if(gc('i-q'))     inc.push('one smart discovery question showing deep understanding of their project');
+  if(gc('i-rate'))  inc.push('a natural mention of the budget or rate');
+  return 'You are a world-class '+plat+' proposal writer with a 70%+ win rate.\nWrite a '+tone+', high-converting cover letter for the job below.\n\n'+
+    '== JOB ==\nTitle: '+(title||'[Title]')+'\n'+(bud?'Budget: '+bud+'\n':'')+(tl?'Timeline: '+tl+'\n':'')+'Category: '+cat+'\nPlatform: '+plat+'\n\nJob Description:\n'+(desc||'[Paste job description here]')+'\n\n'+
+    '== FREELANCER ==\nName: '+(name||'Abdullah')+'\nSkills: '+(sk||'[Skills]')+'\nExperience: '+(exp||'[Experience]')+'\n'+(rel?'Relevant Project: '+rel+'\n':'')+'\n'+
+    '== TEMPLATE TO USE ==\n'+tplT+
+    '== REQUIREMENTS ==\nLanguage: '+lang+' | Tone: '+tone+' | Length: '+wt+' words\n'+(inc.length?'Must include:\n'+inc.map(function(i){return '  - '+i;}).join('\n')+'\n':'')+'\n'+
+    '== NON-NEGOTIABLE RULES ==\n1. NEVER start with "I" or your name -- open with the client or their problem\n2. Reference 2-3 SPECIFIC details from the job description\n3. NO buzzwords: "passionate", "hard-working", "dedicated"\n4. Short paragraphs (2-4 lines) -- easy to read on mobile\n5. End with a specific next step, not "looking forward to hearing from you"\n6. First sentence must make the client HAVE to keep reading\n\nWrite the complete, ready-to-send cover letter now:';
 }
 
-//  MAIN ACTIONS 
 function genPrompt(){
-  var desc = document.getElementById('jobDesc');
-  if(!desc||!desc.value.trim()){
-    desc.focus(); desc.style.borderColor='rgba(255,92,92,0.5)';
-    setTimeout(function(){desc.style.borderColor='';},2000);
-    flash('Please paste the job description first!');
-    return;
+  var jd=document.getElementById('jobDesc');
+  if(!jd||!jd.value.trim()){
+    jd.focus(); jd.style.borderColor='rgba(255,92,92,0.5)';
+    setTimeout(function(){jd.style.borderColor='';},2000);
+    flash('Please paste the job description first!'); return;
   }
-  var p = buildPrompt();
-  document.getElementById('promptEditor').value = p;
-  goTab('prompt', document.getElementById('t-prompt'));
-  flash('Prompt ready! Click an AI button to open and paste.');
+  var p=buildPrompt();
+  document.getElementById('promptEditor').value=p;
+  goTab('prompt',document.getElementById('t-prompt'));
+  flash('Prompt ready -- click an AI button to open!');
 }
 
 function writeWith(ai){
-  var desc = document.getElementById('jobDesc');
-  if(!desc||!desc.value.trim()){
-    desc.focus(); desc.style.borderColor='rgba(255,92,92,0.5)';
-    setTimeout(function(){desc.style.borderColor='';},2000);
-    flash('Please paste the job description first!');
-    return;
+  var jd=document.getElementById('jobDesc');
+  if(!jd||!jd.value.trim()){
+    jd.focus(); jd.style.borderColor='rgba(255,92,92,0.5)';
+    setTimeout(function(){jd.style.borderColor='';},2000);
+    flash('Please paste the job description first!'); return;
   }
-  var p = buildPrompt();
-  document.getElementById('promptEditor').value = p;
+  var p=buildPrompt();
+  document.getElementById('promptEditor').value=p;
   navigator.clipboard.writeText(p).catch(function(){});
-  // Show letter tab
-  goTab('letter', document.getElementById('t-letter'));
-  var le = document.getElementById('letterEditor');
-  var empty = document.getElementById('emptyState');
-  if(le && !le.value.trim()){
-    le.value = 'Prompt copied!\n\nThe '+ai.charAt(0).toUpperCase()+ai.slice(1)+' tab is opening now.\nPaste the prompt there (Ctrl+V) and the AI will write your full cover letter.\n\nOnce done:\n1. Copy the letter from the AI tool\n2. Come back and paste it here\n3. Edit if needed and send!';
-    if(empty) empty.classList.add('hidden');
+  goTab('letter',document.getElementById('t-letter'));
+  var le=document.getElementById('letterEditor');
+  var es=document.getElementById('emptyState');
+  if(le&&!le.value.trim()){
+    le.value='Prompt copied to clipboard!\n\n'+ai.charAt(0).toUpperCase()+ai.slice(1)+' is opening in a new tab.\nPaste (Ctrl+V) and the AI will write your full cover letter.\n\nOnce done:\n1. Copy the letter from the AI tool\n2. Come back and paste it here (replacing this text)\n3. Edit and send!';
+    if(es) es.classList.add('gone');
     updateStats();
   }
   flash('Prompt copied! Opening '+ai.charAt(0).toUpperCase()+ai.slice(1)+'...');
@@ -641,70 +779,402 @@ function writeWith(ai){
 }
 
 function openAI(ai){
-  var p = document.getElementById('promptEditor').value.trim();
-  if(!p){ p = buildPrompt(); document.getElementById('promptEditor').value = p; }
+  var pe=document.getElementById('promptEditor');
+  var p=pe?pe.value.trim():'';
+  if(!p){p=buildPrompt();if(pe)pe.value=p;}
   navigator.clipboard.writeText(p).catch(function(){});
   flash('Prompt copied! Opening '+ai+'...');
   setTimeout(function(){window.open(AI_URLS[ai],'_blank');},500);
 }
 
-function genPres(ai){
-  var title = gv('jobTitle');
-  var desc  = gv('jobDesc');
-  var cat   = gv('category');
-  var bud   = gv('budget');
-  var tl    = gv('timeline');
-  var name  = gv('yourName');
-  var sk    = gv('skills');
-
-  var slides = [
-    'Slide 1 - COVER: "Project Proposal: '+(title||'[Project]')+'" | Prepared by '+name+' - Bidder Experts | Dark premium design with logo',
-    'Slide 2 - I UNDERSTAND YOUR PROBLEM: Restate their core challenge in 1-2 sentences. Then list 2-3 specific pain points from the job description.',
-    'Slide 3 - MY SOLUTION: 3-4 specific deliverables tailored to THIS project. State your unique approach and why it works.',
-    'Slide 4 - 3-STEP ROADMAP: Step 1: Discovery & Planning | Step 2: Development with weekly updates + staging link | Step 3: Testing, handover & documentation',
-    'Slide 5 - WHY ME: Stats - "100+ contracts | $500K+ earned | 5.0 Star | 95%+ JSS". Include 1 most relevant past project with result.',
-    bud ? 'Slide 6 - INVESTMENT: Package breakdown for '+bud+' | Includes: core build + testing + docs + 30-day support | Timeline: '+(tl||'TBD') : '',
-    'Slide 7 - NEXT STEPS: "1. Reply to this proposal  2. 15-min discovery call  3. We start building" | WhatsApp: +92 321 4900839 | Abdullahsohail63@gmail.com'
+function genPres(){
+  var title=gv('jobTitle'), desc=gv('jobDesc'), cat=gv('category');
+  var bud=gv('budget'), tl=gv('timeline'), name=gv('yourName'), sk=gv('skills');
+  var slides=[
+    'Slide 1 - COVER: "Project Proposal: '+title+'" | By '+name+' - Bidder Experts | Dark premium design',
+    'Slide 2 - I UNDERSTAND YOUR PROBLEM: Restate their core challenge + 2-3 specific pain points from the job',
+    'Slide 3 - MY SOLUTION: 3-4 specific deliverables for THIS project + unique approach',
+    'Slide 4 - 3-STEP ROADMAP: Discovery -> Development (weekly updates) -> Handover + docs',
+    'Slide 5 - WHY ME: 100+ contracts, $500K+ earned, 5.0 star + 1 most relevant past project',
+    bud?'Slide 6 - INVESTMENT: Package for '+bud+' | Core build + testing + docs + 30-day support | '+tl:'',
+    'Slide 7 - NEXT STEPS: Reply -> 15-min call -> Start | WhatsApp: +92 321 4900839'
   ].filter(function(s){return s;}).join('\n');
-
-  var p =
-    'Create a SHORT, VISUALLY ATTRACTIVE freelancer presentation (5-7 slides) for a client project.\n\n' +
-    'PROJECT: '+(title||'[Project]')+'\n' +
-    'CATEGORY: '+cat+'\n' +
-    (bud ? 'BUDGET: '+bud+'\n' : '') +
-    (tl  ? 'TIMELINE: '+tl+'\n' : '') +
-    'JOB DESCRIPTION:\n'+(desc||'[description]')+'\n\n' +
-    'FREELANCER: '+name+' | Skills: '+sk+'\n' +
-    'Stats: 100+ Upwork contracts, $500K+ earned, 5.0 star, 95%+ JSS\n\n' +
-    'SLIDES:\n'+slides+'\n\n' +
-    'DESIGN RULES:\n' +
-    '- Dark background (#0A0E0A), ONE lime/green accent color\n' +
-    '- Clean minimal design - NO clip art, NO stock photos\n' +
-    '- Bold large headlines, short bullets (max 6 words per bullet)\n' +
-    '- Each slide: one strong visual element (icon, stat callout, or simple graphic)\n' +
-    '- Readable in 10 seconds. NO walls of text.\n\n' +
-    'Output each slide clearly as "SLIDE 1:", "SLIDE 2:" etc.\n' +
-    'Make it look like premium agency design, not generic AI output.';
-
-  var presEl = document.getElementById('presEditor');
-  presEl.removeAttribute('readonly');
-  presEl.value = p;
-  presEl.setAttribute('readonly','');
-  goTab('pres', document.getElementById('t-pres'));
+  var p='Create a SHORT, ATTRACTIVE freelancer presentation (5-7 slides).\n\n'+
+    'PROJECT: '+(title||'[Project]')+'\nCATEGORY: '+cat+'\n'+(bud?'BUDGET: '+bud+'\n':'')+(tl?'TIMELINE: '+tl+'\n':'')+
+    'JOB:\n'+(desc||'[Description]')+'\n\nFREELANCER: '+name+'\nSkills: '+sk+'\nStats: 100+ contracts, $500K+, 5.0 star, 95%+ JSS\n\n'+
+    'SLIDES:\n'+slides+'\n\n'+
+    'DESIGN: Dark bg (#09100A), lime/green accent, bold headlines, max 6 words per bullet, 1 visual per slide.\n'+
+    'Output as "SLIDE 1:", "SLIDE 2:" etc. Premium quality -- not generic.';
+  var pe=document.getElementById('presEditor');
+  pe.removeAttribute('readonly'); pe.value=p; pe.setAttribute('readonly','');
   navigator.clipboard.writeText(p).catch(function(){});
-  if(ai && AI_URLS[ai]){
-    flash('Presentation prompt copied! Opening '+ai+'...');
-    setTimeout(function(){window.open(AI_URLS[ai],'_blank');},500);
-  } else {
-    flash('Presentation prompt generated and copied!');
-  }
+  goTab('pres',document.getElementById('t-pres'));
+  flash('Presentation prompt ready! Choose an AI to open.');
 }
 
-function openPres(ai){
-  genPres(ai);
+function presTo(ai){
+  genPres();
+  setTimeout(function(){window.open(AI_URLS[ai],'_blank');},600);
 }
 
 updateStats();
+
+// -- PROFILES DATABASE --
+var PROFILES = {
+  abdullah: {
+    name: 'Muhammad Abdullah Sohail',
+    title: 'CEO & Lead Developer -- Bidder Experts',
+    skills: 'MERN Stack, React Native, Ruby on Rails, AI/LLM, LangChain, n8n, Node.js, Python, Figma, Upwork Lead Generation',
+    experience: '100+ Upwork contracts, $500K+ earned, 5.0 star, 95%+ JSS. 14-person team. CEO of Bidder Experts, Lahore.',
+    categories: ['mern','mobile','ai','rails','design','general','blockchain','lead-gen'],
+    upwork: 'https://www.upwork.com/freelancers/~abdullahsohail'
+  },
+  moeed: {
+    name: 'Muhammad Abdul Moeed',
+    title: 'MERN Stack Developer -- $40K+ Earned',
+    skills: 'MongoDB, Express.js, React.js, Node.js, Next.js, TypeScript, TailwindCSS, AWS, PostgreSQL, REST APIs',
+    experience: '$40K+ earned on Upwork. MERN Stack specialist with 4+ years. Full-stack SaaS, dashboards, e-commerce. GitHub: github.com/MuhammadAbdulMoeed',
+    categories: ['mern','fullstack','ecommerce','saas'],
+    upwork: 'https://www.upwork.com',
+    portfolioProjects: ['The Trade Core (Hiring Marketplace -- React, Node, TypeScript)', 'Ava Health (Healthcare -- React, Node, TypeScript)', 'Synaply (Sales Management -- React, Node, TypeScript)', 'Rawcaster (Social Media Platform -- React, Node, AWS)', 'Track Hero (Analytics -- React, Node, PostgreSQL)', 'Illumy (Messaging Platform -- React, Node, MongoDB)', 'Anchor AI (Project Management -- React, Node, Firebase)', 'ENSEK (SaaS Energy -- MERN)', 'Point.me (Travel Rewards -- Next.js, Node)', 'PayNearMe (Fintech -- Node, Next.js, MongoDB)']
+  },
+  hassan: {
+    name: 'Hassan Nawaz',
+    title: 'MERN Stack Developer -- $76K+ Earned',
+    skills: 'React.js, Node.js, Next.js, MongoDB, TypeScript, Express.js, TailwindCSS, Redux, AWS, Socket.io',
+    experience: '$76K+ earned on Upwork. 5+ years full-stack. Real-time apps, SaaS platforms, streaming platforms. GitHub: github.com/Hassan663',
+    categories: ['mern','fullstack','realtime','saas','streaming'],
+    upwork: 'https://www.upwork.com',
+    portfolioProjects: ['Rawcaster (Live Streaming -- React, Node, AWS Chime)', 'Illumy (Messaging -- React, Node, Socket.io)', 'Track Hero (Analytics -- React, PostgreSQL)', 'Teamly (Employee Engagement -- React, Node, AWS)', 'Hipcamp (Booking Platform -- Node, React, Redux)', 'Peerspace (Venue Booking -- Next.js, React, Stripe)', 'Fat Llama (Sharing Platform -- Next.js, React)', 'Dayaxe (Booking -- Next.js, Stripe, Redux-Saga)']
+  },
+  umair: {
+    name: 'Muhammad Umair Raza',
+    title: 'Ruby on Rails & React Full-Stack -- $300K+ Earned',
+    skills: 'Ruby on Rails, React.js, PostgreSQL, Sidekiq, AWS, Redis, RSpec, REST API, Stripe, Heroku',
+    experience: '$300K+ earned on Upwork. 7+ years Ruby on Rails expert. SaaS backends, APIs, marketplace platforms.',
+    categories: ['rails','backend','saas','api','marketplace'],
+    portfolioProjects: ['Codecademy (Education -- Rails, React, PostgreSQL)', 'Zapier (Automation -- Django, React, AWS)', 'Toggl (Time Tracking -- Rails, React, PostgreSQL)', 'Feedr UK (Food & Catering -- Rails, PostgreSQL)', 'Packlane (Custom Packaging SaaS -- React, Node, MongoDB)']
+  },
+  hafiz: {
+    name: 'Hafiz Khuram',
+    title: 'Ruby on Rails / MERN Expert -- $350K+ Earned',
+    skills: 'Ruby on Rails, MERN Stack, PostgreSQL, MySQL, Sidekiq, AWS, Redis, Stripe, Twilio, RSpec, Docker',
+    experience: '$350K+ earned on Upwork. Top-rated Rails & MERN expert. 8+ years. Built $70K+ projects. SaaS, fintech, logistics.',
+    categories: ['rails','mern','fintech','saas','logistics','api'],
+    portfolioProjects: ['Foreign Crew Platform ($70,565 -- Rails)', 'EdTech MVP ($24,400 -- Rails)', 'RoR API Platform ($23,908)', 'Rafed Logistics (MERN)', 'Quizilla Pro (MERN)', 'Contexiaa (MERN, analytics)']
+  },
+  taha: {
+    name: 'Taha Atiq',
+    title: 'WordPress / Shopify / SEO Expert -- $60K+ Earned',
+    skills: 'WordPress, WooCommerce, Shopify, Elementor, PHP, SEO, CSS, jQuery, WPBakery, ACF, Page Speed Optimization',
+    experience: '$60K+ earned on Upwork. 5+ years WordPress & Shopify. 50+ ecommerce stores built. SEO optimization specialist.',
+    categories: ['wordpress','shopify','ecommerce','seo','cms'],
+    portfolioProjects: ['M2M Enterprises (WordPress, WooCommerce)', 'Hypothesis (WordPress Study Portal)', 'Vox City / Tours / Mundi (WordPress Tourism)', 'Rome Pantheon (WordPress)', 'MediaWizz Marketing (WordPress)', 'Skills Valley (WordPress Education)', 'BuildMeApp (WordPress)', 'Mock Exam Centre (WordPress)', 'Grizlis (WordPress Ecommerce)', 'RDX Sports, Kings Fiore, Jeeva Textiles (Shopify/WooCommerce)']
+  },
+  salman: {
+    name: 'Salman Ali',
+    title: 'WordPress Expert -- TOP 3% on Upwork -- $85K+ Earned',
+    skills: 'WordPress, Elementor, Divi, WooCommerce, PHP, CSS, Gutenberg, Webflow, SEO, Performance Optimization, Custom Themes',
+    experience: 'TOP 3% Upwork badge. $85K+ earned. 6+ years WordPress. Complex custom themes, high-performance sites, enterprise WordPress.',
+    categories: ['wordpress','webflow','cms','design','ecommerce'],
+    portfolioProjects: ['Gleneagles (Luxury Resort)', 'WeddingWire, PartySlate (WordPress Event)', 'Atlas Obscura (WordPress + React)', 'Culture Trip (WordPress Travel)', 'National Onsite (Webflow)', 'ADCUTIT (Webflow)', 'Surge Digital Marketing (WordPress)', 'Multiple Media Agency Sites']
+  },
+  husnain: {
+    name: 'Husnain Ahmad',
+    title: 'Voice AI / LLM / SaaS Developer -- $120K+ Earned',
+    skills: 'LangChain, OpenAI, Python, Node.js, React, Voice AI, Twilio, n8n, SaaS, LLM Integration, RAG, Pinecone, FastAPI',
+    experience: '$120K+ earned. Voice AI & LLM specialist. Built $36K Voice AI CRM and $17.5K GenAI Platform. AI automation expert.',
+    categories: ['ai','voice-ai','llm','automation','saas','python'],
+    portfolioProjects: ['Voice AI CRM ($36,000 -- Voice AI, LangChain)', 'GenAI Platform ($17,500 -- LLM, Python)', 'Anchor AI (React, Node, Firebase)', 'AI Automation workflows (n8n, Zapier)']
+  },
+  shahzeb: {
+    name: 'Shahzeb Khalid',
+    title: 'AI / SaaS / LangChain Developer -- $35K+ Earned',
+    skills: 'LangChain, OpenAI, Python, React, Node.js, SaaS, RAG, Pinecone, FastAPI, AWS, PostgreSQL, Stripe',
+    experience: '$35K+ earned. AI & SaaS developer. LangChain chatbots, RAG systems, AI-powered SaaS platforms.',
+    categories: ['ai','langchain','saas','python','rag'],
+    portfolioProjects: ['React SaaS Platform ($9,540)', 'LangChain RAG Systems', 'AI Chatbot integrations', 'FastAPI backends']
+  },
+  umar: {
+    name: 'Umar Farooq',
+    title: 'React / Node / Ruby Developer -- $28K+ Earned',
+    skills: 'React.js, Node.js, Ruby on Rails, TypeScript, PostgreSQL, MongoDB, REST APIs, TailwindCSS, AWS',
+    experience: '$28K+ on Upwork. Full-stack developer with React, Node and Rails experience. Clean code, fast delivery.',
+    categories: ['mern','rails','fullstack'],
+    portfolioProjects: ['Full-stack web applications', 'React dashboards', 'Node APIs']
+  },
+  daniyal: {
+    name: 'Daniyal Khalid',
+    title: 'Healthcare AI / Python Developer -- Rising Talent',
+    skills: 'Python, AI/ML, Healthcare Tech, FastAPI, React, Node.js, PostgreSQL, TensorFlow, Data Analysis',
+    experience: 'Rising Talent on Upwork. Healthcare AI specialist. Python & ML focused developer. HIPAA-compliant systems.',
+    categories: ['ai','healthcare','python','ml'],
+    portfolioProjects: ['Healthcare AI solutions', 'Python ML pipelines', 'Medical data systems']
+  },
+  hassan_karim: {
+    name: 'Hassan Karim',
+    title: 'MERN / React Native Developer',
+    skills: 'MongoDB, Express.js, React.js, Node.js, React Native, TypeScript, Firebase, Redux, TailwindCSS',
+    experience: 'MERN stack & React Native specialist. Full-stack web and cross-platform mobile apps.',
+    categories: ['mern','mobile','fullstack'],
+    portfolioProjects: ['MERN web applications', 'React Native mobile apps', 'Firebase integrations']
+  },
+  saim: {
+    name: 'Muhammad Saim',
+    title: 'WordPress / Elementor Developer',
+    skills: 'WordPress, Elementor, WooCommerce, PHP, CSS, jQuery, SEO, Page Speed, Custom Post Types',
+    experience: 'WordPress & Elementor specialist. Custom themes, WooCommerce stores, blog setups and SEO.',
+    categories: ['wordpress','ecommerce','cms'],
+    portfolioProjects: ['AmmA Foods (WordPress)', 'My Signature Party (WordPress)', 'Event Management sites', 'WooCommerce stores']
+  },
+  usman: {
+    name: 'Usman Basharat',
+    title: 'Shopify Developer',
+    skills: 'Shopify, Liquid, JavaScript, CSS, Klaviyo, Shopify Plus, Theme Customization, Apps Integration, Conversion Optimization',
+    experience: 'Shopify specialist. Custom themes, Shopify Plus, conversion optimization, Klaviyo email flows.',
+    categories: ['shopify','ecommerce'],
+    portfolioProjects: ['Allbirds (Shopify, Next.js)', 'Glossier (Shopify)', 'Happy Socks (Shopify, Klaviyo)', 'Bombas (Shopify)', 'Olive & June (Shopify)', 'Beardbrand (Shopify)']
+  },
+  design_team: {
+    name: 'Muhammad Abdullah (UI/UX)',
+    title: 'Figma / UI-UX Designer',
+    skills: 'Figma, UI Design, UX Research, Wireframing, Prototyping, Design Systems, User Flows, Adobe XD, Mobile UI',
+    experience: 'UI/UX designer specialising in Figma. SaaS dashboards, mobile apps, e-commerce and branding.',
+    categories: ['design','figma','uiux'],
+    portfolioProjects: ['NaxTech SaaS Accounting Software (Figma)', 'Madina Arts Ecommerce (Figma)', 'SaaS dashboard design systems', 'Mobile app UI designs']
+  }
+};
+
+// -- CATEGORY KEYWORDS  PROFILES --
+var CAT_MAP = {
+  mern:        ['moeed','hassan','hafiz','umar','hassan_karim'],
+  fullstack:   ['moeed','hassan','umair','hafiz','umar'],
+  rails:       ['umair','hafiz','umar'],
+  wordpress:   ['taha','salman','saim'],
+  shopify:     ['usman','taha'],
+  ecommerce:   ['usman','taha','salman','saim'],
+  mobile:      ['hassan_karim','moeed'],
+  ai:          ['husnain','shahzeb','daniyal'],
+  langchain:   ['husnain','shahzeb'],
+  'voice-ai':  ['husnain'],
+  llm:         ['husnain','shahzeb'],
+  automation:  ['husnain','shahzeb'],
+  python:      ['husnain','shahzeb','daniyal'],
+  saas:        ['moeed','hassan','umair','hafiz','husnain','shahzeb'],
+  design:      ['design_team','salman'],
+  figma:       ['design_team'],
+  uiux:        ['design_team'],
+  webflow:     ['salman'],
+  healthcare:  ['daniyal'],
+  fintech:     ['hafiz','umair'],
+  logistics:   ['hafiz','moeed'],
+  blockchain:  ['abdullah'],
+  'lead-gen':  ['abdullah'],
+  general:     ['moeed','hassan','hafiz']
+};
+
+// -- PORTFOLIO PROJECTS FOR MATCHING --
+var PORTFOLIO_KEYWORDS = {
+  'social media': ['moeed','hassan'],
+  'streaming': ['hassan'],
+  'video call': ['hassan','moeed'],
+  'real-time': ['hassan','moeed','husnain'],
+  'analytics': ['moeed','hassan'],
+  'dashboard': ['moeed','hassan','shahzeb'],
+  'messaging': ['hassan','moeed'],
+  'project management': ['moeed','husnain'],
+  'saas': ['moeed','hassan','umair','hafiz','husnain','shahzeb'],
+  'subscription': ['umair','hafiz','moeed'],
+  'payment': ['umair','hafiz','moeed','hassan'],
+  'marketplace': ['umair','hafiz'],
+  'ecommerce': ['usman','taha','salman'],
+  'shopify': ['usman','taha'],
+  'woocommerce': ['taha','saim'],
+  'wordpress': ['taha','salman','saim'],
+  'booking': ['hassan','salman'],
+  'travel': ['salman','taha'],
+  'tourism': ['salman','taha'],
+  'hotel': ['salman','taha'],
+  'restaurant': ['taha','salman','saim'],
+  'food': ['taha','salman','saim'],
+  'healthcare': ['daniyal','moeed'],
+  'medical': ['daniyal','moeed'],
+  'fitness': ['moeed','hassan'],
+  'education': ['taha','salman','saim'],
+  'lms': ['taha','salman'],
+  'quiz': ['hafiz','moeed'],
+  'real estate': ['salman','taha'],
+  'logistics': ['hafiz','moeed'],
+  'ai chatbot': ['husnain','shahzeb'],
+  'chatbot': ['husnain','shahzeb'],
+  'openai': ['husnain','shahzeb'],
+  'langchain': ['husnain','shahzeb'],
+  'voice': ['husnain'],
+  'automation': ['husnain','shahzeb'],
+  'n8n': ['husnain','shahzeb'],
+  'ruby on rails': ['umair','hafiz','umar'],
+  'rails': ['umair','hafiz','umar'],
+  'react native': ['hassan_karim','moeed'],
+  'mobile app': ['hassan_karim','moeed'],
+  'ios': ['hassan_karim','moeed'],
+  'android': ['hassan_karim','moeed'],
+  'figma': ['design_team'],
+  'ui/ux': ['design_team'],
+  'ux design': ['design_team'],
+  'webflow': ['salman'],
+  'blockchain': ['abdullah'],
+  'web3': ['abdullah'],
+  'solidity': ['abdullah'],
+  'crypto': ['abdullah']
+};
+
+function detectCategory(title, desc) {
+  var text = (title + ' ' + desc).toLowerCase();
+  var scores = {};
+  // Score by keywords
+  Object.keys(PORTFOLIO_KEYWORDS).forEach(function(kw) {
+    if (text.indexOf(kw) !== -1) {
+      PORTFOLIO_KEYWORDS[kw].forEach(function(pid) {
+        scores[pid] = (scores[pid] || 0) + 3;
+      });
+    }
+  });
+  // Score by category map
+  Object.keys(CAT_MAP).forEach(function(cat) {
+    if (text.indexOf(cat) !== -1) {
+      CAT_MAP[cat].forEach(function(pid) {
+        scores[pid] = (scores[pid] || 0) + 1;
+      });
+    }
+  });
+  // Sort by score
+  var ranked = Object.keys(scores).sort(function(a,b){return scores[b]-scores[a];});
+  return ranked.length > 0 ? ranked : ['moeed','hassan','hafiz'];
+}
+
+function autoMatchProfile() {
+  var title = (document.getElementById('jobTitle').value || '').trim();
+  var desc  = (document.getElementById('jobDesc').value  || '').trim();
+  if (!title && !desc) return;
+
+  var ranked = detectCategory(title, desc);
+  var topId  = ranked[0];
+  var top    = PROFILES[topId];
+  if (!top) return;
+
+  // Update form fields
+  document.getElementById('yourName').value   = top.name;
+  document.getElementById('skills').value     = top.skills;
+  document.getElementById('experience').value = top.experience;
+
+  // Show relevant portfolio project
+  if (top.portfolioProjects && top.portfolioProjects.length > 0) {
+    document.getElementById('relProject').value = top.portfolioProjects[0];
+  }
+
+  // Update profile selector UI
+  renderProfileSuggestions(ranked.slice(0,4), topId);
+  flash('Profile matched: ' + top.name + ' -- best fit for this job!');
+}
+
+function selectProfile(pid) {
+  var p = PROFILES[pid];
+  if (!p) return;
+  document.getElementById('yourName').value   = p.name;
+  document.getElementById('skills').value     = p.skills;
+  document.getElementById('experience').value = p.experience;
+  if (p.portfolioProjects && p.portfolioProjects.length > 0) {
+    document.getElementById('relProject').value = p.portfolioProjects[0];
+  }
+  // Highlight selected
+  document.querySelectorAll('.profile-pill').forEach(function(el) {
+    el.classList.toggle('active', el.dataset.pid === pid);
+  });
+  flash('Profile switched to ' + p.name);
+}
+
+function renderProfileSuggestions(pids, activePid) {
+  var cont = document.getElementById('profile-suggestions');
+  if (!cont) return;
+  cont.innerHTML = pids.map(function(pid) {
+    var p = PROFILES[pid];
+    if (!p) return '';
+    return '<button class="profile-pill' + (pid === activePid ? ' active' : '') + '" ' +
+      'data-pid="' + pid + '" onclick="selectProfile(\'' + pid + '\')">' +
+      p.name.split(' ').slice(0,2).join(' ') +
+      '</button>';
+  }).join('');
+  document.getElementById('profile-match-row').style.display = 'block';
+}
+
+function getMatchedPortfolioProjects(title, desc) {
+  var text = (title + ' ' + desc).toLowerCase();
+  var ranked = detectCategory(title, desc);
+  var topProjects = [];
+  ranked.slice(0,3).forEach(function(pid) {
+    var p = PROFILES[pid];
+    if (p && p.portfolioProjects) {
+      topProjects = topProjects.concat(p.portfolioProjects.slice(0,2));
+    }
+  });
+  return topProjects.slice(0,4);
+}
+
+
+
+// -- AUTO-MATCH HELPERS --
+var autoMatchTimer = null;
+function scheduleAutoMatch() {
+  clearTimeout(autoMatchTimer);
+  autoMatchTimer = setTimeout(autoMatchProfile, 800);
+}
+
+function selectProfileFromDropdown(pid) {
+  selectProfile(pid);
+  // Show portfolio projects for selected profile
+  showProjectsForProfile(pid);
+}
+
+function showProjectsForProfile(pid) {
+  var p = PROFILES[pid];
+  var picker = document.getElementById('project-list');
+  if (!picker || !p || !p.portfolioProjects) return;
+  var html = '';
+  p.portfolioProjects.forEach(function(proj, idx) {
+    html += '<button onclick="pickProjectByIdx(' + idx + ')">' + proj + '</button>';
+  });
+  picker.innerHTML = html;
+  window._currentProjects = p.portfolioProjects;
+}
+
+function showProjectPicker() {
+  var picker = document.getElementById('project-picker');
+  var pid = document.getElementById('profileSelect').value;
+  if (!picker) return;
+  var isOpen = picker.style.display === 'block';
+  picker.style.display = isOpen ? 'none' : 'block';
+  if (!isOpen) showProjectsForProfile(pid);
+}
+
+function pickProjectByIdx(idx) {
+  var proj = (window._currentProjects || [])[idx] || '';
+  document.getElementById('relProject').value = proj;
+  document.getElementById('project-picker').style.display = 'none';
+}
+function pickProject(btn) {
+  var proj = btn && btn.dataset ? btn.dataset.proj : (btn || '');
+  document.getElementById('relProject').value = proj || '';
+  document.getElementById('project-picker').style.display = 'none';
+}
+
+// Init: set first profile on load
+(function() {
+  selectProfile('moeed');
+  // Sync dropdown
+  var sel = document.getElementById('profileSelect');
+  if (sel) sel.value = 'moeed';
+})();
+
 </script>
 </body>
 </html>
