@@ -290,7 +290,25 @@
   .be-dots span:nth-child(2) { animation-delay:.2s; }
   .be-dots span:nth-child(3) { animation-delay:.4s; }
   @keyframes beDot { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-5px)} }
-  #be-qr { padding:0 14px 10px; display:flex; flex-wrap:wrap; gap:6px; flex-shrink:0; }
+  #be-qr { padding:0 0 10px; display:flex; flex-direction:column; gap:5px; flex-shrink:0; }
+  /* Quick reply grid */
+  .be-qr-label {
+    font-size: 10px; color: #4A6A4A;
+    text-transform: uppercase; letter-spacing: 1px;
+    padding: 0 14px 6px; width: 100%;
+  }
+  .be-qr-row {
+    display: flex; gap: 6px;
+    padding: 0 14px;
+    width: 100%; box-sizing: border-box;
+  }
+  .be-qr-row .be-qb {
+    flex: 1; text-align: left;
+    font-size: 11px; padding: 6px 10px;
+    white-space: nowrap; overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .be-qb { font-size:11px; padding:5px 12px; border-radius:20px; border:1px solid rgba(184,255,60,0.28); background:rgba(184,255,60,0.04); color:#B8FF3C; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all .2s; }
   .be-qb:hover { background:rgba(184,255,60,0.12); }
   .be-inp-row { padding:10px 12px; border-top:1px solid rgba(255,255,255,0.05); display:flex; gap:8px; align-items:center; flex-shrink:0; }
@@ -4798,24 +4816,37 @@ function toggleProjects(person, type) {
   <div class="be-hdr">
     <div class="be-av">MA</div>
     <div class="be-info">
-      <strong>Bidder Experts AI <span class="be-ai-badge">AI</span></strong>
-      <span>Powered by Claude &middot; Always online</span>
+      <strong>Bidder Experts AI <span class="be-ai-badge">Gemini</span></strong>
+      <span>Powered by Gemini &middot; Always online</span>
     </div>
     <button class="be-x" onclick="beToggle()">&#x2715;</button>
   </div>
 
   <div id="be-msgs">
     <div class="bm bot">
-      <div class="bb">Hi! I am the Bidder Experts AI assistant. I know everything about Abdullah and his team.<br><br>How can I help you today?</div>
+      <div class="bb">Hi! I am the Bidder Experts AI assistant powered by Gemini. &#129302;<br><br>Ask me anything about Abdullah, our team, services, or any task &mdash; writing, coding, advice and more!<br><br>Tap a quick question below or type your own:</div>
       <div class="bt">Just now</div>
     </div>
   </div>
 
   <div id="be-qr">
-    <button class="be-qb" onclick="beQuick('Who is Abdullah?')">Who is Abdullah?</button>
-    <button class="be-qb" onclick="beQuick('Services & Pricing')">Services & Pricing</button>
-    <button class="be-qb" onclick="beQuick('Team members')">The Team</button>
-    <button class="be-qb" onclick="beQuick('How to hire?')">How to Hire?</button>
+    <div class="be-qr-label">Quick questions &mdash; tap to ask:</div>
+    <div class="be-qr-row">
+      <button class="be-qb" onclick="beQuick('Who is Abdullah Sohail and what is Bidder Experts?')">&#128100; Who is Abdullah?</button>
+      <button class="be-qb" onclick="beQuick('What services does Bidder Experts offer and what are the rates?')">&#9881; Services & Rates</button>
+    </div>
+    <div class="be-qr-row">
+      <button class="be-qb" onclick="beQuick('Tell me about the team at Bidder Experts and their expertise')">&#128101; The Team</button>
+      <button class="be-qb" onclick="beQuick('What are the managed Upwork growth plans and pricing?')">&#128181; Pricing Plans</button>
+    </div>
+    <div class="be-qr-row">
+      <button class="be-qb" onclick="beQuick('Show me the biggest projects Bidder Experts has delivered')">&#127942; Top Projects</button>
+      <button class="be-qb" onclick="beQuick('How can I get started and what is the process to hire Bidder Experts?')">&#128222; How to Start?</button>
+    </div>
+    <div class="be-qr-row">
+      <button class="be-qb" onclick="beQuick('Write me a professional email to introduce myself to a potential client')">&#9993; Write Email</button>
+      <button class="be-qb" onclick="beQuick('What is the Upwork bidding strategy used by Bidder Experts?')">&#128200; Bidding Strategy</button>
+    </div>
   </div>
 
   <div class="be-inp-row">
@@ -4969,8 +5000,8 @@ async function beAskAI(userMsg) {
     return reply;
 
   } catch(e) {
-    console.log('AI error:', e);
-    beHistory.pop(); // Remove failed user message from history
+    console.log('AI error details:', e.message, e);
+    beHistory.pop();
     return beFallback(userMsg);
   } finally {
     if (snd) { snd.classList.remove('loading'); snd.disabled = false; }
@@ -4987,7 +5018,7 @@ function beFallback(msg) {
     return '<strong>Managed Upwork Plans:</strong><br>&#8226; Starter: <strong>$200/mo</strong> + 3% per win<br>&#8226; Growth: <strong>$250/mo</strong> + 2% per win<br>&#8226; Elite: <strong>$300/mo</strong> flat, zero commission<br><br>We manage your account end-to-end!';
   if (/service|offer|what.*do/.test(m))
     return '<strong>Services:</strong><br>&#8226; Mobile Apps (React Native/Flutter)<br>&#8226; Full-Stack Web (MERN/Next.js)<br>&#8226; AI &amp; Automation (LangChain/n8n)<br>&#8226; Blockchain/Web3 (Solidity)<br>&#8226; UI/UX Design (Figma)<br>&#8226; Upwork Lead Generation';
-  if (/contact|reach|whatsapp|email/.test(m))
+  if (/contact|reach|whatsapp|how.*contact|get.*touch/.test(m))
     return '<strong>Reach Abdullah:</strong><br>&#8226; WhatsApp: <strong>+92 321 4900839</strong> (fastest)<br>&#8226; Email: Abdullahsohail63@gmail.com<br>&#8226; Usually responds within minutes!';
   if (/hello|hi|hey|salam/.test(m))
     return 'Hello! I am the Bidder Experts AI assistant. I can help you with anything &mdash; questions about Abdullah and the team, services, pricing, or any general task like writing, coding, or advice. What can I help you with?';
