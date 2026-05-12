@@ -5476,8 +5476,12 @@ function beQuick(topic) {
 
   <div class="admin-tabs">
     <button class="admin-tab active" onclick="adminTab('invoice', this)">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
       Invoice Maker
+    </button>
+    <button class="admin-tab" onclick="adminTab('proposal', this)">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      Proposal Writer
     </button>
     <button class="admin-tab" onclick="adminTab('leads', this)">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
@@ -5494,6 +5498,11 @@ function beQuick(topic) {
     <!-- INVOICE TAB -->
     <div id="tab-invoice" class="admin-tab-panel active">
       <div id="invoice-container"></div>
+    </div>
+
+    <!-- PROPOSAL TAB -->
+    <div id="tab-proposal" class="admin-tab-panel">
+      <div id="proposal-container" style="height:100%;overflow:hidden;"></div>
     </div>
 
     <!-- LEADS TAB -->
@@ -5624,6 +5633,8 @@ function adminTab(name, btn) {
   document.querySelectorAll('.admin-tab-panel').forEach(function(p) { p.classList.remove('active'); });
   btn.classList.add('active');
   document.getElementById('tab-' + name).classList.add('active');
+  if (name === 'invoice')  loadInvoiceMaker();
+  if (name === 'proposal') loadProposalWriter();
 }
 
 // Load invoice maker into the container
@@ -5633,6 +5644,22 @@ function loadInvoiceMaker() {
     // Load invoice.html in an iframe for full isolation
     var iframe = document.createElement('iframe');
     iframe.src = '/invoice.html';
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.style.border = 'none';
+    iframe.style.minHeight = '100vh';
+    container.style.padding = '0';
+    container.style.height = '100%';
+    container.appendChild(iframe);
+    container.dataset.loaded = '1';
+  }
+}
+
+function loadProposalWriter() {
+  var container = document.getElementById('proposal-container');
+  if (container && !container.dataset.loaded) {
+    var iframe = document.createElement('iframe');
+    iframe.src = '/proposal.html';
     iframe.style.width = '100%';
     iframe.style.height = '100%';
     iframe.style.border = 'none';
