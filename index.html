@@ -6325,15 +6325,37 @@ async function adminLogin() {
   var pw = document.getElementById('admin-pw').value;
   if (!pw) return;
   var hash = await sha256(pw);
-  // Check owner hash or saved hash
-  var storedHash = localStorage.getItem('be_admin_pw') || ADMIN_HASH;
-  // Also check sub-accounts
+
+  // Build list of valid hashes to check (local + server)
+  var validHashes = [
+    ADMIN_HASH,                                   // hardcoded default
+    localStorage.getItem('be_admin_pw') || ''    // locally changed
+  ].filter(Boolean);
+
+  // Also check server-stored hash
+  try {
+    var r = await fetch('/api/pw');
+    if (r.ok) {
+      var d = await r.json();
+      if (d.hash) validHashes.push(d.hash);
+    }
+  } catch(e) {}
+
+  // Check sub-accounts
   var matchedAccount = null;
   var subAccounts = JSON.parse(localStorage.getItem('be_admin_accounts') || '[]');
   for (var i = 0; i < subAccounts.length; i++) {
     if (subAccounts[i].hash === hash) { matchedAccount = subAccounts[i]; break; }
   }
-  if (hash === storedHash || matchedAccount) {
+
+  var isValid = validHashes.indexOf(hash) !== -1 || matchedAccount;
+
+  if (isValid) {
+    // Sync the valid hash to localStorage so future logins are instant
+    if (validHashes.indexOf(hash) !== -1) {
+      localStorage.setItem('be_admin_pw', hash);
+      ADMIN_HASH = hash;
+    }
     adminLoggedIn = true;
     adminHideLogin();
     document.getElementById('admin-panel').classList.remove('hidden');
@@ -6344,7 +6366,6 @@ async function adminLogin() {
     document.getElementById('admin-error').style.display = 'block';
     document.getElementById('admin-pw').value = '';
     document.getElementById('admin-pw').focus();
-    // Shake effect
     var box = document.querySelector('.admin-login-box');
     box.style.animation = 'shake 0.4s ease';
     setTimeout(function() { box.style.animation = ''; }, 400);
@@ -6574,12 +6595,24 @@ async function changePassword() {
     return;
   }
   var newHash = await sha256(newPw);
+
+  // Save to localStorage for this browser
   localStorage.setItem('be_admin_pw', newHash);
   ADMIN_HASH = newHash;
+
+  // Also save to server so ALL browsers get the new password
+  try {
+    await fetch('/api/pw', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ newHash: newHash, oldHash: curHash })
+    });
+  } catch(e) {}
+
   document.getElementById('s-cur-pw').value  = '';
   document.getElementById('s-new-pw').value  = '';
   document.getElementById('s-conf-pw').value = '';
-  showSettingsMsg('s-pw-msg', 'Password changed! Use the new password next time.', 'success');
+  showSettingsMsg('s-pw-msg', 'Password changed! Works on all browsers now.', 'success');
 }
 
 function renderAccounts() {
@@ -6648,7 +6681,24 @@ async function createAccount() {
 }
 
 // Restore saved password hash on load
-(function(){ var s=localStorage.getItem('be_admin_pw'); if(s) ADMIN_HASH=s; })();
+(function() {
+  // Load local hash first (instant)
+  var local = localStorage.getItem('be_admin_pw');
+  if (local) ADMIN_HASH = local;
+
+  // Then fetch server hash and sync (works across all browsers)
+  fetch('/api/pw').then(function(r) {
+    return r.json();
+  }).then(function(d) {
+    if (d.hash) {
+      // Server has a custom hash - use it and sync locally
+      ADMIN_HASH = d.hash;
+      localStorage.setItem('be_admin_pw', d.hash);
+    }
+  }).catch(function() {
+    // Offline or API not available - use local/default hash
+  });
+})();
 
 </script>
 
