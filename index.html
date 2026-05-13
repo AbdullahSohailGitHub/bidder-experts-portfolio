@@ -6502,21 +6502,6 @@ async function adminLogin() {
   if (!pw) return;
   var hash = await sha256(pw);
 
-  // Build list of valid hashes to check (local + server)
-  var validHashes = [
-    ADMIN_HASH,                                   // hardcoded default
-    localStorage.getItem('be_admin_pw') || ''    // locally changed
-  ].filter(Boolean);
-
-  // Fetch from GitHub (cross-device sync)
-  try {
-    var gr = await fetch('https://raw.githubusercontent.com/AbdullahSohailGitHub/bidder-experts-portfolio/main/admin-hash.txt?t=' + Date.now(), {cache:'no-store'});
-    if (gr.ok) {
-      var gh = (await gr.text()).trim();
-      if (gh.length === 64) { validHashes.push(gh); ADMIN_HASH = gh; localStorage.setItem('be_admin_pw', gh); }
-    }
-  } catch(e) {}
-
   // Check sub-accounts
   var matchedAccount = null;
   var subAccounts = JSON.parse(localStorage.getItem('be_admin_accounts') || '[]');
@@ -6524,14 +6509,10 @@ async function adminLogin() {
     if (subAccounts[i].hash === hash) { matchedAccount = subAccounts[i]; break; }
   }
 
-  var isValid = validHashes.indexOf(hash) !== -1 || matchedAccount;
+  // Only check hardcoded ADMIN_HASH -- same on every device
+  var isValid = (hash === ADMIN_HASH) || matchedAccount;
 
   if (isValid) {
-    // Sync the valid hash to localStorage so future logins are instant
-    if (validHashes.indexOf(hash) !== -1) {
-      localStorage.setItem('be_admin_pw', hash);
-      ADMIN_HASH = hash;
-    }
     adminLoggedIn = true;
     adminHideLogin();
     document.getElementById('admin-panel').classList.remove('hidden');
@@ -6805,25 +6786,22 @@ async function changePassword() {
   }
   var newHash = await sha256(newPw);
 
-  // Save to localStorage for this browser
-  localStorage.setItem('be_admin_pw', newHash);
+  // Update in-memory hash so current session stays logged in
   ADMIN_HASH = newHash;
-
-  // Show new hash for GitHub update
-  window._newAdminHash = newHash;
 
   document.getElementById('s-cur-pw').value  = '';
   document.getElementById('s-new-pw').value  = '';
   document.getElementById('s-conf-pw').value = '';
   var _msgEl = document.getElementById('s-pw-msg');
   if (_msgEl) {
+    var _codeLine = "var ADMIN_HASH = '" + newHash + "';";
     _msgEl.className = 'ap-msg success';
     _msgEl.style.display = 'block';
-    _msgEl.innerHTML = '<strong style="color:#4FC95A">Password changed!</strong> '
-      + '<br><span style="font-size:11px;opacity:0.8;">To sync all devices, update <b>admin-hash.txt</b> in GitHub with:</span>'
-      + '<div style="display:flex;align-items:center;gap:6px;margin-top:6px;">'
-      + '<code style="font-family:monospace;font-size:10px;background:rgba(0,0,0,0.2);padding:4px 6px;border-radius:4px;flex:1;word-break:break-all;">' + newHash + '</code>'
-      + '<button onclick="navigator.clipboard.writeText(\'' + newHash + '\')" style="padding:4px 10px;background:var(--lime);color:#09100A;border:none;border-radius:5px;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap;">Copy Hash</button>'
+    _msgEl.innerHTML = '<strong style="color:#4FC95A;">Password changed!</strong><br>'
+      + '<span style="font-size:11px;color:var(--muted);">To make it work on ALL devices, replace line in index.html on GitHub:</span>'
+      + '<div style="display:flex;align-items:center;gap:5px;margin-top:6px;">'
+      + '<code style="font-family:monospace;font-size:10px;background:rgba(0,0,0,0.25);padding:4px 7px;border-radius:5px;flex:1;word-break:break-all;color:#5DCAA5;">' + _codeLine + '</code>'
+      + '<button onclick="navigator.clipboard.writeText(this.dataset.v)" data-v="' + _codeLine + '" style="padding:5px 10px;background:var(--lime);color:#09100A;border:none;border-radius:6px;font-size:10px;font-weight:800;cursor:pointer;flex-shrink:0;">Copy</button>'
       + '</div>';
   }
 }
@@ -6895,14 +6873,9 @@ async function createAccount() {
 
 // Restore saved password hash on load
 (function() {
-  var local = localStorage.getItem('be_admin_pw');
-  if (local) ADMIN_HASH = local;
-  fetch('https://raw.githubusercontent.com/AbdullahSohailGitHub/bidder-experts-portfolio/main/admin-hash.txt?t=' + Date.now(), {cache:'no-store'})
-    .then(function(r){ return r.text(); })
-    .then(function(h){
-      h = (h||'').trim();
-      if (h.length === 64) { ADMIN_HASH = h; localStorage.setItem('be_admin_pw', h); }
-    }).catch(function(){});
+  // Do NOT read from localStorage -- use only the hardcoded hash.
+  // This ensures ALL devices use the same password from the source code.
+  // To change password: use Settings panel, copy the new line, update index.html on GitHub.
 })();
 
 </script>
