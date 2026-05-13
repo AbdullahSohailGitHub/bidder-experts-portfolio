@@ -34,22 +34,22 @@ html,body{height:100%;overflow:hidden;font-family:'DM Sans',sans-serif;backgroun
 .app{display:flex;flex:1;overflow:hidden;min-height:0;}
 
 /* SIDEBAR */
-.sidebar{width:340px;min-width:340px;background:var(--card2);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100%;overflow:hidden;}
-.sb-scroll{flex:1;overflow-y:auto;overflow-x:hidden;padding:16px 16px 8px;scrollbar-width:thin;scrollbar-color:rgba(184,255,60,0.08) transparent;}
+.sidebar{width:360px;min-width:320px;background:var(--card2);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100%;overflow:hidden;}
+.sb-scroll{flex:1;overflow-y:auto;overflow-x:hidden;padding:12px 14px 8px;scrollbar-width:thin;scrollbar-color:rgba(184,255,60,0.08) transparent;}
 .sb-scroll::-webkit-scrollbar{width:3px;}
 .sb-scroll::-webkit-scrollbar-thumb{background:rgba(184,255,60,0.08);border-radius:4px;}
 
 /* SECTION HEADERS */
-.sec-hd{display:flex;align-items:center;gap:8px;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--lime);margin:14px 0 9px;}
+.sec-hd{display:flex;align-items:center;gap:8px;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--lime);margin:12px 0 7px;}
 .sec-hd::before{content:attr(data-n);width:18px;height:18px;border-radius:50%;background:var(--lime-dim);border:1px solid rgba(184,255,60,0.25);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;flex-shrink:0;}
 .sec-hd::after{content:'';flex:1;height:1px;background:rgba(184,255,60,0.08);}
 .sec-hd:first-child{margin-top:0;}
 
 /* FORM */
-.fg{margin-bottom:9px;}
+.fg{margin-bottom:7px;}
 label.lbl{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);display:block;margin-bottom:4px;}
 .req{color:var(--lime);}
-input.inp,select.inp,textarea.inp{width:100%;padding:8px 10px;background:rgba(255,255,255,0.04);border:1px solid var(--border2);border-radius:8px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:12px;outline:none;transition:border-color 0.2s,background 0.2s;resize:none;}
+input.inp,select.inp,textarea.inp{width:100%;padding:7px 9px;background:rgba(255,255,255,0.04);border:1px solid var(--border2);border-radius:8px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:12px;outline:none;transition:border-color 0.2s,background 0.2s;resize:none;}
 input.inp:focus,select.inp:focus,textarea.inp:focus{border-color:rgba(184,255,60,0.4);background:rgba(255,255,255,0.06);}
 input.inp::placeholder,textarea.inp::placeholder{color:rgba(255,255,255,0.16);}
 select.inp option{background:#0D120D;color:var(--white);}
@@ -66,7 +66,7 @@ select.inp option{background:#0D120D;color:var(--white);}
 
 /* TEMPLATE CARDS */
 .tpl-list{display:flex;flex-direction:column;gap:5px;margin-bottom:4px;}
-.tc{padding:9px 11px;border-radius:8px;background:rgba(255,255,255,0.03);border:1px solid var(--border2);cursor:pointer;transition:all 0.18s;position:relative;}
+.tc{padding:7px 10px;border-radius:8px;background:rgba(255,255,255,0.03);border:1px solid var(--border2);cursor:pointer;transition:all 0.18s;position:relative;}
 .tc:hover{background:rgba(184,255,60,0.04);border-color:rgba(184,255,60,0.2);}
 .tc.active{background:rgba(184,255,60,0.07);border-color:rgba(184,255,60,0.38);}
 .tc-tag{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:700;margin-bottom:2px;}
@@ -78,22 +78,22 @@ select.inp option{background:#0D120D;color:var(--white);}
 
 /* TONE */
 .tone-row{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;}
-.tp{padding:5px 4px;border-radius:6px;background:rgba(255,255,255,0.03);border:1px solid var(--border2);color:var(--muted);font-size:10px;cursor:pointer;text-align:center;transition:all 0.18s;font-family:'DM Sans',sans-serif;}
+.tp{padding:4px 3px;border-radius:6px;background:rgba(255,255,255,0.03);border:1px solid var(--border2);color:var(--muted);font-size:10px;cursor:pointer;text-align:center;transition:all 0.18s;font-family:'DM Sans',sans-serif;}
 .tp:hover{color:var(--lime);border-color:rgba(184,255,60,0.25);}
 .tp.on{background:rgba(184,255,60,0.09);border-color:rgba(184,255,60,0.35);color:var(--lime);}
 
 /* CHECKBOXES */
 .cb-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px;}
-.cb{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text);cursor:pointer;padding:3px 5px;border-radius:5px;}
+.cb{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text);cursor:pointer;padding:2px 4px;border-radius:5px;}
 .cb:hover{background:rgba(255,255,255,0.03);}
 .cb input{accent-color:var(--lime);width:12px;height:12px;flex-shrink:0;}
 
 /* QUICK FILL */
-.qf-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;}
-.qf{padding:7px 8px;border-radius:7px;background:rgba(255,255,255,0.03);border:1px solid var(--border2);color:var(--muted);font-size:10px;cursor:pointer;transition:all 0.18s;text-align:left;font-family:'DM Sans',sans-serif;}
+.qf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;}
+.qf{padding:6px 6px;border-radius:7px;background:rgba(255,255,255,0.03);border:1px solid var(--border2);color:var(--muted);font-size:10px;cursor:pointer;transition:all 0.18s;text-align:center;font-family:'DM Sans',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;flex-direction:column;align-items:center;gap:2px;}
 .qf:hover{background:rgba(184,255,60,0.05);border-color:rgba(184,255,60,0.2);color:var(--lime);}
 
-/* SIDEBAR FOOTER — always pinned at bottom */
+/* SIDEBAR FOOTER -- always pinned at bottom */
 .sb-footer{flex-shrink:0;padding:12px 16px 16px;border-top:2px solid rgba(184,255,60,0.25);display:flex;flex-direction:column;gap:7px;background:#0D120D;position:relative;z-index:10;}
 .btn-gen{width:100%;padding:12px;background:var(--lime);color:#09100A;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;border:none;border-radius:9px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:7px;box-shadow:0 3px 16px rgba(184,255,60,0.25);}
 .btn-gen:hover{background:#a3ef28;transform:translateY(-1px);box-shadow:0 5px 22px rgba(184,255,60,0.38);}
@@ -186,7 +186,6 @@ select.inp option{background:#0D120D;color:var(--white);}
   .tn-badge{display:none;}
   .grid2{grid-template-columns:1fr;}
   .tone-row{grid-template-columns:repeat(2,1fr);}
-  .qf-grid{grid-template-columns:repeat(3,1fr);}
   .tabs-bar{padding:0 10px;overflow-x:auto;}
   .tab{padding:0 10px;font-size:11px;}
   .editor{padding:14px 16px;font-size:13px;}
@@ -197,31 +196,33 @@ select.inp option{background:#0D120D;color:var(--white);}
 /* Sidebar top action bar - always visible */
 .sb-actions-top {
   flex-shrink: 0;
-  padding: 10px 16px 10px;
+  padding: 8px 14px;
   border-bottom: 1px solid rgba(184,255,60,0.1);
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 6px;
   background: var(--card2);
 }
 .btn-gen-sm {
-  width: 100%; padding: 10px 12px;
+  flex: 1; padding: 8px 10px;
   background: var(--lime); color: #09100A;
-  font-family: 'Syne',sans-serif; font-size: 12px; font-weight: 800;
-  border: none; border-radius: 8px; cursor: pointer; transition: all 0.2s;
-  display: flex; align-items: center; justify-content: center; gap: 7px;
-  box-shadow: 0 2px 12px rgba(184,255,60,0.3);
+  font-family: 'Syne',sans-serif; font-size: 11px; font-weight: 800;
+  border: none; border-radius: 7px; cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 5px;
+  box-shadow: 0 2px 8px rgba(184,255,60,0.25); white-space: nowrap;
 }
-.btn-gen-sm:hover { background: #a3ef28; }
+.btn-gen-sm:hover { background: #a3ef28; transform: translateY(-1px); }
+.btn-gen-sm:active { transform: translateY(0); }
 .btn-pres-sm {
-  width: 100%; padding: 8px 12px;
-  background: rgba(184,255,60,0.07); border: 1px solid rgba(184,255,60,0.22);
-  border-radius: 8px; color: var(--lime);
+  flex: 1; padding: 8px 10px;
+  background: rgba(184,255,60,0.07); border: 1px solid rgba(184,255,60,0.25);
+  border-radius: 7px; color: var(--lime);
   font-family: 'Syne',sans-serif; font-size: 11px; font-weight: 700;
   cursor: pointer; transition: all 0.2s;
-  display: flex; align-items: center; justify-content: center; gap: 6px;
+  display: flex; align-items: center; justify-content: center; gap: 5px;
+  white-space: nowrap;
 }
-.btn-pres-sm:hover { background: rgba(184,255,60,0.14); }
+.btn-pres-sm:hover { background: rgba(184,255,60,0.14); border-color: rgba(184,255,60,0.4); }
 /* Hide the bottom footer since we now have top buttons too */
 .sb-footer { display: none; }
 </style>
@@ -254,12 +255,12 @@ select.inp option{background:#0D120D;color:var(--white);}
 <div class="sidebar">
 <div class="sb-actions-top">
   <button class="btn-gen-sm" onclick="genPrompt()">
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-    Generate AI Prompt
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    AI Prompt
   </button>
   <button class="btn-pres-sm" onclick="genPres()">
     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-    Generate Presentation Prompt
+    Presentation
   </button>
 </div>
 <div class="sb-scroll">
@@ -406,12 +407,12 @@ select.inp option{background:#0D120D;color:var(--white);}
   <!-- 5. QUICK FILL -->
   <div class="sec-hd" data-n="5">Quick Fill</div>
   <div class="qf-grid" style="margin-bottom:6px;">
-    <button class="qf" onclick="qf('mern')">&#9889; MERN Stack</button>
-    <button class="qf" onclick="qf('mobile')">&#128241; Mobile App</button>
-    <button class="qf" onclick="qf('ai')">&#129302; AI / n8n</button>
-    <button class="qf" onclick="qf('rails')">&#128200; Ruby on Rails</button>
-    <button class="qf" onclick="qf('wp')">&#127760; WordPress</button>
-    <button class="qf" onclick="qf('design')">&#127912; UI/UX Figma</button>
+    <button class="qf" onclick="qf('mern')"><span style="font-size:14px;">&#9889;</span><span>MERN</span></button>
+    <button class="qf" onclick="qf('mobile')"><span style="font-size:14px;">&#128241;</span><span>Mobile</span></button>
+    <button class="qf" onclick="qf('ai')"><span style="font-size:14px;">&#129302;</span><span>AI/n8n</span></button>
+    <button class="qf" onclick="qf('rails')"><span style="font-size:14px;">&#128200;</span><span>Rails</span></button>
+    <button class="qf" onclick="qf('wp')"><span style="font-size:14px;">&#127760;</span><span>WordPress</span></button>
+    <button class="qf" onclick="qf('design')"><span style="font-size:14px;">&#127912;</span><span>UI/UX</span></button>
   </div>
 
 </div><!-- /sb-scroll -->
