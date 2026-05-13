@@ -9,7 +9,7 @@
 <style>:root {
   --lime:#2D9B3A; --lime-bright:#4FC95A; --lime-light:rgba(45,155,58,0.1);
   --dark:#0A1A0C; --card:#FFFFFF; --card2:#F4F8F4;
-  --border:rgba(45,155,58,0.2); --text:#2A3A2C; --muted:#6A8A6E; --white:#0A1A0C;
+  --border:rgba(45,155,58,0.2); --text:#2A3A2C; --muted:#6A8A6E; --white:#F0F5F0;
   --teal:#1A9B7A; --amber:#D4820A; --red:#D63B3B;
   --sidebar-bg:#0D1F0F; --sidebar-text:#E8F5E9; --sidebar-muted:#5A7A5E;
 }
@@ -177,8 +177,22 @@ textarea{resize:vertical;min-height:60px;}
 .tpl-luxury .inv-table tr:last-child td{border-bottom:none;}
 .tpl-luxury .inv-totals{margin-left:auto;width:260px;}
 .tpl-luxury .inv-total-row{display:flex;justify-content:space-between;padding:8px 0;font-size:13px;color:#555;border-bottom:1px solid #F0F0F0;}
-.tpl-luxury .inv-total-row.grand{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#0A0E0A;border-bottom:none;padding-top:12px;}
-.tpl-luxury .inv-total-row.grand span:last-child{color:var(--accent-color);filter:brightness(0.75);}
+.tpl-luxury .inv-total-row.grand{
+  background:linear-gradient(135deg,#0A0E0A 0%,#182818 100%);
+  border:2px solid var(--accent-color);border-radius:14px;
+  padding:13px 18px;margin-top:8px;
+  font-family:'Syne',sans-serif;font-size:14px;font-weight:800;
+  color:#fff;border-bottom:none;
+  box-shadow:0 6px 24px rgba(0,0,0,0.2);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.tpl-luxury .inv-total-row.grand span:first-child{
+  color:rgba(255,255,255,0.65);font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:2px;
+}
+.tpl-luxury .inv-total-row.grand span:last-child{
+  color:var(--accent-color);font-size:20px;font-weight:800;filter:none;
+}
 .tpl-luxury .inv-notes{background:#F8F9F8;border-left:3px solid var(--accent-color);padding:16px 20px;border-radius:0 8px 8px 0;margin-top:24px;font-size:12px;color:#555;line-height:1.6;}
 .tpl-luxury .inv-footer{background:#0A0E0A;padding:20px 48px;display:flex;justify-content:space-between;align-items:center;}
 .tpl-luxury .inv-footer-text{font-size:11px;color:#4A6A4A;}
@@ -209,8 +223,22 @@ textarea{resize:vertical;min-height:60px;}
 .tpl-clean .inv-table td:last-child{text-align:right;font-weight:600;}
 .tpl-clean .inv-totals{margin-left:auto;width:240px;}
 .tpl-clean .inv-total-row{display:flex;justify-content:space-between;padding:6px 0;font-size:13px;color:#666;border-bottom:1px solid #EEE;}
-.tpl-clean .inv-total-row.grand{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:#111;border-bottom:2px solid #111;padding:12px 0;}
-.tpl-clean .inv-total-row.grand span:last-child{color:var(--accent-color,var(--accent-color));filter:brightness(0.7);}
+.tpl-clean .inv-total-row.grand{
+  background:linear-gradient(135deg,#F6FFF6 0%,#EBF8EB 100%);
+  border:2px solid var(--accent-color);border-radius:12px;
+  padding:13px 18px;margin-top:8px;
+  font-family:'Syne',sans-serif;font-size:14px;font-weight:800;
+  color:#111;border-bottom:none;
+  box-shadow:0 4px 16px rgba(0,0,0,0.08);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.tpl-clean .inv-total-row.grand span:first-child{
+  color:#666;font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:2px;
+}
+.tpl-clean .inv-total-row.grand span:last-child{
+  color:var(--accent-color);font-size:20px;font-weight:800;filter:brightness(0.8);
+}
 .tpl-clean .inv-notes{border-left:3px solid var(--accent-color,var(--accent-color));padding:14px 18px;margin-top:24px;font-size:12px;color:#666;line-height:1.6;}
 .tpl-clean .inv-footer{padding:20px 48px;border-top:1px solid #EEE;display:flex;justify-content:space-between;align-items:center;}
 .tpl-clean .inv-footer-text{font-size:11px;color:#999;}
@@ -239,8 +267,22 @@ textarea{resize:vertical;min-height:60px;}
 .tpl-bold .inv-table td:last-child{text-align:right;font-weight:600;}
 .tpl-bold .inv-totals{margin-left:auto;width:260px;}
 .tpl-bold .inv-total-row{display:flex;justify-content:space-between;padding:8px 0;font-size:13px;color:#555;border-bottom:1px solid #EEE;}
-.tpl-bold .inv-total-row.grand{background:linear-gradient(135deg,#1a1a2e,#0f3460);color:#fff;padding:14px 16px;border-radius:8px;border-bottom:none;margin-top:8px;font-family:'Syne',sans-serif;font-size:16px;font-weight:800;}
-.tpl-bold .inv-total-row.grand span:last-child{color:var(--accent-color,var(--accent-color));}
+.tpl-bold .inv-total-row.grand{
+  background:linear-gradient(135deg,#1a1a2e 0%,#0f3460 100%);
+  border:2px solid var(--accent-color);border-radius:14px;
+  color:#fff;padding:13px 18px;
+  border-bottom:none;margin-top:8px;
+  font-family:'Syne',sans-serif;font-size:14px;font-weight:800;
+  box-shadow:0 8px 28px rgba(15,52,96,0.45);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.tpl-bold .inv-total-row.grand span:first-child{
+  color:rgba(255,255,255,0.65);font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:2px;
+}
+.tpl-bold .inv-total-row.grand span:last-child{
+  color:var(--accent-color);font-size:20px;font-weight:800;
+}
 .tpl-bold .inv-notes{background:#f8f9ff;border-left:3px solid var(--accent-color,var(--accent-color));padding:16px 20px;border-radius:0 8px 8px 0;margin-top:24px;font-size:12px;color:#555;line-height:1.6;}
 .tpl-bold .inv-footer{background:linear-gradient(135deg,#1a1a2e,#0f3460);padding:20px 48px;display:flex;justify-content:space-between;align-items:center;}
 .tpl-bold .inv-footer-text{font-size:11px;color:rgba(255,255,255,0.4);}
@@ -268,6 +310,44 @@ textarea{resize:vertical;min-height:60px;}
   .action-row{grid-template-columns:1fr;}
   .btn-full{grid-column:span 1;}
 }
+
+/* ── INVOICE TOTALS SECTION ── */
+.inv-totals-wrap {
+  margin-left: auto;
+  width: 280px;
+  margin-top: 8px;
+}
+.inv-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 7px 0;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.inv-total-row:last-of-type:not(.grand) { border-bottom: none; }
+.tpl-luxury .inv-total-row { border-bottom-color: #E8E8E8; }
+.tpl-luxury .inv-total-row span:first-child { color: #777; }
+.tpl-luxury .inv-total-row span:last-child { color: #333; font-weight: 600; }
+.tpl-clean .inv-total-row span:first-child { color: #888; }
+.tpl-clean .inv-total-row span:last-child { color: #333; font-weight: 600; }
+.tpl-bold .inv-total-row span:first-child { color: #666; }
+.tpl-bold .inv-total-row span:last-child { color: #222; font-weight: 600; }
+
+/* Totals section divider */
+.tpl-luxury .inv-totals-wrap,
+.tpl-clean .inv-totals-wrap,
+.tpl-bold .inv-totals-wrap { width:280px; margin-left:auto; }
+.inv-total-divider {
+  height:1px;background:rgba(0,0,0,0.1);margin:8px 0 4px;
+}
+
+  /* Profile select */
+  .profile-select-inp { color: #F0F5F0 !important; }
+  .profile-select-inp option { background: #0D120D; color: #F0F5F0; }
+  /* fromPerson field highlight */
+  #fromPerson { color: #F0F5F0 !important; font-weight: 600; }
+  #fromName   { color: #B8FF3C !important; font-weight: 700; }
 </style>
 </head>
 <body>
@@ -312,7 +392,7 @@ textarea{resize:vertical;min-height:60px;}
       <div class="form-row single">
         <div class="form-group">
           <label>Select Profile</label>
-          <select id="profileSelect" onchange="loadProfile(this.value)" style="background:rgba(255,255,255,0.05);border:1px solid rgba(184,255,60,0.25);border-radius:9px;padding:9px 11px;color:var(--white);font-family:DM Sans,sans-serif;font-size:13px;outline:none;width:100%;">
+          <select id="profileSelect" onchange="loadProfile(this.value)" style="background:rgba(255,255,255,0.05);border:1px solid rgba(184,255,60,0.25);border-radius:9px;padding:9px 11px;color:#F0F5F0;font-family:DM Sans,sans-serif;font-size:13px;outline:none;width:100%;" class="profile-select-inp">
             <option value="moeed">Abdul Moeed — MERN Stack ($40K+)</option>
             <option value="hassan">Hassan Nawaz — MERN Stack ($76K+)</option>
             <option value="umair">Umair Raza — Ruby on Rails ($300K+)</option>
@@ -543,7 +623,10 @@ function getVal(id) { return document.getElementById(id).value || ''; }
 
 function fmt(n) {
   var sym = getVal('currency') || '$';
-  return sym + parseFloat(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  var num = parseFloat(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  // Add space after multi-char currency codes (PKR, AED, SAR etc.)
+  var sep = sym.length > 1 ? ' ' : '';
+  return sym + sep + num;
 }
 
 function fmtDate(d) {
@@ -637,6 +720,7 @@ function render() {
     '<div class="inv-total-row"><span>Subtotal</span><span>' + fmt(t.subtotal) + '</span></div>' +
     (t.discPct > 0 ? '<div class="inv-total-row"><span>Discount (' + t.discPct + '%)</span><span>-' + fmt(t.discount) + '</span></div>' : '') +
     (t.taxPct > 0 ? '<div class="inv-total-row"><span>Tax (' + t.taxPct + '%)</span><span>' + fmt(t.tax) + '</span></div>' : '') +
+    '<div class="inv-total-divider"></div>' +
     '<div class="inv-total-row grand"><span>Total Due</span><span>' + fmt(t.total) + '</span></div>';
 
   var status = getVal('invStatus');
@@ -676,7 +760,7 @@ function render() {
         '<thead><tr><th>Description</th><th>Qty</th><th>Rate</th><th>Amount</th></tr></thead>' +
         '<tbody>' + itemRows + '</tbody>' +
       '</table>' +
-      '<div class="inv-totals">' + totalsHtml + '</div>' +
+      '<div class="inv-totals-wrap">' + totalsHtml + '</div>' +
       (notes ? '<div class="inv-notes">' + notes + '</div>' : '') +
     getSelectedPaymentHTML() +
     '</div>' +
