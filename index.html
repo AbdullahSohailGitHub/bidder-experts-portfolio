@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzFBMkUxQSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwOTEwMEEiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjE0IiBmaWxsPSJ1cmwoI2cpIi8+CiAgPHJlY3QgeD0iMS41IiB5PSIxLjUiIHdpZHRoPSI2MSIgaGVpZ2h0PSI2MSIgcng9IjEzIiBmaWxsPSJub25lIiBzdHJva2U9IiNCOEZGM0MiIHN0cm9rZS13aWR0aD0iMiIgb3BhY2l0eT0iMC43Ii8+CiAgPHRleHQgeD0iMzIiIHk9IjQ2IiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2ssSW1wYWN0LHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzIiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiNCOEZGM0MiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGxldHRlci1zcGFjaW5nPSItMSI+QkU8L3RleHQ+Cjwvc3ZnPg==">
-  <link rel="shortcut icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzFBMkUxQSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwOTEwMEEiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjE0IiBmaWxsPSJ1cmwoI2cpIi8+CiAgPHJlY3QgeD0iMS41IiB5PSIxLjUiIHdpZHRoPSI2MSIgaGVpZ2h0PSI2MSIgcng9IjEzIiBmaWxsPSJub25lIiBzdHJva2U9IiNCOEZGM0MiIHN0cm9rZS13aWR0aD0iMiIgb3BhY2l0eT0iMC43Ii8+CiAgPHRleHQgeD0iMzIiIHk9IjQ2IiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2ssSW1wYWN0LHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzIiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiNCOEZGM0MiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGxldHRlci1zcGFjaW5nPSItMSI+QkU8L3RleHQ+Cjwvc3ZnPg==">
-  <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzFBMkUxQSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwOTEwMEEiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjE0IiBmaWxsPSJ1cmwoI2cpIi8+CiAgPHJlY3QgeD0iMS41IiB5PSIxLjUiIHdpZHRoPSI2MSIgaGVpZ2h0PSI2MSIgcng9IjEzIiBmaWxsPSJub25lIiBzdHJva2U9IiNCOEZGM0MiIHN0cm9rZS13aWR0aD0iMiIgb3BhY2l0eT0iMC43Ii8+CiAgPHRleHQgeD0iMzIiIHk9IjQ2IiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2ssSW1wYWN0LHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzIiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiNCOEZGM0MiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGxldHRlci1zcGFjaW5nPSItMSI+QkU8L3RleHQ+Cjwvc3ZnPg==">
+  <link rel="icon" sizes="16x16" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABFUlEQVR4nGNkQAKcAlz/GYgA3z98Y4SxWZA1rn9vdJIYAwIFz/1HMYhTgOv/jv82JzgFuP4Tg2FqGRgYGBg5Bbj+r39vdDJQ8Jw5MbbDAEwPC7KgfZgQQ8FMBYb//xkY3j3/zTA17yEDnzALQ8FMBbiaIrvrDPcvf4fzmdBN/vHtH0OYxHmGz+//MBi78cPFAgXPMQQKnkPRjNUADi4mhtUvDRkUtDkZLh38BBdb/96IYf17IwZufmb8Bvz49o8hWOQ8w5F17xkC88QxXPD141/CLlj7xpBB34GX4dCa9xgu0HfgRVGPEogHV71jOLjqHbqZWMVwuoBUMPAGMDAwUJiUYQYwMJCUmcwZGCCZiRFZgpzsDABiOI2mueiOmwAAAABJRU5ErkJggg==">
+  <link rel="icon" sizes="32x32" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABuUlEQVR4nO2Xv0sCYRjHP3daYhR0FUQuBQk1RIMNRhFRf0FSEP0LDUFDW9BSQzQGDW2NFlRTQUOgtDSkERQN6lb2A9QKzgzPa7CL0xTuUK/lvtv73vO83w88D+97j0CZ3O0tavlePZXNyIJ+7Sw3P0r7LhsJEJAiqh7iF0AzD0gRfyMBfjx+IUQrzQECUsR/lPZdaqUWrDTXS/MUrTStJBvg3wGc1T4s7fQytdBZsvcpF3hK5Lg4THO8/YySV6vGaiooKrNdUfMAeq1M3xO/lpmY62B5t4++ITet7Q721h4qxsaispFjARMlUFUIH6SQPxQAxmYkwyZ1AfiT6KiLv7ESAAgCjAckWtqKzuGDtHUAW+eDJetkPMfJ7ouh2KuzN9bn47UBaI3l8bpYDXrp6XexcTrA0ugdX5+FirFGZaoHHmM5QvspALp7mxmebDOTXjsAgKjLcDYJ1QMbAeDxupicL144b695bsIfNQOYakIlr5J5yRPaTxHcTCK/K1Vj9VocuSWZyFU82/4fsAFsABtAzGZkQRsWrDLV7oBsRhZEKA6MVkHozQFKXhOLhlO/fjj985xZPZ5/Ay0mxt4HHfuFAAAAAElFTkSuQmCC">
+  <link rel="icon" sizes="64x64" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADc0lEQVR4nO2bT2jTUBzHv0lKZyOZ7cRapxYn9iAIwkR3EdTjFIThn+lhntRDL8qOHtxAhZ2UIYiehJ0GKpM5kLnDEJxzohuCfw5jOud0Y5tr60r/bG3jYUS6JM2f2ZfXtPmc2ryX359v3nt5TfNjYACPlxeN9Cs1ktEEo9dHs4NdE5ejJYRqQ7kkLkdNCMWBQsn3ROpHSARFiibfaIPacbkIa76oJW+3xOWoCZEvwr8P8uTtnrgcuRCSCKoCqCVfaEiVKno5SAK4AO1Fz26JS0hxFxrJHi8vJqMJhpU35J9g1+Tzyc9BTQy2XG95RvB4eXHNCCi3qy+hNQoUU6DScASgHQBtHAFoB0AbRwDaAdCm4gVwmT1h32EBN56FNPvksiJSiRzikSxmJlIYH0tguDeKrx8S/227ECtpEWcDY6bPMy2AEViOAS9w4AUO/qAb+49V43RrAG+fx3A3PIl4NEvC7bqwdAocatyEtichsJzus0rLsHwN2FPP48gZn9VuC1K0KXDvyhQGuhYAAJyLQaCuCi1ttWg44VX0PdjoxWD34rpsFxsiIyCbEfFzPIU7lyaRjCvn+9ZdbhJu1wXRKZBO5jA3tax0ylbIGuDewGLLTuXVnv2WJunWFMRug4E6N1qubwcvcIr2l4+Mz3/SFE2AcGcQ4c6gbr+hnghG+qJFt32/dQr9D80vlERGQCG6O2bw+PYsxBJ6CmnpPuBk2I9TVwNWutTFUgH4ag7nr23DxY4dVrrVhMhGiGEAYbMLofqNuNBei+Bez5q+xy/7MdD1G98/J03bLjZERoAoAn8WMnj/IoabzROKdoYBjjbXkHBtGuJTYP7HMpYWM4rjgd1VpF0bgrgA/qAbQo1ypnGu0tgNErkNMgwg1LgQOrC6BqhRKrtByzdCEsO90aLbvnVuAu/6Y4btApSeCQ52L+LLmzgN1wos3QlmV0T0PZhDV/svK91qQkyAbEZEOpFDbD6D6fEUPg3F8fppBPPTyp/HNDEtwMdXS2jyjZKIhajtQlT8/wKOALQDoI0jAO0AaOMIQDsA2jgC0A6ANo4AtAOgjSNA/he9N6vtitY70KyR0rJyRbVeoNxGgd4b8C5gVQm9ajG7vT6vd/E0a4aMGLAbukVTQIWXzUlUdOGkRLnWERkqnc2nXIQwXTwtx65CGNnj/AV+Ckz1VbXvIwAAAABJRU5ErkJggg==">
+  <link rel="shortcut icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAIAEBAAAAAAIABOAQAAJgAAACAgAAAAACAA8gEAAHQBAACJUE5HDQoaCgAAAA1JSERSAAAAEAAAABAIBgAAAB/z/2EAAAEVSURBVHicY2RAApwCXP8ZiADfP3xjhLFZkDWuf290khgDAgXP/UcxiFOA6/+O/zYnOAW4/hODYWoZGBgYGDkFuP6vf290MlDwnDkxtsMATA8LsqB9mBBDwUwFhv//GRjePf/NMDXvIQOfMAtDwUwFuJoiu+sM9y9/h/OZ0E3+8e0fQ5jEeYbP7/8wGLvxw8UCBc8xBAqeQ9GM1QAOLiaG1S8NGRS0ORkuHfwEF1v/3ohh/XsjBm5+ZvwG/Pj2jyFY5DzDkXXvGQLzxDFc8PXjX8IuWPvGkEHfgZfh0Jr3GC7Qd+BFUY8SiAdXvWM4uOoduplYxXC6gFQw8AYwMDBQmJRhBjAwkJSZzBkYIJmJEVmCnOwMAGI4jaa56I6bAAAAAElFTkSuQmCCiVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABuUlEQVR4nO2Xv0sCYRjHP3daYhR0FUQuBQk1RIMNRhFRf0FSEP0LDUFDW9BSQzQGDW2NFlRTQUOgtDSkERQN6lb2A9QKzgzPa7CL0xTuUK/lvtv73vO83w88D+97j0CZ3O0tavlePZXNyIJ+7Sw3P0r7LhsJEJAiqh7iF0AzD0gRfyMBfjx+IUQrzQECUsR/lPZdaqUWrDTXS/MUrTStJBvg3wGc1T4s7fQytdBZsvcpF3hK5Lg4THO8/YySV6vGaiooKrNdUfMAeq1M3xO/lpmY62B5t4++ITet7Q721h4qxsaispFjARMlUFUIH6SQPxQAxmYkwyZ1AfiT6KiLv7ESAAgCjAckWtqKzuGDtHUAW+eDJetkPMfJ7ouh2KuzN9bn47UBaI3l8bpYDXrp6XexcTrA0ugdX5+FirFGZaoHHmM5QvspALp7mxmebDOTXjsAgKjLcDYJ1QMbAeDxupicL144b695bsIfNQOYakIlr5J5yRPaTxHcTCK/K1Vj9VocuSWZyFU82/4fsAFsABtAzGZkQRsWrDLV7oBsRhZEKA6MVkHozQFKXhOLhlO/fjj985xZPZ5/Ay0mxt4HHfuFAAAAAElFTkSuQmCC">
+  <link rel="apple-touch-icon" sizes="128x128" href="data:image/png;base64,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">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Muhammad Abdullah Sohail -- CEO, Bidder Experts</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
@@ -6506,12 +6508,12 @@ async function adminLogin() {
     localStorage.getItem('be_admin_pw') || ''    // locally changed
   ].filter(Boolean);
 
-  // Also check server-stored hash
+  // Fetch from GitHub (cross-device sync)
   try {
-    var r = await fetch('/api/pw');
-    if (r.ok) {
-      var d = await r.json();
-      if (d.hash) validHashes.push(d.hash);
+    var gr = await fetch('https://raw.githubusercontent.com/AbdullahSohailGitHub/bidder-experts-portfolio/main/admin-hash.txt?t=' + Date.now(), {cache:'no-store'});
+    if (gr.ok) {
+      var gh = (await gr.text()).trim();
+      if (gh.length === 64) { validHashes.push(gh); ADMIN_HASH = gh; localStorage.setItem('be_admin_pw', gh); }
     }
   } catch(e) {}
 
@@ -6807,19 +6809,23 @@ async function changePassword() {
   localStorage.setItem('be_admin_pw', newHash);
   ADMIN_HASH = newHash;
 
-  // Also save to server so ALL browsers get the new password
-  try {
-    await fetch('/api/pw', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ newHash: newHash, oldHash: curHash })
-    });
-  } catch(e) {}
+  // Show new hash for GitHub update
+  window._newAdminHash = newHash;
 
   document.getElementById('s-cur-pw').value  = '';
   document.getElementById('s-new-pw').value  = '';
   document.getElementById('s-conf-pw').value = '';
-  showSettingsMsg('s-pw-msg', 'Password changed! Works on all browsers now.', 'success');
+  var _msgEl = document.getElementById('s-pw-msg');
+  if (_msgEl) {
+    _msgEl.className = 'ap-msg success';
+    _msgEl.style.display = 'block';
+    _msgEl.innerHTML = '<strong style="color:#4FC95A">Password changed!</strong> '
+      + '<br><span style="font-size:11px;opacity:0.8;">To sync all devices, update <b>admin-hash.txt</b> in GitHub with:</span>'
+      + '<div style="display:flex;align-items:center;gap:6px;margin-top:6px;">'
+      + '<code style="font-family:monospace;font-size:10px;background:rgba(0,0,0,0.2);padding:4px 6px;border-radius:4px;flex:1;word-break:break-all;">' + newHash + '</code>'
+      + '<button onclick="navigator.clipboard.writeText(\'' + newHash + '\')" style="padding:4px 10px;background:var(--lime);color:#09100A;border:none;border-radius:5px;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap;">Copy Hash</button>'
+      + '</div>';
+  }
 }
 
 function renderAccounts() {
@@ -6889,22 +6895,14 @@ async function createAccount() {
 
 // Restore saved password hash on load
 (function() {
-  // Load local hash first (instant)
   var local = localStorage.getItem('be_admin_pw');
   if (local) ADMIN_HASH = local;
-
-  // Then fetch server hash and sync (works across all browsers)
-  fetch('/api/pw').then(function(r) {
-    return r.json();
-  }).then(function(d) {
-    if (d.hash) {
-      // Server has a custom hash - use it and sync locally
-      ADMIN_HASH = d.hash;
-      localStorage.setItem('be_admin_pw', d.hash);
-    }
-  }).catch(function() {
-    // Offline or API not available - use local/default hash
-  });
+  fetch('https://raw.githubusercontent.com/AbdullahSohailGitHub/bidder-experts-portfolio/main/admin-hash.txt?t=' + Date.now(), {cache:'no-store'})
+    .then(function(r){ return r.text(); })
+    .then(function(h){
+      h = (h||'').trim();
+      if (h.length === 64) { ADMIN_HASH = h; localStorage.setItem('be_admin_pw', h); }
+    }).catch(function(){});
 })();
 
 </script>
