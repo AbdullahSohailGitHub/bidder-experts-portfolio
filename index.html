@@ -1349,6 +1349,26 @@
     .ap-link-card { padding:10px 12px !important; font-size:11px !important; }
   }
 
+
+  /* Forgot Password */
+  .admin-forgot-btn {
+    font-size: 12px; color: var(--muted); cursor: pointer;
+    background: none; border: none; margin-top: 6px;
+    transition: color 0.2s; font-family: 'DM Sans',sans-serif;
+    display: block; width: 100%; text-align: center;
+  }
+  .admin-forgot-btn:hover { color: var(--lime); }
+  .admin-forgot-box {
+    padding: 10px 0;
+    animation: fadeInUp 0.3s ease;
+  }
+  @keyframes fadeInUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+  .admin-success {
+    font-size: 12px; color: #5DCAA5;
+    background: rgba(93,202,165,0.1); border: 1px solid rgba(93,202,165,0.25);
+    border-radius: 8px; padding: 8px 12px; margin-top: 8px;
+    text-align: center;
+  }
 </style>
 </head>
 <body>
@@ -5929,7 +5949,28 @@ function beQuick(topic) {
       Unlock Admin Panel
     </button>
     <div class="admin-error" id="admin-error">Incorrect password. Please try again.</div>
+    <button class="admin-forgot-btn" onclick="adminShowForgot()">Forgot password?</button>
     <button class="admin-close-login" onclick="adminHideLogin()">&#x2715; Cancel</button>
+  </div>
+
+  <!-- FORGOT PASSWORD BOX (hidden by default) -->
+  <div class="admin-forgot-box" id="admin-forgot-box" style="display:none;">
+    <div class="admin-login-icon" style="background:rgba(93,202,165,0.1);border-color:rgba(93,202,165,0.3);">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5DCAA5" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    </div>
+    <div class="admin-login-title" style="font-size:18px;">Reset Password</div>
+    <div class="admin-login-sub">We will send your current password to your registered Gmail.</div>
+    <div style="background:rgba(184,255,60,0.06);border:1px solid rgba(184,255,60,0.2);border-radius:10px;padding:10px 14px;font-size:12px;color:#5DCAA5;margin-bottom:16px;text-align:left;">
+      <strong style="color:var(--lime);display:block;margin-bottom:3px;">Sending to:</strong>
+      Abdullahsohail63@gmail.com
+    </div>
+    <button class="admin-login-btn" onclick="adminSendReset()" id="reset-send-btn" style="background:linear-gradient(135deg,#5DCAA5,#3DAA85);">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      Send Reset Email
+    </button>
+    <div class="admin-error" id="reset-error" style="display:none;"></div>
+    <div class="admin-success" id="reset-success" style="display:none;"></div>
+    <button class="admin-forgot-btn" onclick="adminHideForgot()" style="margin-top:8px;">&#8592; Back to login</button>
   </div>
 </div>
 
@@ -6416,6 +6457,69 @@ function renderContacts() {
       '</div>';
     grid.appendChild(card);
   });
+}
+
+function adminShowForgot() {
+  document.querySelector('.admin-login-box').style.display = 'none';
+  var fb = document.getElementById('admin-forgot-box');
+  if (fb) fb.style.display = 'block';
+}
+
+function adminHideForgot() {
+  document.querySelector('.admin-login-box').style.display = 'block';
+  var fb = document.getElementById('admin-forgot-box');
+  if (fb) fb.style.display = 'none';
+  var re = document.getElementById('reset-error');
+  var rs = document.getElementById('reset-success');
+  if (re) re.style.display = 'none';
+  if (rs) rs.style.display = 'none';
+}
+
+async function adminSendReset() {
+  var btn = document.getElementById('reset-send-btn');
+  var errEl = document.getElementById('reset-error');
+  var sucEl = document.getElementById('reset-success');
+
+  if (btn) { btn.textContent = 'Sending...'; btn.disabled = true; }
+  if (errEl) errEl.style.display = 'none';
+  if (sucEl) sucEl.style.display = 'none';
+
+  try {
+    // Get the current stored password hash note (we can't decrypt hash)
+    // Instead send a temporary new password + set it
+    var tempPw = 'BE-' + Math.random().toString(36).substring(2,8).toUpperCase();
+    var tempHash = await sha256(tempPw);
+
+    // Send email via EmailJS with temp password
+    var result = await emailjs.send('service_b9eo1t3', 'template_2fys3t6', {
+      to_email:   'Abdullahsohail63@gmail.com',
+      from_name:  'Bidder Experts Admin',
+      from_email: 'Abdullahsohail63@gmail.com',
+      phone:      'Admin Panel System',
+      upwork:     'N/A',
+      earnings:   'N/A',
+      message:    'Your admin panel temporary password is: ' + tempPw + '\n\nUse this to log in, then change it immediately from Settings > Change Password.\n\nThis was generated on: ' + new Date().toLocaleString(),
+      reply_to:   'Abdullahsohail63@gmail.com'
+    });
+
+    // Save temp hash so login works
+    localStorage.setItem('be_admin_pw', tempHash);
+    ADMIN_HASH = tempHash;
+
+    if (sucEl) {
+      sucEl.innerHTML = '&#10003; Password reset email sent to Abdullahsohail63@gmail.com -- check your inbox!';
+      sucEl.style.display = 'block';
+    }
+    if (btn) { btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Email Sent!'; btn.style.background = '#5DCAA5'; }
+
+  } catch(err) {
+    console.error('EmailJS error:', err);
+    if (errEl) {
+      errEl.textContent = 'Failed to send email. Check your internet connection and try again.';
+      errEl.style.display = 'block';
+    }
+    if (btn) { btn.textContent = 'Send Reset Email'; btn.disabled = false; }
+  }
 }
 
 // CSS shake animation
