@@ -13,8 +13,7 @@
   --b1:rgba(255,255,255,0.07);--b2:rgba(184,255,60,0.12);
   --mt:#5A7A5E;--tx:#C8DCC8;--wh:#EEF4EE;
 }
-html{height:100%;}
-body{height:100%;overflow:hidden;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);display:flex;flex-direction:column;}
+html,/* body merged above */
 
 /*  NAV  */
 nav{height:44px;flex-shrink:0;background:var(--s1);border-bottom:1px solid var(--b1);display:flex;align-items:center;padding:0 16px;gap:10px;}
@@ -1034,25 +1033,28 @@ function pickProject(btn) {
 
 
 //  IFRAME / BROWSER SCROLL FIX 
-(function fixIframeLayout() {
-  function apply() {
-    var vh  = window.innerHeight;
+
+
+
+// Height: ensure sidebar scrolls properly
+(function(){
+  function h() {
     var nav = document.querySelector('nav');
     var app = document.querySelector('.app');
     var sb  = document.querySelector('.sidebar');
     var mn  = document.querySelector('.main');
-    var navH = nav ? nav.getBoundingClientRect().height : 44;
-    var h = (vh - navH) + 'px';
-    if (app) { app.style.height = h; }
-    if (sb)  { sb.style.height  = h; }
-    if (mn)  { mn.style.height  = h; }
+    var navH = nav ? nav.offsetHeight : 44;
+    var total = window.innerHeight;
+    var avail = (total - navH) + 'px';
+    if (app) app.style.height = avail;
+    if (sb)  sb.style.height  = avail;
+    if (mn)  mn.style.height  = avail;
   }
-  apply();
-  window.addEventListener('resize', apply);
-  setTimeout(apply, 50);
-  setTimeout(apply, 300);
+  h();
+  window.addEventListener('resize', h);
+  setTimeout(h, 50);
+  setTimeout(h, 500);
 })();
-
 </script>
 </body>
 </html>
