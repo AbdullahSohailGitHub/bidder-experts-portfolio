@@ -94,7 +94,7 @@ select.inp option{background:#0D120D;color:var(--white);}
 .qf:hover{background:rgba(184,255,60,0.05);border-color:rgba(184,255,60,0.2);color:var(--lime);}
 
 /* SIDEBAR FOOTER — always pinned at bottom */
-.sb-footer{flex-shrink:0;padding:12px 16px 16px;border-top:1px solid rgba(184,255,60,0.12);display:flex;flex-direction:column;gap:7px;background:var(--card2);}
+.sb-footer{flex-shrink:0;padding:12px 16px 16px;border-top:2px solid rgba(184,255,60,0.25);display:flex;flex-direction:column;gap:7px;background:#0D120D;position:relative;z-index:10;}
 .btn-gen{width:100%;padding:12px;background:var(--lime);color:#09100A;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;border:none;border-radius:9px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:7px;box-shadow:0 3px 16px rgba(184,255,60,0.25);}
 .btn-gen:hover{background:#a3ef28;transform:translateY(-1px);box-shadow:0 5px 22px rgba(184,255,60,0.38);}
 .btn-gen:active{transform:translateY(0);}
@@ -169,7 +169,7 @@ select.inp option{background:#0D120D;color:var(--white);}
 /* RESPONSIVE */
 @media(max-width:900px){
   html,body{overflow:auto;}
-  .app{flex-direction:column;overflow:visible;}
+  /* .app direction handled above */
   .sidebar{width:100%;min-width:unset;border-right:none;border-bottom:1px solid var(--border);overflow:visible;display:block;height:auto;}
   .sb-scroll{overflow:visible;height:auto;padding-bottom:0;}
   .sb-footer{position:static;}
@@ -193,6 +193,37 @@ select.inp option{background:#0D120D;color:var(--white);}
   .send-row{padding:8px 12px;}
   .stats{padding:0 12px;}
 }
+
+/* Sidebar top action bar - always visible */
+.sb-actions-top {
+  flex-shrink: 0;
+  padding: 10px 16px 10px;
+  border-bottom: 1px solid rgba(184,255,60,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--card2);
+}
+.btn-gen-sm {
+  width: 100%; padding: 10px 12px;
+  background: var(--lime); color: #09100A;
+  font-family: 'Syne',sans-serif; font-size: 12px; font-weight: 800;
+  border: none; border-radius: 8px; cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  box-shadow: 0 2px 12px rgba(184,255,60,0.3);
+}
+.btn-gen-sm:hover { background: #a3ef28; }
+.btn-pres-sm {
+  width: 100%; padding: 8px 12px;
+  background: rgba(184,255,60,0.07); border: 1px solid rgba(184,255,60,0.22);
+  border-radius: 8px; color: var(--lime);
+  font-family: 'Syne',sans-serif; font-size: 11px; font-weight: 700;
+  cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.btn-pres-sm:hover { background: rgba(184,255,60,0.14); }
+/* Hide the bottom footer since we now have top buttons too */
+.sb-footer { display: none; }
 </style>
 </head>
 <body>
@@ -221,6 +252,16 @@ select.inp option{background:#0D120D;color:var(--white);}
 
 <!-- ════ SIDEBAR ════ -->
 <div class="sidebar">
+<div class="sb-actions-top">
+  <button class="btn-gen-sm" onclick="genPrompt()">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    Generate AI Prompt
+  </button>
+  <button class="btn-pres-sm" onclick="genPres()">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+    Generate Presentation Prompt
+  </button>
+</div>
 <div class="sb-scroll">
 
   <!-- 1. JOB DETAILS -->
