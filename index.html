@@ -6878,6 +6878,36 @@ async function createAccount() {
   // To change password: use Settings panel, copy the new line, update index.html on GitHub.
 })();
 
+
+//  ADMIN FAB: show only on first section (hero) 
+(function() {
+  var fab = document.getElementById('admin-fab');
+  if (!fab) return;
+
+  function checkFabVisibility() {
+    var hero = document.getElementById('hero');
+    if (!hero) return;
+    var heroBottom = hero.getBoundingClientRect().bottom;
+    // Show FAB only when hero section is still visible on screen
+    if (heroBottom > 80) {
+      fab.style.opacity = '';
+      fab.style.pointerEvents = '';
+      fab.style.transform = '';
+    } else {
+      fab.style.opacity = '0';
+      fab.style.pointerEvents = 'none';
+      fab.style.transform = 'scale(0.8)';
+    }
+  }
+
+  // Add smooth transition to FAB
+  fab.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+
+  // Check on scroll and on load
+  window.addEventListener('scroll', checkFabVisibility, {passive: true});
+  checkFabVisibility();
+})();
+
 </script>
 
 </body>
