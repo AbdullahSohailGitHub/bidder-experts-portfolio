@@ -851,9 +851,9 @@
   .admin-tab.active { color: var(--lime); border-bottom-color: var(--lime); }
   .admin-tab:hover:not(.active) { color: var(--white); }
 
-  .admin-content { flex: 1; overflow: hidden; }
-  .admin-tab-panel { height: 100%; display: none; }
-  .admin-tab-panel.active { display: block; }
+  .admin-content { flex: 1; overflow: hidden; display: flex; flex-direction: column; min-height: 0; }
+  .admin-tab-panel { height: 100%; display: none; overflow: hidden; }
+  .admin-tab-panel.active { display: flex; flex-direction: column; }
 
   /* Invoice iframe-like container */
   #invoice-container {
@@ -908,11 +908,11 @@
 
   /* ── ADMIN CONTENT PANELS ── */
   @media (max-width: 900px) {
-    /* Invoice & Proposal iframes — make them scrollable */
+    /* Invoice & Proposal iframes */
     #invoice-container,
-    #proposal-container { overflow-y: auto; -webkit-overflow-scrolling: touch; }
+    #proposal-container { overflow: hidden; display: flex; flex-direction: column; flex: 1; }
     #invoice-container iframe,
-    #proposal-container iframe { min-height: 900px; height: 100%; }
+    #proposal-container iframe { width: 100%; flex: 1; border: none; min-height: 0; height: 100%; }
 
     /* Quick Contacts grid */
     #contacts-grid { grid-template-columns: 1fr !important; }
@@ -1256,7 +1256,7 @@
      ADMIN PANEL — CLEAN PAGE STYLES
   ================================================ */
   .admin-tab-panel { height:100%; display:none; overflow-y:auto; }
-  .admin-tab-panel.active { display:block; }
+  .admin-tab-panel.active { display:flex; flex-direction:column; }
 
   .ap-wrap { padding:28px 32px; max-width:960px; margin:0 auto; }
   .ap-page-header { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:24px; flex-wrap:wrap; }
@@ -1368,6 +1368,25 @@
     background: rgba(93,202,165,0.1); border: 1px solid rgba(93,202,165,0.25);
     border-radius: 8px; padding: 8px 12px; margin-top: 8px;
     text-align: center;
+  }
+
+  /* Iframe containers — always full height flex */
+  #invoice-container,
+  #proposal-container {
+    flex: 1;
+    overflow: hidden;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  #invoice-container iframe,
+  #proposal-container iframe {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    border: none;
+    min-height: 0;
+    display: block;
   }
 </style>
 </head>
@@ -6022,7 +6041,7 @@ function beQuick(topic) {
 
     <!-- PROPOSAL TAB -->
     <div id="tab-proposal" class="admin-tab-panel">
-      <div id="proposal-container" style="height:100%;overflow:hidden;"></div>
+      <div id="proposal-container"></div>
     </div>
 
     <!-- LEADS TAB -->
@@ -6412,12 +6431,8 @@ function loadProposalWriter() {
   if (container && !container.dataset.loaded) {
     var iframe = document.createElement('iframe');
     iframe.src = '/proposal.html';
-    iframe.style.width = '100%';
-    iframe.style.height = '100%';
-    iframe.style.border = 'none';
-    iframe.style.minHeight = '100vh';
-    container.style.padding = '0';
-    container.style.height = '100%';
+    iframe.style.cssText = 'width:100%;height:100%;border:none;display:block;flex:1;';
+    container.style.cssText = 'flex:1;overflow:hidden;min-height:0;padding:0;display:flex;flex-direction:column;';
     container.appendChild(iframe);
     container.dataset.loaded = '1';
   }
