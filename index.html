@@ -554,10 +554,10 @@
 
 
   /* =============================================
-     FULLY RESPONSIVE — ALL BREAKPOINTS
+     FULLY RESPONSIVE -- ALL BREAKPOINTS
   ============================================= */
 
-  /* ── TABLET 901px – 1200px ── */
+  /* -- TABLET 901px - 1200px -- */
   @media (max-width:1200px) and (min-width:901px) {
     nav { padding:14px 32px; }
     section { padding:80px 40px; }
@@ -580,7 +580,7 @@
     h2 { font-size:38px; }
   }
 
-  /* ── MOBILE 481px – 600px ── */
+  /* -- MOBILE 481px - 600px -- */
   @media (max-width:600px) and (min-width:481px) {
     section { padding:48px 18px; }
     h2 { font-size:28px !important; }
@@ -609,7 +609,7 @@
     .be-qr-row .be-qb { font-size:10px; padding:5px 8px; }
   }
 
-  /* ── SMALL MOBILE max 480px ── */
+  /* -- SMALL MOBILE max 480px -- */
   @media (max-width:480px) {
     nav { padding:10px 14px; }
     .logo-bidders { font-size:14px !important; letter-spacing:2px !important; }
@@ -692,7 +692,7 @@
     .ach-stats-row { grid-template-columns:1fr 1fr !important; gap:8px !important; }
   }
 
-  /* ── VERY SMALL max 360px ── */
+  /* -- VERY SMALL max 360px -- */
   @media (max-width:360px) {
     .hero-h1 { font-size:22px !important; }
     .hero-photo-wrap { max-width:140px !important; }
@@ -876,17 +876,17 @@
 
 
   /* ================================================
-     FULL RESPONSIVE — ADMIN PANEL + ALL SECTIONS
+     FULL RESPONSIVE -- ADMIN PANEL + ALL SECTIONS
   ================================================ */
 
-  /* ── ADMIN LOGIN BOX ── */
+  /* -- ADMIN LOGIN BOX -- */
   @media (max-width: 480px) {
     .admin-login-box { padding: 28px 20px; border-radius: 16px; }
     .admin-login-title { font-size: 17px; }
     .admin-login-sub { font-size: 12px; margin-bottom: 20px; }
   }
 
-  /* ── ADMIN PANEL TOPBAR ── */
+  /* -- ADMIN PANEL TOPBAR -- */
   @media (max-width: 768px) {
     .admin-topbar { padding: 10px 14px; gap: 10px; }
     .admin-topbar-title { font-size: 13px; }
@@ -906,7 +906,7 @@
     .admin-tab svg { width: 11px; height: 11px; }
   }
 
-  /* ── ADMIN CONTENT PANELS ── */
+  /* -- ADMIN CONTENT PANELS -- */
   @media (max-width: 900px) {
     /* Invoice & Proposal iframes */
     #invoice-container,
@@ -937,7 +937,7 @@
     #tab-stats .footer-links { flex-wrap: wrap !important; gap: 8px !important; }
   }
 
-  /* ── PORTFOLIO SECTIONS ── */
+  /* -- PORTFOLIO SECTIONS -- */
 
   /* Nav */
   @media (max-width: 1200px) {
@@ -1081,7 +1081,7 @@
   }
 
 
-  /* ── SETTINGS TAB ── */
+  /* -- SETTINGS TAB -- */
   .settings-card { background:#111811; border:1px solid rgba(184,255,60,0.12); border-radius:14px; overflow:hidden; }
   .settings-card-header { display:flex; align-items:center; gap:10px; padding:16px 20px; border-bottom:1px solid rgba(184,255,60,0.08); font-family:'Syne',sans-serif; font-size:13px; font-weight:700; color:var(--white); }
   .settings-card-body { padding:20px; }
@@ -1253,7 +1253,7 @@
 
 
   /* ================================================
-     ADMIN PANEL — CLEAN PAGE STYLES
+     ADMIN PANEL -- CLEAN PAGE STYLES
   ================================================ */
   .admin-tab-panel { height:100%; display:none; overflow-y:auto; }
   .admin-tab-panel.active { display:flex; flex-direction:column; }
@@ -1370,7 +1370,7 @@
     text-align: center;
   }
 
-  /* Iframe containers — always full height flex */
+  /* Iframe containers -- always full height flex */
   #invoice-container,
   #proposal-container {
     flex: 1;
@@ -1388,6 +1388,153 @@
     min-height: 0;
     display: block;
   }
+
+  /* -- ADMIN PANEL THEMES -- */
+
+  /* Dark theme (default -- already exists, just referencing vars) */
+  #admin-panel[data-theme="dark"] {
+    --ap-bg:        #09100A;
+    --ap-bar:       #0D120D;
+    --ap-card:      #111811;
+    --ap-card2:     #0D120D;
+    --ap-border:    rgba(184,255,60,0.12);
+    --ap-border2:   rgba(255,255,255,0.07);
+    --ap-text:      #EEF4EE;
+    --ap-muted:     #5A7A5E;
+    --ap-input-bg:  rgba(255,255,255,0.05);
+    --ap-input-bd:  rgba(255,255,255,0.1);
+    --ap-tab-act:   rgba(184,255,60,0.06);
+    --ap-shadow:    rgba(0,0,0,0.3);
+    --ap-stat-num:  var(--lime);
+    --ap-link-lime-bg: rgba(184,255,60,0.08);
+  }
+
+  /* Light theme */
+  #admin-panel[data-theme="light"] {
+    --ap-bg:        #F4F7F4;
+    --ap-bar:       #FFFFFF;
+    --ap-card:      #FFFFFF;
+    --ap-card2:     #F0F4F0;
+    --ap-border:    rgba(0,0,0,0.08);
+    --ap-border2:   rgba(0,0,0,0.1);
+    --ap-text:      #1A2E1A;
+    --ap-muted:     #5A7A5E;
+    --ap-input-bg:  rgba(0,0,0,0.04);
+    --ap-input-bd:  rgba(0,0,0,0.12);
+    --ap-tab-act:   rgba(0,150,0,0.06);
+    --ap-shadow:    rgba(0,0,0,0.08);
+    --ap-stat-num:  #1A7A1A;
+    --ap-link-lime-bg: rgba(0,120,0,0.07);
+  }
+
+  /* Apply theme vars */
+  #admin-panel {
+    background: var(--ap-bg, #09100A) !important;
+    transition: background 0.3s, color 0.3s;
+  }
+  .admin-topbar {
+    background: var(--ap-bar, #0D120D) !important;
+    border-bottom-color: var(--ap-border, rgba(184,255,60,0.12)) !important;
+  }
+  .admin-tabs {
+    background: var(--ap-bar, #0D120D) !important;
+    border-bottom-color: var(--ap-border, rgba(184,255,60,0.08)) !important;
+  }
+  .admin-tab {
+    color: var(--ap-muted, #5A7A5E) !important;
+  }
+  .admin-tab.active {
+    color: var(--lime) !important;
+    background: var(--ap-tab-act, rgba(184,255,60,0.06)) !important;
+  }
+  .ap-title  { color: var(--ap-text, #EEF4EE) !important; }
+  .ap-sub    { color: var(--ap-muted, #5A7A5E) !important; }
+  .ap-section-card {
+    background: var(--ap-card, #111811) !important;
+    border-color: var(--ap-border, rgba(184,255,60,0.1)) !important;
+  }
+  .ap-section-title {
+    color: var(--ap-text, #EEF4EE) !important;
+    border-bottom-color: var(--ap-border2, rgba(255,255,255,0.05)) !important;
+  }
+  .ap-stat-card {
+    background: var(--ap-card, #111811) !important;
+    border-color: var(--ap-border, rgba(184,255,60,0.1)) !important;
+  }
+  .ap-stat-num   { color: var(--ap-stat-num, var(--lime)) !important; }
+  .ap-stat-label { color: var(--ap-muted, #5A7A5E) !important; }
+  .ap-input {
+    background: var(--ap-input-bg, rgba(255,255,255,0.05)) !important;
+    border-color: var(--ap-input-bd, rgba(255,255,255,0.1)) !important;
+    color: var(--ap-text, #EEF4EE) !important;
+  }
+  .ap-input::placeholder { color: var(--ap-muted, #5A7A5E) !important; opacity: 0.6; }
+  .ap-label  { color: var(--ap-muted) !important; }
+  .ap-name   { color: var(--ap-text) !important; }
+  .ap-contact-name { color: var(--ap-text) !important; }
+  .ap-contact-card {
+    background: var(--ap-card, #111811) !important;
+    border-color: var(--ap-border2, rgba(255,255,255,0.08)) !important;
+  }
+  .acct-item {
+    background: var(--ap-input-bg, rgba(255,255,255,0.03)) !important;
+    border-color: var(--ap-border2, rgba(255,255,255,0.07)) !important;
+  }
+  .acct-name  { color: var(--ap-text) !important; }
+  .acct-role  { color: var(--ap-muted) !important; }
+  .ap-form-card {
+    background: var(--ap-input-bg, rgba(255,255,255,0.03)) !important;
+    border-color: var(--ap-border2, rgba(255,255,255,0.06)) !important;
+  }
+  .ap-links-grid .ap-link-white {
+    background: var(--ap-input-bg) !important;
+    border-color: var(--ap-border2) !important;
+    color: var(--ap-text) !important;
+  }
+  .ap-links-grid .ap-link-lime {
+    background: var(--ap-link-lime-bg) !important;
+  }
+  .settings-row .ap-input,
+  .ap-section-body .ap-input { color: var(--ap-text) !important; }
+  select.ap-input option { background: var(--ap-card, #111811) !important; }
+
+  /* Theme toggle button */
+  .theme-toggle-btn {
+    display: flex; align-items: center; gap: 5px;
+    padding: 6px 12px; border-radius: 8px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--ap-border, rgba(255,255,255,0.1));
+    color: var(--ap-text, #EEF4EE);
+    font-family: 'Syne',sans-serif; font-size: 11px; font-weight: 700;
+    cursor: pointer; transition: all 0.25s; margin-right: 8px;
+  }
+  .theme-toggle-btn:hover { background: rgba(255,255,255,0.1); }
+  #admin-panel[data-theme="light"] .theme-toggle-btn {
+    background: rgba(0,0,0,0.06);
+    border-color: rgba(0,0,0,0.12);
+    color: #1A2E1A;
+  }
+  #admin-panel[data-theme="light"] .theme-toggle-btn:hover {
+    background: rgba(0,0,0,0.1);
+  }
+  /* Light theme -- topbar logo/title */
+  #admin-panel[data-theme="light"] .admin-topbar-title { color: #1A2E1A !important; }
+  #admin-panel[data-theme="light"] .admin-topbar-badge {
+    background: rgba(0,120,0,0.08) !important;
+    border-color: rgba(0,120,0,0.2) !important;
+    color: #1A7A1A !important;
+  }
+  #admin-panel[data-theme="light"] .admin-exit-btn {
+    color: #5A7A5E !important;
+    border-color: rgba(0,0,0,0.12) !important;
+  }
+  #admin-panel[data-theme="light"] .admin-exit-btn:hover {
+    color: #1A2E1A !important;
+    background: rgba(0,0,0,0.06) !important;
+  }
+  #admin-panel[data-theme="light"] .ap-section-body { background: transparent; }
+  #admin-panel[data-theme="light"] .ap-tab-panel { background: var(--ap-bg) !important; }
+  .admin-tab-panel { background: var(--ap-bg, #09100A); transition: background 0.3s; }
 </style>
 </head>
 <body>
@@ -5994,7 +6141,7 @@ function beQuick(topic) {
 </div>
 
 <!-- ADMIN PANEL -->
-<div id="admin-panel" class="hidden">
+<div id="admin-panel" class="hidden" data-theme="dark">
   <div class="admin-topbar">
     <div class="admin-topbar-left">
       <div class="admin-topbar-logo">BE</div>
@@ -6002,6 +6149,11 @@ function beQuick(topic) {
       <div class="admin-topbar-badge">&#128274; Secure</div>
     </div>
     <div class="admin-topbar-right">
+      <button class="theme-toggle-btn" id="theme-toggle-btn" onclick="toggleAdminTheme()" title="Toggle theme">
+        <svg id="theme-icon-moon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        <svg id="theme-icon-sun" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <span id="theme-label">Light</span>
+      </button>
       <button class="admin-exit-btn" onclick="adminLogout()">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
         Exit Admin
@@ -6557,6 +6709,43 @@ async function adminSendReset() {
     if (btn) { btn.textContent = 'Send Reset Email'; btn.disabled = false; }
   }
 }
+
+// -- ADMIN THEME --
+var adminTheme = localStorage.getItem('be_admin_theme') || 'dark';
+
+function applyAdminTheme(theme) {
+  var panel = document.getElementById('admin-panel');
+  var btn   = document.getElementById('theme-toggle-btn');
+  var moon  = document.getElementById('theme-icon-moon');
+  var sun   = document.getElementById('theme-icon-sun');
+  var lbl   = document.getElementById('theme-label');
+  if (!panel) return;
+
+  adminTheme = theme;
+  panel.setAttribute('data-theme', theme);
+  localStorage.setItem('be_admin_theme', theme);
+
+  if (theme === 'light') {
+    if (moon) moon.style.display = 'none';
+    if (sun)  sun.style.display  = 'inline';
+    if (lbl)  lbl.textContent    = 'Dark';
+  } else {
+    if (moon) moon.style.display = 'inline';
+    if (sun)  sun.style.display  = 'none';
+    if (lbl)  lbl.textContent    = 'Light';
+  }
+}
+
+function toggleAdminTheme() {
+  applyAdminTheme(adminTheme === 'dark' ? 'light' : 'dark');
+}
+
+// Apply saved theme when admin panel opens
+var _origAdminHideLogin = adminHideLogin;
+adminHideLogin = function() {
+  _origAdminHideLogin();
+  setTimeout(function() { applyAdminTheme(adminTheme); }, 50);
+};
 
 // CSS shake animation
 var shakeStyle = document.createElement('style');
