@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Non-Disclosure Agreement — Bidder Experts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Bidder Experts forest-green palette */
+    --bg-deep:        #0a1f17;
+    --bg-panel:       #0f2a1f;
+    --bg-card:        #122e22;
+    --border-soft:    #1c3d2e;
+    --border-mid:     #244c3b;
+    --green-primary:  #1f6e4a;
+    --green-mid:      #2e8b5f;
+    --green-bright:   #4ade80;
+    --green-glow:     rgba(74, 222, 128, 0.18);
+    --gold:           #d4a857;
+    --gold-soft:      #c9a35c;
+    --cream:          #f5efe0;
+    --text-primary:   #e6efe9;
+    --text-secondary: #a8bdb0;
+    --text-muted:     #7a8f83;
+    --text-on-cream:  #1a2620;
+
+    --display-font:   'Cormorant Garamond', Georgia, serif;
+    --body-font:      'Inter', system-ui, sans-serif;
+    --mono-font:      'JetBrains Mono', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    font-family: var(--body-font);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Animated ambient background — matches your site */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(74, 222, 128, 0.07) 0%, transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(31, 110, 74, 0.10) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(212, 168, 87, 0.03) 0%, transparent 60%);
+    z-index: -2;
+    animation: drift 22s ease-in-out infinite alternate;
+  }
+
+  @keyframes drift {
+    0%   { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(2%, -1%) scale(1.04); }
+  }
+
+  /* Subtle grain overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(10, 31, 23, 0.85);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border-soft);
+    padding: 14px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .toolbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--display-font);
+    font-size: 1.15rem;
+    letter-spacing: 0.08em;
+    color: var(--green-bright);
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .toolbar-brand-mark {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--green-primary) 0%, var(--green-mid) 100%);
+    display: grid;
+    place-items: center;
+    font-family: var(--body-font);
+    font-weight: 700;
+    font-size: 0.78rem;
+    color: var(--cream);
+    letter-spacing: 0.04em;
+    box-shadow: 0 0 24px var(--green-glow);
+  }
+
+  .toolbar-actions { display: flex; gap: 10px; }
+
+  .btn {
+    background: linear-gradient(180deg, var(--green-primary), var(--green-mid));
+    color: var(--cream);
+    border: 1px solid var(--green-mid);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-family: var(--body-font);
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-transform: uppercase;
+    box-shadow: 0 4px 14px rgba(31, 110, 74, 0.35);
+  }
+  .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(74, 222, 128, 0.35);
+  }
+  .btn.btn-ghost {
+    background: transparent;
+    border-color: var(--border-mid);
+    color: var(--text-secondary);
+    box-shadow: none;
+  }
+  .btn.btn-ghost:hover {
+    border-color: var(--green-mid);
+    color: var(--green-bright);
+  }
+
+  /* Document container */
+  .doc {
+    max-width: 880px;
+    margin: 48px auto 80px;
+    background: linear-gradient(180deg, var(--bg-panel) 0%, var(--bg-card) 100%);
+    border: 1px solid var(--border-soft);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow:
+      0 30px 80px rgba(0, 0, 0, 0.55),
+      0 0 0 1px rgba(74, 222, 128, 0.04),
+      inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    position: relative;
+  }
+
+  /* Glowing top border accent */
+  .doc::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      var(--green-bright) 25%,
+      var(--gold) 50%,
+      var(--green-bright) 75%,
+      transparent 100%);
+    opacity: 0.7;
+  }
+
+  /* HEADER */
+  .doc-header {
+    padding: 52px 60px 40px;
+    border-bottom: 1px solid var(--border-soft);
+    position: relative;
+    background:
+      radial-gradient(circle at 90% 10%, rgba(74, 222, 128, 0.08) 0%, transparent 50%);
+  }
+
+  .doc-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 32px;
+    gap: 20px;
+  }
+
+  .brand-block {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .brand-mark {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--green-primary), var(--green-mid));
+    display: grid;
+    place-items: center;
+    font-family: var(--display-font);
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: var(--cream);
+    border: 1px solid rgba(74, 222, 128, 0.3);
+    box-shadow: 0 0 30px var(--green-glow);
+  }
+
+  .brand-text .brand-name {
+    font-family: var(--display-font);
+    font-size: 1.45rem;
+    font-weight: 600;
+    color: var(--cream);
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+  .brand-text .brand-tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    color: var(--green-bright);
+    text-transform: uppercase;
+    margin-top: 4px;
+    font-weight: 500;
+  }
+
+  .doc-ref {
+    text-align: right;
+    font-family: var(--mono-font);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+  .doc-ref strong {
+    color: var(--green-bright);
+    font-weight: 500;
+  }
+
+  .doc-title {
+    font-family: var(--display-font);
+    font-size: 2.8rem;
+    font-weight: 600;
+    color: var(--cream);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+  }
+  .doc-title .ampersand {
+    color: var(--gold);
+    font-style: italic;
+    font-weight: 500;
+  }
+
+  .doc-subtitle {
+    font-size: 0.78rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--green-bright);
+    font-weight: 500;
+  }
+
+  .doc-rule {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 22px;
+  }
+  .doc-rule-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--green-mid), transparent);
+  }
+  .doc-rule-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 12px var(--gold);
+  }
+
+  /* BODY */
+  .doc-body { padding: 48px 60px; }
+
+  /* Intro paragraph */
+  .intro {
+    font-family: var(--display-font);
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: var(--text-primary);
+    margin-bottom: 36px;
+    padding: 24px 28px;
+    background: rgba(74, 222, 128, 0.04);
+    border-left: 3px solid var(--green-bright);
+    border-radius: 0 10px 10px 0;
+  }
+  .intro strong { color: var(--green-bright); font-weight: 600; }
+
+  /* Parties grid */
+  .parties {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 44px;
+  }
+
+  .party-card {
+    background: var(--bg-deep);
+    border: 1px solid var(--border-soft);
+    border-radius: 12px;
+    padding: 24px 26px;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  .party-card.disclosing {
+    border-color: rgba(74, 222, 128, 0.22);
+    background: linear-gradient(155deg, var(--bg-deep), rgba(31, 110, 74, 0.10));
+  }
+  .party-card.receiving {
+    border-color: rgba(212, 168, 87, 0.22);
+    background: linear-gradient(155deg, var(--bg-deep), rgba(212, 168, 87, 0.06));
+  }
+
+  .party-label {
+    font-size: 0.66rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .party-card.disclosing .party-label { color: var(--green-bright); }
+  .party-card.receiving .party-label { color: var(--gold); }
+  .party-label::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: currentColor;
+  }
+
+  .party-name {
+    font-family: var(--display-font);
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--cream);
+    margin-bottom: 4px;
+    line-height: 1.2;
+  }
+  .party-role {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    margin-bottom: 14px;
+    font-style: italic;
+  }
+
+  .party-field {
+    display: flex;
+    gap: 10px;
+    padding: 6px 0;
+    font-size: 0.83rem;
+    color: var(--text-secondary);
+    border-bottom: 1px dashed rgba(255,255,255,0.05);
+  }
+  .party-field:last-child { border-bottom: none; }
+  .party-field-key {
+    flex: 0 0 78px;
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding-top: 3px;
+    font-weight: 500;
+  }
+  .party-field-val { flex: 1; color: var(--text-primary); word-break: break-word; }
+  .party-field-val a {
+    color: var(--green-bright);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--green-mid);
+  }
+
+  /* Editable inputs for client party */
+  .fill {
+    display: inline-block;
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px dashed var(--gold-soft);
+    color: var(--cream);
+    font-family: var(--body-font);
+    font-size: 0.83rem;
+    padding: 3px 2px;
+    outline: none;
+    transition: all 0.2s ease;
+  }
+  .fill:focus, .fill:hover {
+    border-bottom-color: var(--gold);
+    background: rgba(212, 168, 87, 0.06);
+  }
+  .fill::placeholder { color: var(--text-muted); font-style: italic; }
+
+  /* Sections */
+  .section {
+    margin-bottom: 32px;
+    position: relative;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .section-number {
+    font-family: var(--mono-font);
+    font-size: 0.72rem;
+    color: var(--green-bright);
+    background: rgba(74, 222, 128, 0.08);
+    padding: 4px 9px;
+    border-radius: 4px;
+    border: 1px solid rgba(74, 222, 128, 0.18);
+    letter-spacing: 0.05em;
+    font-weight: 500;
+  }
+  .section-title {
+    font-family: var(--display-font);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--cream);
+    letter-spacing: 0.01em;
+  }
+
+  .section p {
+    color: var(--text-primary);
+    font-size: 0.93rem;
+    line-height: 1.75;
+    margin-bottom: 10px;
+  }
+  .section p strong { color: var(--green-bright); font-weight: 600; }
+
+  .section ul {
+    list-style: none;
+    margin: 12px 0 6px;
+    padding-left: 4px;
+  }
+  .section ul li {
+    position: relative;
+    padding: 6px 0 6px 26px;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    line-height: 1.7;
+  }
+  .section ul li::before {
+    content: '◆';
+    position: absolute;
+    left: 4px;
+    top: 7px;
+    color: var(--gold);
+    font-size: 0.6rem;
+  }
+
+  /* Highlight box */
+  .callout {
+    margin: 18px 0;
+    padding: 14px 18px;
+    background: rgba(212, 168, 87, 0.06);
+    border-left: 2px solid var(--gold);
+    border-radius: 0 6px 6px 0;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  .callout strong { color: var(--gold); }
+
+  /* Project / Engagement details box */
+  .engagement-box {
+    background: var(--bg-deep);
+    border: 1px solid var(--border-soft);
+    border-radius: 10px;
+    padding: 22px 24px;
+    margin: 12px 0 20px;
+  }
+  .engagement-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 24px;
+  }
+  .engagement-grid .full { grid-column: 1 / -1; }
+  .engagement-field label {
+    display: block;
+    font-size: 0.65rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+    font-weight: 600;
+  }
+  .engagement-field input,
+  .engagement-field textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px dashed var(--border-mid);
+    color: var(--cream);
+    font-family: var(--body-font);
+    font-size: 0.88rem;
+    padding: 5px 2px;
+    outline: none;
+    resize: none;
+    transition: all 0.2s ease;
+  }
+  .engagement-field textarea { min-height: 38px; }
+  .engagement-field input:focus,
+  .engagement-field textarea:focus,
+  .engagement-field input:hover,
+  .engagement-field textarea:hover {
+    border-bottom-color: var(--green-bright);
+    background: rgba(74, 222, 128, 0.04);
+  }
+
+  /* SIGNATURE BLOCK */
+  .signature-section {
+    margin-top: 56px;
+    padding-top: 36px;
+    border-top: 2px solid var(--border-soft);
+    position: relative;
+  }
+  .signature-section::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
+  }
+
+  .signature-heading {
+    text-align: center;
+    margin-bottom: 36px;
+  }
+  .signature-heading .sig-title {
+    font-family: var(--display-font);
+    font-size: 1.6rem;
+    color: var(--cream);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .signature-heading .sig-sub {
+    font-size: 0.72rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .signatures {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+  }
+
+  .sig-block { display: flex; flex-direction: column; }
+
+  .sig-line {
+    height: 64px;
+    border-bottom: 1.5px solid var(--text-muted);
+    margin-bottom: 12px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 6px;
+  }
+  .sig-line.has-signature {
+    font-family: 'Cormorant Garamond', cursive;
+    font-size: 1.7rem;
+    color: var(--cream);
+    font-style: italic;
+    padding-left: 4px;
+  }
+  .sig-line .sig-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--cream);
+    font-family: 'Cormorant Garamond', cursive;
+    font-size: 1.5rem;
+    font-style: italic;
+    padding-bottom: 4px;
+  }
+
+  .sig-meta {
+    text-align: left;
+  }
+  .sig-meta .sig-name {
+    font-family: var(--body-font);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--cream);
+    margin-bottom: 2px;
+  }
+  .sig-meta .sig-role {
+    font-size: 0.76rem;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+    font-style: italic;
+  }
+  .sig-meta .sig-date {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .sig-meta .sig-date strong {
+    color: var(--green-bright);
+    font-weight: 500;
+    font-family: var(--mono-font);
+    font-size: 0.78rem;
+  }
+  .sig-date input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px dashed var(--border-mid);
+    color: var(--cream);
+    font-family: var(--mono-font);
+    font-size: 0.78rem;
+    width: 120px;
+    outline: none;
+    padding: 2px 0;
+  }
+  .sig-date input:hover, .sig-date input:focus {
+    border-bottom-color: var(--green-bright);
+  }
+
+  /* FOOTER */
+  .doc-footer {
+    padding: 28px 60px;
+    background: rgba(0,0,0,0.18);
+    border-top: 1px solid var(--border-soft);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-brand {
+    font-family: var(--display-font);
+    font-size: 0.95rem;
+    color: var(--green-bright);
+    letter-spacing: 0.1em;
+  }
+  .footer-meta {
+    font-family: var(--mono-font);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+  }
+  .footer-meta a { color: var(--green-bright); text-decoration: none; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .doc { margin: 20px 12px 40px; border-radius: 12px; }
+    .doc-header { padding: 32px 24px 28px; }
+    .doc-body { padding: 28px 24px; }
+    .doc-footer { padding: 20px 24px; }
+    .doc-title { font-size: 2rem; }
+    .parties { grid-template-columns: 1fr; gap: 14px; }
+    .engagement-grid { grid-template-columns: 1fr; }
+    .signatures { grid-template-columns: 1fr; gap: 28px; }
+    .doc-header-top { flex-direction: column; }
+    .doc-ref { text-align: left; }
+    .section-title { font-size: 1.25rem; }
+  }
+
+  /* PRINT STYLES */
+  @media print {
+    @page { size: A4; margin: 14mm; }
+    body { background: white; color: #1a2620; }
+    body::before, body::after { display: none; }
+    .toolbar { display: none; }
+    .doc {
+      margin: 0;
+      max-width: 100%;
+      background: white;
+      border: none;
+      box-shadow: none;
+      border-radius: 0;
+      color: #1a2620;
+    }
+    .doc::before {
+      background: linear-gradient(90deg, transparent, #1f6e4a 25%, #b8893a 50%, #1f6e4a 75%, transparent);
+      opacity: 1;
+    }
+    .doc-header {
+      background: white;
+      border-bottom: 2px solid #1f6e4a;
+      padding: 24px 0 20px;
+    }
+    .brand-mark { background: #1f6e4a; color: white; box-shadow: none; }
+    .brand-text .brand-name, .doc-title { color: #0f2a1f; }
+    .brand-text .brand-tag, .doc-subtitle { color: #1f6e4a; }
+    .doc-title .ampersand { color: #b8893a; }
+    .doc-ref { color: #5a6b62; }
+    .doc-ref strong { color: #1f6e4a; }
+    .doc-rule-line { background: linear-gradient(90deg, #2e8b5f, transparent); }
+    .doc-rule-dot { background: #b8893a; box-shadow: none; }
+    .doc-body { padding: 24px 0; }
+    .intro {
+      background: #f6f9f7;
+      color: #1a2620;
+      border-left-color: #1f6e4a;
+    }
+    .intro strong { color: #1f6e4a; }
+    .party-card {
+      background: #f6f9f7 !important;
+      border-color: #c4d5cc !important;
+      color: #1a2620;
+      page-break-inside: avoid;
+    }
+    .party-card.disclosing { background: #eef5f0 !important; }
+    .party-card.receiving { background: #faf5ea !important; }
+    .party-card.disclosing .party-label { color: #1f6e4a; }
+    .party-card.receiving .party-label { color: #b8893a; }
+    .party-name { color: #0f2a1f; }
+    .party-role, .party-field-val { color: #1a2620; }
+    .party-field-key { color: #5a6b62; }
+    .party-field-val a { color: #1f6e4a; }
+    .party-field { border-bottom-color: #d8e3dc; }
+    .fill { color: #1a2620; border-bottom-color: #b8893a; }
+    .section-header { border-bottom-color: #c4d5cc; }
+    .section-title { color: #0f2a1f; }
+    .section-number { color: #1f6e4a; background: #eef5f0; border-color: #c4d5cc; }
+    .section p, .section ul li { color: #1a2620; }
+    .section p strong { color: #1f6e4a; }
+    .section ul li::before { color: #b8893a; }
+    .callout { background: #faf5ea; color: #4a3e26; }
+    .callout strong { color: #8a6826; }
+    .engagement-box {
+      background: #f6f9f7;
+      border-color: #c4d5cc;
+      page-break-inside: avoid;
+    }
+    .engagement-field label { color: #5a6b62; }
+    .engagement-field input, .engagement-field textarea {
+      color: #1a2620;
+      border-bottom-color: #b8893a;
+    }
+    .signature-section {
+      border-top-color: #c4d5cc;
+      page-break-inside: avoid;
+    }
+    .signature-heading .sig-title { color: #0f2a1f; }
+    .signature-heading .sig-sub { color: #5a6b62; }
+    .sig-line, .sig-line .sig-input { color: #1a2620; border-bottom-color: #5a6b62; }
+    .sig-meta .sig-name { color: #0f2a1f; }
+    .sig-meta .sig-role { color: #4a5953; }
+    .sig-meta .sig-date { color: #5a6b62; }
+    .sig-meta .sig-date strong, .sig-date input { color: #1f6e4a; }
+    .doc-footer {
+      background: white;
+      border-top: 1px solid #c4d5cc;
+      padding: 18px 0 0;
+    }
+    .footer-brand { color: #1f6e4a; }
+    .footer-meta { color: #5a6b62; }
+    .footer-meta a { color: #1f6e4a; }
+    input, textarea { background: white !important; }
+    .section { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Toolbar -->
+<div class="toolbar">
+  <div class="toolbar-brand">
+    <div class="toolbar-brand-mark">BE</div>
+    <span>Bidder Experts &nbsp;·&nbsp; NDA</span>
+  </div>
+  <div class="toolbar-actions">
+    <button class="btn btn-ghost" onclick="resetForm()">Clear Fields</button>
+    <button class="btn" onclick="window.print()">Print / Save as PDF</button>
+  </div>
+</div>
+
+<!-- Document -->
+<article class="doc">
+
+  <!-- HEADER -->
+  <header class="doc-header">
+    <div class="doc-header-top">
+      <div class="brand-block">
+        <div class="brand-mark">BE</div>
+        <div class="brand-text">
+          <div class="brand-name">Bidder Experts</div>
+          <div class="brand-tag">Elite Upwork Lead Generation · Lahore, PK</div>
+        </div>
+      </div>
+      <div class="doc-ref">
+        Document № <strong id="docRef">BE-NDA-2026-001</strong><br/>
+        Issued · <strong id="issueDate">15 May 2026</strong><br/>
+        Confidential · Legal
+      </div>
+    </div>
+
+    <h1 class="doc-title">Non-Disclosure <span class="ampersand">&amp;</span> Confidentiality Agreement</h1>
+    <div class="doc-subtitle">Mutual · Binding · Governed by the Laws of Pakistan</div>
+
+    <div class="doc-rule">
+      <div class="doc-rule-line"></div>
+      <div class="doc-rule-dot"></div>
+      <div class="doc-rule-line" style="background: linear-gradient(270deg, var(--green-mid), transparent);"></div>
+    </div>
+  </header>
+
+  <!-- BODY -->
+  <div class="doc-body">
+
+    <!-- INTRO -->
+    <p class="intro">
+      This Non-Disclosure Agreement (the &ldquo;<strong>Agreement</strong>&rdquo;) is entered into and made effective as of
+      <input type="text" class="fill" id="effectiveDate" placeholder="DD Month YYYY" style="width: 180px;" />
+      between <strong>Bidder Experts</strong>, represented by Muhammad Abdullah Sohail (the &ldquo;Disclosing Party&rdquo; / &ldquo;Company&rdquo;), and the Client identified below (the &ldquo;Receiving Party&rdquo;). Collectively referred to as the &ldquo;Parties&rdquo;.
+    </p>
+
+    <!-- PARTIES -->
+    <div class="parties">
+
+      <!-- Disclosing -->
+      <div class="party-card disclosing">
+        <div class="party-label">Disclosing Party</div>
+        <div class="party-name">Muhammad Abdullah Sohail</div>
+        <div class="party-role">CEO &amp; Lead Developer · Bidder Experts</div>
+        <div class="party-field">
+          <span class="party-field-key">Entity</span>
+          <span class="party-field-val">Bidder Experts</span>
+        </div>
+        <div class="party-field">
+          <span class="party-field-key">Address</span>
+          <span class="party-field-val">Lahore, Punjab, Pakistan</span>
+        </div>
+        <div class="party-field">
+          <span class="party-field-key">Phone</span>
+          <span class="party-field-val">+92 321 4900839</span>
+        </div>
+        <div class="party-field">
+          <span class="party-field-key">Email</span>
+          <span class="party-field-val">Abdullahsohail63@gmail.com</span>
+        </div>
+        <div class="party-field">
+          <span class="party-field-key">Website</span>
+          <span class="party-field-val"><a href="https://www.bidderexperts.com/" target="_blank">www.bidderexperts.com</a></span>
+        </div>
+        <div class="party-field">
+          <span class="party-field-key">LinkedIn</span>
+          <span class="party-field-val">muhammad-abdullah-sohail</span>
+        </div>
+      </div>
+
+      <!-- Receiving -->
+      <div class="party-card receiving">
+        <div class="party-label">Receiving Party · Client</div>
+        <input type="text" class="fill" placeholder="Client Full Name" style="font-family: var(--display-font); font-size: 1.4rem; font-weight: 600; color: var(--cream); border-bottom-style: solid; margin-bottom: 4px;" />
+        <input type="text" class="fill" placeholder="Title / Role (e.g. CEO, Founder)" style="font-style: italic; color: var(--text-secondary); margin-bottom: 14px; font-size: 0.78rem;" />
+
+        <div class="party-field">
+          <span class="party-field-key">Entity</span>
+          <span class="party-field-val"><input type="text" class="fill" placeholder="Company / Business Name" /></span>
+        </div>
+        <div class="party-field">
+          <span class="party-field-key">Address</span>
+          <span class="party-field-val"><input type="text" class="fill" placeholder="City, State / Province, Country" /></span>
+        </div>
+        <div class="party-field">
+          <span class="party-field-key">Phone</span>
+          <span class="party-field-val"><input type="text" class="fill" placeholder="+ Country Code · Phone Number" /></span>
+        </div>
+        <div class="party-field">
+          <span class="party-field-key">Email</span>
+          <span class="party-field-val"><input type="email" class="fill" placeholder="client@email.com" /></span>
+        </div>
+        <div class="party-field">
+          <span class="party-field-key">Website</span>
+          <span class="party-field-val"><input type="text" class="fill" placeholder="www.client-domain.com" /></span>
+        </div>
+        <div class="party-field">
+          <span class="party-field-key">ID / Reg №</span>
+          <span class="party-field-val"><input type="text" class="fill" placeholder="Company Reg. / Tax ID / CNIC" /></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ENGAGEMENT DETAILS -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-number">§ 00</div>
+        <div class="section-title">Engagement Details</div>
+      </div>
+      <p>Specifics of the engagement, project, or collaboration that this Agreement applies to:</p>
+      <div class="engagement-box">
+        <div class="engagement-grid">
+          <div class="engagement-field full">
+            <label>Project / Engagement Name</label>
+            <input type="text" placeholder="e.g. Mobile App MVP · SaaS Build · Upwork Account Management" />
+          </div>
+          <div class="engagement-field">
+            <label>Service Type</label>
+            <input type="text" placeholder="Development · Design · Lead Gen · Other" />
+          </div>
+          <div class="engagement-field">
+            <label>Estimated Budget</label>
+            <input type="text" placeholder="$ USD or equivalent" />
+          </div>
+          <div class="engagement-field">
+            <label>Start Date</label>
+            <input type="text" placeholder="DD Month YYYY" />
+          </div>
+          <div class="engagement-field">
+            <label>Expected Duration</label>
+            <input type="text" placeholder="e.g. 3 months · ongoing" />
+          </div>
+          <div class="engagement-field full">
+            <label>Brief Scope / Purpose of Disclosure</label>
+            <textarea rows="2" placeholder="Describe what confidential information will be shared and why."></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 1: Definition -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-number">§ 01</div>
+        <div class="section-title">Definition of Confidential Information</div>
+      </div>
+      <p>For the purposes of this Agreement, &ldquo;<strong>Confidential Information</strong>&rdquo; shall mean any and all non-public information disclosed by either Party to the other, in any form — written, oral, electronic, visual, or otherwise — including but not limited to:</p>
+      <ul>
+        <li>Business strategies, proposals, pricing models, client lists, and Upwork account credentials or analytics.</li>
+        <li>Source code, designs, mockups, wireframes, technical architecture, APIs, and database schemas.</li>
+        <li>Trade secrets, proprietary methodologies, bidding scripts, proposal templates, and internal workflows.</li>
+        <li>Financial data, revenue figures, commission structures, contracts with third parties, and project budgets.</li>
+        <li>Personal data, login credentials, API keys, and any data subject to data-protection laws.</li>
+        <li>Any information marked &ldquo;Confidential&rdquo; or that a reasonable person would treat as confidential.</li>
+      </ul>
+    </div>
+
+    <!-- SECTION 2: Obligations -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-number">§ 02</div>
+        <div class="section-title">Obligations of the Receiving Party</div>
+      </div>
+      <p>The Receiving Party agrees that it shall:</p>
+      <ul>
+        <li>Hold and maintain the Confidential Information in strict confidence and use it solely for the purposes of the engagement described above.</li>
+        <li>Not disclose, publish, distribute, or otherwise communicate the Confidential Information to any third party without prior written consent of the Disclosing Party.</li>
+        <li>Take all reasonable measures — at least the same degree of care it uses to protect its own confidential material — to safeguard the Confidential Information.</li>
+        <li>Limit access to the Confidential Information to those employees, contractors, or agents who have a strict need-to-know and who are bound by equivalent confidentiality obligations.</li>
+        <li>Not reverse engineer, decompile, copy, or create derivative works from any Confidential Information without express written authorization.</li>
+      </ul>
+    </div>
+
+    <!-- SECTION 3: Exclusions -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-number">§ 03</div>
+        <div class="section-title">Exclusions from Confidentiality</div>
+      </div>
+      <p>The obligations set forth in this Agreement shall <strong>not</strong> apply to information that:</p>
+      <ul>
+        <li>Is or becomes publicly available through no fault of the Receiving Party.</li>
+        <li>Was lawfully known to the Receiving Party prior to disclosure, with documented evidence.</li>
+        <li>Is independently developed by the Receiving Party without use of the Confidential Information.</li>
+        <li>Is rightfully received from a third party without breach of any confidentiality obligation.</li>
+        <li>Is required to be disclosed by law, court order, or governmental authority — provided prompt notice is given to the Disclosing Party to allow for protective measures.</li>
+      </ul>
+    </div>
+
+    <!-- SECTION 4: Intellectual Property -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-number">§ 04</div>
+        <div class="section-title">Intellectual Property &amp; Ownership</div>
+      </div>
+      <p>All Confidential Information, including all intellectual property rights therein, shall <strong>remain the exclusive property</strong> of the Disclosing Party. Nothing in this Agreement shall be construed as granting any license, ownership, or other right to the Receiving Party in respect of the Confidential Information, except the limited right to use it strictly for the purpose stated above.</p>
+      <p>Any work product, code, designs, or deliverables produced by Bidder Experts during the engagement shall be governed by a separate Service Agreement or Statement of Work and remains Bidder Experts&rsquo; property until full payment is received, after which ownership transfers as agreed therein.</p>
+    </div>
+
+    <!-- SECTION 5: Non-Solicitation -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-number">§ 05</div>
+        <div class="section-title">Non-Solicitation &amp; Non-Circumvention</div>
+      </div>
+      <p>During the term of this Agreement and for a period of <strong>twelve (12) months</strong> thereafter, the Receiving Party agrees <strong>not to</strong>:</p>
+      <ul>
+        <li>Directly or indirectly solicit, hire, or engage any team member, freelancer, or contractor of Bidder Experts without prior written consent.</li>
+        <li>Bypass or circumvent Bidder Experts to contact clients, prospects, or business partners introduced through this engagement.</li>
+        <li>Use any Upwork account, profile, or platform credentials shared during the engagement for any purpose beyond the stated scope.</li>
+      </ul>
+      <div class="callout">
+        <strong>Note:</strong> Bidder Experts manages a roster of 14+ elite freelancers across mobile, web, AI, blockchain and design. Direct solicitation of these team members outside this Agreement constitutes a material breach.
+      </div>
+    </div>
+
+    <!-- SECTION 6: Term -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-number">§ 06</div>
+        <div class="section-title">Term &amp; Duration</div>
+      </div>
+      <p>This Agreement shall commence on the Effective Date stated above and shall remain in force for a period of
+        <input type="text" class="fill" placeholder="2" style="width: 50px; text-align: center;" /> year(s),
+        unless terminated earlier in writing by either Party. The obligations of confidentiality with respect to Confidential Information disclosed hereunder shall survive termination and continue for an additional <strong>three (3) years</strong> from the date of termination.</p>
+    </div>
+
+    <!-- SECTION 7: Return of Materials -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-number">§ 07</div>
+        <div class="section-title">Return or Destruction of Materials</div>
+      </div>
+      <p>Upon termination of this Agreement, or upon written request from the Disclosing Party at any time, the Receiving Party shall <strong>promptly return or destroy</strong> all copies of Confidential Information in its possession or control — whether in physical, digital, or any other form — and shall certify such return or destruction in writing within fifteen (15) calendar days.</p>
+    </div>
+
+    <!-- SECTION 8: Remedies -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-number">§ 08</div>
+        <div class="section-title">Remedies &amp; Breach</div>
+      </div>
+      <p>The Parties acknowledge that any breach of this Agreement may cause <strong>irreparable harm</strong> for which monetary damages may be inadequate. Accordingly, the non-breaching Party shall be entitled to seek injunctive relief, specific performance, and any other equitable remedies in addition to damages, attorney&rsquo;s fees, and recovery of costs.</p>
+    </div>
+
+    <!-- SECTION 9: Governing Law -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-number">§ 09</div>
+        <div class="section-title">Governing Law &amp; Jurisdiction</div>
+      </div>
+      <p>This Agreement shall be governed by, and construed in accordance with, the <strong>laws of the Islamic Republic of Pakistan</strong>. The Parties consent to the exclusive jurisdiction of the courts in <strong>Lahore, Punjab, Pakistan</strong> for any disputes arising under or in connection with this Agreement, save for matters where international arbitration may be mutually agreed.</p>
+    </div>
+
+    <!-- SECTION 10: General -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-number">§ 10</div>
+        <div class="section-title">General Provisions</div>
+      </div>
+      <ul>
+        <li><strong>Entire Agreement</strong> — This Agreement constitutes the complete understanding between the Parties regarding confidentiality and supersedes all prior negotiations or agreements on this subject.</li>
+        <li><strong>Amendments</strong> — Any modification must be in writing and signed by both Parties.</li>
+        <li><strong>Severability</strong> — If any provision is found unenforceable, the remaining provisions remain in full force and effect.</li>
+        <li><strong>Counterparts</strong> — This Agreement may be executed electronically and in counterparts, each of which shall be deemed an original.</li>
+        <li><strong>Notices</strong> — Any notice under this Agreement shall be sent via email to the addresses listed above and is deemed received upon confirmation of delivery.</li>
+      </ul>
+    </div>
+
+    <!-- SIGNATURE BLOCK -->
+    <div class="signature-section">
+      <div class="signature-heading">
+        <div class="sig-title">In Witness Whereof</div>
+        <div class="sig-sub">The Parties have executed this Agreement on the Effective Date</div>
+      </div>
+
+      <div class="signatures">
+
+        <!-- Disclosing signature -->
+        <div class="sig-block">
+          <div class="sig-line has-signature">M. Abdullah</div>
+          <div class="sig-meta">
+            <div class="sig-name">Muhammad Abdullah Sohail</div>
+            <div class="sig-role">CEO &amp; Lead Developer · Bidder Experts</div>
+            <div class="sig-date">
+              <span>Date:</span>
+              <input type="text" id="dateDisclosing" placeholder="DD / MM / YYYY" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Receiving signature -->
+        <div class="sig-block">
+          <div class="sig-line">
+            <input type="text" class="sig-input" placeholder="Client Signature" />
+          </div>
+          <div class="sig-meta">
+            <div class="sig-name">
+              <input type="text" class="fill" placeholder="Client Full Name (Printed)" style="font-weight: 600; font-size: 0.95rem;" />
+            </div>
+            <div class="sig-role">
+              <input type="text" class="fill" placeholder="Title · Company" style="font-style: italic; font-size: 0.76rem;" />
+            </div>
+            <div class="sig-date">
+              <span>Date:</span>
+              <input type="text" placeholder="DD / MM / YYYY" />
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="doc-footer">
+    <div class="footer-brand">BIDDER EXPERTS · CONFIDENTIAL</div>
+    <div class="footer-meta">
+      <a href="https://www.bidderexperts.com/">www.bidderexperts.com</a> &nbsp;·&nbsp;
+      +92 321 4900839 &nbsp;·&nbsp; Lahore, PK
+    </div>
+  </footer>
+
+</article>
+
+<script>
+  // Auto-fill today's date in issue badge
+  (function() {
+    const today = new Date();
+    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const formatted = today.getDate() + ' ' + months[today.getMonth()] + ' ' + today.getFullYear();
+    document.getElementById('issueDate').textContent = formatted;
+
+    // Generate doc reference
+    const yy = today.getFullYear();
+    const seq = String(Math.floor(Math.random() * 900) + 100);
+    document.getElementById('docRef').textContent = 'BE-NDA-' + yy + '-' + seq;
+  })();
+
+  // Reset all fillable fields
+  function resetForm() {
+    if (confirm('Clear all client fields? This cannot be undone.')) {
+      document.querySelectorAll('input.fill, .engagement-field input, .engagement-field textarea, .sig-input, .sig-date input').forEach(el => {
+        el.value = '';
+      });
+    }
+  }
+
+  // Auto-resize textareas
+  document.querySelectorAll('textarea').forEach(ta => {
+    ta.addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = this.scrollHeight + 'px';
+    });
+  });
+</script>
+
+</body>
+</html>
