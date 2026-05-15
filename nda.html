@@ -406,6 +406,24 @@
   }
   .fill::placeholder { color: var(--text-muted); font-style: italic; }
 
+  /* Receiving-party name & role modifiers */
+  .fill-name {
+    font-family: var(--display-font);
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--cream);
+    border-bottom-style: solid;
+    margin-bottom: 4px;
+  }
+  .fill-role {
+    font-style: italic;
+    color: var(--text-secondary);
+    margin-bottom: 14px;
+    font-size: 0.78rem;
+  }
+  .fill-sig-name { font-weight: 600; font-size: 0.95rem; color: var(--cream); }
+  .fill-sig-role { font-style: italic; font-size: 0.76rem; color: var(--text-secondary); }
+
   /* Sections */
   .section {
     margin-bottom: 32px;
@@ -738,6 +756,10 @@
     .party-field-val a { color: #1f6e4a; }
     .party-field { border-bottom-color: #d8e3dc; }
     .fill { color: #1a2620; border-bottom-color: #b8893a; }
+    .fill-name { color: #0f2a1f !important; }
+    .fill-role { color: #4a5953 !important; }
+    .fill-sig-name { color: #0f2a1f !important; }
+    .fill-sig-role { color: #4a5953 !important; }
     .section-header { border-bottom-color: #c4d5cc; }
     .section-title { color: #0f2a1f; }
     .section-number { color: #1f6e4a; background: #eef5f0; border-color: #c4d5cc; }
@@ -871,8 +893,8 @@
       <!-- Receiving -->
       <div class="party-card receiving">
         <div class="party-label">Receiving Party · Client</div>
-        <input type="text" class="fill" placeholder="Client Full Name" style="font-family: var(--display-font); font-size: 1.4rem; font-weight: 600; color: var(--cream); border-bottom-style: solid; margin-bottom: 4px;" />
-        <input type="text" class="fill" placeholder="Title / Role (e.g. CEO, Founder)" style="font-style: italic; color: var(--text-secondary); margin-bottom: 14px; font-size: 0.78rem;" />
+        <input type="text" class="fill fill-name" placeholder="Client Full Name" />
+        <input type="text" class="fill fill-role" placeholder="Title / Role (e.g. CEO, Founder)" />
 
         <div class="party-field">
           <span class="party-field-key">Entity</span>
@@ -912,15 +934,15 @@
         <div class="engagement-grid">
           <div class="engagement-field full">
             <label>Project / Engagement Name</label>
-            <input type="text" placeholder="e.g. Mobile App MVP · SaaS Build · Upwork Account Management" />
+            <input type="text" value="Upwork Account Management &amp; Lead Generation Services" />
           </div>
           <div class="engagement-field">
             <label>Service Type</label>
-            <input type="text" placeholder="Development · Design · Lead Gen · Other" />
+            <input type="text" value="Upwork Bidding · Profile Optimization · Lead Generation" />
           </div>
           <div class="engagement-field">
             <label>Estimated Budget</label>
-            <input type="text" placeholder="$ USD or equivalent" />
+            <input type="text" value="$200 – $300 / month + agreed commission (per selected plan)" />
           </div>
           <div class="engagement-field">
             <label>Start Date</label>
@@ -928,11 +950,11 @@
           </div>
           <div class="engagement-field">
             <label>Expected Duration</label>
-            <input type="text" placeholder="e.g. 3 months · ongoing" />
+            <input type="text" value="Monthly recurring · Ongoing engagement" />
           </div>
           <div class="engagement-field full">
             <label>Brief Scope / Purpose of Disclosure</label>
-            <textarea rows="2" placeholder="Describe what confidential information will be shared and why."></textarea>
+            <textarea rows="3">Upwork Account Management — including full access to the Client's Upwork profile for bidding, proposal writing, client communication, lead generation, pipeline management, and profile optimization. Confidential information shared may include Upwork login credentials, client communications, project briefs, pricing strategy, and business contacts obtained through the platform.</textarea>
           </div>
         </div>
       </div>
@@ -1096,10 +1118,10 @@
           </div>
           <div class="sig-meta">
             <div class="sig-name">
-              <input type="text" class="fill" placeholder="Client Full Name (Printed)" style="font-weight: 600; font-size: 0.95rem;" />
+              <input type="text" class="fill fill-sig-name" placeholder="Client Full Name (Printed)" />
             </div>
             <div class="sig-role">
-              <input type="text" class="fill" placeholder="Title · Company" style="font-style: italic; font-size: 0.76rem;" />
+              <input type="text" class="fill fill-sig-role" placeholder="Title · Company" />
             </div>
             <div class="sig-date">
               <span>Date:</span>
