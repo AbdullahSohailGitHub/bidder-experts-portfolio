@@ -1540,6 +1540,400 @@
   #admin-panel[data-theme="light"] .ap-section-body { background: transparent; }
   #admin-panel[data-theme="light"] .ap-tab-panel { background: var(--ap-bg) !important; }
   .admin-tab-panel { background: var(--ap-bg, #09100A); transition: background 0.3s; }
+
+  /* ═══════════════════════════════════════════════════════════
+     PREMIUM ANIMATIONS — Parallax, 3D Cards, Floating Elements
+     ═══════════════════════════════════════════════════════════ */
+
+  /* Smooth scroll */
+  html { scroll-behavior: smooth; }
+
+  /* Hero parallax layers */
+  #hero { position: relative; overflow: visible; }
+  .parallax-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* 3D card hover effects on achievements and team */
+  .ach-card, .team-card {
+    transform-style: preserve-3d;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                box-shadow 0.4s ease;
+  }
+  .ach-card:hover, .team-card:hover {
+    transform: translateY(-8px) rotateX(2deg) rotateY(2deg) scale(1.02);
+    box-shadow: 
+      0 20px 60px rgba(0, 0, 0, 0.4),
+      0 0 0 1px rgba(184, 255, 60, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  /* Magnetic button effect */
+  .cta-btn, .pricing-btn, .contact-submit {
+    position: relative;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  /* Floating animation for decorative elements */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(2deg); }
+  }
+
+  /* Add glow pulse to stats */
+  .stat-number {
+    animation: glow-pulse 3s ease-in-out infinite;
+  }
+  @keyframes glow-pulse {
+    0%, 100% { text-shadow: 0 0 20px rgba(184, 255, 60, 0.3); }
+    50% { text-shadow: 0 0 30px rgba(184, 255, 60, 0.6), 0 0 40px rgba(184, 255, 60, 0.4); }
+  }
+
+  /* Stagger animation for grid items */
+  .achievements-grid > *, .team-grid > * {
+    animation: fadeInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  }
+  .achievements-grid > *:nth-child(1) { animation-delay: 0.05s; }
+  .achievements-grid > *:nth-child(2) { animation-delay: 0.1s; }
+  .achievements-grid > *:nth-child(3) { animation-delay: 0.15s; }
+  .achievements-grid > *:nth-child(4) { animation-delay: 0.2s; }
+  .achievements-grid > *:nth-child(5) { animation-delay: 0.25s; }
+  .achievements-grid > *:nth-child(6) { animation-delay: 0.3s; }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Section reveal on scroll */
+  section {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Hero text animation */
+  .hero-title {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: heroReveal 1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
+  }
+  .hero-subtitle {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: heroReveal 1s cubic-bezier(0.22, 1, 0.36, 1) 0.4s forwards;
+  }
+  @keyframes heroReveal {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Enhanced cursor (desktop only) */
+  @media (hover: hover) and (pointer: fine) {
+    body {
+      cursor: none;
+    }
+    #custom-cursor {
+      position: fixed;
+      width: 12px;
+      height: 12px;
+      background: var(--lime);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.15s cubic-bezier(0.22, 1, 0.36, 1);
+      mix-blend-mode: difference;
+    }
+    #custom-cursor.active {
+      opacity: 0.6;
+      transform: scale(3);
+    }
+    body.cursor-visible #custom-cursor {
+      opacity: 0.8;
+    }
+  }
+
+  /* Smooth nav reveal */
+  nav {
+    transform: translateY(-100%);
+    animation: navSlideDown 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards;
+  }
+  
+
+  /* ═══════════════════════════════════════════════════════════
+     ADVANCED 3D ANIMATIONS — Like Product Showcase Video
+     ═══════════════════════════════════════════════════════════ */
+
+  /* Glass morphism cards with depth */
+  .ach-card, .team-card, .pricing-card {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(17, 24, 17, 0.4) !important;
+    border: 1px solid rgba(184, 255, 60, 0.15);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.37),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  /* Floating badge animations */
+  .ach-badge, .team-badge {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  /* 3D perspective container for cards */
+  .achievements-grid, .team-grid, .pricing-grid {
+    perspective: 1500px;
+    perspective-origin: center;
+  }
+
+  /* Enhanced hover with glow and lift */
+  .ach-card:hover, .team-card:hover {
+    transform: translateY(-12px) translateZ(40px) rotateX(3deg) scale(1.03);
+    box-shadow: 
+      0 30px 80px rgba(0, 0, 0, 0.5),
+      0 0 60px rgba(184, 255, 60, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    border-color: rgba(184, 255, 60, 0.4);
+  }
+
+  /* Smooth scale-in for pricing cards */
+  .pricing-card {
+    animation: scaleInBounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) backwards;
+  }
+  .pricing-card:nth-child(1) { animation-delay: 0.1s; }
+  .pricing-card:nth-child(2) { animation-delay: 0.2s; }
+  .pricing-card:nth-child(3) { animation-delay: 0.3s; }
+
+  @keyframes scaleInBounce {
+    0% { opacity: 0; transform: scale(0.3) rotateY(-20deg); }
+    100% { opacity: 1; transform: scale(1) rotateY(0deg); }
+  }
+
+  /* Animated gradient backgrounds */
+  #hero::before {
+    content: '';
+    position: absolute;
+    inset: -100%;
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(184, 255, 60, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(46, 139, 95, 0.12) 0%, transparent 50%);
+    animation: gradientShift 20s ease infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @keyframes gradientShift {
+    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+    50% { transform: translate(3%, -2%) scale(1.1); opacity: 0.8; }
+  }
+
+  /* Shimmer effect on hover */
+  .ach-card::after, .team-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      110deg,
+      transparent 25%,
+      rgba(184, 255, 60, 0.1) 48%,
+      rgba(184, 255, 60, 0.15) 50%,
+      rgba(184, 255, 60, 0.1) 52%,
+      transparent 75%
+    );
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+    pointer-events: none;
+    border-radius: inherit;
+  }
+  .ach-card:hover::after, .team-card:hover::after {
+    transform: translateX(100%);
+  }
+
+  /* Ripple effect on button click */
+  .cta-btn, .pricing-btn, .contact-submit {
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-btn::before, .pricing-btn::before, .contact-submit::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+  .cta-btn:active::before, .pricing-btn:active::before, .contact-submit:active::before {
+    width: 300px;
+    height: 300px;
+  }
+
+  /* Particle effect background */
+  .particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: var(--lime);
+    border-radius: 50%;
+    opacity: 0;
+    animation: particleRise 15s linear infinite;
+  }
+  @keyframes particleRise {
+    0% { 
+      opacity: 0;
+      transform: translateY(100vh) translateX(0) scale(0);
+    }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.8; }
+    100% { 
+      opacity: 0;
+      transform: translateY(-100px) translateX(var(--drift)) scale(1);
+    }
+  }
+
+  /* Smooth image zoom on hover */
+  .team-photo, .ach-icon {
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .team-card:hover .team-photo,
+  .ach-card:hover .ach-icon {
+    transform: scale(1.1);
+  }
+
+  /* Text reveal animation */
+  .section-title, .hero-title {
+    background: linear-gradient(
+      90deg,
+      var(--lime) 0%,
+      #4ade80 50%,
+      var(--lime) 100%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: textShimmer 3s ease-in-out infinite;
+  }
+  @keyframes textShimmer {
+    0%, 100% { background-position: 200% center; }
+    50% { background-position: 0% center; }
+  }
+
+  /* Smooth border glow animation */
+  .pricing-card.featured {
+    position: relative;
+    animation: borderGlow 2s ease-in-out infinite;
+  }
+  @keyframes borderGlow {
+    0%, 100% { 
+      box-shadow: 
+        0 0 20px rgba(184, 255, 60, 0.3),
+        inset 0 0 20px rgba(184, 255, 60, 0.1);
+    }
+    50% { 
+      box-shadow: 
+        0 0 40px rgba(184, 255, 60, 0.6),
+        inset 0 0 30px rgba(184, 255, 60, 0.2);
+    }
+  }
+
+  /* Smooth section transitions */
+  section {
+    transition: 
+      opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 1s cubic-bezier(0.22, 1, 0.36, 1),
+      filter 1s ease;
+  }
+  section:not(.visible) {
+    filter: blur(10px);
+  }
+  section.visible {
+    filter: blur(0);
+  }
+
+  /* Loading skeleton shimmer */
+  @keyframes shimmer {
+    0% { background-position: -1000px 0; }
+    100% { background-position: 1000px 0; }
+  }
+
+  /* Enhanced stats counter glow */
+  .stat-number {
+    position: relative;
+    display: inline-block;
+  }
+  .stat-number::before {
+    content: attr(data-value);
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, var(--lime), transparent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0;
+    animation: statGlow 2s ease-in-out infinite;
+  }
+  @keyframes statGlow {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 0.5; }
+  }
+
+  /* Perspective depth on scroll */
+  [data-scroll-depth] {
+    transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Enhanced mobile animations */
+  @media (max-width: 768px) {
+    .ach-card:hover, .team-card:hover {
+      transform: translateY(-6px) scale(1.02);
+    }
+    
+    /* Reduce particle count on mobile */
+    .particle:nth-child(n+6) {
+      display: none;
+    }
+  }
+
+  @keyframes navSlideDown {
+    to { transform: translateY(0); }
+  }
+
+
+  @keyframes ripple {
+    to {
+      transform: scale(4);
+      opacity: 0;
+    }
+  }
+
 </style>
 </head>
 <body>
@@ -6919,7 +7313,550 @@ async function createAccount() {
   checkFabVisibility();
 })();
 
+
+// ===========================================================
+// PREMIUM ANIMATIONS -- Parallax, Scroll Reveals, Magnetic
+// ===========================================================
+
+(function() {
+  'use strict';
+
+  // -- 1. PARALLAX SCROLLING on Hero --
+  function initParallax() {
+    var hero = document.getElementById('hero');
+    if (!hero) return;
+
+    window.addEventListener('scroll', function() {
+      var scrolled = window.pageYOffset;
+      var rate = scrolled * 0.5;
+      
+      // Parallax background
+      if (hero) {
+        hero.style.transform = 'translateY(' + (rate * 0.3) + 'px)';
+      }
+    }, {passive: true});
+  }
+
+  // -- 2. SCROLL REVEAL for Sections --
+  function initScrollReveal() {
+    var sections = document.querySelectorAll('section');
+    
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -100px 0px'
+    });
+
+    sections.forEach(function(section) {
+      observer.observe(section);
+    });
+  }
+
+  // -- 3. 3D CARD TILT on Mouse Move --
+  function init3DCards() {
+    var cards = document.querySelectorAll('.ach-card, .team-card');
+    
+    cards.forEach(function(card) {
+      card.addEventListener('mousemove', function(e) {
+        var rect = card.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        
+        var centerX = rect.width / 2;
+        var centerY = rect.height / 2;
+        
+        var rotateX = (y - centerY) / 15;
+        var rotateY = (centerX - x) / 15;
+        
+        card.style.transform = 
+          'translateY(-8px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) scale(1.02)';
+      });
+      
+      card.addEventListener('mouseleave', function() {
+        card.style.transform = '';
+      });
+    });
+  }
+
+  // -- 4. MAGNETIC BUTTONS --
+  function initMagneticButtons() {
+    var buttons = document.querySelectorAll('.cta-btn, .pricing-btn, .contact-submit');
+    
+    buttons.forEach(function(btn) {
+      btn.addEventListener('mousemove', function(e) {
+        var rect = btn.getBoundingClientRect();
+        var x = e.clientX - rect.left - rect.width / 2;
+        var y = e.clientY - rect.top - rect.height / 2;
+        
+        btn.style.transform = 'translate(' + (x * 0.3) + 'px, ' + (y * 0.3) + 'px)';
+      });
+      
+      btn.addEventListener('mouseleave', function() {
+        btn.style.transform = '';
+      });
+    });
+  }
+
+  // -- 5. CUSTOM CURSOR (Desktop Only) --
+  function initCustomCursor() {
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    
+    var cursor = document.createElement('div');
+    cursor.id = 'custom-cursor';
+    document.body.appendChild(cursor);
+    
+    var mouseX = 0, mouseY = 0;
+    var cursorX = 0, cursorY = 0;
+    
+    document.addEventListener('mousemove', function(e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      document.body.classList.add('cursor-visible');
+    });
+    
+    document.addEventListener('mouseleave', function() {
+      document.body.classList.remove('cursor-visible');
+    });
+    
+    // Smooth follow
+    function updateCursor() {
+      cursorX += (mouseX - cursorX) * 0.15;
+      cursorY += (mouseY - cursorY) * 0.15;
+      cursor.style.left = cursorX + 'px';
+      cursor.style.top = cursorY + 'px';
+      requestAnimationFrame(updateCursor);
+    }
+    updateCursor();
+    
+    // Active state on clickable elements
+    var clickables = document.querySelectorAll('a, button, [onclick], input, textarea, select');
+    clickables.forEach(function(el) {
+      el.addEventListener('mouseenter', function() {
+        cursor.classList.add('active');
+      });
+      el.addEventListener('mouseleave', function() {
+        cursor.classList.remove('active');
+      });
+    });
+  }
+
+  // -- 6. STAGGER ANIMATION for Achievement Cards --
+  function initStaggerAnimation() {
+    var achCards = document.querySelectorAll('.achievements-grid > *');
+    var teamCards = document.querySelectorAll('.team-grid > *');
+    
+    var allCards = Array.from(achCards).concat(Array.from(teamCards));
+    
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.style.animationPlayState = 'running';
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    allCards.forEach(function(card) {
+      card.style.animationPlayState = 'paused';
+      observer.observe(card);
+    });
+  }
+
+  // -- INIT ALL --
+  
+  // ── 7. FLOATING PARTICLES ──
+  function initParticles() {
+    var div = document.createElement('div');
+    div.className = 'particles';
+    document.body.insertBefore(div, document.body.firstChild);
+    for (var i = 0; i < 15; i++) {
+      var p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.animationDelay = Math.random() * 15 + 's';
+      p.style.setProperty('--drift', (Math.random() - 0.5) * 200 + 'px');
+      div.appendChild(p);
+    }
+  }
+
+  // ── 8. SCROLL DEPTH ──
+  function initScrollDepth() {
+    var els = document.querySelectorAll('.ach-card, .team-card');
+    window.addEventListener('scroll', function() {
+      var sy = window.pageYOffset;
+      els.forEach(function(el) {
+        var rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          var d = (sy - (rect.top + sy)) * 0.05;
+          el.style.transform = 'translateZ(' + d + 'px)';
+        }
+      });
+    }, {passive: true});
+  }
+
+  // ── 9. RIPPLE EFFECT ──
+  function initRippleEffect() {
+    document.querySelectorAll('.cta-btn, .pricing-btn').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        var r = document.createElement('span');
+        var rect = btn.getBoundingClientRect();
+        var s = Math.max(rect.width, rect.height);
+        r.style.cssText = 'position:absolute;width:'+s+'px;height:'+s+'px;left:'+(e.clientX-rect.left-s/2)+'px;top:'+(e.clientY-rect.top-s/2)+'px;border-radius:50%;background:rgba(255,255,255,0.5);pointer-events:none;animation:ripple 0.6s ease-out;';
+        btn.appendChild(r);
+        setTimeout(function() { r.remove(); }, 600);
+      });
+    });
+  }
+
+  // ── 10. ANIMATED COUNTERS ──
+  function initAnimatedCounters() {
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting && !e.target.dataset.animated) {
+          var t = e.target;
+          var txt = t.textContent;
+          var num = parseInt(txt.replace(/[^0-9]/g, ''));
+          if (num) {
+            var suf = txt.replace(num.toString(), '');
+            var dur = 2000, st = null;
+            function anim(ct) {
+              if (!st) st = ct;
+              var p = Math.min((ct - st) / dur, 1);
+              t.textContent = Math.floor(p * num) + suf;
+              if (p < 1) requestAnimationFrame(anim);
+              else t.dataset.animated = 'true';
+            }
+            requestAnimationFrame(anim);
+          }
+        }
+      });
+    }, {threshold: 0.5});
+    document.querySelectorAll('.stat-number').forEach(function(s) { obs.observe(s); });
+  }
+
+  // ── 11. LAZY IMAGES ──
+  function initLazyImages() {
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          var img = e.target;
+          img.src = img.dataset.src;
+          img.style.opacity = '0';
+          img.style.transition = 'opacity 0.6s';
+          img.onload = function() { img.style.opacity = '1'; };
+          obs.unobserve(img);
+        }
+      });
+    });
+    document.querySelectorAll('img[data-src]').forEach(function(i) { obs.observe(i); });
+  }
+
+  // ── 12. MULTI-LAYER PARALLAX ──
+  function initMultiLayerParallax() {
+    var layers = document.querySelectorAll('[data-parallax-speed]');
+    window.addEventListener('scroll', function() {
+      var sy = window.pageYOffset;
+      layers.forEach(function(l) {
+        var sp = parseFloat(l.dataset.parallaxSpeed) || 0.5;
+        l.style.transform = 'translate3d(0, ' + (-(sy * sp)) + 'px, 0)';
+      });
+    }, {passive: true});
+  }
+
+
+  window.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function() {
+      initParallax();
+      initScrollReveal();
+      init3DCards();
+      initMagneticButtons();
+      initCustomCursor();
+      initStaggerAnimation();
+      initParticles();
+      initScrollDepth();
+      initRippleEffect();
+      initAnimatedCounters();
+      initLazyImages();
+      initMultiLayerParallax();
+    }, 100);
+  });
+
+})();
+
 </script>
 
 </body>
-</html>
+</html
+  // ── 7. FLOATING PARTICLES BACKGROUND ──
+  function initParticles() {
+    var particlesDiv = document.createElement('div');
+    particlesDiv.className = 'particles';
+    document.body.insertBefore(particlesDiv, document.body.firstChild);
+    
+    for (var i = 0; i < 15; i++) {
+      var particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.animationDelay = Math.random() * 15 + 's';
+      particle.style.setProperty('--drift', (Math.random() - 0.5) * 200 + 'px');
+      particlesDiv.appendChild(particle);
+    }
+  }
+
+  // ── 8. PERSPECTIVE SCROLL DEPTH ──
+  function initScrollDepth() {
+    var elements = document.querySelectorAll('.ach-card, .team-card, .pricing-card');
+    
+    window.addEventListener('scroll', function() {
+      var scrollY = window.pageYOffset;
+      
+      elements.forEach(function(el, index) {
+        var rect = el.getBoundingClientRect();
+        var elementY = rect.top + scrollY;
+        var distance = scrollY - elementY;
+        var depth = distance * 0.05;
+        
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          el.style.transform = 'translateZ(' + depth + 'px)';
+        }
+      });
+    }, {passive: true});
+  }
+
+  // ── 9. RIPPLE EFFECT on Click ──
+  function initRippleEffect() {
+    var buttons = document.querySelectorAll('.cta-btn, .pricing-btn, .contact-submit');
+    
+    buttons.forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        var ripple = document.createElement('span');
+        var rect = btn.getBoundingClientRect();
+        var size = Math.max(rect.width, rect.height);
+        var x = e.clientX - rect.left - size / 2;
+        var y = e.clientY - rect.top - size / 2;
+        
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+        ripple.className = 'ripple-effect';
+        
+        btn.appendChild(ripple);
+        setTimeout(function() { ripple.remove(); }, 600);
+      });
+    });
+  }
+
+  // ── 10. ANIMATED COUNTER for Stats ──
+  function initAnimatedCounters() {
+    var stats = document.querySelectorAll('.stat-number');
+    
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting && !entry.target.dataset.animated) {
+          var target = entry.target;
+          var text = target.textContent;
+          var num = parseInt(text.replace(/[^0-9]/g, ''));
+          
+          if (num) {
+            var suffix = text.replace(num.toString(), '');
+            var duration = 2000;
+            var start = 0;
+            var startTime = null;
+            
+            function animate(currentTime) {
+              if (!startTime) startTime = currentTime;
+              var progress = Math.min((currentTime - startTime) / duration, 1);
+              var current = Math.floor(progress * num);
+              target.textContent = current + suffix;
+              
+              if (progress < 1) {
+                requestAnimationFrame(animate);
+              } else {
+                target.dataset.animated = 'true';
+              }
+            }
+            requestAnimationFrame(animate);
+          }
+        }
+      });
+    }, { threshold: 0.5 });
+    
+    stats.forEach(function(stat) {
+      observer.observe(stat);
+    });
+  }
+
+  // ── 11. SMOOTH IMAGE LAZY LOAD with Fade ──
+  function initLazyImages() {
+    var images = document.querySelectorAll('img[data-src]');
+    
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          var img = entry.target;
+          img.src = img.dataset.src;
+          img.style.opacity = '0';
+          img.style.transition = 'opacity 0.6s';
+          img.onload = function() { img.style.opacity = '1'; };
+          observer.unobserve(img);
+        }
+      });
+    });
+    
+    images.forEach(function(img) { observer.observe(img); });
+  }
+
+  // ── 12. PARALLAX LAYERS (Multi-depth) ──
+  function initMultiLayerParallax() {
+    var layers = document.querySelectorAll('[data-parallax-speed]');
+    
+    window.addEventListener('scroll', function() {
+      var scrollY = window.pageYOffset;
+      
+      layers.forEach(function(layer) {
+        var speed = parseFloat(layer.dataset.parallaxSpeed) || 0.5;
+        var yPos = -(scrollY * speed);
+        layer.style.transform = 'translate3d(0, ' + yPos + 'px, 0)';
+      });
+    }, {passive: true});
+  }
+
+
+  
+  
+  // ── 7. FLOATING PARTICLES BACKGROUND ──
+  function initParticles() {
+    var particlesDiv = document.createElement('div');
+    particlesDiv.className = 'particles';
+    document.body.insertBefore(particlesDiv, document.body.firstChild);
+    
+    for (var i = 0; i < 15; i++) {
+      var particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.animationDelay = Math.random() * 15 + 's';
+      particle.style.setProperty('--drift', (Math.random() - 0.5) * 200 + 'px');
+      particlesDiv.appendChild(particle);
+    }
+  }
+
+  // ── 8. PERSPECTIVE SCROLL DEPTH ──
+  function initScrollDepth() {
+    var elements = document.querySelectorAll('.ach-card, .team-card, .pricing-card');
+    
+    window.addEventListener('scroll', function() {
+      var scrollY = window.pageYOffset;
+      
+      elements.forEach(function(el, index) {
+        var rect = el.getBoundingClientRect();
+        var elementY = rect.top + scrollY;
+        var distance = scrollY - elementY;
+        var depth = distance * 0.05;
+        
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          el.style.transform = 'translateZ(' + depth + 'px)';
+        }
+      });
+    }, {passive: true});
+  }
+
+  // ── 9. RIPPLE EFFECT on Click ──
+  function initRippleEffect() {
+    var buttons = document.querySelectorAll('.cta-btn, .pricing-btn, .contact-submit');
+    
+    buttons.forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        var ripple = document.createElement('span');
+        var rect = btn.getBoundingClientRect();
+        var size = Math.max(rect.width, rect.height);
+        var x = e.clientX - rect.left - size / 2;
+        var y = e.clientY - rect.top - size / 2;
+        
+        ripple.style.cssText = 'position:absolute;width:' + size + 'px;height:' + size + 'px;left:' + x + 'px;top:' + y + 'px;border-radius:50%;background:rgba(255,255,255,0.5);pointer-events:none;animation:ripple 0.6s ease-out;';
+        
+        btn.appendChild(ripple);
+        setTimeout(function() { ripple.remove(); }, 600);
+      });
+    });
+  }
+
+  // ── 10. ANIMATED COUNTER for Stats ──
+  function initAnimatedCounters() {
+    var stats = document.querySelectorAll('.stat-number');
+    
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting && !entry.target.dataset.animated) {
+          var target = entry.target;
+          var text = target.textContent;
+          var num = parseInt(text.replace(/[^0-9]/g, ''));
+          
+          if (num) {
+            var suffix = text.replace(num.toString(), '');
+            var duration = 2000;
+            var startTime = null;
+            
+            function animate(currentTime) {
+              if (!startTime) startTime = currentTime;
+              var progress = Math.min((currentTime - startTime) / duration, 1);
+              var current = Math.floor(progress * num);
+              target.textContent = current + suffix;
+              
+              if (progress < 1) {
+                requestAnimationFrame(animate);
+              } else {
+                target.dataset.animated = 'true';
+              }
+            }
+            requestAnimationFrame(animate);
+          }
+        }
+      });
+    }, { threshold: 0.5 });
+    
+    stats.forEach(function(stat) {
+      observer.observe(stat);
+    });
+  }
+
+  // ── 11. SMOOTH IMAGE LAZY LOAD ──
+  function initLazyImages() {
+    var images = document.querySelectorAll('img[data-src]');
+    
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          var img = entry.target;
+          img.src = img.dataset.src;
+          img.style.opacity = '0';
+          img.style.transition = 'opacity 0.6s';
+          img.onload = function() { img.style.opacity = '1'; };
+          observer.unobserve(img);
+        }
+      });
+    });
+    
+    images.forEach(function(img) { observer.observe(img); });
+  }
+
+  // ── 12. MULTI-LAYER PARALLAX ──
+  function initMultiLayerParallax() {
+    var layers = document.querySelectorAll('[data-parallax-speed]');
+    
+    window.addEventListener('scroll', function() {
+      var scrollY = window.pageYOffset;
+      
+      layers.forEach(function(layer) {
+        var speed = parseFloat(layer.dataset.parallaxSpeed) || 0.5;
+        var yPos = -(scrollY * speed);
+        layer.style.transform = 'translate3d(0, ' + yPos + 'px, 0)';
+      });
+    }, {passive: true});
+  }
+
+
+  >
