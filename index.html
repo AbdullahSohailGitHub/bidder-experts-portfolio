@@ -2,13 +2,41 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-  <link rel="icon" sizes="16x16" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABFUlEQVR4nGNkQAKcAlz/GYgA3z98Y4SxWZA1rn9vdJIYAwIFz/1HMYhTgOv/jv82JzgFuP4Tg2FqGRgYGBg5Bbj+r39vdDJQ8Jw5MbbDAEwPC7KgfZgQQ8FMBYb//xkY3j3/zTA17yEDnzALQ8FMBbiaIrvrDPcvf4fzmdBN/vHtH0OYxHmGz+//MBi78cPFAgXPMQQKnkPRjNUADi4mhtUvDRkUtDkZLh38BBdb/96IYf17IwZufmb8Bvz49o8hWOQ8w5F17xkC88QxXPD141/CLlj7xpBB34GX4dCa9xgu0HfgRVGPEogHV71jOLjqHbqZWMVwuoBUMPAGMDAwUJiUYQYwMJCUmcwZGCCZiRFZgpzsDABiOI2mueiOmwAAAABJRU5ErkJggg==">
-  <link rel="icon" sizes="32x32" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABuUlEQVR4nO2Xv0sCYRjHP3daYhR0FUQuBQk1RIMNRhFRf0FSEP0LDUFDW9BSQzQGDW2NFlRTQUOgtDSkERQN6lb2A9QKzgzPa7CL0xTuUK/lvtv73vO83w88D+97j0CZ3O0tavlePZXNyIJ+7Sw3P0r7LhsJEJAiqh7iF0AzD0gRfyMBfjx+IUQrzQECUsR/lPZdaqUWrDTXS/MUrTStJBvg3wGc1T4s7fQytdBZsvcpF3hK5Lg4THO8/YySV6vGaiooKrNdUfMAeq1M3xO/lpmY62B5t4++ITet7Q721h4qxsaispFjARMlUFUIH6SQPxQAxmYkwyZ1AfiT6KiLv7ESAAgCjAckWtqKzuGDtHUAW+eDJetkPMfJ7ouh2KuzN9bn47UBaI3l8bpYDXrp6XexcTrA0ugdX5+FirFGZaoHHmM5QvspALp7mxmebDOTXjsAgKjLcDYJ1QMbAeDxupicL144b695bsIfNQOYakIlr5J5yRPaTxHcTCK/K1Vj9VocuSWZyFU82/4fsAFsABtAzGZkQRsWrDLV7oBsRhZEKA6MVkHozQFKXhOLhlO/fjj985xZPZ5/Ay0mxt4HHfuFAAAAAElFTkSuQmCC">
-  <link rel="icon" sizes="64x64" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADc0lEQVR4nO2bT2jTUBzHv0lKZyOZ7cRapxYn9iAIwkR3EdTjFIThn+lhntRDL8qOHtxAhZ2UIYiehJ0GKpM5kLnDEJxzohuCfw5jOud0Y5tr60r/bG3jYUS6JM2f2ZfXtPmc2ryX359v3nt5TfNjYACPlxeN9Cs1ktEEo9dHs4NdE5ejJYRqQ7kkLkdNCMWBQsn3ROpHSARFiibfaIPacbkIa76oJW+3xOWoCZEvwr8P8uTtnrgcuRCSCKoCqCVfaEiVKno5SAK4AO1Fz26JS0hxFxrJHi8vJqMJhpU35J9g1+Tzyc9BTQy2XG95RvB4eXHNCCi3qy+hNQoUU6DScASgHQBtHAFoB0AbRwDaAdCm4gVwmT1h32EBN56FNPvksiJSiRzikSxmJlIYH0tguDeKrx8S/227ECtpEWcDY6bPMy2AEViOAS9w4AUO/qAb+49V43RrAG+fx3A3PIl4NEvC7bqwdAocatyEtichsJzus0rLsHwN2FPP48gZn9VuC1K0KXDvyhQGuhYAAJyLQaCuCi1ttWg44VX0PdjoxWD34rpsFxsiIyCbEfFzPIU7lyaRjCvn+9ZdbhJu1wXRKZBO5jA3tax0ylbIGuDewGLLTuXVnv2WJunWFMRug4E6N1qubwcvcIr2l4+Mz3/SFE2AcGcQ4c6gbr+hnghG+qJFt32/dQr9D80vlERGQCG6O2bw+PYsxBJ6CmnpPuBk2I9TVwNWutTFUgH4ag7nr23DxY4dVrrVhMhGiGEAYbMLofqNuNBei+Bez5q+xy/7MdD1G98/J03bLjZERoAoAn8WMnj/IoabzROKdoYBjjbXkHBtGuJTYP7HMpYWM4rjgd1VpF0bgrgA/qAbQo1ypnGu0tgNErkNMgwg1LgQOrC6BqhRKrtByzdCEsO90aLbvnVuAu/6Y4btApSeCQ52L+LLmzgN1wos3QlmV0T0PZhDV/svK91qQkyAbEZEOpFDbD6D6fEUPg3F8fppBPPTyp/HNDEtwMdXS2jyjZKIhajtQlT8/wKOALQDoI0jAO0AaOMIQDsA2jgC0A6ANo4AtAOgjSNA/he9N6vtitY70KyR0rJyRbVeoNxGgd4b8C5gVQm9ajG7vT6vd/E0a4aMGLAbukVTQIWXzUlUdOGkRLnWERkqnc2nXIQwXTwtx65CGNnj/AV+Ckz1VbXvIwAAAABJRU5ErkJggg==">
-  <link rel="shortcut icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAIAEBAAAAAAIABOAQAAJgAAACAgAAAAACAA8gEAAHQBAACJUE5HDQoaCgAAAA1JSERSAAAAEAAAABAIBgAAAB/z/2EAAAEVSURBVHicY2RAApwCXP8ZiADfP3xjhLFZkDWuf290khgDAgXP/UcxiFOA6/+O/zYnOAW4/hODYWoZGBgYGDkFuP6vf290MlDwnDkxtsMATA8LsqB9mBBDwUwFhv//GRjePf/NMDXvIQOfMAtDwUwFuJoiu+sM9y9/h/OZ0E3+8e0fQ5jEeYbP7/8wGLvxw8UCBc8xBAqeQ9GM1QAOLiaG1S8NGRS0ORkuHfwEF1v/3ohh/XsjBm5+ZvwG/Pj2jyFY5DzDkXXvGQLzxDFc8PXjX8IuWPvGkEHfgZfh0Jr3GC7Qd+BFUY8SiAdXvWM4uOoduplYxXC6gFQw8AYwMDBQmJRhBjAwkJSZzBkYIJmJEVmCnOwMAGI4jaa56I6bAAAAAElFTkSuQmCCiVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABuUlEQVR4nO2Xv0sCYRjHP3daYhR0FUQuBQk1RIMNRhFRf0FSEP0LDUFDW9BSQzQGDW2NFlRTQUOgtDSkERQN6lb2A9QKzgzPa7CL0xTuUK/lvtv73vO83w88D+97j0CZ3O0tavlePZXNyIJ+7Sw3P0r7LhsJEJAiqh7iF0AzD0gRfyMBfjx+IUQrzQECUsR/lPZdaqUWrDTXS/MUrTStJBvg3wGc1T4s7fQytdBZsvcpF3hK5Lg4THO8/YySV6vGaiooKrNdUfMAeq1M3xO/lpmY62B5t4++ITet7Q721h4qxsaispFjARMlUFUIH6SQPxQAxmYkwyZ1AfiT6KiLv7ESAAgCjAckWtqKzuGDtHUAW+eDJetkPMfJ7ouh2KuzN9bn47UBaI3l8bpYDXrp6XexcTrA0ugdX5+FirFGZaoHHmM5QvspALp7mxmebDOTXjsAgKjLcDYJ1QMbAeDxupicL144b695bsIfNQOYakIlr5J5yRPaTxHcTCK/K1Vj9VocuSWZyFU82/4fsAFsABtAzGZkQRsWrDLV7oBsRhZEKA6MVkHozQFKXhOLhlO/fjj985xZPZ5/Ay0mxt4HHfuFAAAAAElFTkSuQmCC">
-  <link rel="apple-touch-icon" sizes="128x128" href="data:image/png;base64,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">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Muhammad Abdullah Sohail -- CEO, Bidder Experts</title>
+<title>Bidder Experts | Upwork Development Team — Web, Mobile, AI &amp; Blockchain</title>
+  <!-- ===== SEO META (added) ===== -->
+  <meta name="description" content="Top-rated Upwork development team led by Muhammad Abdullah Sohail delivering web, mobile, AI &amp; automation. 95%+ job success across 100+ contracts. Hire Bidder Experts.">
+  <meta name="keywords" content="Upwork development team, hire Upwork developers, web development agency Lahore, React Native developers, full-stack development, AI automation, blockchain Web3, Ruby on Rails, WordPress, Bidder Experts">
+  <meta name="author" content="Muhammad Abdullah Sohail">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <link rel="canonical" href="https://www.bidderexperts.com/">
+  <meta name="theme-color" content="#0A0E0A">
+  <!-- Local SEO -->
+  <meta name="geo.region" content="PK-PB">
+  <meta name="geo.placename" content="Lahore, Pakistan">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Bidder Experts">
+  <meta property="og:title" content="Bidder Experts | Upwork Development Team — Web, Mobile, AI &amp; Blockchain">
+  <meta property="og:description" content="Top-rated Upwork development team led by Muhammad Abdullah Sohail delivering web, mobile, AI &amp; automation. 95%+ job success across 100+ contracts. Hire Bidder Experts.">
+  <meta property="og:url" content="https://www.bidderexperts.com/">
+  <meta property="og:image" content="https://www.bidderexperts.com/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Bidder Experts — Upwork Development Team">
+  <meta property="og:locale" content="en_US">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Bidder Experts | Upwork Development Team — Web, Mobile, AI &amp; Blockchain">
+  <meta name="twitter:description" content="Top-rated Upwork development team led by Muhammad Abdullah Sohail delivering web, mobile, AI &amp; automation. 95%+ job success across 100+ contracts. Hire Bidder Experts.">
+  <meta name="twitter:image" content="https://www.bidderexperts.com/og-image.jpg">
+  <!-- ===== /SEO META ===== -->
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -1541,6 +1569,68 @@
   #admin-panel[data-theme="light"] .ap-tab-panel { background: var(--ap-bg) !important; }
   .admin-tab-panel { background: var(--ap-bg, #09100A); transition: background 0.3s; }
 </style>
+  <!-- ===== STRUCTURED DATA (JSON-LD, added) ===== -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": ["Organization", "ProfessionalService"],
+        "@id": "https://www.bidderexperts.com/#organization",
+        "name": "Bidder Experts",
+        "url": "https://www.bidderexperts.com/",
+        "logo": "https://www.bidderexperts.com/logo.png",
+        "image": "https://www.bidderexperts.com/og-image.jpg",
+        "description": "Top-rated Upwork development team delivering web, mobile, AI and automation solutions with a 95%+ job success score across 100+ contracts.",
+        "email": "info@bidderexperts.com",
+        "founder": { "@id": "https://www.bidderexperts.com/#abdullah" },
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Lahore",
+          "addressRegion": "Punjab",
+          "addressCountry": "PK"
+        },
+        "areaServed": { "@type": "Place", "name": "Worldwide" },
+        "knowsAbout": ["Android Development", "React Native", "Full-Stack Web Development", "Ruby on Rails", "MERN Stack", "WordPress", "AI & Automation", "Blockchain & Web3", "UI/UX Design", "Upwork Bidding"],
+        "sameAs": [
+          "https://www.linkedin.com/in/muhammad-abdullah-sohail-8ab1331a5/"
+        ],
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Development Services",
+          "itemListElement": [
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Android & React Native Development" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Full-Stack Web Development" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "AI & Automation" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Blockchain & Web3" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "UI/UX Design" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Upwork Bidding & Growth" } }
+          ]
+        }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://www.bidderexperts.com/#abdullah",
+        "name": "Muhammad Abdullah Sohail",
+        "jobTitle": "CEO & Lead Developer",
+        "worksFor": { "@id": "https://www.bidderexperts.com/#organization" },
+        "url": "https://www.bidderexperts.com/",
+        "sameAs": [
+          "https://www.linkedin.com/in/muhammad-abdullah-sohail-8ab1331a5/"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://www.bidderexperts.com/#website",
+        "url": "https://www.bidderexperts.com/",
+        "name": "Bidder Experts",
+        "publisher": { "@id": "https://www.bidderexperts.com/#organization" },
+        "inLanguage": "en"
+      }
+    ]
+  }
+  </script>
+  <!-- ===== /STRUCTURED DATA ===== -->
 </head>
 <body>
 
