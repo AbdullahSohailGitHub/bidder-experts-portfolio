@@ -1,0 +1,13 @@
+{
+  "name": "Bidder Experts",
+  "short_name": "Bidder Experts",
+  "description": "Upwork development team - web, mobile, AI & blockchain.",
+  "icons": [
+    { "src": "/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "theme_color": "#0A0E0A",
+  "background_color": "#0A0E0A",
+  "display": "standalone",
+  "start_url": "/"
+}
