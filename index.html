@@ -56,10 +56,16 @@
   /* -- NAV -- */
   nav { position:fixed; top:0; left:0; right:0; z-index:1000; display:flex; align-items:center; justify-content:space-between; padding:18px 60px; background:rgba(10,14,10,0.92); backdrop-filter:blur(20px); border-bottom:1px solid var(--border); }
   .nav-links { display:flex; gap:28px; list-style:none; }
-  .nav-links a { font-size:13px; font-weight:500; color:var(--muted); text-decoration:none; letter-spacing:0.3px; transition:color 0.2s; }
+  .nav-links a { position:relative; font-size:13px; font-weight:500; color:var(--muted); text-decoration:none; letter-spacing:0.3px; padding:7px 14px; border-radius:8px; overflow:hidden; transition:color 0.25s ease; }
+  .nav-links a::before { content:''; position:absolute; inset:0; background:rgba(184,255,60,0.1); border-radius:8px; transform:scale(0.6); opacity:0; transition:transform 0.3s ease, opacity 0.3s ease; }
   .nav-links a:hover { color:var(--lime); }
-  .btn-nav { background:var(--lime); color:var(--dark); padding:8px 20px; border-radius:20px; font-family:'Syne',sans-serif; font-size:13px; font-weight:700; text-decoration:none; transition:opacity 0.2s; white-space:nowrap; }
-  .btn-nav:hover { opacity:0.85; }
+  .nav-links a:hover::before { transform:scale(1); opacity:1; }
+  .btn-nav { position:relative; display:inline-flex; align-items:center; gap:6px; overflow:hidden; background:var(--lime); color:var(--dark); padding:8px 20px; border-radius:20px; font-family:'Syne',sans-serif; font-size:13px; font-weight:700; text-decoration:none; white-space:nowrap; transition:transform 0.25s ease, box-shadow 0.25s ease; }
+  .btn-nav::before { content:''; position:absolute; top:0; left:-120%; width:55%; height:100%; background:linear-gradient(120deg,transparent,rgba(255,255,255,0.6),transparent); transform:skewX(-20deg); transition:left 0.6s ease; }
+  .btn-nav .arrow { display:inline-block; transition:transform 0.25s ease; }
+  .btn-nav:hover { transform:translateY(-2px); box-shadow:0 6px 22px rgba(184,255,60,0.45); }
+  .btn-nav:hover::before { left:150%; }
+  .btn-nav:hover .arrow { transform:translateX(4px); }
 
   /* -- LOGO -- */
   .logo-wrap { display:flex; align-items:center; gap:10px; text-decoration:none; flex-shrink:0; }
@@ -1722,7 +1728,7 @@
     <li><a href="#pricing" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'});return false;">Pricing</a></li>
     <li><a href="#strategy" onclick="document.getElementById('strategy').scrollIntoView({behavior:'smooth'});return false;">Strategy</a></li>
   </ul>
-  <a href="#contact" class="btn-nav" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'});return false;">Hire Us →</a>
+  <a href="#contact" class="btn-nav" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'});return false;">Hire Us <span class="arrow">→</span></a>
 </nav>
 
 <!-- HERO -->
@@ -5987,7 +5993,14 @@ var BE_SYSTEM = 'You are the AI assistant for Bidder Experts, a Lahore-based Upw
   'SERVICES: Mobile Apps (React Native/Flutter), Full-Stack Web (MERN/Next.js), AI & Automation (LangChain/n8n), Blockchain/Web3 (Solidity), UI/UX (Figma), Upwork Lead Generation\n\n' +
   'TOP PROJECTS: $70,565 Rails Foreign Crew, $52,875 Website Design, $36,000 Voice AI CRM, $24,400 EdTech MVP, $17,500 GenAI Platform\n\n' +
   'CONTACT: WhatsApp +92 321 4900839 (fastest), Email Abdullahsohail63@gmail.com\n\n' +
-  'IMPORTANT: You can also help users with ANY general task - writing emails, coding help, business advice, analysis, creative writing, math, research, or anything else. You are a full AI assistant, not just a FAQ bot. If asked something outside Bidder Experts, help them fully then mention Abdullah if relevant.';
+  'STYLE: Reply in a warm, confident, concise tone. Use short paragraphs and bullet points for lists. Keep most answers to 2-4 sentences unless the user asks for detail. Never invent facts, prices, timelines, or guarantees not stated here; if unsure, say so and point them to WhatsApp.\n\n' +
+  'LEAD BEHAVIOR: Your top goal is to help the visitor AND turn serious prospects into leads. When someone shows buying intent (hiring, starting a project, a quote, pricing, or availability), give a helpful answer, then invite them to message Abdullah on WhatsApp +92 321 4900839 for a fast reply. When useful, ask ONE short qualifying question (what they want to build, timeline, or budget). Never be pushy.\n\n' +
+  'FAQ:\n' +
+  'Q: Do you build custom projects? A: Yes - mobile apps, full-stack web, AI & automation, blockchain/Web3, and UI/UX. Starting prices: Mobile $800, Web $1,000, AI $500, Blockchain $1,500, UI/UX $400 per project.\n' +
+  'Q: How do the managed Upwork plans work? A: We run your Upwork account end-to-end - 60-70 tailored proposals/month, profile optimisation, and night-shift bidding (10PM-3AM PKT) targeting USA, UAE, UK & Canada.\n' +
+  'Q: Which plan should I pick? A: Starter $200/mo +3% per win; Growth $250/mo +2% (most popular); Elite $300/mo flat, 0% commission.\n' +
+  'Q: How do I get started? A: Message Abdullah on WhatsApp +92 321 4900839 (fastest) or email Abdullahsohail63@gmail.com.\n\n' +
+  'IMPORTANT: You can also help with ANY general task - writing, coding, analysis, advice, math, research, or creative work. You are a full AI assistant, not just a FAQ bot. Help fully, then mention Abdullah or Bidder Experts only if relevant.';
 
 function beNow() {
   var d = new Date();
@@ -6084,14 +6097,8 @@ async function beAskAI(userMsg) {
 
     beHistory.push({ role: 'assistant', content: reply });
 
-    // Format reply - convert markdown to HTML
-    reply = reply
-      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*(.+?)\*/g, '<em>$1</em>')
-      .replace(/`(.+?)`/g, '<code style="background:rgba(184,255,60,0.1);padding:1px 5px;border-radius:3px;font-size:11px;">$1</code>')
-      .replace(/\n\n/g, '<br><br>')
-      .replace(/\n- /g, '<br>&#8226; ')
-      .replace(/\n/g, '<br>');
+    // Format reply - convert markdown to safe HTML
+    reply = beFormat(reply);
 
     return reply;
 
@@ -6102,6 +6109,62 @@ async function beAskAI(userMsg) {
   } finally {
     if (snd) { snd.classList.remove('loading'); snd.disabled = false; }
   }
+}
+
+function beEscapeHtml(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function beFormat(text) {
+  if (!text) return '';
+  var codeBlocks = [];
+  // pull out fenced code blocks first so markdown inside them is left alone
+  text = text.replace(/```([\s\S]*?)```/g, function (_, code) {
+    codeBlocks.push(code.replace(/^[a-zA-Z0-9+#-]*\n/, '').replace(/^\n+|\n+$/g, ''));
+    return '\u0000CB' + (codeBlocks.length - 1) + '\u0000';
+  });
+
+  text = beEscapeHtml(text);
+
+  // inline code
+  text = text.replace(/`([^`]+?)`/g, '<code style="background:rgba(184,255,60,0.12);padding:1px 5px;border-radius:4px;font-size:0.92em;">$1</code>');
+  // bold
+  text = text.replace(/\*\*([^*]+?)\*\*/g, '<strong>$1</strong>');
+  // italic (guarded so things like "5 * 5" are not affected)
+  text = text.replace(/(^|[\s(])\*(?=\S)([^*\n]+?)\*(?=[\s).,!?:;]|$)/g, '$1<em>$2</em>');
+  text = text.replace(/(^|[\s(])_(?=\S)([^_\n]+?)_(?=[\s).,!?:;]|$)/g, '$1<em>$2</em>');
+  // links [label](url)
+  text = text.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" style="color:#B8FF3C;">$1</a>');
+
+  // line-level: headings + bullet / numbered lists
+  var lines = text.split('\n');
+  var out = [];
+  var inList = false, listType = '';
+  function closeList() { if (inList) { out.push(listType === 'ol' ? '</ol>' : '</ul>'); inList = false; listType = ''; } }
+  for (var i = 0; i < lines.length; i++) {
+    var ln = lines[i];
+    var mH = ln.match(/^\s*(#{1,4})\s+(.*)$/);
+    var mUl = ln.match(/^\s*[-*\u2022]\s+(.*)$/);
+    var mOl = ln.match(/^\s*\d+\.\s+(.*)$/);
+    if (mH) { closeList(); out.push('<strong style="display:block;margin:7px 0 2px;color:#B8FF3C;">' + mH[2] + '</strong>'); continue; }
+    if (mUl) { if (!inList || listType !== 'ul') { closeList(); out.push('<ul style="margin:4px 0;padding-left:18px;">'); inList = true; listType = 'ul'; } out.push('<li style="margin:2px 0;">' + mUl[1] + '</li>'); continue; }
+    if (mOl) { if (!inList || listType !== 'ol') { closeList(); out.push('<ol style="margin:4px 0;padding-left:20px;">'); inList = true; listType = 'ol'; } out.push('<li style="margin:2px 0;">' + mOl[1] + '</li>'); continue; }
+    closeList();
+    out.push(ln);
+  }
+  closeList();
+  text = out.join('\n');
+
+  // restore code blocks (escaped)
+  text = text.replace(/\u0000CB(\d+)\u0000/g, function (_, n) {
+    return '<pre style="background:rgba(184,255,60,0.06);border:1px solid rgba(184,255,60,0.15);border-radius:8px;padding:8px 10px;overflow-x:auto;margin:6px 0;"><code style="font-size:0.85em;line-height:1.5;">' + beEscapeHtml(codeBlocks[n]) + '</code></pre>';
+  });
+
+  // paragraphs / line breaks
+  text = text.replace(/\n{2,}/g, '<br><br>').replace(/\n/g, '<br>');
+  // remove stray <br> hugging block elements
+  text = text.replace(/<br>\s*(<\/?(?:ul|ol|li|pre)[^>]*>)/g, '$1').replace(/(<\/(?:ul|ol|li|pre)>)\s*<br>/g, '$1');
+  return text;
 }
 
 function beFallback(msg) {
