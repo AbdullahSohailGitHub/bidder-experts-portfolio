@@ -199,6 +199,19 @@
   .pricing-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-bottom:32px; align-items:start; }
   .pricing-card { background:var(--card); border:1px solid var(--border); border-radius:20px; padding:32px 28px; position:relative; overflow:hidden; display:flex; flex-direction:column; transition:transform 0.25s,border-color 0.25s; }
   .pricing-card:hover { transform:translateY(-4px); }
+
+  /* ===== 3D CINEMATIC TILT (added) ===== */
+  .tilt3d { will-change:transform; transform-style:preserve-3d; }
+  .tilt3d::after {
+    content:''; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+    opacity:0; transition:opacity 0.3s ease; z-index:5; mix-blend-mode:screen;
+    background:radial-gradient(circle at var(--gx,50%) var(--gy,50%), rgba(184,255,60,0.22), transparent 55%);
+  }
+  .tilt3d.tilt-active::after { opacity:1; }
+  .tilt3d.tilt-active { box-shadow:0 22px 55px rgba(0,0,0,0.5), 0 0 32px rgba(184,255,60,0.16); border-color:rgba(184,255,60,0.4) !important; z-index:10; }
+  .service-card, .ach-card, .pricing-card { position:relative; }
+  @media (hover:none) { .tilt3d { transform:none !important; } .tilt3d::after { display:none; } }
+  /* ===== /3D TILT ===== */
   .pricing-featured { border-color:rgba(184,255,60,0.4); background:linear-gradient(160deg,rgba(184,255,60,0.05),var(--card)); transform:scale(1.03); }
   .pricing-featured:hover { transform:scale(1.03) translateY(-4px); }
   .pricing-accent { position:absolute; top:0; left:0; right:0; height:3px; }
@@ -1386,6 +1399,20 @@
     .ap-stat-num { font-size:26px !important; }
     .ap-title { font-size:18px !important; }
     .ap-link-card { padding:10px 12px !important; font-size:11px !important; }
+    .ap-page-header { flex-direction:column; align-items:stretch; gap:12px; }
+    .ap-action-btn { justify-content:center; width:100%; }
+    .ap-form-card .ap-field[style*="flex-end"] { flex-direction:column !important; align-items:stretch !important; }
+    .ap-save-btn, .ap-cancel-btn { width:100%; }
+  }
+  @media (max-width:400px) {
+    .ap-wrap { padding:12px 10px; }
+    .ap-stats-grid { grid-template-columns:1fr !important; }
+    .ap-links-grid { grid-template-columns:1fr !important; }
+    .ap-stat-num { font-size:24px !important; }
+    .ap-stat-card { padding:16px 14px !important; }
+    .ap-contact-btns { flex-wrap:wrap; }
+    .ap-contact-btns a { min-width:0; }
+    .ap-action-btn { font-size:11px; padding:9px 12px; }
   }
 
 
@@ -7074,5 +7101,38 @@ async function createAccount() {
 
 </script>
 
+<script>
+/* ===== 3D CINEMATIC TILT ENGINE (added) ===== */
+(function(){
+  if (window.matchMedia && window.matchMedia('(hover:none)').matches) return; // skip on touch
+  var TILT = 14;            // max degrees
+  var SCALE = 1.035;        // hover scale
+  var sel = '.service-card, .team-card, .ach-card, .pricing-card';
+  var cards = document.querySelectorAll(sel);
+  cards.forEach(function(card){
+    card.classList.add('tilt3d');
+    var raf = null, pend = false;
+    card.addEventListener('mousemove', function(e){
+      var r = card.getBoundingClientRect();
+      var px = (e.clientX - r.left) / r.width;
+      var py = (e.clientY - r.top) / r.height;
+      if (raf) return;
+      raf = requestAnimationFrame(function(){
+        raf = null;
+        var rx = (0.5 - py) * TILT;
+        var ry = (px - 0.5) * TILT;
+        card.style.transform = 'perspective(900px) rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg) scale(' + SCALE + ')';
+        card.style.setProperty('--gx', (px*100).toFixed(1) + '%');
+        card.style.setProperty('--gy', (py*100).toFixed(1) + '%');
+      });
+    });
+    card.addEventListener('mouseenter', function(){ card.classList.add('tilt-active'); });
+    card.addEventListener('mouseleave', function(){
+      card.classList.remove('tilt-active');
+      card.style.transform = '';
+    });
+  });
+})();
+</script>
 </body>
 </html>
