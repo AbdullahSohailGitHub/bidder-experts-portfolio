@@ -104,8 +104,11 @@
   .tilt3d.tilt-active::after { opacity:1; }
   .tilt3d.tilt-active { box-shadow:0 22px 55px rgba(0,0,0,0.5), 0 0 32px rgba(184,255,60,0.16); border-color:rgba(184,255,60,0.4) !important; z-index:10; }
   @media (hover:none) { .tilt3d { transform:none !important; } .tilt3d::after { display:none; } }
-  @media (max-width:860px){ .grid{grid-template-columns:1fr 1fr;} .steps{grid-template-columns:1fr 1fr;} .nav-links{display:none;} }
-  @media (max-width:520px){ .grid{grid-template-columns:1fr;} .steps{grid-template-columns:1fr;} .price-box{padding:28px 20px;} .hero{padding:36px 0 44px;} }
+  @media (max-width:980px){ .nav-links{gap:2px;} .nav-links a{padding:7px 10px;} }
+  @media (max-width:860px){ .grid{grid-template-columns:1fr 1fr;} .steps{grid-template-columns:1fr 1fr;} .nav-links{display:none;} .nav-in{gap:14px;} section{padding:44px 0;} }
+  @media (max-width:600px){ .wrap{padding:0 18px;} .hero-btns{flex-direction:column;} .hero-btns a{width:100%;justify-content:center;} .price-box{padding:28px 20px;} }
+  @media (max-width:520px){ .grid{grid-template-columns:1fr;} .steps{grid-template-columns:1fr;} .hero{padding:32px 0 40px;} section{padding:38px 0;} h1{font-size:30px;letter-spacing:-1px;} .price-box .amt{font-size:38px;} .crumb{font-size:11px;} }
+  @media (max-width:380px){ .wrap{padding:0 14px;} .nav-cta{padding:7px 14px;font-size:12px;} .logo{font-size:17px;} .tag{font-size:10px;padding:5px 12px;} .card{padding:22px 18px;} }
 </style>
 </head>
 <body>
