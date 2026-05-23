@@ -154,6 +154,27 @@
   .lime-bg{background:var(--lime)} .amber-bg{background:#F5A623} .teal-bg{background:#5DCAA5}
   .uc-footer { margin-top:clamp(10px,1.2vw,14px); padding-top:clamp(8px,1vw,12px); border-top:1px solid var(--border); font-size:clamp(9px,0.75vw,10px); color:var(--muted); display:flex; align-items:center; gap:5px; position:relative; }
   .uc-dot { width:5px; height:5px; border-radius:50%; background:#5DCAA5; flex-shrink:0; animation:pulse 2s ease-in-out infinite; }
+  /* premium panel polish */
+  .upwork-card { box-shadow:0 20px 60px rgba(0,0,0,0.35); }
+  .upwork-card::after { content:''; position:absolute; top:-50%; left:-60%; width:50%; height:200%; background:linear-gradient(120deg,transparent,rgba(184,255,60,0.07),transparent); transform:skewX(-20deg); animation:ucSheen 7s ease-in-out infinite; pointer-events:none; }
+  @keyframes ucSheen { 0%,100%{ left:-60%; } 50%{ left:120%; } }
+  /* LIVE badge on the label */
+  .uc-label { display:flex; align-items:center; gap:7px; }
+  .uc-live { display:inline-flex; align-items:center; gap:5px; margin-left:auto; font-size:9px; font-weight:700; letter-spacing:1px; color:var(--lime); }
+  .uc-live::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--lime); box-shadow:0 0 0 0 rgba(184,255,60,0.6); animation:ucPulse 1.8s ease-out infinite; }
+  @keyframes ucPulse { 0%{ box-shadow:0 0 0 0 rgba(184,255,60,0.6);} 70%{ box-shadow:0 0 0 7px rgba(184,255,60,0);} 100%{ box-shadow:0 0 0 0 rgba(184,255,60,0);} }
+  /* stat cards: direct hover lift + glow (no link needed) */
+  .uc-stat { transition:transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease; cursor:default; }
+  .uc-stat:hover { transform:translateY(-3px); border-color:rgba(184,255,60,0.45); background:rgba(184,255,60,0.08); box-shadow:0 8px 22px rgba(0,0,0,0.4), 0 0 18px rgba(184,255,60,0.12); }
+  .uc-num { text-shadow:0 0 18px rgba(184,255,60,0.25); }
+  /* world clocks */
+  .uc-clocks { margin-top:clamp(10px,1.2vw,14px); padding-top:clamp(8px,1vw,12px); border-top:1px solid var(--border); display:grid; grid-template-columns:repeat(5,1fr); gap:6px; position:relative; }
+  .uc-clock { text-align:center; background:rgba(184,255,60,0.03); border:1px solid var(--border); border-radius:8px; padding:7px 4px; transition:border-color 0.25s ease, background 0.25s ease, transform 0.25s ease; }
+  .uc-clock:hover { border-color:rgba(184,255,60,0.4); background:rgba(184,255,60,0.08); transform:translateY(-2px); }
+  .uc-clock .flag { font-size:13px; line-height:1; }
+  .uc-clock .time { font-family:'Syne',sans-serif; font-size:clamp(10px,0.9vw,12px); font-weight:700; color:var(--lime); margin-top:3px; letter-spacing:0.3px; font-variant-numeric:tabular-nums; }
+  .uc-clock .city { font-size:8px; color:var(--muted); text-transform:uppercase; letter-spacing:0.4px; margin-top:2px; }
+  @media (max-width:520px){ .uc-clocks { grid-template-columns:repeat(5,1fr); gap:3px; } .uc-clock { padding:5px 2px; } .uc-clock .city { font-size:7px; } }
 
   /* -- HERO TAG (section tag) -- */
   .hero-tag { margin-bottom:0; }
@@ -1810,22 +1831,22 @@
     <!-- -- STATS CARD COLUMN -- -->
     <div class="hero-card-col" id="heroCard">
       <div class="upwork-card">
-        <div class="uc-label">Live Upwork Profile</div>
+        <div class="uc-label">Live Upwork Profile <span class="uc-live">LIVE</span></div>
         <div class="uc-grid">
           <div class="uc-stat">
-            <div class="uc-num">100+</div>
+            <div class="uc-num" id="ucStat1">100+</div>
             <div class="uc-sub">Total Contracts</div>
           </div>
           <div class="uc-stat">
-            <div class="uc-num">$500K+</div>
+            <div class="uc-num" id="ucStat2">$500K+</div>
             <div class="uc-sub">Total Earned</div>
           </div>
           <div class="uc-stat">
-            <div class="uc-num">5.0 &#9733;</div>
+            <div class="uc-num" id="ucStat3">5.0 &#9733;</div>
             <div class="uc-sub">Avg Rating</div>
           </div>
           <div class="uc-stat">
-            <div class="uc-num">95%+</div>
+            <div class="uc-num" id="ucStat4">95%+</div>
             <div class="uc-sub">JSS Score</div>
           </div>
         </div>
@@ -1845,6 +1866,13 @@
             <span class="uc-bar-val teal">25%</span>
             <div class="uc-bar-track"><div class="uc-bar-fill teal-bg" id="pb3" style="width:0%"></div></div>
           </div>
+        </div>
+        <div class="uc-clocks" id="ucClocks">
+          <div class="uc-clock"><div class="flag">🇵🇰</div><div class="time" data-tz="Asia/Karachi">--:--</div><div class="city">Lahore</div></div>
+          <div class="uc-clock"><div class="flag">🇺🇸</div><div class="time" data-tz="America/New_York">--:--</div><div class="city">New York</div></div>
+          <div class="uc-clock"><div class="flag">🇬🇧</div><div class="time" data-tz="Europe/London">--:--</div><div class="city">London</div></div>
+          <div class="uc-clock"><div class="flag">🇦🇪</div><div class="time" data-tz="Asia/Dubai">--:--</div><div class="city">Dubai</div></div>
+          <div class="uc-clock"><div class="flag">🇨🇦</div><div class="time" data-tz="America/Toronto">--:--</div><div class="city">Toronto</div></div>
         </div>
         <div class="uc-footer">
           <span class="uc-dot"></span> $1M+ projects closed &middot; Lahore, PK
@@ -7134,6 +7162,57 @@ async function createAccount() {
       card.style.transform = '';
     });
   });
+})();
+</script>
+<script>
+/* ===== LIVE WORLD CLOCKS (added) ===== */
+(function(){
+  var els = document.querySelectorAll('#ucClocks .time');
+  if (!els.length) return;
+  function tick(){
+    els.forEach(function(el){
+      try {
+        var t = new Date().toLocaleTimeString('en-US', { timeZone: el.getAttribute('data-tz'), hour:'numeric', minute:'2-digit', hour12:true });
+        el.textContent = t;
+      } catch(e){}
+    });
+  }
+  tick();
+  setInterval(tick, 1000 * 20);
+})();
+
+/* ===== STAT COUNT-UP ON SCROLL (added) ===== */
+(function(){
+  var targets = [
+    { id:'ucStat1', to:100, prefix:'', suffix:'+' },
+    { id:'ucStat2', to:500, prefix:'$', suffix:'K+' },
+    { id:'ucStat3', to:5.0, prefix:'', suffix:' ★', dec:1 },
+    { id:'ucStat4', to:95, prefix:'', suffix:'%+' }
+  ];
+  function animate(t){
+    var el = document.getElementById(t.id);
+    if (!el) return;
+    var start = null, dur = 1400;
+    function step(ts){
+      if (!start) start = ts;
+      var p = Math.min((ts - start) / dur, 1);
+      var eased = 1 - Math.pow(1 - p, 3); // ease-out cubic
+      var val = t.to * eased;
+      var shown = t.dec ? val.toFixed(t.dec) : Math.floor(val);
+      el.innerHTML = t.prefix + shown + t.suffix;
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  var card = document.querySelector('.upwork-card');
+  if (!card) return;
+  var done = false;
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting && !done){ done = true; targets.forEach(animate); io.disconnect(); }
+    });
+  }, { threshold:0.4 });
+  io.observe(card);
 })();
 </script>
 </body>
