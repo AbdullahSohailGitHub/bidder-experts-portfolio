@@ -149,8 +149,10 @@
   .uc-bar-label { font-size:clamp(9px,0.8vw,10px); color:var(--muted); flex:1; min-width:70px; }
   .uc-bar-val { font-size:clamp(9px,0.8vw,10px); font-weight:700; }
   .uc-bar-val.lime{color:var(--lime)} .uc-bar-val.amber{color:#F5A623} .uc-bar-val.teal{color:#5DCAA5}
-  .uc-bar-track { width:100%; height:3px; background:rgba(255,255,255,0.07); border-radius:4px; margin-top:2px; }
-  .uc-bar-fill { height:3px; border-radius:4px; transition:width 1.5s ease; }
+  .uc-bar-track { width:100%; height:3px; background:rgba(255,255,255,0.07); border-radius:4px; margin-top:2px; overflow:hidden; }
+  .uc-bar-fill { height:3px; border-radius:4px; transition:width 1.5s cubic-bezier(0.22,1,0.36,1); position:relative; overflow:hidden; }
+  .uc-bar-fill::after { content:''; position:absolute; top:0; left:0; height:100%; width:40%; background:linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent); transform:translateX(-120%); animation:ucBarShine 2.6s ease-in-out infinite; }
+  @keyframes ucBarShine { 0%{ transform:translateX(-120%); } 60%,100%{ transform:translateX(320%); } }
   .lime-bg{background:var(--lime)} .amber-bg{background:#F5A623} .teal-bg{background:#5DCAA5}
   .uc-footer { margin-top:clamp(10px,1.2vw,14px); padding-top:clamp(8px,1vw,12px); border-top:1px solid var(--border); font-size:clamp(9px,0.75vw,10px); color:var(--muted); display:flex; align-items:center; gap:5px; position:relative; }
   .uc-dot { width:5px; height:5px; border-radius:50%; background:#5DCAA5; flex-shrink:0; animation:pulse 2s ease-in-out infinite; }
@@ -169,8 +171,27 @@
   .uc-num { text-shadow:0 0 18px rgba(184,255,60,0.25); }
   /* world clocks */
   .uc-clocks { margin-top:clamp(10px,1.2vw,14px); padding-top:clamp(8px,1vw,12px); border-top:1px solid var(--border); display:grid; grid-template-columns:repeat(5,1fr); gap:6px; position:relative; }
-  .uc-clock { text-align:center; background:rgba(184,255,60,0.03); border:1px solid var(--border); border-radius:8px; padding:7px 4px; transition:border-color 0.25s ease, background 0.25s ease, transform 0.25s ease; }
+  .uc-clock { text-align:center; background:rgba(184,255,60,0.03); border:1px solid var(--border); border-radius:8px; padding:7px 4px; transition:border-color 0.25s ease, background 0.25s ease, transform 0.25s ease; cursor:pointer; }
   .uc-clock:hover { border-color:rgba(184,255,60,0.4); background:rgba(184,255,60,0.08); transform:translateY(-2px); }
+  .uc-clock.active { border-color:rgba(184,255,60,0.6); background:rgba(184,255,60,0.12); }
+  /* timezone popup */
+  .uc-tzpop { position:absolute; left:50%; transform:translateX(-50%); bottom:calc(100% + 10px); z-index:30; min-width:200px; max-width:280px; background:#0d130d; border:1px solid rgba(184,255,60,0.35); border-radius:12px; padding:12px 14px; box-shadow:0 16px 44px rgba(0,0,0,0.55), 0 0 22px rgba(184,255,60,0.1); transform-origin:bottom center; animation:ucPopIn 0.32s cubic-bezier(0.34,1.56,0.64,1), ucPopGlow 2.8s ease-in-out 0.32s infinite; overflow:hidden; }
+  @keyframes ucPopIn { 0%{ opacity:0; transform:translateY(8px) scale(0.88); } 100%{ opacity:1; transform:translateY(0) scale(1); } }
+  @keyframes ucPopGlow { 0%,100%{ box-shadow:0 16px 44px rgba(0,0,0,0.55), 0 0 18px rgba(184,255,60,0.08); border-color:rgba(184,255,60,0.3); } 50%{ box-shadow:0 16px 44px rgba(0,0,0,0.55), 0 0 30px rgba(184,255,60,0.28); border-color:rgba(184,255,60,0.6); } }
+  .uc-tzpop::before { content:''; position:absolute; top:0; left:-70%; width:55%; height:100%; background:linear-gradient(120deg, transparent, rgba(184,255,60,0.16), transparent); transform:skewX(-20deg); animation:ucPopSweep 0.9s ease-out 0.3s 1 forwards; pointer-events:none; z-index:1; }
+  @keyframes ucPopSweep { 0%{ left:-70%; } 100%{ left:160%; } }
+  .uc-tzpop::after { content:''; position:absolute; top:100%; left:50%; transform:translateX(-50%); border:7px solid transparent; border-top-color:rgba(184,255,60,0.35); z-index:2; }
+  .uc-tzpop .pop-head { display:flex; align-items:center; gap:7px; font-family:'Syne',sans-serif; font-size:12px; font-weight:700; color:var(--text); margin-bottom:10px; opacity:0; animation:ucRowIn 0.4s ease forwards; position:relative; z-index:2; }
+  .uc-tzpop .pop-row { display:flex; justify-content:space-between; align-items:baseline; gap:14px; padding:5px 6px; margin:0 -6px; border-radius:6px; border-top:1px solid rgba(184,255,60,0.08); opacity:0; animation:ucRowIn 0.4s ease forwards; position:relative; z-index:2; transition:background 0.2s ease, transform 0.2s ease; cursor:default; }
+  .uc-tzpop .pop-row:hover { background:rgba(184,255,60,0.08); transform:translateX(3px); }
+  .uc-tzpop .pop-row:first-of-type { border-top:none; }
+  @keyframes ucRowIn { 0%{ opacity:0; transform:translateX(-8px); } 100%{ opacity:1; transform:translateX(0); } }
+  .uc-tzpop .pop-zone { font-size:11px; color:var(--muted); }
+  .uc-tzpop .pop-time { font-family:'Syne',sans-serif; font-size:12.5px; font-weight:700; color:var(--lime); font-variant-numeric:tabular-nums; white-space:nowrap; text-shadow:0 0 12px rgba(184,255,60,0.4); }
+  .uc-tzpop .pop-note { font-size:10.5px; color:var(--muted); line-height:1.5; opacity:0; animation:ucRowIn 0.4s ease forwards; position:relative; z-index:2; }
+  .uc-clock.active .flag { animation:ucFlagPop 0.4s ease; }
+  @keyframes ucFlagPop { 0%{ transform:scale(1); } 40%{ transform:scale(1.35); } 100%{ transform:scale(1); } }
+  @media (max-width:520px){ .uc-tzpop { min-width:170px; max-width:240px; padding:10px 12px; } }
   .uc-clock .flag { font-size:13px; line-height:1; }
   .uc-clock .time { font-family:'Syne',sans-serif; font-size:clamp(10px,0.9vw,12px); font-weight:700; color:var(--lime); margin-top:3px; letter-spacing:0.3px; font-variant-numeric:tabular-nums; }
   .uc-clock .city { font-size:8px; color:var(--muted); text-transform:uppercase; letter-spacing:0.4px; margin-top:2px; }
@@ -1868,11 +1889,12 @@
           </div>
         </div>
         <div class="uc-clocks" id="ucClocks">
-          <div class="uc-clock"><div class="flag">🇵🇰</div><div class="time" data-tz="Asia/Karachi">--:--</div><div class="city">Lahore</div></div>
-          <div class="uc-clock"><div class="flag">🇺🇸</div><div class="time" data-tz="America/New_York">--:--</div><div class="city">New York</div></div>
-          <div class="uc-clock"><div class="flag">🇬🇧</div><div class="time" data-tz="Europe/London">--:--</div><div class="city">London</div></div>
-          <div class="uc-clock"><div class="flag">🇦🇪</div><div class="time" data-tz="Asia/Dubai">--:--</div><div class="city">Dubai</div></div>
-          <div class="uc-clock"><div class="flag">🇨🇦</div><div class="time" data-tz="America/Toronto">--:--</div><div class="city">Toronto</div></div>
+          <div class="uc-clock" data-country="PK"><div class="flag">🇵🇰</div><div class="time" data-tz="Asia/Karachi">--:--</div><div class="city">Lahore</div></div>
+          <div class="uc-clock" data-country="US"><div class="flag">🇺🇸</div><div class="time" data-tz="America/New_York">--:--</div><div class="city">New York</div></div>
+          <div class="uc-clock" data-country="GB"><div class="flag">🇬🇧</div><div class="time" data-tz="Europe/London">--:--</div><div class="city">London</div></div>
+          <div class="uc-clock" data-country="AE"><div class="flag">🇦🇪</div><div class="time" data-tz="Asia/Dubai">--:--</div><div class="city">Dubai</div></div>
+          <div class="uc-clock" data-country="CA"><div class="flag">🇨🇦</div><div class="time" data-tz="America/Toronto">--:--</div><div class="city">Toronto</div></div>
+          <div class="uc-tzpop" id="ucTzPop" hidden></div>
         </div>
         <div class="uc-footer">
           <span class="uc-dot"></span> $1M+ projects closed &middot; Lahore, PK
@@ -5869,16 +5891,32 @@ function toggleProjects(person, type) {
 <script>
 //  COUNTER ANIMATION + PROGRESS BARS 
 (function() {
-  // Animate progress bars (hero card)
+  // Animate progress bars (hero card) — re-fill when scrolled into view
   function animateBars() {
     var p1 = document.getElementById('pb1');
     var p2 = document.getElementById('pb2');
     var p3 = document.getElementById('pb3');
-    setTimeout(function() {
-      if (p1) p1.style.width = '40%';
-      if (p2) p2.style.width = '35%';
-      if (p3) p3.style.width = '25%';
-    }, 800);
+    if (!p1 || !p2 || !p3) return;
+    var targets = { pb1:'40%', pb2:'35%', pb3:'25%' };
+    function fill() {
+      p1.style.width = '0%'; p2.style.width = '0%'; p3.style.width = '0%';
+      setTimeout(function() {
+        p1.style.width = targets.pb1;
+        p2.style.width = targets.pb2;
+        p3.style.width = targets.pb3;
+      }, 150);
+    }
+    var card = document.querySelector('.upwork-card') || p1.closest('.uc-bars') || p1;
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) { fill(); }
+        });
+      }, { threshold:0.35 });
+      io.observe(card);
+    } else {
+      setTimeout(fill, 800);
+    }
   }
   animateBars();
 
@@ -7179,6 +7217,98 @@ async function createAccount() {
   }
   tick();
   setInterval(tick, 1000 * 20);
+})();
+
+/* ===== COUNTRY TIMEZONE POPUP (added) ===== */
+(function(){
+  var wrap = document.getElementById('ucClocks');
+  var pop = document.getElementById('ucTzPop');
+  if (!wrap || !pop) return;
+
+  // Time zones per country. Single-zone countries get a note instead of a list.
+  var DATA = {
+    US: { name:'United States 🇺🇸', zones:[
+      ['Eastern (New York)','America/New_York'],
+      ['Central (Chicago)','America/Chicago'],
+      ['Mountain (Denver)','America/Denver'],
+      ['Pacific (Los Angeles)','America/Los_Angeles'],
+      ['Alaska (Anchorage)','America/Anchorage'],
+      ['Hawaii (Honolulu)','Pacific/Honolulu']
+    ]},
+    CA: { name:'Canada 🇨🇦', zones:[
+      ['Newfoundland (St. John\u2019s)','America/St_Johns'],
+      ['Atlantic (Halifax)','America/Halifax'],
+      ['Eastern (Toronto)','America/Toronto'],
+      ['Central (Winnipeg)','America/Winnipeg'],
+      ['Mountain (Edmonton)','America/Edmonton'],
+      ['Pacific (Vancouver)','America/Vancouver']
+    ]},
+    GB: { name:'United Kingdom 🇬🇧', note:'The UK uses a single time zone nationwide, so the time is the same across England, Scotland, Wales and Northern Ireland.' },
+    AE: { name:'United Arab Emirates 🇦🇪', note:'The UAE uses one time zone (Gulf Standard Time) across all seven emirates, including Dubai and Abu Dhabi.' },
+    PK: { name:'Pakistan 🇵🇰', note:'Pakistan uses a single time zone (Pakistan Standard Time) nationwide, including Lahore, Karachi and Islamabad.' }
+  };
+
+  function fmt(tz){
+    try { return new Date().toLocaleTimeString('en-US',{ timeZone:tz, hour:'numeric', minute:'2-digit', hour12:true }); }
+    catch(e){ return '--'; }
+  }
+
+  var openCountry = null, popTimer = null;
+
+  function build(country){
+    var d = DATA[country];
+    if (!d) return '';
+    var html = '<div class="pop-head" style="animation-delay:0.04s">'+d.name+'</div>';
+    if (d.zones){
+      d.zones.forEach(function(z, i){
+        var delay = (0.08 + i * 0.06).toFixed(2);
+        html += '<div class="pop-row" style="animation-delay:'+delay+'s"><span class="pop-zone">'+z[0]+'</span><span class="pop-time" data-tz="'+z[1]+'">'+fmt(z[1])+'</span></div>';
+      });
+    } else if (d.note){
+      html += '<div class="pop-note" style="animation-delay:0.12s">'+d.note+'</div>';
+    }
+    return html;
+  }
+
+  function refreshPopTimes(){
+    pop.querySelectorAll('.pop-time').forEach(function(el){
+      el.textContent = fmt(el.getAttribute('data-tz'));
+    });
+  }
+
+  function closePop(){
+    pop.hidden = true;
+    pop.innerHTML = '';
+    openCountry = null;
+    wrap.querySelectorAll('.uc-clock.active').forEach(function(c){ c.classList.remove('active'); });
+    if (popTimer){ clearInterval(popTimer); popTimer = null; }
+  }
+
+  function openPop(clock){
+    var country = clock.getAttribute('data-country');
+    if (openCountry === country){ closePop(); return; }
+    closePop();
+    pop.innerHTML = build(country);
+    pop.hidden = false;
+    clock.classList.add('active');
+    openCountry = country;
+    // keep popup horizontally within the panel
+    pop.style.left = '50%';
+    var clockRect = clock.getBoundingClientRect();
+    var wrapRect = wrap.getBoundingClientRect();
+    var offset = (clockRect.left + clockRect.width/2) - wrapRect.left;
+    pop.style.left = offset + 'px';
+    popTimer = setInterval(refreshPopTimes, 1000 * 20);
+  }
+
+  wrap.querySelectorAll('.uc-clock').forEach(function(clock){
+    clock.addEventListener('click', function(e){ e.stopPropagation(); openPop(clock); });
+  });
+  // close on outside click or Escape
+  document.addEventListener('click', function(e){
+    if (openCountry && !pop.contains(e.target)) closePop();
+  });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closePop(); });
 })();
 
 /* ===== STAT COUNT-UP ON SCROLL (added) ===== */
