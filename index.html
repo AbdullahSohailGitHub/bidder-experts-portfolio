@@ -196,6 +196,119 @@
   .uc-clock .time { font-family:'Syne',sans-serif; font-size:clamp(10px,0.9vw,12px); font-weight:700; color:var(--lime); margin-top:3px; letter-spacing:0.3px; font-variant-numeric:tabular-nums; }
   .uc-clock .city { font-size:8px; color:var(--muted); text-transform:uppercase; letter-spacing:0.4px; margin-top:2px; }
   @media (max-width:520px){ .uc-clocks { grid-template-columns:repeat(5,1fr); gap:3px; } .uc-clock { padding:5px 2px; } .uc-clock .city { font-size:7px; } }
+  /* meeting planner floating button + modal */
+  #mtg-fab { position:fixed; bottom:150px; right:27px; z-index:8887; height:46px; width:46px; padding:0; border-radius:23px; background:linear-gradient(135deg,#c9ff5e,#a3f028); color:var(--dark); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:0; overflow:hidden; white-space:nowrap; box-shadow:0 8px 28px rgba(184,255,60,0.45); transition:width 0.35s cubic-bezier(0.34,1.4,0.5,1), transform 0.25s ease, box-shadow 0.25s ease, gap 0.35s ease, padding 0.35s ease; }
+  #mtg-fab::before { content:''; position:absolute; inset:-3px; border-radius:26px; background:radial-gradient(circle,rgba(184,255,60,0.5),transparent 70%); opacity:0; transition:opacity 0.3s ease; z-index:-1; }
+  #mtg-fab .mtg-fab-label { max-width:0; opacity:0; font-family:'Syne',sans-serif; font-size:13px; font-weight:700; transition:max-width 0.35s ease, opacity 0.3s ease; overflow:hidden; }
+  #mtg-fab:hover { width:168px; padding:0 18px; gap:9px; transform:translateY(-3px); box-shadow:0 14px 40px rgba(184,255,60,0.6); }
+  #mtg-fab:hover::before { opacity:1; }
+  #mtg-fab:hover .mtg-fab-label { max-width:120px; opacity:1; }
+  #mtg-fab svg { width:21px; height:21px; flex-shrink:0; }
+  #mtg-overlay { position:fixed; inset:0; z-index:9990; background:rgba(5,8,5,0.7); backdrop-filter:blur(4px); display:flex; align-items:center; justify-content:center; padding:20px; opacity:0; transition:opacity 0.25s ease; }
+  #mtg-overlay[hidden] { display:none; }
+  #mtg-overlay.open { opacity:1; }
+  #mtg-modal { width:100%; max-width:420px; background:#0D120D; border:1px solid rgba(184,255,60,0.25); border-radius:20px; padding:24px; box-shadow:0 30px 90px rgba(0,0,0,0.8); transform:scale(0.9) translateY(10px); transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+  #mtg-overlay.open #mtg-modal { transform:scale(1) translateY(0); }
+  .mtg-title { display:flex; align-items:center; gap:9px; font-family:'Syne',sans-serif; font-size:18px; font-weight:800; color:var(--white); margin-bottom:4px; }
+  .mtg-title svg { width:20px; height:20px; color:var(--lime); }
+  .mtg-sub { font-size:12.5px; color:var(--muted); margin-bottom:20px; }
+  .mtg-close { position:absolute; top:18px; right:20px; background:none; border:none; color:var(--muted); font-size:24px; cursor:pointer; line-height:1; transition:color 0.2s; }
+  .mtg-close:hover { color:var(--lime); }
+  .mtg-label { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:7px; }
+  .uc-conv-select { width:100%; background:rgba(184,255,60,0.05); border:1px solid var(--border); border-radius:10px; color:var(--text); font-size:13px; padding:11px 12px; font-family:'DM Sans',sans-serif; cursor:pointer; margin-bottom:18px; }
+  .uc-conv-select:focus { outline:none; border-color:rgba(184,255,60,0.5); }
+  .conv-time-display { text-align:center; font-family:'Syne',sans-serif; font-size:15px; font-weight:700; color:var(--lime); margin-bottom:6px; }
+  .mtg-chips { display:flex; gap:6px; justify-content:center; margin:10px 0 8px; flex-wrap:wrap; }
+  .mtg-chip { background:rgba(184,255,60,0.06); border:1px solid var(--border); color:var(--muted); font-family:'Syne',sans-serif; font-size:11px; font-weight:700; padding:6px 12px; border-radius:20px; cursor:pointer; transition:all 0.2s ease; }
+  .mtg-chip:hover { border-color:rgba(184,255,60,0.45); color:var(--lime); transform:translateY(-1px); }
+  .mtg-chip.active { background:var(--lime); color:var(--dark); border-color:var(--lime); }
+  .mtg-hint { margin-top:12px; text-align:center; font-size:11.5px; color:var(--muted); line-height:1.5; }
+  .mtg-hint b { color:var(--lime); font-weight:700; cursor:pointer; }
+  .mtg-hint b:hover { text-decoration:underline; }
+  /* big readout */
+  .mtg-readout { display:grid; grid-template-columns:1fr auto 1fr; gap:10px; align-items:center; margin:18px 0; }
+  .mtg-ro-side { background:linear-gradient(160deg,rgba(184,255,60,0.07),rgba(184,255,60,0.02)); border:1px solid var(--border); border-radius:16px; padding:16px 10px; text-align:center; transition:border-color 0.3s ease; }
+  .mtg-ro-flag { font-size:22px; line-height:1; margin-bottom:8px; }
+  .mtg-ro-time { font-family:'Syne',sans-serif; font-size:25px; font-weight:800; color:var(--lime); line-height:1; font-variant-numeric:tabular-nums; text-shadow:0 0 16px rgba(184,255,60,0.3); }
+  .mtg-ro-loc { font-size:10px; color:var(--text); text-transform:uppercase; letter-spacing:0.5px; margin-top:7px; }
+  .mtg-ro-day { font-size:9.5px; color:var(--muted); margin-top:2px; }
+  .mtg-ro-arrow { color:var(--lime); font-size:18px; opacity:0.6; }
+  /* timeline */
+  .mtg-timeline { position:relative; margin:18px 0 16px; padding-bottom:18px; }
+  .mtg-tl-row { display:flex; align-items:center; gap:8px; margin-bottom:7px; }
+  .mtg-tl-tag { font-size:9.5px; font-weight:700; color:var(--muted); width:54px; flex-shrink:0; white-space:nowrap; }
+  .mtg-tl-bar { position:relative; flex:1; height:18px; border-radius:5px; overflow:hidden;
+    background:linear-gradient(90deg,
+      #0b1530 0%, #0b1530 25%,        /* night */
+      #1a3a2a 27%, #2d5a3a 33%,        /* dawn */
+      #3a6e44 37.5%, #3a6e44 75%,      /* day (9-18 ~ 37.5%-75%) */
+      #2d4a3a 77%, #14253a 83%,        /* dusk */
+      #0b1530 85%, #0b1530 100%);      /* night */
+  }
+  .mtg-overlap { position:absolute; top:0; height:100%; background:rgba(184,255,60,0.35); border-left:1px solid var(--lime); border-right:1px solid var(--lime); box-shadow:0 0 12px rgba(184,255,60,0.4) inset; display:none; }
+  .mtg-tl-marker { position:absolute; top:0; bottom:18px; width:2px; background:var(--lime); box-shadow:0 0 8px rgba(184,255,60,0.9); left:62px; transition:left 0.1s linear; pointer-events:none; }
+  .mtg-tl-marker::before { content:''; position:absolute; top:-4px; left:-4px; width:10px; height:10px; border-radius:50%; background:var(--lime); box-shadow:0 0 10px rgba(184,255,60,0.9); }
+  .mtg-tl-scale { display:flex; justify-content:space-between; margin-left:62px; margin-top:4px; font-size:8.5px; color:var(--muted); }
+  /* ===== meeting planner extra animations ===== */
+  /* overlap band breathing shimmer */
+  .mtg-overlap { animation:mtgOverlapBreath 2.4s ease-in-out infinite; }
+  .mtg-overlap::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.5),transparent); transform:translateX(-100%); animation:mtgOverlapSheen 2.8s ease-in-out infinite; }
+  @keyframes mtgOverlapBreath { 0%,100%{ box-shadow:0 0 12px rgba(184,255,60,0.4) inset; } 50%{ box-shadow:0 0 20px rgba(184,255,60,0.7) inset; } }
+  @keyframes mtgOverlapSheen { 0%{ transform:translateX(-100%); } 55%,100%{ transform:translateX(220%); } }
+  /* marker glow pulse */
+  .mtg-tl-marker::before { animation:mtgMarkerPulse 1.6s ease-out infinite; }
+  @keyframes mtgMarkerPulse { 0%{ box-shadow:0 0 0 0 rgba(184,255,60,0.7), 0 0 10px rgba(184,255,60,0.9); } 70%{ box-shadow:0 0 0 8px rgba(184,255,60,0), 0 0 10px rgba(184,255,60,0.9); } 100%{ box-shadow:0 0 0 0 rgba(184,255,60,0), 0 0 10px rgba(184,255,60,0.9); } }
+  /* staggered reveal of sections when modal opens */
+  #mtg-overlay.open .mtg-readout { animation:mtgRise 0.5s ease 0.05s both; }
+  #mtg-overlay.open .mtg-timeline { animation:mtgRise 0.5s ease 0.13s both; }
+  #mtg-overlay.open .conv-time-display { animation:mtgRise 0.5s ease 0.20s both; }
+  #mtg-overlay.open .mtg-chips { animation:mtgRise 0.5s ease 0.26s both; }
+  #mtg-overlay.open .uc-conv-slider { animation:mtgRise 0.5s ease 0.32s both; }
+  #mtg-overlay.open .uc-conv-verdict { animation:mtgRise 0.5s ease 0.38s both; }
+  #mtg-overlay.open .mtg-hint { animation:mtgRise 0.5s ease 0.44s both; }
+  @keyframes mtgRise { 0%{ opacity:0; transform:translateY(14px); } 100%{ opacity:1; transform:translateY(0); } }
+  /* time number pop on change */
+  .mtg-ro-time.pop { animation:mtgPop 0.35s ease; }
+  @keyframes mtgPop { 0%{ transform:scale(1); } 40%{ transform:scale(1.18); color:#dfff9e; } 100%{ transform:scale(1); } }
+  /* timeline bars sweep-fill on open */
+  #mtg-overlay.open .mtg-tl-bar { animation:mtgBarFill 0.7s cubic-bezier(0.22,1,0.36,1) 0.15s both; }
+  @keyframes mtgBarFill { 0%{ clip-path:inset(0 100% 0 0); } 100%{ clip-path:inset(0 0 0 0); } }
+  /* verdict glow pulse */
+  .verdict-good { animation:mtgVerdictGlow 2.6s ease-in-out infinite; }
+  @keyframes mtgVerdictGlow { 0%,100%{ box-shadow:0 0 0 rgba(93,202,165,0); } 50%{ box-shadow:0 0 18px rgba(93,202,165,0.35); } }
+  /* fab gentle attention pulse */
+  #mtg-fab { animation:mtgFabIdle 3.5s ease-in-out infinite; }
+  @keyframes mtgFabIdle { 0%,92%,100%{ transform:translateY(0); } 96%{ transform:translateY(-4px); } }
+  #mtg-fab:hover { animation:none; }
+  /* action buttons */
+  .mtg-actions { display:flex; gap:10px; margin-top:16px; }
+  .mtg-act-btn { flex:1; display:inline-flex; align-items:center; justify-content:center; gap:7px; padding:11px 12px; border-radius:11px; font-family:'Syne',sans-serif; font-size:12.5px; font-weight:700; cursor:pointer; transition:all 0.22s ease; text-decoration:none; }
+  .mtg-act-btn svg { width:15px; height:15px; flex-shrink:0; }
+  #mtgCopy { background:var(--lime); color:var(--dark); border:1px solid var(--lime); }
+  #mtgCopy:hover { transform:translateY(-2px); box-shadow:0 8px 22px rgba(184,255,60,0.4); }
+  #mtgCopy.copied { background:#5DCAA5; border-color:#5DCAA5; }
+  .mtg-act-cal { background:transparent; color:var(--text); border:1px solid var(--border); }
+  .mtg-act-cal:hover { border-color:var(--lime); color:var(--lime); transform:translateY(-2px); }
+  @media (max-width:520px){ .mtg-actions{ flex-direction:column; } }
+  .uc-conv-slider { width:100%; margin:4px 0 20px; -webkit-appearance:none; appearance:none; height:6px; border-radius:6px; background:rgba(184,255,60,0.15); outline:none; }
+  .uc-conv-slider::-webkit-slider-thumb { -webkit-appearance:none; appearance:none; width:20px; height:20px; border-radius:50%; background:var(--lime); cursor:pointer; box-shadow:0 0 12px rgba(184,255,60,0.6); transition:transform 0.15s ease; }
+  .uc-conv-slider::-webkit-slider-thumb:hover { transform:scale(1.2); }
+  .uc-conv-slider::-moz-range-thumb { width:20px; height:20px; border:none; border-radius:50%; background:var(--lime); cursor:pointer; box-shadow:0 0 12px rgba(184,255,60,0.6); }
+  .uc-conv-result { display:grid; grid-template-columns:1fr auto 1fr; gap:12px; align-items:center; }
+  .uc-conv-side { background:rgba(184,255,60,0.04); border:1px solid var(--border); border-radius:14px; padding:18px 12px; text-align:center; transition:border-color 0.3s ease, background 0.3s ease; }
+  .uc-conv-side .cs-label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:7px; }
+  .uc-conv-side .cs-time { font-family:'Syne',sans-serif; font-size:26px; font-weight:800; color:var(--lime); line-height:1; font-variant-numeric:tabular-nums; }
+  .uc-conv-side .cs-day { font-size:10px; color:var(--muted); margin-top:5px; }
+  .uc-conv-arrow { color:var(--muted); font-size:20px; }
+  .uc-conv-verdict { margin-top:18px; border-radius:10px; padding:12px 14px; font-size:12.5px; font-weight:600; text-align:center; display:flex; align-items:center; justify-content:center; gap:8px; transition:all 0.3s ease; }
+  .uc-conv-verdict .vdot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+  .verdict-good { background:rgba(93,202,165,0.1); border:1px solid rgba(93,202,165,0.4); color:#8ee9c8; }
+  .verdict-good .vdot { background:#5DCAA5; box-shadow:0 0 8px rgba(93,202,165,0.8); animation:pulse 2s infinite; }
+  .verdict-ok { background:rgba(245,166,35,0.08); border:1px solid rgba(245,166,35,0.35); color:#f5c573; }
+  .verdict-ok .vdot { background:#F5A623; }
+  .verdict-bad { background:rgba(255,90,90,0.08); border:1px solid rgba(255,90,90,0.3); color:#ff9d9d; }
+  .verdict-bad .vdot { background:#ff5a5a; }
+  @media (max-width:520px){ #mtg-fab { bottom:130px; right:18px; width:42px; height:42px; } .uc-conv-side .cs-time { font-size:22px; } }
 
   /* -- HERO TAG (section tag) -- */
   .hero-tag { margin-bottom:0; }
@@ -7219,6 +7332,263 @@ async function createAccount() {
   setInterval(tick, 1000 * 20);
 })();
 
+/* ===== MEETING TIME CONVERTER (added) ===== */
+(function(){
+  function initConverter(){
+  var slider = document.getElementById('convSlider');
+  var clientSel = document.getElementById('convClient');
+  if (!slider || !clientSel) return;
+  var PK_TZ = 'Asia/Karachi';
+
+  // Get the UTC offset (in minutes) of a timezone at a given instant
+  function tzOffset(date, tz){
+    var dtf = new Intl.DateTimeFormat('en-US', { timeZone:tz, hour12:false,
+      year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', second:'2-digit' });
+    var parts = dtf.formatToParts(date).reduce(function(a,p){ a[p.type]=p.value; return a; }, {});
+    var asUTC = Date.UTC(parts.year, parts.month-1, parts.day, parts.hour==='24'?0:parts.hour, parts.minute, parts.second);
+    return (asUTC - date.getTime()) / 60000;
+  }
+
+  function fmtTime(totalMin){
+    var h = Math.floor(totalMin/60) % 24;
+    var m = totalMin % 60;
+    var ampm = h < 12 ? 'AM' : 'PM';
+    var h12 = h % 12; if (h12 === 0) h12 = 12;
+    return h12 + ':' + (m<10?'0':'') + m + ' ' + ampm;
+  }
+
+  function update(){
+    var pkMinutes = parseInt(slider.value, 10);     // chosen wall-clock minute in Pakistan today
+    var clientTz = clientSel.value;
+
+    // Build the actual instant that corresponds to "today at pkMinutes in Pakistan"
+    var now = new Date();
+    var pkOff = tzOffset(now, PK_TZ);               // PK offset in minutes
+    // midnight UTC for today, then add: we want a date whose PK wall-clock = pkMinutes
+    var y = now.getUTCFullYear(), mo = now.getUTCMonth(), d = now.getUTCDate();
+    // instant (UTC ms) where PK local time = pkMinutes on today's PK date
+    var instant = Date.UTC(y, mo, d, 0, 0, 0) + (pkMinutes - pkOff) * 60000;
+    var dateObj = new Date(instant);
+
+    var clientOff = tzOffset(dateObj, clientTz);
+    var clientTotal = pkMinutes - pkOff + clientOff; // client wall-clock minutes (can be <0 or >1439)
+
+    var pkDayShift = 0, clientDayShift = Math.floor(clientTotal / 1440);
+    var clientMin = ((clientTotal % 1440) + 1440) % 1440;
+
+    var pkEl = document.getElementById('convPK');
+    var clEl = document.getElementById('convClient2');
+    var newPK = fmtTime(pkMinutes), newCl = fmtTime(clientMin);
+    if (pkEl.textContent !== newPK) { pkEl.textContent = newPK; pkEl.classList.remove('pop'); void pkEl.offsetWidth; pkEl.classList.add('pop'); }
+    if (clEl.textContent !== newCl) { clEl.textContent = newCl; clEl.classList.remove('pop'); void clEl.offsetWidth; clEl.classList.add('pop'); }
+    var pkLabel = document.getElementById('convPKLabel');
+    if (pkLabel) pkLabel.textContent = newPK;
+    // real weekday names for each side
+    var dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    var pkDate = new Date(dateObj.toLocaleString('en-US',{ timeZone:PK_TZ }));
+    var clDate = new Date(dateObj.toLocaleString('en-US',{ timeZone:clientTz }));
+    document.getElementById('convPKDay').textContent = dayNames[pkDate.getDay()];
+    document.getElementById('convClientDay').textContent = dayNames[clDate.getDay()] +
+      (clientDayShift > 0 ? ' (+1)' : (clientDayShift < 0 ? ' (−1)' : ''));
+
+    // label from selected option text
+    var optText = clientSel.options[clientSel.selectedIndex].text;
+    document.getElementById('convClientLabel').textContent = optText.replace(/^[^A-Za-z]+/, '');
+    // stash state for copy / calendar actions
+    window._mtgState = {
+      pkTime: newPK, clTime: newCl,
+      pkDay: dayNames[pkDate.getDay()], clDay: dayNames[clDate.getDay()],
+      clientName: optText.replace(/^[^A-Za-z]+/, ''),
+      instant: dateObj
+    };
+    // client flag from a map (regex splits 2-codepoint flag emojis)
+    var FLAGS = { 'America/New_York':'🇺🇸','America/Chicago':'🇺🇸','America/Denver':'🇺🇸','America/Los_Angeles':'🇺🇸','Europe/London':'🇬🇧','Asia/Dubai':'🇦🇪','America/Toronto':'🇨🇦','America/Vancouver':'🇨🇦','Australia/Sydney':'🇦🇺' };
+    var flag = FLAGS[clientTz] || '🌍';
+    var flagEl = document.getElementById('convClientFlag');
+    if (flagEl) flagEl.textContent = flag;
+    var tlClientTag = document.getElementById('tlClientTag');
+    if (tlClientTag) tlClientTag.textContent = flag + ' Client';
+
+    // ===== timeline rendering =====
+    var diff = clientOff - pkOff; // minutes client is ahead of PK
+    // marker position: 0..1439 mapped across the bar width. Bar starts after 54px tag + 8px gap.
+    var marker = document.getElementById('tlMarker');
+    var tlBar = document.getElementById('tlPK');
+    if (marker && tlBar) {
+      var barLeft = 62; // 54 tag + 8 gap
+      var pct = pkMinutes / 1440;
+      // position relative to the timeline container width minus the tag offset
+      marker.style.left = 'calc(' + barLeft + 'px + (100% - ' + barLeft + 'px) * ' + pct + ')';
+    }
+    // client bar: shift its day/night gradient by the offset so it lines up under PK
+    var clientBar = document.getElementById('tlClient');
+    if (clientBar) {
+      var shiftPct = ((diff / 1440) * 100);
+      clientBar.style.backgroundImage = tlBar ? getComputedStyle(tlBar).backgroundImage : '';
+      clientBar.style.backgroundPosition = (-shiftPct) + '% 0';
+      clientBar.style.backgroundSize = '100% 100%';
+    }
+    // overlap band (PK 9-18 AND client 9-18) drawn on PK bar
+    var overlap = document.getElementById('tlOverlap');
+    if (overlap) {
+      var os=null, oe=null;
+      for (var tt=0; tt<1440; tt+=15){
+        var clv = ((tt + diff) % 1440 + 1440) % 1440;
+        if (tt>=540 && tt<1080 && clv>=540 && clv<1080){
+          if (os===null) os=tt; oe=tt+15;
+        }
+      }
+      if (os!==null){
+        overlap.style.display='block';
+        overlap.style.left=(os/1440*100)+'%';
+        overlap.style.width=((oe-os)/1440*100)+'%';
+      } else {
+        overlap.style.display='none';
+      }
+    }
+
+    // Bidder Experts works a NIGHT SHIFT in Pakistan to cover Western daytime.
+    // Your available hours: ~7 PM – 4 AM PKT (19:00–04:00). Also fine in normal daytime.
+    // So the verdict mainly depends on whether the CLIENT is in reasonable hours.
+    var pkH = pkMinutes/60, clH = clientMin/60;
+    // You are available during night shift OR normal daytime (basically anytime except 4 AM–9 AM sleep window)
+    function youAvailable(h){ return !(h >= 4 && h < 11); } // asleep 4 AM–11 AM
+    function youPrime(h){ return (h >= 19 || h < 4); }       // night shift = prime coverage
+    function clientWork(h){ return h >= 9 && h < 18; }       // client business hours
+    function clientOk(h){ return h >= 8 && h < 21; }         // client reasonable hours
+    var verdict = document.getElementById('convVerdict');
+    var vtext = document.getElementById('convVerdictText');
+    verdict.className = 'uc-conv-verdict';
+    if (clientWork(clH) && youAvailable(pkH)) {
+      verdict.classList.add('verdict-good');
+      vtext.textContent = youPrime(pkH)
+        ? 'Perfect — client business hours, your night-shift prime time'
+        : 'Great — client business hours, you\u2019re available';
+    } else if (clientOk(clH) && youAvailable(pkH)) {
+      verdict.classList.add('verdict-ok');
+      vtext.textContent = 'Workable — slightly early or late for the client';
+    } else if (!youAvailable(pkH)) {
+      verdict.classList.add('verdict-bad');
+      vtext.textContent = 'That\u2019s your team\u2019s sleep window (4\u201311 AM PKT)';
+    } else {
+      verdict.classList.add('verdict-bad');
+      vtext.textContent = 'Tough — unsociable hours for the client';
+    }
+
+    // sync active chip
+    var chips = document.querySelectorAll('.mtg-chip');
+    chips.forEach(function(c){ c.classList.toggle('active', parseInt(c.getAttribute('data-min'),10) === pkMinutes); });
+
+    // best-time suggestion: client in business hours (9-18) AND you're available (not 4-11 AM sleep)
+    var hint = document.getElementById('mtgHint');
+    if (hint){
+      var off = clientOff - pkOff;
+      // collect all 30-min PK slots that work, then find the longest contiguous run (handling midnight wrap)
+      var slots = [];
+      for (var t = 0; t < 1440; t += 30){
+        var cl = ((t + off) % 1440 + 1440) % 1440;
+        var ph = t/60, ch = cl/60;
+        var youOK = !(ph >= 4 && ph < 11);
+        slots.push(ch >= 9 && ch < 18 && youOK);
+      }
+      // find longest run across a doubled array (to handle wrap-around midnight)
+      var bestStart=-1, bestLen=0, curStart=-1, curLen=0;
+      for (var i=0;i<slots.length*2;i++){
+        if (slots[i%slots.length]){
+          if (curLen===0) curStart=i;
+          curLen++;
+          if (curLen>bestLen){ bestLen=curLen; bestStart=curStart; }
+        } else curLen=0;
+        if (curLen>=slots.length) break; // all-true safeguard
+      }
+      if (bestLen>0){
+        var startMin = (bestStart % slots.length) * 30;
+        var endMin = (startMin + bestLen*30) % 1440;
+        hint.innerHTML = 'Best time to reach this client: <b id="mtgBest" data-min="'+startMin+'">'+fmtTime(startMin)+' – '+fmtTime(endMin)+'</b> your time (night shift covers this).';
+        var bestEl = document.getElementById('mtgBest');
+        if (bestEl) bestEl.addEventListener('click', function(){ slider.value = this.getAttribute('data-min'); update(); });
+      } else {
+        hint.innerHTML = 'This client\u2019s business hours fall in your sleep window — pick the closest edge that works.';
+      }
+    }
+  }
+
+  slider.addEventListener('input', update);
+  clientSel.addEventListener('change', update);
+  document.querySelectorAll('.mtg-chip').forEach(function(chip){
+    chip.addEventListener('click', function(){
+      slider.value = this.getAttribute('data-min');
+      update();
+    });
+  });
+  update();
+
+  // modal open/close (deferred so the FAB/modal HTML exists)
+  function bindModal(){
+    var fab = document.getElementById('mtg-fab');
+    var overlay = document.getElementById('mtg-overlay');
+    var closeBtn = document.getElementById('mtgClose');
+    if (!fab || !overlay) return;
+    function openModal(){ overlay.hidden = false; requestAnimationFrame(function(){ overlay.classList.add('open'); }); update(); }
+    function closeModal(){ overlay.classList.remove('open'); setTimeout(function(){ overlay.hidden = true; }, 250); }
+    fab.addEventListener('click', openModal);
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', function(e){ if (e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !overlay.hidden) closeModal(); });
+
+    // copy meeting time
+    var copyBtn = document.getElementById('mtgCopy');
+    if (copyBtn) copyBtn.addEventListener('click', function(){
+      var s = window._mtgState; if (!s) return;
+      var text = "Let's meet " + s.pkDay + " " + s.pkTime + " (my time, Lahore) — that's " +
+                 s.clDay + " " + s.clTime + " for you (" + s.clientName + ").";
+      var done = function(){
+        var t = document.getElementById('mtgCopyText');
+        var old = t.textContent; t.textContent = 'Copied!'; copyBtn.classList.add('copied');
+        setTimeout(function(){ t.textContent = old; copyBtn.classList.remove('copied'); }, 1800);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(function(){ window.prompt('Copy this:', text); });
+      } else { window.prompt('Copy this:', text); }
+    });
+
+    // add to google calendar — opens the client's calendar editor pre-filled,
+    // with Abdullah invited as a guest so saving schedules the meeting together.
+    var calBtn = document.getElementById('mtgCal');
+    if (calBtn) calBtn.addEventListener('click', function(e){
+      var s = window._mtgState; if (!s){ e.preventDefault(); return; }
+      function z(n){ return (n<10?'0':'')+n; }
+      function fmtUTC(d){ return d.getUTCFullYear()+z(d.getUTCMonth()+1)+z(d.getUTCDate())+'T'+z(d.getUTCHours())+z(d.getUTCMinutes())+'00Z'; }
+      var start = s.instant;
+      var end = new Date(start.getTime() + 30*60000);
+      // Friendly, fully-editable starting title (client can rename in Google's editor)
+      var title = encodeURIComponent('Meeting with Bidder Experts');
+      var details = encodeURIComponent(
+        'Discovery / project call with Bidder Experts (Muhammad Abdullah Sohail).\n\n' +
+        'Your time: ' + s.clTime + ' (' + s.clDay + ') · Bidder Experts (Lahore): ' + s.pkTime + ' (' + s.pkDay + ')\n\n' +
+        'Feel free to edit the title and agenda for your needs.\n' +
+        'WhatsApp: +92 321 4900839 · Email: Abdullahsohail63@gmail.com'
+      );
+      var location = encodeURIComponent('Online — WhatsApp/Zoom (+92 321 4900839)');
+      var guests = encodeURIComponent('Abdullahsohail63@gmail.com');
+      var url = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + title +
+                '&dates=' + fmtUTC(start) + '/' + fmtUTC(end) +
+                '&details=' + details +
+                '&location=' + location +
+                '&add=' + guests;
+      calBtn.setAttribute('href', url);
+      // let the default anchor open it in a new tab; the client can edit title/agenda then Save
+    });
+  }
+  bindModal();
+  } // end initConverter
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initConverter);
+  } else {
+    initConverter();
+  }
+})();
+
 /* ===== COUNTRY TIMEZONE POPUP (added) ===== */
 (function(){
   var wrap = document.getElementById('ucClocks');
@@ -7345,5 +7715,78 @@ async function createAccount() {
   io.observe(card);
 })();
 </script>
+<button id="mtg-fab" aria-label="Schedule a meeting">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h6"/><path d="M3 9h18M8 3v4M16 3v4"/><circle cx="17.5" cy="16.5" r="4"/><path d="M17.5 15v1.5l1 1"/></svg>
+  <span class="mtg-fab-label">Schedule</span>
+</button>
+<div id="mtg-overlay" hidden>
+  <div id="mtg-modal">
+    <button class="mtg-close" id="mtgClose" aria-label="Close">&times;</button>
+    <div class="mtg-title">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h6"/><path d="M3 9h18M8 3v4M16 3v4"/><circle cx="17.5" cy="16.5" r="4"/><path d="M17.5 15v1.5l1 1"/></svg>
+      Meeting Planner
+    </div>
+    <div class="mtg-sub">Find the perfect time to meet your client across timezones.</div>
+    <div class="mtg-label">Client Location</div>
+    <select class="uc-conv-select" id="convClient">
+      <option value="America/New_York">🇺🇸 USA — Eastern (New York)</option>
+      <option value="America/Chicago">🇺🇸 USA — Central (Chicago)</option>
+      <option value="America/Denver">🇺🇸 USA — Mountain (Denver)</option>
+      <option value="America/Los_Angeles">🇺🇸 USA — Pacific (Los Angeles)</option>
+      <option value="Europe/London">🇬🇧 UK — London</option>
+      <option value="Asia/Dubai">🇦🇪 UAE — Dubai</option>
+      <option value="America/Toronto">🇨🇦 Canada — Toronto</option>
+      <option value="America/Vancouver">🇨🇦 Canada — Vancouver</option>
+      <option value="Australia/Sydney">🇦🇺 Australia — Sydney</option>
+    </select>
+
+    <!-- big readout -->
+    <div class="mtg-readout">
+      <div class="mtg-ro-side">
+        <div class="mtg-ro-flag">🇵🇰</div>
+        <div class="mtg-ro-time" id="convPK">--</div>
+        <div class="mtg-ro-loc">You · Lahore</div>
+        <div class="mtg-ro-day" id="convPKDay"></div>
+      </div>
+      <div class="mtg-ro-arrow">⇄</div>
+      <div class="mtg-ro-side">
+        <div class="mtg-ro-flag" id="convClientFlag">🇺🇸</div>
+        <div class="mtg-ro-time" id="convClient2">--</div>
+        <div class="mtg-ro-loc" id="convClientLabel">Client</div>
+        <div class="mtg-ro-day" id="convClientDay"></div>
+      </div>
+    </div>
+
+    <!-- dual 24h timeline -->
+    <div class="mtg-timeline" id="mtgTimeline">
+      <div class="mtg-tl-row">
+        <span class="mtg-tl-tag">🇵🇰 You</span>
+        <div class="mtg-tl-bar" id="tlPK"><div class="mtg-overlap" id="tlOverlap"></div></div>
+      </div>
+      <div class="mtg-tl-row">
+        <span class="mtg-tl-tag" id="tlClientTag">Client</span>
+        <div class="mtg-tl-bar" id="tlClient"></div>
+      </div>
+      <div class="mtg-tl-marker" id="tlMarker"></div>
+      <div class="mtg-tl-scale"><span>12a</span><span>6a</span><span>12p</span><span>6p</span><span>12a</span></div>
+    </div>
+
+    <div class="conv-time-display">Your time: <span id="convPKLabel">9:00 PM</span></div>
+    <div class="mtg-chips" id="mtgChips">
+      <button class="mtg-chip" data-min="540">9 AM</button>
+      <button class="mtg-chip" data-min="720">12 PM</button>
+      <button class="mtg-chip" data-min="900">3 PM</button>
+      <button class="mtg-chip" data-min="1080">6 PM</button>
+      <button class="mtg-chip" data-min="1260">9 PM</button>
+    </div>
+    <input type="range" min="0" max="1439" step="15" value="1260" class="uc-conv-slider" id="convSlider">
+    <div class="uc-conv-verdict" id="convVerdict"><span class="vdot"></span><span id="convVerdictText">—</span></div>
+    <div class="mtg-hint" id="mtgHint"></div>
+    <div class="mtg-actions">
+      <button class="mtg-act-btn" id="mtgCopy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span id="mtgCopyText">Copy meeting time</span></button>
+      <a class="mtg-act-btn mtg-act-cal" id="mtgCal" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Add to Calendar</a>
+    </div>
+  </div>
+</div>
 </body>
 </html>
