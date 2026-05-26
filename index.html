@@ -193,9 +193,10 @@
   @keyframes ucFlagPop { 0%{ transform:scale(1); } 40%{ transform:scale(1.35); } 100%{ transform:scale(1); } }
   @media (max-width:520px){ .uc-tzpop { min-width:170px; max-width:240px; padding:10px 12px; } }
   .uc-clock .flag { font-size:13px; line-height:1; }
-  .uc-clock .time { font-family:'Syne',sans-serif; font-size:clamp(10px,0.9vw,12px); font-weight:700; color:var(--lime); margin-top:3px; letter-spacing:0.3px; font-variant-numeric:tabular-nums; }
+  .uc-clock .time { font-family:'Syne',sans-serif; font-size:clamp(10px,0.9vw,12px); font-weight:700; color:var(--lime); margin-top:3px; letter-spacing:0.2px; font-variant-numeric:tabular-nums; white-space:nowrap; overflow:visible; }
   .uc-clock .city { font-size:8px; color:var(--muted); text-transform:uppercase; letter-spacing:0.4px; margin-top:2px; }
-  @media (max-width:520px){ .uc-clocks { grid-template-columns:repeat(5,1fr); gap:3px; } .uc-clock { padding:5px 2px; } .uc-clock .city { font-size:7px; } }
+  @media (max-width:520px){ .uc-clocks { grid-template-columns:repeat(3,1fr); gap:5px; } .uc-clock { padding:5px 2px; } .uc-clock .city { font-size:7px; } .uc-clock .time { font-size:11px; } }
+  @media (max-width:360px){ .uc-clocks { grid-template-columns:repeat(2,1fr); } }
   /* meeting planner floating button + modal */
   #mtg-fab { position:fixed; bottom:150px; right:27px; z-index:8887; height:46px; width:46px; padding:0; border-radius:23px; background:linear-gradient(135deg,#c9ff5e,#a3f028); color:var(--dark); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:0; overflow:hidden; white-space:nowrap; box-shadow:0 8px 28px rgba(184,255,60,0.45); transition:width 0.35s cubic-bezier(0.34,1.4,0.5,1), transform 0.25s ease, box-shadow 0.25s ease, gap 0.35s ease, padding 0.35s ease; }
   #mtg-fab::before { content:''; position:absolute; inset:-3px; border-radius:26px; background:radial-gradient(circle,rgba(184,255,60,0.5),transparent 70%); opacity:0; transition:opacity 0.3s ease; z-index:-1; }
