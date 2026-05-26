@@ -170,17 +170,17 @@
   .uc-stat:hover { transform:translateY(-3px); border-color:rgba(184,255,60,0.45); background:rgba(184,255,60,0.08); box-shadow:0 8px 22px rgba(0,0,0,0.4), 0 0 18px rgba(184,255,60,0.12); }
   .uc-num { text-shadow:0 0 18px rgba(184,255,60,0.25); }
   /* world clocks */
-  .uc-clocks { margin-top:clamp(10px,1.2vw,14px); padding-top:clamp(8px,1vw,12px); border-top:1px solid var(--border); display:grid; grid-template-columns:repeat(5,1fr); gap:6px; position:relative; }
+  .uc-clocks { margin-top:clamp(10px,1.2vw,14px); padding-top:clamp(8px,1vw,12px); border-top:1px solid var(--border); display:grid; grid-template-columns:repeat(auto-fit,minmax(64px,1fr)); gap:6px; position:relative; }
   .uc-clock { text-align:center; background:rgba(184,255,60,0.03); border:1px solid var(--border); border-radius:8px; padding:7px 4px; transition:border-color 0.25s ease, background 0.25s ease, transform 0.25s ease; cursor:pointer; }
   .uc-clock:hover { border-color:rgba(184,255,60,0.4); background:rgba(184,255,60,0.08); transform:translateY(-2px); }
   .uc-clock.active { border-color:rgba(184,255,60,0.6); background:rgba(184,255,60,0.12); }
   /* timezone popup */
-  .uc-tzpop { position:absolute; left:50%; transform:translateX(-50%); bottom:calc(100% + 10px); z-index:30; min-width:200px; max-width:280px; background:#0d130d; border:1px solid rgba(184,255,60,0.35); border-radius:12px; padding:12px 14px; box-shadow:0 16px 44px rgba(0,0,0,0.55), 0 0 22px rgba(184,255,60,0.1); transform-origin:bottom center; animation:ucPopIn 0.32s cubic-bezier(0.34,1.56,0.64,1), ucPopGlow 2.8s ease-in-out 0.32s infinite; overflow:hidden; }
+  .uc-tzpop { position:absolute; left:0; bottom:calc(100% + 10px); z-index:30; min-width:200px; max-width:280px; background:#0d130d; border:1px solid rgba(184,255,60,0.35); border-radius:12px; padding:12px 14px; box-shadow:0 16px 44px rgba(0,0,0,0.55), 0 0 22px rgba(184,255,60,0.1); transform-origin:bottom center; animation:ucPopIn 0.32s cubic-bezier(0.34,1.56,0.64,1), ucPopGlow 2.8s ease-in-out 0.32s infinite; overflow:hidden; }
   @keyframes ucPopIn { 0%{ opacity:0; transform:translateY(8px) scale(0.88); } 100%{ opacity:1; transform:translateY(0) scale(1); } }
   @keyframes ucPopGlow { 0%,100%{ box-shadow:0 16px 44px rgba(0,0,0,0.55), 0 0 18px rgba(184,255,60,0.08); border-color:rgba(184,255,60,0.3); } 50%{ box-shadow:0 16px 44px rgba(0,0,0,0.55), 0 0 30px rgba(184,255,60,0.28); border-color:rgba(184,255,60,0.6); } }
   .uc-tzpop::before { content:''; position:absolute; top:0; left:-70%; width:55%; height:100%; background:linear-gradient(120deg, transparent, rgba(184,255,60,0.16), transparent); transform:skewX(-20deg); animation:ucPopSweep 0.9s ease-out 0.3s 1 forwards; pointer-events:none; z-index:1; }
   @keyframes ucPopSweep { 0%{ left:-70%; } 100%{ left:160%; } }
-  .uc-tzpop::after { content:''; position:absolute; top:100%; left:50%; transform:translateX(-50%); border:7px solid transparent; border-top-color:rgba(184,255,60,0.35); z-index:2; }
+  .uc-tzpop::after { content:''; position:absolute; top:100%; left:var(--arrow-x,50%); transform:translateX(-50%); border:7px solid transparent; border-top-color:rgba(184,255,60,0.35); z-index:2; }
   .uc-tzpop .pop-head { display:flex; align-items:center; gap:7px; font-family:'Syne',sans-serif; font-size:12px; font-weight:700; color:var(--text); margin-bottom:10px; opacity:0; animation:ucRowIn 0.4s ease forwards; position:relative; z-index:2; }
   .uc-tzpop .pop-row { display:flex; justify-content:space-between; align-items:baseline; gap:14px; padding:5px 6px; margin:0 -6px; border-radius:6px; border-top:1px solid rgba(184,255,60,0.08); opacity:0; animation:ucRowIn 0.4s ease forwards; position:relative; z-index:2; transition:background 0.2s ease, transform 0.2s ease; cursor:default; }
   .uc-tzpop .pop-row:hover { background:rgba(184,255,60,0.08); transform:translateX(3px); }
@@ -195,8 +195,7 @@
   .uc-clock .flag { font-size:13px; line-height:1; }
   .uc-clock .time { font-family:'Syne',sans-serif; font-size:clamp(10px,0.9vw,12px); font-weight:700; color:var(--lime); margin-top:3px; letter-spacing:0.2px; font-variant-numeric:tabular-nums; white-space:nowrap; overflow:visible; }
   .uc-clock .city { font-size:8px; color:var(--muted); text-transform:uppercase; letter-spacing:0.4px; margin-top:2px; }
-  @media (max-width:520px){ .uc-clocks { grid-template-columns:repeat(3,1fr); gap:5px; } .uc-clock { padding:5px 2px; } .uc-clock .city { font-size:7px; } .uc-clock .time { font-size:11px; } }
-  @media (max-width:360px){ .uc-clocks { grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:520px){ .uc-clocks { gap:5px; } .uc-clock { padding:5px 2px; } .uc-clock .city { font-size:7px; } .uc-clock .time { font-size:11px; } }
   /* meeting planner floating button + modal */
   #mtg-fab { position:fixed; bottom:150px; right:27px; z-index:8887; height:46px; width:46px; padding:0; border-radius:23px; background:linear-gradient(135deg,#c9ff5e,#a3f028); color:var(--dark); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:0; overflow:hidden; white-space:nowrap; box-shadow:0 8px 28px rgba(184,255,60,0.45); transition:width 0.35s cubic-bezier(0.34,1.4,0.5,1), transform 0.25s ease, box-shadow 0.25s ease, gap 0.35s ease, padding 0.35s ease; }
   #mtg-fab::before { content:''; position:absolute; inset:-3px; border-radius:26px; background:radial-gradient(circle,rgba(184,255,60,0.5),transparent 70%); opacity:0; transition:opacity 0.3s ease; z-index:-1; }
@@ -7663,12 +7662,22 @@ async function createAccount() {
     pop.hidden = false;
     clock.classList.add('active');
     openCountry = country;
-    // keep popup horizontally within the panel
-    pop.style.left = '50%';
+    // position popup centered over the clock, but clamped to stay inside the panel
+    pop.style.transform = 'none';
+    pop.style.left = '0px';
     var clockRect = clock.getBoundingClientRect();
     var wrapRect = wrap.getBoundingClientRect();
-    var offset = (clockRect.left + clockRect.width/2) - wrapRect.left;
-    pop.style.left = offset + 'px';
+    var popW = pop.offsetWidth;
+    var margin = 6;
+    var clockCenter = (clockRect.left + clockRect.width/2) - wrapRect.left;
+    var desired = clockCenter - popW/2;            // ideal: centered on clock
+    var maxLeft = wrapRect.width - popW - margin;  // don't run off right edge
+    var left = Math.max(margin, Math.min(desired, maxLeft));
+    pop.style.left = left + 'px';
+    // move the little arrow to point at the clock
+    var arrowX = clockCenter - left;
+    arrowX = Math.max(14, Math.min(arrowX, popW - 14));
+    pop.style.setProperty('--arrow-x', arrowX + 'px');
     popTimer = setInterval(refreshPopTimes, 1000 * 20);
   }
 
