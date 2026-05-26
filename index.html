@@ -2024,11 +2024,11 @@
 <div id="stats-bar">
   <div class="stats-row">
     <div class="stat-box">
-      <div class="stat-big" data-target="100" data-suffix="+">0</div>
-      <p>Total Contracts</p>
+      <div class="stat-big" data-target="2190" data-suffix="+" data-comma="true">0</div>
+      <p>Projects Completed</p>
     </div>
     <div class="stat-box">
-      <div class="stat-big" data-target="500" data-prefix="$" data-suffix="K+">0</div>
+      <div class="stat-big" data-target="1.4" data-prefix="$" data-suffix="M+" data-decimal="true">0</div>
       <p>Total Earned</p>
     </div>
     <div class="stat-box">
@@ -2040,8 +2040,8 @@
       <p>Job Success Score</p>
     </div>
     <div class="stat-box">
-      <div class="stat-big" data-prefix="$" data-suffix="M+" data-static="1">$1M+</div>
-      <p>Projects Closed</p>
+      <div class="stat-big" data-target="100" data-suffix="+">0</div>
+      <p>Upwork Contracts</p>
     </div>
     <div class="stat-box">
       <div class="stat-big" data-target="14" data-suffix="+">0</div>
@@ -6211,29 +6211,25 @@ function toggleProjects(person, type) {
     var prefix  = el.getAttribute('data-prefix')  || '';
     var suffix  = el.getAttribute('data-suffix')  || '';
     var decimal = el.getAttribute('data-decimal') === 'true';
+    var comma   = el.getAttribute('data-comma') === 'true';
     var duration = 1800;
     var start = null;
+
+    function fmt(v) {
+      if (decimal) return v.toFixed(1);
+      var n = Math.floor(v);
+      return comma ? n.toLocaleString() : String(n);
+    }
 
     function step(timestamp) {
       if (!start) start = timestamp;
       var progress = Math.min((timestamp - start) / duration, 1);
-      // Ease out
       var ease = 1 - Math.pow(1 - progress, 3);
-      var current = target * ease;
-      if (decimal) {
-        el.textContent = prefix + current.toFixed(1) + suffix;
-      } else {
-        el.textContent = prefix + Math.floor(current) + suffix;
-      }
+      el.textContent = prefix + fmt(target * ease) + suffix;
       if (progress < 1) {
         requestAnimationFrame(step);
       } else {
-        // Final value
-        if (decimal) {
-          el.textContent = prefix + target.toFixed(1) + suffix;
-        } else {
-          el.textContent = prefix + Math.floor(target) + suffix;
-        }
+        el.textContent = prefix + fmt(target) + suffix;
       }
     }
     requestAnimationFrame(step);
