@@ -620,8 +620,10 @@
   .kpi-val {
     font-family: 'Syne', sans-serif; font-size: 22px;
     font-weight: 800; color: var(--kc, var(--lime));
-    line-height: 1; margin-bottom: 4px;
+    line-height: 1; margin-bottom: 4px; font-variant-numeric: tabular-nums;
   }
+  .kpi-val.kpi-pop { animation: kpiPop 0.5s cubic-bezier(0.34,1.56,0.64,1); }
+  @keyframes kpiPop { 0%{ transform:scale(0.7); opacity:0.3; } 60%{ transform:scale(1.12); } 100%{ transform:scale(1); opacity:1; } }
   .kpi-lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
 
   /* Chart canvas wrapper - horizontal scroll on mobile */
@@ -2919,15 +2921,15 @@
     <!-- KPI Cards -->
     <div id="yearKPIs" class="kpi-grid">
       <div class="kpi-card" style="--kc:var(--lime);">
-        <div id="kpi-revenue" class="kpi-val">$500K+</div>
+        <div id="kpi-revenue" class="kpi-val">$1.4M+</div>
         <div class="kpi-lbl">Total Revenue</div>
       </div>
       <div class="kpi-card" style="--kc:#5DCAA5;">
-        <div id="kpi-projects" class="kpi-val">100+</div>
+        <div id="kpi-projects" class="kpi-val">2190+</div>
         <div class="kpi-lbl">Projects Closed</div>
       </div>
       <div class="kpi-card" style="--kc:#F5A623;">
-        <div id="kpi-avg" class="kpi-val">$4.2K</div>
+        <div id="kpi-avg" class="kpi-val">$21K</div>
         <div class="kpi-lbl">Avg Monthly</div>
       </div>
       <div class="kpi-card" style="--kc:var(--lime);">
@@ -5756,6 +5758,24 @@ var YEAR_COLORS = {
   '2026':{border:'rgba(245,166,35,0.9)', bg:'rgba(245,166,35,0.12)'}
 };
 
+// animate a KPI number from its current value to a target, using a formatter
+function animateKpi(el, toValue, formatter) {
+  if (!el) return;
+  if (el._kpiRAF) cancelAnimationFrame(el._kpiRAF);
+  var from = (typeof el._kpiValue === 'number') ? el._kpiValue : 0;
+  var start = null, dur = 1100;
+  function step(ts) {
+    if (!start) start = ts;
+    var p = Math.min((ts - start) / dur, 1);
+    var eased = 1 - Math.pow(1 - p, 3); // ease-out cubic
+    var val = from + (toValue - from) * eased;
+    el.textContent = formatter(val);
+    if (p < 1) { el._kpiRAF = requestAnimationFrame(step); }
+    else { el._kpiValue = toValue; el.textContent = formatter(toValue); el._kpiRAF = null; }
+  }
+  el._kpiRAF = requestAnimationFrame(step);
+}
+
 function setYear(year) {
   if (!progressChart) return;
   var d = CHART_DATA[year];
@@ -5785,30 +5805,58 @@ function setYear(year) {
   progressChart.data.labels = filteredLabels;
   progressChart.data.datasets[0].data = filteredRev;
   progressChart.data.datasets[0].borderColor = col.border;
-  progressChart.data.datasets[0].backgroundColor = col.bg;
+  // build a vertical gradient tinted to this year's color (keeps the premium look)
+  var _ctx = progressChart.ctx;
+  var _h = (progressChart.chartArea ? progressChart.chartArea.bottom : (_ctx.canvas.height || 400));
+  var _grad = _ctx.createLinearGradient(0, 0, 0, _h);
+  var _base = col.border.replace(/rgba?\(([^)]+)\)/, '$1').split(',').slice(0,3).join(',');
+  _grad.addColorStop(0, 'rgba(' + _base + ',0.55)');
+  _grad.addColorStop(0.55, 'rgba(' + _base + ',0.18)');
+  _grad.addColorStop(1, 'rgba(' + _base + ',0.02)');
+  progressChart.data.datasets[0].backgroundColor = _grad;
   progressChart.data.datasets[1].data = filteredProj;
   progressChart.data.datasets[2].data = filteredLabels.map(function(){ return d.target; });
   progressChart.update();
 
   // Update KPIs
-  var totalRev  = filteredRev.reduce(function(a,b){ return a+b; }, 0);
-  var totalProj = filteredProj.reduce(function(a,b){ return a+b; }, 0);
-  var avgRev    = filteredLabels.length ? Math.round(totalRev / filteredLabels.length) : 0;
+  var totalRev, totalProj, avgRev;
+  if (year === 'all') {
+    // real cumulative totals = sum of all yearly figures
+    totalRev  = filteredRev.reduce(function(a,b){ return a+b; }, 0);   // ~$1.39M
+    totalProj = filteredProj.reduce(function(a,b){ return a+b; }, 0);  // 2,190
+    // average MONTHLY across the whole period (6 years ≈ 66 active months, but use total/months of data)
+    avgRev    = Math.round(totalRev / 66); // ~Jan 2021 → Apr 2026 ≈ 64–66 months
+  } else {
+    totalRev  = filteredRev.reduce(function(a,b){ return a+b; }, 0);
+    totalProj = filteredProj.reduce(function(a,b){ return a+b; }, 0);
+    avgRev    = filteredLabels.length ? Math.round(totalRev / filteredLabels.length) : 0;
+  }
 
   function fmtMoney(v) {
     if (v >= 1000000) return '$' + (v/1000000).toFixed(1) + 'M';
-    if (v >= 1000)    return '$' + (v/1000).toFixed(0) + 'K';
-    return '$' + v;
+    if (v >= 1000)    return '$' + (v/1000).toFixed(v >= 10000 ? 0 : 1) + 'K';
+    return '$' + Math.round(v);
   }
 
   var kpiRev  = document.getElementById('kpi-revenue');
   var kpiProj = document.getElementById('kpi-projects');
   var kpiAvg  = document.getElementById('kpi-avg');
   var kpiBest = document.getElementById('kpi-best');
-  if (kpiRev)  kpiRev.textContent  = fmtMoney(totalRev);
-  if (kpiProj) kpiProj.textContent = totalProj + (year === 'all' ? '+' : '');
-  if (kpiAvg)  kpiAvg.textContent  = fmtMoney(avgRev);
-  if (kpiBest) kpiBest.textContent = year === 'all' ? '2025' : year;
+  var plus = (year === 'all') ? '+' : '';
+  function moneyFmt(v){ return fmtMoney(Math.round(v)); }
+  function moneyPlusFmt(v){
+    var s = fmtMoney(Math.round(v));
+    return s + (plus && s.indexOf('+')===-1 ? plus : '');
+  }
+  function projFmt(v){ return Math.round(v) + plus; }
+
+  animateKpi(kpiRev,  totalRev,  moneyPlusFmt);
+  animateKpi(kpiProj, totalProj, projFmt);
+  animateKpi(kpiAvg,  avgRev,    moneyFmt);
+  if (kpiBest) {
+    kpiBest.textContent = year === 'all' ? '2025' : year;
+    kpiBest.classList.remove('kpi-pop'); void kpiBest.offsetWidth; kpiBest.classList.add('kpi-pop');
+  }
 
   // Update button styles
   ['all','2021','2022','2023','2024','2025','2026'].forEach(function(y) {
@@ -5831,7 +5879,107 @@ document.addEventListener('DOMContentLoaded', function() {
   if (!canvas) return;
   var ctx = canvas.getContext('2d');
 
+  // gradient helpers (built against the canvas context)
+  function makeBarGradient(c) {
+    var g = c.createLinearGradient(0, 0, 0, c.canvas.height || 400);
+    g.addColorStop(0, 'rgba(184,255,60,0.55)');
+    g.addColorStop(0.55, 'rgba(184,255,60,0.18)');
+    g.addColorStop(1, 'rgba(184,255,60,0.02)');
+    return g;
+  }
+  function makeLineFill(c) {
+    var g = c.createLinearGradient(0, 0, 0, c.canvas.height || 400);
+    g.addColorStop(0, 'rgba(93,202,165,0.35)');
+    g.addColorStop(0.6, 'rgba(93,202,165,0.08)');
+    g.addColorStop(1, 'rgba(93,202,165,0)');
+    return g;
+  }
+
+  // soft glow under the projects line
+  var glowPlugin = {
+    id: 'lineGlow',
+    beforeDatasetDraw: function(chart, args) {
+      var meta = args.meta;
+      if (meta && meta.dataset && chart.data.datasets[args.index] && chart.data.datasets[args.index].label === 'Projects Closed') {
+        var c = chart.ctx;
+        c.save();
+        c.shadowColor = 'rgba(93,202,165,0.55)';
+        c.shadowBlur = 14;
+        c.shadowOffsetX = 0;
+        c.shadowOffsetY = 3;
+      }
+    },
+    afterDatasetDraw: function(chart, args) {
+      if (chart.data.datasets[args.index] && chart.data.datasets[args.index].label === 'Projects Closed') {
+        chart.ctx.restore();
+      }
+    }
+  };
+
+  // continuous animation loop for marching dashes + pulsing last point
+  var _animOffset = 0;
+  var marchPlugin = {
+    id: 'marchAndPulse',
+    afterDraw: function(chart) {
+      var ds = chart.data.datasets;
+      var c = chart.ctx;
+      // pulsing glow on the LAST projects point (your latest/peak performance)
+      var projIdx = -1;
+      for (var i=0;i<ds.length;i++){ if (ds[i].label === 'Projects Closed') projIdx = i; }
+      if (projIdx >= 0) {
+        var meta = chart.getDatasetMeta(projIdx);
+        if (meta && meta.data && meta.data.length) {
+          var pt = meta.data[meta.data.length - 1];
+          if (pt) {
+            var pulse = (Math.sin(_animOffset / 18) + 1) / 2; // 0..1
+            var r = 8 + pulse * 7;
+            c.save();
+            c.beginPath();
+            c.arc(pt.x, pt.y, r, 0, Math.PI*2);
+            c.fillStyle = 'rgba(93,202,165,' + (0.28 * (1 - pulse)) + ')';
+            c.fill();
+            c.beginPath();
+            c.arc(pt.x, pt.y, 5, 0, Math.PI*2);
+            c.fillStyle = '#5DCAA5';
+            c.shadowColor = 'rgba(93,202,165,0.9)';
+            c.shadowBlur = 10 + pulse * 8;
+            c.fill();
+            c.restore();
+          }
+        }
+      }
+    }
+  };
+
+  // animate: march the target line's dashes + keep pulse moving (throttled, pauses off-screen)
+  var _chartVisible = false;
+  var _lastFrame = 0;
+  function _tick(ts) {
+    if (_chartVisible && progressChart && ts - _lastFrame > 33) { // ~30fps
+      _lastFrame = ts;
+      _animOffset = (_animOffset + 1) % 100000;
+      var tds = progressChart.data.datasets[2];
+      if (tds) { tds.borderDashOffset = -(_animOffset / 2) % 26; }
+      progressChart.draw();
+    }
+    requestAnimationFrame(_tick);
+  }
+
+  // re-run the entrance animation when the chart scrolls into view; pause loop when off-screen
+  var _chartSeen = false;
+  var _chartIO = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      _chartVisible = e.isIntersecting;
+      if (e.isIntersecting && progressChart && !_chartSeen) {
+        _chartSeen = true;
+        progressChart.update();
+        if (typeof setYear === 'function') setYear('all');
+      }
+    });
+  }, { threshold: 0.2 });
+
   progressChart = new Chart(ctx, {
+    plugins: [glowPlugin, marchPlugin],
     data: {
       labels: CHART_DATA.all.labels,
       datasets: [
@@ -5839,10 +5987,13 @@ document.addEventListener('DOMContentLoaded', function() {
           type: 'bar',
           label: 'Revenue ($)',
           data: CHART_DATA.all.rev,
-          backgroundColor: 'rgba(184,255,60,0.12)',
-          borderColor: 'rgba(184,255,60,0.7)',
-          borderWidth: 1,
-          borderRadius: 6,
+          backgroundColor: makeBarGradient(ctx),
+          hoverBackgroundColor: 'rgba(184,255,60,0.4)',
+          borderColor: 'rgba(184,255,60,0.85)',
+          borderWidth: 1.5,
+          borderRadius: 8,
+          borderSkipped: false,
+          maxBarThickness: 90,
           yAxisID: 'y'
         },
         {
@@ -5850,13 +6001,15 @@ document.addEventListener('DOMContentLoaded', function() {
           label: 'Projects Closed',
           data: CHART_DATA.all.proj,
           borderColor: '#5DCAA5',
-          backgroundColor: 'rgba(93,202,165,0.08)',
-          borderWidth: 2.5,
+          backgroundColor: makeLineFill(ctx),
+          borderWidth: 3,
           pointRadius: 5,
+          pointHoverRadius: 8,
           pointBackgroundColor: '#5DCAA5',
           pointBorderColor: '#0A0E0A',
           pointBorderWidth: 2,
-          tension: 0.4,
+          pointHoverBorderColor: '#fff',
+          tension: 0.45,
           fill: true,
           yAxisID: 'y1'
         },
@@ -5864,10 +6017,11 @@ document.addEventListener('DOMContentLoaded', function() {
           type: 'line',
           label: 'Monthly Target',
           data: CHART_DATA.all.labels.map(function(){ return CHART_DATA.all.target; }),
-          borderColor: 'rgba(245,166,35,0.55)',
+          borderColor: 'rgba(245,166,35,0.6)',
           borderWidth: 1.5,
           borderDash: [8,5],
           pointRadius: 0,
+          pointHoverRadius: 0,
           tension: 0,
           fill: false,
           yAxisID: 'y'
@@ -5877,24 +6031,35 @@ document.addEventListener('DOMContentLoaded', function() {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      animation: { duration: 600, easing: 'easeInOutQuart' },
+      animation: {
+        duration: 1100,
+        easing: 'easeInOutQuart',
+        delay: function(c) { return c.type === 'data' && c.mode === 'default' ? c.dataIndex * 90 : 0; }
+      },
       interaction: { mode: 'index', intersect: false },
       plugins: {
         legend: { display: false },
         tooltip: {
-          backgroundColor: '#111811',
-          borderColor: 'rgba(184,255,60,0.3)',
+          backgroundColor: 'rgba(13,19,13,0.96)',
+          borderColor: 'rgba(184,255,60,0.35)',
           borderWidth: 1,
           titleColor: '#B8FF3C',
-          bodyColor: '#7A9A7A',
+          titleFont: { family: 'Syne, sans-serif', size: 13, weight: '700' },
+          bodyColor: '#E8F0E8',
+          bodyFont: { size: 12.5 },
           padding: 14,
+          cornerRadius: 10,
+          boxPadding: 6,
+          usePointStyle: true,
+          caretSize: 7,
           callbacks: {
             label: function(ctx) {
-              if (ctx.dataset.label === 'Revenue ($)')     return ' Revenue: $' + ctx.parsed.y.toLocaleString();
-              if (ctx.dataset.label === 'Projects Closed') return ' Projects: ' + ctx.parsed.y;
-              if (ctx.dataset.label === 'Monthly Target')  return ' Target: $' + ctx.parsed.y.toLocaleString();
+              if (ctx.dataset.label === 'Revenue ($)')     return '  Revenue:  $' + ctx.parsed.y.toLocaleString();
+              if (ctx.dataset.label === 'Projects Closed') return '  Projects:  ' + ctx.parsed.y;
+              if (ctx.dataset.label === 'Monthly Target')  return '  Target:  $' + ctx.parsed.y.toLocaleString();
               return ctx.dataset.label + ': ' + ctx.parsed.y;
-            }
+            },
+            labelPointStyle: function() { return { pointStyle: 'circle' }; }
           }
         }
       },
@@ -5922,6 +6087,10 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
   });
+
+  // kick off continuous animations + re-animate on scroll
+  requestAnimationFrame(_tick);
+  _chartIO.observe(canvas);
 });
 </script>
 
