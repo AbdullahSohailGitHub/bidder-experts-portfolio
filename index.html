@@ -382,6 +382,28 @@
   .pay-alt-link { display:inline-flex; align-items:center; gap:7px; font-size:12.5px; color:var(--text); text-decoration:none; transition:color 0.2s; }
   .pay-alt-link:hover { color:var(--lime); }
   .pay-trust { display:flex; align-items:center; justify-content:center; gap:7px; margin-top:14px; font-size:11px; color:var(--muted); }
+  /* multi-method tabs */
+  .pay-tabs { display:flex; gap:6px; margin:18px 0 18px; flex-wrap:wrap; padding-bottom:4px; }
+  .pay-tab { flex:1; min-width:90px; background:rgba(184,255,60,0.05); border:1px solid var(--border); color:var(--muted); font-family:'Syne',sans-serif; font-size:11.5px; font-weight:700; padding:9px 6px; border-radius:10px; cursor:pointer; transition:all 0.2s; white-space:nowrap; }
+  .pay-tab:hover { color:var(--text); border-color:rgba(184,255,60,0.3); }
+  .pay-tab.active { background:var(--lime); color:var(--dark); border-color:var(--lime); }
+  .pay-panel { display:none; animation:payPanelIn 0.3s ease; }
+  .pay-panel.active { display:block; }
+  @keyframes payPanelIn { 0%{ opacity:0; transform:translateY(6px); } 100%{ opacity:1; transform:translateY(0); } }
+  .pay-method-head { margin-bottom:14px; }
+  .pay-method-title { font-family:'Syne',sans-serif; font-size:15px; font-weight:800; color:var(--white); margin-bottom:4px; }
+  .pay-method-sub { font-size:12px; color:var(--muted); line-height:1.5; }
+  .pay-note { font-size:11.5px; color:var(--muted); line-height:1.5; margin:10px 0 0; }
+  .pay-bank-card { margin-top:6px; background:rgba(184,255,60,0.04); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+  .pay-bank-row { display:flex; justify-content:space-between; gap:12px; padding:10px 14px; border-top:1px solid rgba(184,255,60,0.08); font-size:13px; }
+  .pay-bank-row:first-child { border-top:none; }
+  .pay-bank-k { color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:0.4px; }
+  .pay-bank-v { color:var(--text); font-weight:600; text-align:right; }
+  .pay-bank-secure .pay-bank-v { color:var(--lime); font-size:11.5px; font-style:italic; font-weight:500; }
+  .pay-bank-actions { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:14px; }
+  .pay-go-sm { padding:12px 10px; font-size:12.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  @media (max-width:520px){ .pay-bank-actions { grid-template-columns:1fr; } .pay-go-sm { padding:13px 10px; } }
+  @media (max-width:520px){ .pay-tab { font-size:10.5px; min-width:auto; padding:8px 4px; } .pay-bank-row { flex-direction:column; gap:3px; padding:10px 12px; } .pay-bank-v { text-align:left; } }
   @media (max-width:600px){ .pay-cta-box { padding:22px; } .pay-cta-btn { width:100%; justify-content:center; } #pay-modal { padding:24px 20px; } }
   .pricing-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-bottom:32px; align-items:start; }
   .pricing-card { background:var(--card); border:1px solid var(--border); border-radius:20px; padding:32px 28px; position:relative; overflow:hidden; display:flex; flex-direction:column; transition:transform 0.25s,border-color 0.25s; }
@@ -2916,63 +2938,119 @@
 
 </section>
 
-<!-- PAYONEER PAYMENT CTA -->
+<!-- PAYMENT CTA -->
 <div id="pay-cta" style="max-width:1200px;margin:0 auto;padding:0 24px;">
   <div class="pay-cta-box">
     <div>
       <div class="section-tag" style="margin-bottom:8px;">-- Secure Payments</div>
-      <h3 class="pay-cta-title">Ready to start? Pay your invoice via Payoneer</h3>
-      <p class="pay-cta-sub">Used by 5&nbsp;million+ businesses worldwide. Send your project payment securely to Bidder Experts &mdash; fast international transfers, low fees, supported in 190+ countries.</p>
+      <h3 class="pay-cta-title">Ready to start? Pay securely from anywhere</h3>
+      <p class="pay-cta-sub">Choose how you&rsquo;d like to pay &mdash; Payoneer, Wise, bank transfer (SWIFT), or Western&nbsp;Union. We accept clients from the US, UK, UAE, Canada, and 190+&nbsp;countries.</p>
     </div>
     <button class="pay-cta-btn" onclick="openPayModal()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;"><path d="M3 7l9 6 9-6"/><rect x="3" y="5" width="18" height="14" rx="2"/></svg>
-      Pay via Payoneer
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+      View Payment Options
     </button>
   </div>
 </div>
 
-<!-- PAYONEER PAYMENT MODAL -->
+<!-- MULTI-METHOD PAYMENT MODAL -->
 <div id="pay-overlay" hidden>
   <div id="pay-modal">
     <button class="pay-close" onclick="closePayModal()" aria-label="Close">&times;</button>
     <div class="pay-title">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;color:var(--lime);"><path d="M3 7l9 6 9-6"/><rect x="3" y="5" width="18" height="14" rx="2"/></svg>
-      Pay via Payoneer
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;color:var(--lime);"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+      Payment Methods
     </div>
-    <div class="pay-sub">Send your agreed project amount to Bidder Experts using Payoneer's secure transfer.</div>
+    <div class="pay-sub">Choose the option that works best for you. All transfers go to Bidder Experts (Muhammad Abdullah Sohail).</div>
 
-    <div class="pay-label">Send payment to this email</div>
-    <div class="pay-email-row">
-      <div class="pay-email" id="payEmail">Abdullahsohail63@gmail.com</div>
-      <button class="pay-copy" id="payCopy" onclick="copyPayEmail()" aria-label="Copy email">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
-        <span id="payCopyText">Copy</span>
-      </button>
-    </div>
-
-    <div class="pay-steps">
-      <div class="pay-step"><span class="pay-step-num">1</span><span>Sign in to your <strong>Payoneer account</strong> (or sign up for free).</span></div>
-      <div class="pay-step"><span class="pay-step-num">2</span><span>Click <strong>"Pay"</strong> in the menu, then <strong>"Make a Payment"</strong>.</span></div>
-      <div class="pay-step"><span class="pay-step-num">3</span><span>Paste the email above as the <strong>recipient</strong>.</span></div>
-      <div class="pay-step"><span class="pay-step-num">4</span><span>Enter the agreed amount and confirm. Done!</span></div>
+    <!-- TABS -->
+    <div class="pay-tabs" role="tablist">
+      <button class="pay-tab active" data-tab="payoneer" onclick="payTab('payoneer')">🌐 Payoneer</button>
+      <button class="pay-tab" data-tab="wise" onclick="payTab('wise')">💸 Wise</button>
+      <button class="pay-tab" data-tab="bank" onclick="payTab('bank')">🏦 Bank / SWIFT</button>
+      <button class="pay-tab" data-tab="wu" onclick="payTab('wu')">🌍 Western Union</button>
     </div>
 
-    <a class="pay-go" href="https://login.payoneer.com/" target="_blank" rel="noopener">
-      Open Payoneer &rarr; (then go to Pay &gt; Make a Payment)
-    </a>
+    <!-- PAYONEER PANEL -->
+    <div class="pay-panel active" id="pay-panel-payoneer">
+      <div class="pay-method-head">
+        <div class="pay-method-title">Pay via Payoneer</div>
+        <div class="pay-method-sub">Best for US, UK, EU, Canada, UAE clients. Funds typically arrive within 2 hours.</div>
+      </div>
+      <div class="pay-label">Send payment to this email</div>
+      <div class="pay-email-row">
+        <div class="pay-email" id="payoneerEmail">Abdullahsohail63@gmail.com</div>
+        <button class="pay-copy" onclick="copyPayField('payoneerEmail',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Copy</span></button>
+      </div>
+      <div class="pay-steps">
+        <div class="pay-step"><span class="pay-step-num">1</span><span>Sign in to your <strong>Payoneer account</strong>.</span></div>
+        <div class="pay-step"><span class="pay-step-num">2</span><span>Click <strong>&ldquo;Pay&rdquo;</strong> &rarr; <strong>&ldquo;Make a Payment&rdquo;</strong>.</span></div>
+        <div class="pay-step"><span class="pay-step-num">3</span><span>Paste the email above as the recipient, enter amount, confirm.</span></div>
+      </div>
+      <a class="pay-go" href="https://login.payoneer.com/" target="_blank" rel="noopener">Open Payoneer &rarr;</a>
+    </div>
 
-    <div class="pay-alt">
-      <div class="pay-alt-title">No Payoneer account? Alternative options:</div>
-      <a class="pay-alt-link" href="https://wa.me/923214900839?text=Hi%20Abdullah%2C%20I%27d%20like%20to%20make%20a%20payment%20for%20a%20project" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-        WhatsApp us to arrange another method (bank transfer, Wise, etc.)
-      </a>
+    <!-- WISE PANEL -->
+    <div class="pay-panel" id="pay-panel-wise">
+      <div class="pay-method-head">
+        <div class="pay-method-title">Pay via Wise (TransferWise)</div>
+        <div class="pay-method-sub">Excellent for US, UK & EU clients &mdash; low fees, real exchange rates, fast.</div>
+      </div>
+      <div class="pay-label">Send payment to this email</div>
+      <div class="pay-email-row">
+        <div class="pay-email" id="wiseEmail">Abdullahsohail63@gmail.com</div>
+        <button class="pay-copy" onclick="copyPayField('wiseEmail',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Copy</span></button>
+      </div>
+      <div class="pay-steps">
+        <div class="pay-step"><span class="pay-step-num">1</span><span>Sign in (or sign up) at <strong>wise.com</strong>.</span></div>
+        <div class="pay-step"><span class="pay-step-num">2</span><span>Click <strong>&ldquo;Send money&rdquo;</strong> and choose <strong>&ldquo;Email recipient&rdquo;</strong>.</span></div>
+        <div class="pay-step"><span class="pay-step-num">3</span><span>Paste the email above, enter amount, confirm.</span></div>
+      </div>
+      <a class="pay-go" href="https://wise.com/" target="_blank" rel="noopener">Open Wise &rarr;</a>
+      <div class="pay-note">Don&rsquo;t have Wise yet? It&rsquo;s free to sign up and takes 2 minutes.</div>
+    </div>
+
+    <!-- BANK / SWIFT PANEL -->
+    <div class="pay-panel" id="pay-panel-bank">
+      <div class="pay-method-head">
+        <div class="pay-method-title">Bank Transfer</div>
+        <div class="pay-method-sub">We support both local Pakistani transfers (HBL, Bank&nbsp;Alfalah, IBFT) and international SWIFT wires from US, UK, UAE, EU and beyond.</div>
+      </div>
+      <div class="pay-bank-card">
+        <div class="pay-bank-row"><span class="pay-bank-k">Account Holder</span><span class="pay-bank-v">Muhammad Abdullah Sohail</span></div>
+        <div class="pay-bank-row"><span class="pay-bank-k">Country</span><span class="pay-bank-v">Pakistan</span></div>
+        <div class="pay-bank-row"><span class="pay-bank-k">City</span><span class="pay-bank-v">Lahore</span></div>
+        <div class="pay-bank-row pay-bank-secure"><span class="pay-bank-k">Account &amp; SWIFT</span><span class="pay-bank-v">Shared privately via WhatsApp &mdash; for your security</span></div>
+      </div>
+      <p class="pay-note" style="margin-top:14px;">For security, full account numbers, IBAN and SWIFT codes are sent privately. Pick your transfer type below and we&rsquo;ll reply within minutes.</p>
+      <div class="pay-bank-actions">
+        <a class="pay-go pay-go-sm" href="https://wa.me/923214900839?text=Hi%20Abdullah%2C%20I%27d%20like%20to%20send%20a%20LOCAL%20Pakistani%20bank%20transfer.%20Please%20share%20your%20HBL%20or%20Bank%20Alfalah%20account%20details." target="_blank" rel="noopener">🇵🇰 Local Transfer</a>
+        <a class="pay-go pay-go-sm" href="https://wa.me/923214900839?text=Hi%20Abdullah%2C%20I%27d%20like%20to%20send%20an%20INTERNATIONAL%20SWIFT%20wire%20transfer.%20Please%20share%20your%20IBAN%20and%20SWIFT%2FBIC%20code." target="_blank" rel="noopener">🌍 SWIFT / Wire</a>
+      </div>
+    </div>
+
+    <!-- WESTERN UNION PANEL -->
+    <div class="pay-panel" id="pay-panel-wu">
+      <div class="pay-method-head">
+        <div class="pay-method-title">Western Union / Ria</div>
+        <div class="pay-method-sub">Quick cash transfer from any country to Pakistan. Pickup or direct bank deposit.</div>
+      </div>
+      <div class="pay-bank-card">
+        <div class="pay-bank-row"><span class="pay-bank-k">Receiver Name</span><span class="pay-bank-v">Muhammad Abdullah Sohail</span></div>
+        <div class="pay-bank-row"><span class="pay-bank-k">Country</span><span class="pay-bank-v">Pakistan</span></div>
+        <div class="pay-bank-row"><span class="pay-bank-k">City</span><span class="pay-bank-v">Lahore</span></div>
+        <div class="pay-bank-row pay-bank-secure"><span class="pay-bank-k">Phone / CNIC</span><span class="pay-bank-v">Shared on request</span></div>
+      </div>
+      <p class="pay-note" style="margin-top:14px;">After sending, share the <strong>MTCN tracking code</strong> with us via WhatsApp.</p>
+      <a class="pay-go" href="https://wa.me/923214900839?text=Hi%20Abdullah%2C%20I%27d%20like%20to%20send%20a%20Western%20Union%20transfer%20%E2%80%94%20please%20share%20the%20receiver%20phone%2FCNIC." target="_blank" rel="noopener">Request receiver details on WhatsApp &rarr;</a>
     </div>
 
     <div class="pay-trust">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-      Trusted by 5M+ businesses &middot; Bank-level encryption
+      All methods are verified and secure &middot; Need help? <a href="https://wa.me/923214900839" target="_blank" rel="noopener" style="color:var(--lime);text-decoration:none;">WhatsApp us</a>
     </div>
+  </div>
+</div>
   </div>
 </div>
 
@@ -8073,10 +8151,9 @@ async function createAccount() {
   overlay.addEventListener('click', function(e){ if (e.target === overlay) window.closePayModal(); });
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !overlay.hidden) window.closePayModal(); });
 
-  window.copyPayEmail = function(){
-    var email = document.getElementById('payEmail').textContent.trim();
-    var btn = document.getElementById('payCopy');
-    var txt = document.getElementById('payCopyText');
+  window.copyPayField = function(elementId, btn){
+    var val = document.getElementById(elementId).textContent.trim();
+    var txt = btn.querySelector('span');
     function done(){
       var old = txt.textContent;
       txt.textContent = 'Copied!';
@@ -8084,10 +8161,17 @@ async function createAccount() {
       setTimeout(function(){ txt.textContent = old; btn.classList.remove('copied'); }, 1800);
     }
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(email).then(done).catch(function(){ window.prompt('Copy this email:', email); });
+      navigator.clipboard.writeText(val).then(done).catch(function(){ window.prompt('Copy this:', val); });
     } else {
-      window.prompt('Copy this email:', email);
+      window.prompt('Copy this:', val);
     }
+  };
+
+  window.payTab = function(tab){
+    document.querySelectorAll('.pay-tab').forEach(function(t){ t.classList.toggle('active', t.getAttribute('data-tab') === tab); });
+    document.querySelectorAll('.pay-panel').forEach(function(p){ p.classList.remove('active'); });
+    var panel = document.getElementById('pay-panel-' + tab);
+    if (panel) panel.classList.add('active');
   };
 })();
 </script>
