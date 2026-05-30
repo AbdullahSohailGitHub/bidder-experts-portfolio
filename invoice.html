@@ -310,6 +310,14 @@ textarea{resize:vertical;min-height:60px;}
   .action-row{grid-template-columns:1fr;}
   .btn-full{grid-column:span 1;}
 }
+@media(max-width:420px){
+  .sidebar{padding:12px 10px;}
+  .preview-panel{padding:10px;}
+  .btn{padding:12px 14px;font-size:12px;}
+  .btn svg{flex-shrink:0;}
+  .template-btn{font-size:10px;padding:8px 4px;}
+  .add-item-btn{font-size:11px;padding:10px;}
+}
 
 /* ── INVOICE TOTALS SECTION ── */
 .inv-totals-wrap {
@@ -338,17 +346,356 @@ textarea{resize:vertical;min-height:60px;}
 .tpl-luxury .inv-totals-wrap,
 .tpl-clean .inv-totals-wrap,
 .tpl-bold .inv-totals-wrap { width:280px; margin-left:auto; }
+
+/* ============ NEW TEMPLATE: MODERN GRADIENT ============ */
+.tpl-modern .inv-header{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);padding:40px 48px;display:flex;justify-content:space-between;align-items:flex-start;position:relative;overflow:hidden;}
+.tpl-modern .inv-header::before{content:'';position:absolute;top:-50%;right:-20%;width:300px;height:300px;background:radial-gradient(circle,rgba(255,255,255,0.15),transparent 70%);}
+.tpl-modern .inv-brand{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:#fff;letter-spacing:-0.5px;position:relative;}
+.tpl-modern .inv-tagline{font-size:12px;color:rgba(255,255,255,0.7);margin-top:5px;position:relative;}
+.tpl-modern .inv-meta{text-align:right;position:relative;}
+.tpl-modern .inv-number-label{font-size:10px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+.tpl-modern .inv-number{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:600;color:#fff;}
+.tpl-modern .inv-status{display:inline-block;background:rgba(255,255,255,0.2);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 14px;font-size:10px;color:#fff;font-weight:700;margin-top:8px;}
+.tpl-modern .inv-body{padding:36px 48px;background:#FAFBFC;}
+.tpl-modern .inv-parties{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:28px;}
+.tpl-modern .inv-party-label{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:#667eea;margin-bottom:8px;font-family:'Syne',sans-serif;font-weight:700;}
+.tpl-modern .inv-party-name{font-size:16px;font-weight:700;color:#1a202c;margin-bottom:4px;font-family:'Syne',sans-serif;}
+.tpl-modern .inv-party-detail{font-size:12px;color:#4a5568;line-height:1.6;}
+.tpl-modern .inv-dates{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px;}
+.tpl-modern .inv-date-item{background:#fff;border-radius:12px;padding:14px 18px;border:1px solid #E2E8F0;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+.tpl-modern .inv-date-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#718096;margin-bottom:4px;}
+.tpl-modern .inv-date-val{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:#1a202c;}
+.tpl-modern .inv-table{width:100%;border-collapse:separate;border-spacing:0;margin-bottom:24px;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+.tpl-modern .inv-table th{background:linear-gradient(90deg,#667eea,#764ba2);color:#fff;font-size:10px;text-transform:uppercase;letter-spacing:1.2px;padding:14px 18px;text-align:left;font-family:'Syne',sans-serif;font-weight:700;}
+.tpl-modern .inv-table th:last-child{text-align:right;}
+.tpl-modern .inv-table td{padding:14px 18px;font-size:13px;color:#2d3748;border-bottom:1px solid #EDF2F7;}
+.tpl-modern .inv-table td:last-child{text-align:right;font-weight:600;color:#1a202c;}
+.tpl-modern .inv-table tr:last-child td{border-bottom:none;}
+.tpl-modern .inv-totals-wrap{width:280px;margin-left:auto;}
+.tpl-modern .inv-total-row{display:flex;justify-content:space-between;padding:8px 0;font-size:13px;color:#4a5568;border-bottom:1px solid #EDF2F7;}
+.tpl-modern .inv-total-row.grand{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;padding:14px 18px;border-radius:10px;border:none;margin-top:10px;font-size:15px;font-weight:700;box-shadow:0 8px 20px rgba(102,126,234,0.3);}
+.tpl-modern .inv-total-row.grand span:first-child{color:rgba(255,255,255,0.9);font-family:'Syne',sans-serif;}
+.tpl-modern .inv-total-row.grand span:last-child{color:#fff;font-family:'Syne',sans-serif;font-weight:800;}
+.tpl-modern .inv-notes{background:#fff;border-left:3px solid #667eea;padding:16px 20px;border-radius:0 10px 10px 0;margin-top:24px;font-size:12px;color:#4a5568;line-height:1.6;}
+.tpl-modern .inv-footer{background:#fff;border-top:1px solid #E2E8F0;padding:18px 48px;display:flex;justify-content:space-between;align-items:center;}
+.tpl-modern .inv-footer-text{font-size:11px;color:#a0aec0;}
+.tpl-modern .inv-footer-brand{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;background:linear-gradient(90deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+/* ============ NEW TEMPLATE: MINIMAL MONO ============ */
+.tpl-mono .inv-header{background:#FAFAFA;padding:36px 44px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #111;}
+.tpl-mono .inv-brand{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:600;color:#111;letter-spacing:-0.5px;text-transform:lowercase;}
+.tpl-mono .inv-tagline{font-family:'JetBrains Mono',monospace;font-size:11px;color:#666;margin-top:4px;}
+.tpl-mono .inv-meta{text-align:right;}
+.tpl-mono .inv-number-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:#999;margin-bottom:2px;text-transform:lowercase;}
+.tpl-mono .inv-number{font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:500;color:#111;letter-spacing:-0.5px;}
+.tpl-mono .inv-status{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;color:#111;font-weight:600;margin-top:6px;background:transparent;border:1px solid #111;border-radius:0;padding:3px 10px;text-transform:lowercase;}
+.tpl-mono .inv-body{padding:36px 44px;background:#fff;}
+.tpl-mono .inv-parties{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:32px;}
+.tpl-mono .inv-party-label{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:lowercase;color:#999;margin-bottom:6px;}
+.tpl-mono .inv-party-name{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:600;color:#111;margin-bottom:3px;}
+.tpl-mono .inv-party-detail{font-family:'JetBrains Mono',monospace;font-size:11px;color:#666;line-height:1.7;}
+.tpl-mono .inv-dates{display:flex;gap:32px;margin-bottom:28px;padding-bottom:24px;border-bottom:1px dashed #DDD;}
+.tpl-mono .inv-date-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:#999;text-transform:lowercase;margin-bottom:3px;}
+.tpl-mono .inv-date-val{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;color:#111;}
+.tpl-mono .inv-table{width:100%;border-collapse:collapse;margin-bottom:24px;}
+.tpl-mono .inv-table th{background:transparent;color:#999;font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:lowercase;padding:10px 0;text-align:left;border-bottom:2px solid #111;font-weight:500;}
+.tpl-mono .inv-table th:last-child{text-align:right;}
+.tpl-mono .inv-table td{padding:12px 0;font-family:'JetBrains Mono',monospace;font-size:12px;color:#333;border-bottom:1px dashed #DDD;}
+.tpl-mono .inv-table td:last-child{text-align:right;font-weight:600;color:#111;}
+.tpl-mono .inv-totals-wrap{width:260px;margin-left:auto;}
+.tpl-mono .inv-total-row{display:flex;justify-content:space-between;padding:6px 0;font-family:'JetBrains Mono',monospace;font-size:12px;color:#666;}
+.tpl-mono .inv-total-row.grand{border-top:2px solid #111;border-bottom:2px solid #111;padding:12px 0;margin-top:8px;font-size:15px;font-weight:600;color:#111;}
+.tpl-mono .inv-total-row.grand span:first-child{color:#111;}
+.tpl-mono .inv-total-row.grand span:last-child{color:#111;font-weight:700;}
+.tpl-mono .inv-notes{background:#FAFAFA;border-left:2px solid #111;padding:16px 20px;margin-top:24px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#444;line-height:1.7;}
+.tpl-mono .inv-footer{background:#FAFAFA;border-top:1px solid #EEE;padding:16px 44px;display:flex;justify-content:space-between;align-items:center;}
+.tpl-mono .inv-footer-text{font-family:'JetBrains Mono',monospace;font-size:10px;color:#999;text-transform:lowercase;}
+.tpl-mono .inv-footer-brand{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:#111;text-transform:lowercase;}
+
+/* ============ NEW TEMPLATE: CORPORATE PRO ============ */
+.tpl-corp .inv-header{background:#fff;padding:32px 44px 24px;display:flex;justify-content:space-between;align-items:flex-start;border-top:6px solid #0066CC;border-bottom:1px solid #DDD;}
+.tpl-corp .inv-brand{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#0066CC;letter-spacing:-0.3px;}
+.tpl-corp .inv-tagline{font-size:11px;color:#666;margin-top:4px;}
+.tpl-corp .inv-meta{text-align:right;}
+.tpl-corp .inv-number-label{font-size:10px;color:#0066CC;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:3px;font-weight:700;font-family:'Syne',sans-serif;}
+.tpl-corp .inv-number{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:600;color:#1a202c;}
+.tpl-corp .inv-status{display:inline-block;background:#0066CC;color:#fff;border-radius:3px;padding:3px 12px;font-size:10px;font-weight:700;margin-top:6px;letter-spacing:0.5px;}
+.tpl-corp .inv-body{padding:32px 44px;background:#fff;}
+.tpl-corp .inv-parties{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:28px;padding-bottom:24px;border-bottom:2px solid #0066CC;}
+.tpl-corp .inv-party-label{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:#0066CC;margin-bottom:6px;font-family:'Syne',sans-serif;font-weight:700;}
+.tpl-corp .inv-party-name{font-size:15px;font-weight:700;color:#1a202c;margin-bottom:4px;}
+.tpl-corp .inv-party-detail{font-size:12px;color:#4a5568;line-height:1.6;}
+.tpl-corp .inv-dates{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px;}
+.tpl-corp .inv-date-item{background:#F0F6FC;border-left:3px solid #0066CC;padding:12px 16px;}
+.tpl-corp .inv-date-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#0066CC;margin-bottom:3px;font-weight:700;}
+.tpl-corp .inv-date-val{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:#1a202c;}
+.tpl-corp .inv-table{width:100%;border-collapse:collapse;margin-bottom:24px;border:1px solid #DDD;}
+.tpl-corp .inv-table th{background:#0066CC;color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:1px;padding:12px 16px;text-align:left;font-family:'Syne',sans-serif;font-weight:700;}
+.tpl-corp .inv-table th:last-child{text-align:right;}
+.tpl-corp .inv-table tbody tr:nth-child(even){background:#F8FAFD;}
+.tpl-corp .inv-table td{padding:11px 16px;font-size:13px;color:#2d3748;}
+.tpl-corp .inv-table td:last-child{text-align:right;font-weight:600;}
+.tpl-corp .inv-totals-wrap{width:300px;margin-left:auto;background:#F0F6FC;padding:16px 20px;border-left:3px solid #0066CC;}
+.tpl-corp .inv-total-row{display:flex;justify-content:space-between;padding:7px 0;font-size:13px;color:#4a5568;}
+.tpl-corp .inv-total-row.grand{border-top:2px solid #0066CC;margin-top:8px;padding-top:12px;font-size:16px;color:#0066CC;font-weight:700;}
+.tpl-corp .inv-total-row.grand span:first-child{color:#1a202c;font-family:'Syne',sans-serif;}
+.tpl-corp .inv-total-row.grand span:last-child{color:#0066CC;font-family:'Syne',sans-serif;font-weight:800;}
+.tpl-corp .inv-notes{background:#F0F6FC;border-left:3px solid #0066CC;padding:14px 18px;margin-top:24px;font-size:12px;color:#2d3748;line-height:1.6;}
+.tpl-corp .inv-footer{background:#0066CC;color:#fff;padding:14px 44px;display:flex;justify-content:space-between;align-items:center;}
+.tpl-corp .inv-footer-text{font-size:11px;color:rgba(255,255,255,0.8);}
+.tpl-corp .inv-footer-brand{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:#fff;}
+
+/* shared totals-wrap for new templates */
+.tpl-modern .inv-totals-wrap,
+.tpl-mono .inv-totals-wrap,
+.tpl-corp .inv-totals-wrap { width:280px; margin-left:auto; }
+
+/* ============ INVOICE-WIDE ANIMATIONS ============ */
+.invoice-paper {
+  animation: invPaperLift 0.7s cubic-bezier(0.34,1.2,0.5,1);
+}
+@keyframes invPaperLift {
+  0% { opacity:0; transform:translateY(20px) scale(0.98); }
+  100% { opacity:1; transform:translateY(0) scale(1); }
+}
+/* table rows fade in stacked */
+.inv-table tbody tr {
+  animation: invRowIn 0.5s ease backwards;
+}
+.inv-table tbody tr:nth-child(1) { animation-delay: 0.15s; }
+.inv-table tbody tr:nth-child(2) { animation-delay: 0.22s; }
+.inv-table tbody tr:nth-child(3) { animation-delay: 0.29s; }
+.inv-table tbody tr:nth-child(4) { animation-delay: 0.36s; }
+.inv-table tbody tr:nth-child(5) { animation-delay: 0.43s; }
+.inv-table tbody tr:nth-child(n+6) { animation-delay: 0.5s; }
+@keyframes invRowIn {
+  0% { opacity:0; transform:translateX(-12px); }
+  100% { opacity:1; transform:translateX(0); }
+}
+/* grand total subtle pulse glow */
+.inv-total-row.grand {
+  animation: invGrandIn 0.6s cubic-bezier(0.34,1.5,0.5,1) 0.4s backwards;
+}
+@keyframes invGrandIn {
+  0% { opacity:0; transform:scale(0.94); }
+  60% { transform:scale(1.03); }
+  100% { opacity:1; transform:scale(1); }
+}
+/* status badge pulse for UNPAID / OVERDUE */
+.inv-status[data-status="UNPAID"],
+.inv-status[data-status="OVERDUE"] {
+  animation: invStatusPulse 2.2s ease-in-out infinite;
+}
+@keyframes invStatusPulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(214,59,59,0); }
+  50% { box-shadow: 0 0 0 6px rgba(214,59,59,0.12); }
+}
+/* number ticker for grand total */
+.inv-total-row.grand span:last-child { font-variant-numeric: tabular-nums; }
+/* parties fade-in */
+.inv-parties > div {
+  animation: invFadeUp 0.5s ease 0.25s backwards;
+}
+.inv-parties > div:nth-child(2) { animation-delay: 0.32s; }
+@keyframes invFadeUp {
+  0% { opacity:0; transform:translateY(8px); }
+  100% { opacity:1; transform:translateY(0); }
+}
+/* dates animation */
+.inv-dates .inv-date-item, .inv-dates > div {
+  animation: invFadeUp 0.5s ease 0.4s backwards;
+}
+/* notes slide in */
+.inv-notes {
+  animation: invFadeUp 0.5s ease 0.55s backwards;
+}
+
 .inv-total-divider {
   height:1px;background:rgba(0,0,0,0.1);margin:8px 0 4px;
 }
 
   /* Profile select */
   .profile-select-inp { color: #F0F5F0 !important; }
+  /* ===== INVOICE PAYMENT SECTION (rendered on the invoice) ===== */
+  .inv-pay-section {
+    margin-top:28px;
+    padding:20px 22px;
+    background:linear-gradient(135deg,#FAFCFB 0%,#F4F8F4 100%);
+    border-radius:14px;
+    border:1px solid #E0EAE0;
+    box-shadow:0 2px 8px rgba(45,155,58,0.04);
+    position:relative;
+    overflow:hidden;
+  }
+  .inv-pay-section::before {
+    content:''; position:absolute; top:0; left:-100%;
+    width:60%; height:2px;
+    background:linear-gradient(90deg,transparent,rgba(45,155,58,0.5),transparent);
+    animation:invPaySheen 4s ease-in-out 1.2s infinite;
+  }
+  @keyframes invPaySheen { 0%{ left:-100%; } 60%,100%{ left:160%; } }
+  .inv-pay-section-head {
+    display:flex; align-items:center; gap:8px;
+    font-family:'Syne',sans-serif; font-size:11px; font-weight:700;
+    text-transform:uppercase; letter-spacing:1.5px; color:#2D9B3A;
+    margin-bottom:16px;
+  }
+  .inv-pay-section-sub {
+    margin-left:auto;
+    font-family:'DM Sans',sans-serif; font-size:10px; font-weight:400;
+    text-transform:none; letter-spacing:0.2px; color:#8AA28E;
+  }
+  .inv-pay-grid { display:grid; gap:12px; }
+  .inv-pay-card {
+    position:relative; background:#FFFFFF; border-radius:11px;
+    padding:14px 14px 13px 16px; border:1px solid #E8EEE8;
+    overflow:hidden; opacity:0;
+    animation:invPayIn 0.5s cubic-bezier(0.34,1.4,0.5,1) forwards;
+    transition:transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+  .inv-pay-card:hover { transform:translateY(-3px); box-shadow:0 10px 24px rgba(45,155,58,0.12); border-color:rgba(45,155,58,0.3); }
+  @keyframes invPayIn { 0%{ opacity:0; transform:translateY(10px); } 100%{ opacity:1; transform:translateY(0); } }
+  .inv-pay-accent {
+    position:absolute; left:0; top:0; bottom:0; width:4px;
+    background:var(--pc,#2D9B3A);
+    box-shadow:0 0 12px var(--pc,#2D9B3A);
+  }
+  .inv-pay-head { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+  .inv-pay-logo {
+    width:34px; height:34px; border-radius:8px; flex-shrink:0;
+    background:linear-gradient(135deg, var(--pc,#2D9B3A), color-mix(in srgb, var(--pc,#2D9B3A) 70%, #000));
+    color:#fff; font-family:'Syne',sans-serif; font-size:13px; font-weight:800;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 4px 10px color-mix(in srgb, var(--pc,#2D9B3A) 35%, transparent);
+  }
+  .inv-pay-name { font-family:'Syne',sans-serif; font-size:12px; font-weight:700; color:#2A3A2C; letter-spacing:0.3px; }
+  .inv-pay-acc {
+    display:flex; align-items:center; justify-content:space-between; gap:8px;
+    background:#F4F8F4; border:1px dashed rgba(45,155,58,0.25); border-radius:7px;
+    padding:8px 10px; cursor:pointer; transition:all 0.2s; margin-bottom:6px;
+  }
+  .inv-pay-acc:hover { background:#EAF4EA; border-color:rgba(45,155,58,0.5); }
+  .inv-pay-acc.copied { background:rgba(45,155,58,0.12); border-color:#2D9B3A; border-style:solid; }
+  .inv-pay-acc.copied::after { content:'✓ Copied!'; position:absolute; margin-left:2px; font-size:9px; color:#2D9B3A; font-weight:700; }
+  .inv-pay-acc-val { font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--pc,#2D9B3A); font-weight:600; letter-spacing:0.3px; word-break:break-all; }
+  .inv-pay-acc-copy { font-size:11px; opacity:0.5; transition:opacity 0.2s; }
+  .inv-pay-acc:hover .inv-pay-acc-copy { opacity:1; }
+  .inv-pay-extra { font-size:10.5px; color:#5A7A5E; line-height:1.4; }
+  .inv-pay-iban { font-family:'JetBrains Mono',monospace; font-size:9.5px; color:#8AA28E; margin-top:4px; word-break:break-all; }
+  .inv-pay-now {
+    margin-top:10px; width:100%; background:var(--pc,#2D9B3A); color:#fff;
+    border:none; padding:9px 12px; border-radius:8px; cursor:pointer;
+    font-family:'Syne',sans-serif; font-size:12px; font-weight:700; letter-spacing:0.3px;
+    display:flex; align-items:center; justify-content:center; gap:6px;
+    transition:transform 0.2s, box-shadow 0.2s, filter 0.2s;
+    box-shadow:0 4px 12px color-mix(in srgb, var(--pc,#2D9B3A) 35%, transparent);
+    position:relative; overflow:hidden;
+  }
+  .inv-pay-now::before {
+    content:''; position:absolute; top:0; left:-100%; width:50%; height:100%;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition:left 0.5s ease;
+  }
+  .inv-pay-now:hover { transform:translateY(-2px); filter:brightness(1.08); box-shadow:0 8px 20px color-mix(in srgb, var(--pc,#2D9B3A) 50%, transparent); }
+  .inv-pay-now:hover::before { left:130%; }
+  .inv-pay-now:active { transform:translateY(0); }
+  .inv-pay-foot {
+    margin-top:14px; padding-top:12px; border-top:1px dashed #DDE6DD;
+    font-size:10px; color:#7A9A7E; text-align:center; letter-spacing:0.2px;
+  }
+  /* ===== branding (logo + signature) sidebar controls ===== */
+  .brand-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:8px; }
+  .brand-up { cursor:pointer; display:flex; flex-direction:column; gap:6px; }
+  .brand-up-label { font-size:10px; color:var(--sidebar-muted); text-transform:uppercase; letter-spacing:0.5px; }
+  .brand-preview { background:rgba(255,255,255,0.04); border:1px dashed rgba(184,255,60,0.25); border-radius:9px; height:64px; display:flex; align-items:center; justify-content:center; transition:border-color 0.2s, background 0.2s; overflow:hidden; }
+  .brand-preview img { max-width:100%; max-height:100%; object-fit:contain; }
+  .brand-preview-sig { height:48px; }
+  .brand-up:hover .brand-preview { border-color:rgba(184,255,60,0.5); background:rgba(184,255,60,0.06); }
+  .brand-up-hint { font-size:11px; color:var(--sidebar-muted); font-family:'Syne',sans-serif; font-weight:600; letter-spacing:0.4px; }
+  .brand-actions { display:flex; gap:8px; }
+  .btn-mini { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--sidebar-text); font-family:'DM Sans',sans-serif; font-size:10.5px; padding:6px 10px; border-radius:6px; cursor:pointer; transition:all 0.2s; }
+  .btn-mini:hover { background:rgba(214,59,59,0.15); border-color:rgba(214,59,59,0.3); color:#ff9d9d; }
+  .btn-mini-primary { background:rgba(184,255,60,0.15); border-color:rgba(184,255,60,0.3); color:#B8FF3C; font-weight:600; }
+  .btn-mini-primary:hover { background:var(--lime-bright); border-color:var(--lime-bright); color:#0A1A0C; }
+
+  /* ===== saved templates ===== */
+  .tpl-save-row { display:flex; gap:6px; margin-bottom:10px; }
+  .tpl-save-row input { flex:1; background:rgba(255,255,255,0.05); border:1px solid rgba(184,255,60,0.2); border-radius:7px; padding:7px 10px; color:var(--sidebar-text); font-family:'DM Sans',sans-serif; font-size:12px; outline:none; }
+  .tpl-save-row input:focus { border-color:rgba(184,255,60,0.5); }
+  .tpl-saved-list { display:flex; flex-direction:column; gap:6px; max-height:180px; overflow-y:auto; }
+  .tpl-saved-empty { font-size:11px; color:var(--sidebar-muted); text-align:center; padding:10px 0; font-style:italic; }
+  .tpl-saved-item { display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); border-radius:7px; padding:8px 10px; transition:all 0.2s; }
+  .tpl-saved-item:hover { background:rgba(184,255,60,0.06); border-color:rgba(184,255,60,0.2); }
+  .tpl-saved-name { flex:1; font-size:12px; color:var(--sidebar-text); font-weight:500; cursor:pointer; }
+  .tpl-saved-del { background:none; border:none; color:rgba(255,255,255,0.4); cursor:pointer; font-size:14px; padding:2px 6px; transition:color 0.2s; }
+  .tpl-saved-del:hover { color:#ff6b6b; }
+
+  /* ===== invoice header logo ===== */
+  .inv-brand-row { display:flex; align-items:center; gap:14px; animation:invFadeUp 0.5s ease 0.15s backwards; }
+  .inv-logo-wrap { flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+  .inv-logo { height:62px; max-width:180px; object-fit:contain; display:block; }
+  .inv-brand-text { display:flex; flex-direction:column; gap:2px; min-width:0; }
+  /* dark templates: subtle light plate so the logo (often dark-bg) doesn't clash */
+  .tpl-luxury .inv-logo-wrap,
+  .tpl-bold .inv-logo-wrap {
+    background:rgba(255,255,255,0.97); border-radius:10px; padding:6px 10px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.25);
+  }
+  .tpl-luxury .inv-logo,
+  .tpl-bold .inv-logo { height:48px; max-width:150px; }
+  /* gradient template: slightly translucent white plate */
+  .tpl-modern .inv-logo-wrap {
+    background:rgba(255,255,255,0.95); border-radius:10px; padding:6px 10px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.15);
+  }
+  .tpl-modern .inv-logo { height:48px; max-width:150px; }
+  /* mono template: grayscale, no plate */
+  .tpl-mono .inv-logo { filter:grayscale(1); height:42px; max-width:130px; }
+  /* light templates: bigger, no plate needed */
+  .tpl-clean .inv-logo,
+  .tpl-corp .inv-logo { height:60px; max-width:170px; }
+  /* if logo present, soften brand text so logo leads */
+  .inv-brand-row .inv-brand { font-size:16px; opacity:0.85; letter-spacing:0.3px; }
+  .tpl-mono .inv-brand-row .inv-brand { font-size:13px; }
+
+  /* ===== signature ===== */
+  .inv-signature { margin-top:32px; max-width:280px; }
+  .inv-sig-label { font-size:10px; text-transform:uppercase; letter-spacing:1px; color:#999; margin-bottom:6px; font-family:'Syne',sans-serif; font-weight:700; }
+  .inv-sig-img { max-height:60px; max-width:200px; object-fit:contain; display:block; margin-bottom:4px; animation:invFadeUp 0.5s ease 0.6s backwards; }
+  .inv-sig-line { border-top:1px solid #333; padding-top:6px; font-size:11px; color:#666; font-family:'DM Sans',sans-serif; font-style:italic; }
+
+  /* ===== PAID rubber stamp ===== */
+  .invoice-paper { position:relative; }
+  .inv-stamp {
+    position:absolute; top:140px; right:60px; z-index:5;
+    border:5px solid #1aaa3b; color:#1aaa3b;
+    font-family:'Syne',sans-serif; font-weight:800; font-size:34px; letter-spacing:3px;
+    padding:10px 22px; border-radius:8px;
+    transform:rotate(-12deg) scale(0); opacity:0;
+    text-transform:uppercase;
+    box-shadow:0 0 0 3px rgba(26,170,59,0.15) inset;
+    pointer-events:none;
+    animation:invStampIn 0.7s cubic-bezier(0.34,1.6,0.5,1) 0.5s forwards;
+  }
+  .inv-stamp::before {
+    content:''; position:absolute; inset:-2px; border-radius:8px;
+    background:radial-gradient(circle at 30% 30%, transparent 25%, rgba(255,255,255,0.4) 28%, transparent 31%);
+    pointer-events:none;
+  }
+  .inv-stamp-overdue { color:#d63b3b; border-color:#d63b3b; box-shadow:0 0 0 3px rgba(214,59,59,0.15) inset; }
+  .inv-stamp-partial { color:#d4820a; border-color:#d4820a; box-shadow:0 0 0 3px rgba(212,130,10,0.15) inset; }
+  @keyframes invStampIn {
+    0% { transform:rotate(-30deg) scale(2.5); opacity:0; }
+    60% { transform:rotate(-8deg) scale(0.9); opacity:1; }
+    100% { transform:rotate(-12deg) scale(1); opacity:0.85; }
+  }
   .profile-select-inp option { background: #0D120D; color: #F0F5F0; }
   /* fromPerson field highlight */
   #fromPerson { color: #F0F5F0 !important; font-weight: 600; }
   #fromName   { color: #B8FF3C !important; font-weight: 700; }
 </style>
+  <meta name="robots" content="noindex, nofollow">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 <div class="bg-grid"></div>
@@ -375,6 +722,9 @@ textarea{resize:vertical;min-height:60px;}
         <button class="template-btn active" onclick="setTemplate('luxury')">&#9679; Dark Luxury</button>
         <button class="template-btn" onclick="setTemplate('clean')">&#9675; Clean White</button>
         <button class="template-btn" onclick="setTemplate('bold')">&#11022; Bold Dark</button>
+        <button class="template-btn" onclick="setTemplate('modern')">&#9728; Modern Gradient</button>
+        <button class="template-btn" onclick="setTemplate('mono')">&#9678; Minimal Mono</button>
+        <button class="template-btn" onclick="setTemplate('corp')">&#9670; Corporate Pro</button>
       </div>
       <div class="form-section-title" style="margin-top:8px;">Accent Color</div>
       <div class="color-row">
@@ -492,7 +842,7 @@ textarea{resize:vertical;min-height:60px;}
             <div class="pay-details">
               <div class="pay-bank-name">HBL Bank</div>
               <div class="pay-acc">50097918649703</div>
-              <div class="pay-iban">Account Title: Abdullah</div>
+              <div class="pay-iban">PK97HABB0050097918649703</div>
             </div>
             <div class="pay-check">&#10003;</div>
           </div>
@@ -518,17 +868,52 @@ textarea{resize:vertical;min-height:60px;}
       <div class="form-section-title">Notes & Terms</div>
       <div class="form-row single"><div class="form-group"><label>Additional Notes</label><textarea id="notes" oninput="render()" placeholder="Any additional notes, terms or message...">Payment due within 14 days. Thank you for your business!</textarea></div></div>
     </div>
+    <!-- Branding (Logo + Signature) -->
+    <div class="form-section">
+      <div class="form-section-title">Branding</div>
+      <div class="brand-row">
+        <label class="brand-up" for="logoUpload">
+          <span class="brand-up-label">Logo</span>
+          <div class="brand-preview" id="logoPreview"><span class="brand-up-hint">+ Upload</span></div>
+        </label>
+        <input type="file" id="logoUpload" accept="image/*" hidden onchange="handleBrandUpload(event,'logo')">
+        <label class="brand-up" for="sigUpload">
+          <span class="brand-up-label">Signature</span>
+          <div class="brand-preview brand-preview-sig" id="sigPreview"><span class="brand-up-hint">+ Upload</span></div>
+        </label>
+        <input type="file" id="sigUpload" accept="image/*" hidden onchange="handleBrandUpload(event,'sig')">
+      </div>
+      <div class="brand-actions">
+        <button class="btn-mini" type="button" onclick="clearBrand('logo')">Clear logo</button>
+        <button class="btn-mini" type="button" onclick="clearBrand('sig')">Clear signature</button>
+      </div>
+    </div>
+
+    <!-- Saved Invoice Templates -->
+    <div class="form-section">
+      <div class="form-section-title">Saved Templates</div>
+      <div class="tpl-save-row">
+        <input id="tplName" placeholder="Template name (e.g. Monthly Upwork)">
+        <button class="btn-mini btn-mini-primary" type="button" onclick="saveCurrentTemplate()">Save current</button>
+      </div>
+      <div id="tplSavedList" class="tpl-saved-list"><div class="tpl-saved-empty">No saved templates yet.</div></div>
+    </div>
+
     <!-- Actions -->
     <div class="form-section">
       <div class="form-section-title">Send Invoice</div>
       <div class="action-row">
-        <button class="btn btn-primary" onclick="printInvoice()">
+        <button class="btn btn-primary" onclick="downloadPDF()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 18 15 15"/></svg>
+          Download PDF
+        </button>
+        <button class="btn btn-ghost" onclick="printInvoice()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-          Print / PDF
+          Print
         </button>
         <button class="btn btn-ghost" onclick="downloadHTML()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Save HTML
+          HTML
         </button>
         <button class="btn btn-email btn-full" onclick="sendByEmail()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -604,8 +989,12 @@ function escHtml(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').
 
 function setTemplate(t) {
   currentTemplate = t;
-  document.querySelectorAll('.template-btn').forEach(function(b) { b.classList.remove('active'); });
-  event.target.classList.add('active');
+  document.querySelectorAll('.template-btn').forEach(function(b) {
+    b.classList.remove('active');
+    if (b.getAttribute('onclick') && b.getAttribute('onclick').indexOf("setTemplate('" + t + "')") !== -1) {
+      b.classList.add('active');
+    }
+  });
   render();
 }
 
@@ -653,23 +1042,226 @@ var PAYMENTS = {
     acc: '05521009543669',
     extra: 'Muhammad Abdullah',
     iban: 'IBAN: PK65ALFH0552001009543669',
-    color: '#009688'
+    color: '#009688',
+    payUrls: {
+      android: 'https://play.google.com/store/apps/details?id=com.base.bankalfalah',
+      ios:     'https://apps.apple.com/us/app/alfa-by-bank-alfalah/id1050684372',
+      desktop: 'https://www.bankalfalah.com/'
+    },
+    payLabel: 'Open Alfa App'
   },
   hbl: {
     name: 'HBL Bank',
     acc: '50097918649703',
-    extra: 'Account Title: Abdullah',
-    iban: '',
-    color: '#0052CC'
+    extra: 'Account Title: Abdullah · Branch: IBB Ali Block, Lahore',
+    iban: 'IBAN: PK97HABB0050097918649703',
+    color: '#0052CC',
+    payUrls: {
+      android: 'https://play.google.com/store/apps/details?id=com.hbl.android.hblmobilebanking',
+      ios:     'https://apps.apple.com/pk/app/hbl-mobile/id1123585628',
+      desktop: 'https://www.hblibank.com.pk/Login'
+    },
+    payLabel: 'Open HBL Mobile'
   },
   payoneer: {
     name: 'Payoneer (USD)',
     acc: 'Abdullahsohail63@gmail.com',
     extra: 'International transfers',
     iban: '',
-    color: '#FF6600'
+    color: '#FF6600',
+    payUrls: {
+      android: 'https://play.google.com/store/apps/details?id=com.payoneer.iconnect',
+      ios:     'https://apps.apple.com/app/payoneer/id845818019',
+      desktop: 'https://login.payoneer.com/'
+    },
+    payLabel: 'Pay on Payoneer'
   }
 };
+
+/* ============ BRANDING: LOGO + SIGNATURE (persisted) ============ */
+var BRAND_KEYS = { logo: 'beInvLogo', sig: 'beInvSig' };
+function handleBrandUpload(ev, kind) {
+  var file = ev.target.files && ev.target.files[0];
+  if (!file) return;
+  if (file.size > 800 * 1024) {
+    alert('Please use an image under 800 KB for best results.');
+    return;
+  }
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try { localStorage.setItem(BRAND_KEYS[kind], e.target.result); } catch(_) {}
+    paintBrandPreviews();
+    render();
+  };
+  reader.readAsDataURL(file);
+}
+function clearBrand(kind) {
+  try { localStorage.removeItem(BRAND_KEYS[kind]); } catch(_) {}
+  paintBrandPreviews();
+  render();
+}
+function paintBrandPreviews() {
+  var logo = localStorage.getItem(BRAND_KEYS.logo);
+  var sig  = localStorage.getItem(BRAND_KEYS.sig);
+  var lp = document.getElementById('logoPreview');
+  var sp = document.getElementById('sigPreview');
+  if (lp) lp.innerHTML = logo ? '<img src="' + logo + '" alt="logo">' : '<span class="brand-up-hint">+ Upload</span>';
+  if (sp) sp.innerHTML = sig  ? '<img src="' + sig  + '" alt="signature">' : '<span class="brand-up-hint">+ Upload</span>';
+}
+function getBrand(kind) {
+  try { return localStorage.getItem(BRAND_KEYS[kind]); } catch(_) { return null; }
+}
+
+/* ============ SAVED INVOICE TEMPLATES ============ */
+var TPL_KEY = 'beInvTemplates';
+function getInvSnapshot() {
+  return {
+    fromName: getVal('fromName'), fromPerson: getVal('fromPerson'),
+    fromEmail: getVal('fromEmail'), fromPhone: getVal('fromPhone'),
+    fromAddress: getVal('fromAddress'),
+    toName: getVal('toName'), toEmail: getVal('toEmail'),
+    toPhone: getVal('toPhone'), toAddress: getVal('toAddress'),
+    currency: getVal('currency'), taxRate: getVal('taxRate'),
+    discRate: getVal('discRate'), platform: getVal('platform'),
+    notes: getVal('notes'), template: currentTemplate, accent: currentAccent,
+    items: items.slice()
+  };
+}
+function applyInvSnapshot(s) {
+  ['fromName','fromPerson','fromEmail','fromPhone','fromAddress','toName','toEmail','toPhone','toAddress','currency','taxRate','discRate','platform','notes'].forEach(function(k){
+    var el = document.getElementById(k);
+    if (el && s[k] !== undefined) el.value = s[k];
+  });
+  if (s.template) currentTemplate = s.template;
+  if (s.accent) currentAccent = s.accent;
+  if (s.items && Array.isArray(s.items)) items = s.items.slice();
+  renderItems();
+  // refresh template + accent active states
+  document.querySelectorAll('.template-btn').forEach(function(b){
+    b.classList.toggle('active', (b.getAttribute('onclick')||'').indexOf("setTemplate('"+currentTemplate+"')") !== -1);
+  });
+  render();
+}
+function loadAllTemplates() {
+  try { return JSON.parse(localStorage.getItem(TPL_KEY) || '{}'); } catch(_) { return {}; }
+}
+function saveAllTemplates(obj) {
+  try { localStorage.setItem(TPL_KEY, JSON.stringify(obj)); } catch(_) {}
+}
+function saveCurrentTemplate() {
+  var nameEl = document.getElementById('tplName');
+  var name = (nameEl.value || '').trim();
+  if (!name) { alert('Please give this template a name.'); return; }
+  var all = loadAllTemplates();
+  all[name] = getInvSnapshot();
+  saveAllTemplates(all);
+  nameEl.value = '';
+  renderSavedTemplates();
+}
+function loadSavedTemplate(name) {
+  var all = loadAllTemplates();
+  if (all[name]) applyInvSnapshot(all[name]);
+}
+function deleteSavedTemplate(name) {
+  if (!confirm('Delete template "' + name + '"?')) return;
+  var all = loadAllTemplates();
+  delete all[name];
+  saveAllTemplates(all);
+  renderSavedTemplates();
+}
+function renderSavedTemplates() {
+  var list = document.getElementById('tplSavedList');
+  if (!list) return;
+  var all = loadAllTemplates();
+  var names = Object.keys(all);
+  if (!names.length) { list.innerHTML = '<div class="tpl-saved-empty">No saved templates yet.</div>'; return; }
+  list.innerHTML = names.map(function(n){
+    var safe = n.replace(/"/g,'&quot;');
+    return '<div class="tpl-saved-item">' +
+      '<span class="tpl-saved-name" onclick="loadSavedTemplate(\'' + safe + '\')" title="Load this template">' + n + '</span>' +
+      '<button class="tpl-saved-del" onclick="deleteSavedTemplate(\'' + safe + '\')" title="Delete">&times;</button>' +
+    '</div>';
+  }).join('');
+}
+
+/* ============ AUTO INVOICE NUMBER ============ */
+function nextInvoiceNumber() {
+  try {
+    var last = parseInt(localStorage.getItem('beInvLastNum') || '0', 10);
+    var n = last + 1;
+    localStorage.setItem('beInvLastNum', String(n));
+    return 'INV-' + String(n).padStart(3, '0');
+  } catch(_) { return 'INV-001'; }
+}
+function bumpInvoiceNumber() {
+  var el = document.getElementById('invNumber');
+  if (el) { el.value = nextInvoiceNumber(); render(); }
+}
+
+/* ============ PDF DOWNLOAD ============ */
+function downloadPDF() {
+  if (typeof html2pdf === 'undefined') {
+    alert('PDF library is still loading. Please try again in a second.');
+    return;
+  }
+  var paper = document.getElementById('invoicePaper');
+  if (!paper) return;
+  var invNum = (document.getElementById('invNumber').value || 'bidder-experts').replace(/[^a-zA-Z0-9_-]/g,'_');
+  // Temporarily pause animations for clean capture
+  paper.style.animation = 'none';
+  paper.querySelectorAll('*').forEach(function(el){ el.style.animation = 'none'; });
+  html2pdf().set({
+    margin: 0,
+    filename: 'invoice-' + invNum + '.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  }).from(paper).save().then(function(){
+    // restore animations
+    setTimeout(function(){ paper.style.animation = ''; render(); }, 200);
+  }).catch(function(err){
+    alert('PDF export failed: ' + (err && err.message ? err.message : 'unknown'));
+    render();
+  });
+}
+
+
+function copyInvAcc(el) {
+  var v = el.getAttribute('data-copy') || '';
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(v).catch(function(){});
+  }
+  el.classList.add('copied');
+  setTimeout(function(){ el.classList.remove('copied'); }, 1400);
+}
+
+function detectPayPlatform() {
+  var ua = (navigator.userAgent || '').toLowerCase();
+  if (/android/.test(ua)) return 'android';
+  // iPad on iOS 13+ reports as Mac with touch — catch that
+  if (/iphone|ipad|ipod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) return 'ios';
+  return 'desktop';
+}
+
+function payNow(key) {
+  var p = PAYMENTS[key]; if (!p) return;
+  // 1) silently copy the account to clipboard so it's ready to paste in the app
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    try { navigator.clipboard.writeText(p.acc); } catch(_) {}
+  }
+  // 2) briefly flash the matching account row as "copied" for visual feedback
+  var rows = document.querySelectorAll('.inv-pay-acc');
+  rows.forEach(function(r){
+    if ((r.getAttribute('data-copy') || '') === p.acc) {
+      r.classList.add('copied');
+      setTimeout(function(){ r.classList.remove('copied'); }, 1800);
+    }
+  });
+  // 3) open the right URL for this device (Android app / iOS app / desktop web)
+  var platform = detectPayPlatform();
+  var url = (p.payUrls && p.payUrls[platform]) || (p.payUrls && p.payUrls.desktop) || p.payUrl;
+  if (url) window.open(url, '_blank', 'noopener');
+}
 
 function getSelectedPaymentHTML() {
   var selected = [];
@@ -678,18 +1270,39 @@ function getSelectedPaymentHTML() {
   if (document.getElementById('pay-payoneer') && document.getElementById('pay-payoneer').checked) selected.push('payoneer');
   if (selected.length === 0) return '';
   var cols = selected.length === 1 ? '1fr' : selected.length === 2 ? '1fr 1fr' : 'repeat(3,1fr)';
-  var cards = selected.map(function(key) {
+
+  var cards = selected.map(function(key, i) {
     var p = PAYMENTS[key];
-    return '<div style="background:#fff;border-radius:8px;padding:12px 14px;border:1px solid #E8EEE8;">' +
-      '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#999;margin-bottom:5px;font-family:Syne,sans-serif;font-weight:700;">' + p.name + '</div>' +
-      '<div style="font-family:JetBrains Mono,monospace;font-size:11px;color:' + p.color + ';font-weight:600;margin-bottom:2px;">' + p.acc + '</div>' +
-      '<div style="font-size:10px;color:#666;margin-bottom:1px;">' + p.extra + '</div>' +
-      (p.iban ? '<div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#aaa;margin-top:2px;">' + p.iban + '</div>' : '') +
+    var delay = (0.12 + i * 0.09).toFixed(2);
+    var initial = (p.name.match(/[A-Z]/g) || [p.name[0]]).slice(0,2).join('');
+    return '' +
+      '<div class="inv-pay-card" style="--pc:' + p.color + ';animation-delay:' + delay + 's;">' +
+        '<div class="inv-pay-accent"></div>' +
+        '<div class="inv-pay-head">' +
+          '<div class="inv-pay-logo">' + initial + '</div>' +
+          '<div class="inv-pay-name">' + p.name + '</div>' +
+        '</div>' +
+        '<div class="inv-pay-acc" title="Click to copy" data-copy="' + p.acc + '" onclick="copyInvAcc(this)">' +
+          '<span class="inv-pay-acc-val">' + p.acc + '</span>' +
+          '<span class="inv-pay-acc-copy">📋</span>' +
+        '</div>' +
+        (p.extra ? '<div class="inv-pay-extra">' + p.extra + '</div>' : '') +
+        (p.iban ? '<div class="inv-pay-iban">' + p.iban + '</div>' : '') +
+        (p.payUrls ? '<button class="inv-pay-now" type="button" onclick="payNow(\'' + key + '\')" style="--pc:' + p.color + ';">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><path d="M5 12h14M13 6l6 6-6 6"/></svg>' +
+          '<span>' + (p.payLabel || 'Pay Now') + '</span></button>' : '') +
       '</div>';
   }).join('');
-  return '<div style="margin-top:24px;padding:16px 20px;background:#F8FAF8;border-radius:10px;border:1px solid #E8EEE8;">' +
-    '<div style="font-family:Syne,sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#666;margin-bottom:12px;">Payment Methods</div>' +
-    '<div style="display:grid;grid-template-columns:' + cols + ';gap:12px;">' + cards + '</div>' +
+
+  return '' +
+    '<div class="inv-pay-section">' +
+      '<div class="inv-pay-section-head">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>' +
+        '<span>Secure Payment Methods</span>' +
+        '<span class="inv-pay-section-sub">Choose any method below</span>' +
+      '</div>' +
+      '<div class="inv-pay-grid" style="grid-template-columns:' + cols + ';">' + cards + '</div>' +
+      '<div class="inv-pay-foot">Tap <strong>Pay Now</strong> &mdash; we&rsquo;ll copy the account number and open the app for you</div>' +
     '</div>';
 }
 
@@ -726,17 +1339,46 @@ function render() {
   var status = getVal('invStatus');
   var notes = escHtml(getVal('notes')).replace(/\n/g, '<br>');
 
-  paper.innerHTML =
-    '<div class="inv-header">' +
-      '<div>' +
+  // Optional branding
+  var logo = getBrand('logo');
+  var sig  = getBrand('sig');
+  var logoHtml = logo ? '<img class="inv-logo" src="' + logo + '" alt="logo">' : '';
+  var sigHtml = sig ?
+    '<div class="inv-signature">' +
+      '<div class="inv-sig-label">Authorized signature</div>' +
+      '<img class="inv-sig-img" src="' + sig + '" alt="signature">' +
+      '<div class="inv-sig-line">' + escHtml(getVal('fromPerson')) + '</div>' +
+    '</div>' : '';
+
+  // Stamp overlay for PAID / OVERDUE / PARTIAL
+  var stampHtml = '';
+  if (status === 'PAID')     stampHtml = '<div class="inv-stamp">Paid</div>';
+  else if (status === 'OVERDUE') stampHtml = '<div class="inv-stamp inv-stamp-overdue">Overdue</div>';
+  else if (status === 'PARTIAL') stampHtml = '<div class="inv-stamp inv-stamp-partial">Partial</div>';
+
+  var brandBlock = logo
+    ? '<div class="inv-brand-row">' +
+        '<div class="inv-logo-wrap"><img class="inv-logo" src="' + logo + '" alt="logo"></div>' +
+        '<div class="inv-brand-text">' +
+          '<div class="inv-brand">' + escHtml(getVal('fromName')) + '</div>' +
+          (currentTemplate === 'clean' ? '<div class="inv-accent-line"></div>' : '') +
+          '<div class="inv-tagline">' + escHtml(getVal('fromPerson')) + ' &nbsp;&middot;&nbsp; ' + escHtml(getVal('fromEmail')) + '</div>' +
+        '</div>' +
+      '</div>'
+    : '<div>' +
         '<div class="inv-brand">' + escHtml(getVal('fromName')) + '</div>' +
         (currentTemplate === 'clean' ? '<div class="inv-accent-line"></div>' : '') +
         '<div class="inv-tagline">' + escHtml(getVal('fromPerson')) + ' &nbsp;&middot;&nbsp; ' + escHtml(getVal('fromEmail')) + '</div>' +
-      '</div>' +
+      '</div>';
+
+  paper.innerHTML =
+    stampHtml +
+    '<div class="inv-header">' +
+      brandBlock +
       '<div class="inv-meta">' +
         '<div class="inv-number-label">Invoice</div>' +
         '<div class="inv-number">' + escHtml(getVal('invNumber')) + '</div>' +
-        '<div class="inv-status">' + status + (platform ? ' &nbsp;&middot;&nbsp; ' + platform : '') + '</div>' +
+        '<div class="inv-status" data-status="' + status + '">' + status + (platform ? ' &nbsp;&middot;&nbsp; ' + platform : '') + '</div>' +
       '</div>' +
     '</div>' +
     '<div class="inv-body">' +
@@ -763,6 +1405,7 @@ function render() {
       '<div class="inv-totals-wrap">' + totalsHtml + '</div>' +
       (notes ? '<div class="inv-notes">' + notes + '</div>' : '') +
     getSelectedPaymentHTML() +
+    sigHtml +
     '</div>' +
     '<div class="inv-footer">' +
       '<div class="inv-footer-text">Generated by Bidder Experts Invoice Maker</div>' +
@@ -774,14 +1417,27 @@ function printInvoice() {
   var paper = document.getElementById('invoicePaper').outerHTML;
   var styles = document.querySelector('style').innerHTML;
   var win = window.open('', '_blank');
-  win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"><style>' + styles + 'body{background:#fff;margin:0;padding:20px;}@media print{body{padding:0;}}</style></head><body>' + paper + '<script>window.onload=function(){window.print();}<\/script></body></html>');
+  win.document.write(
+    '<!DOCTYPE html><html><head><meta charset="UTF-8">' +
+    '<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">' +
+    '<style>' + styles + 'body{background:#fff;margin:0;padding:20px;}@media print{body{padding:0;}}<\/style>' +
+    '<meta name="robots" content="noindex, nofollow">' +
+    '</head><body>' + paper +
+    '<scr' + 'ipt>window.onload=function(){window.print();}</scr' + 'ipt>' +
+    '</body></html>'
+  );
   win.document.close();
 }
 
 function downloadHTML() {
   var paper = document.getElementById('invoicePaper').outerHTML;
   var styles = document.querySelector('style').innerHTML;
-  var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"><style>' + styles + 'body{background:#fff;margin:0;padding:20px;}</style></head><body>' + paper + '</body></html>';
+  var html =
+    '<!DOCTYPE html><html><head><meta charset="UTF-8">' +
+    '<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">' +
+    '<style>' + styles + 'body{background:#fff;margin:0;padding:20px;}<\/style>' +
+    '<meta name="robots" content="noindex, nofollow">' +
+    '</head><body>' + paper + '</body></html>';
   var blob = new Blob([html], { type: 'text/html' });
   var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
   a.download = 'invoice-' + (document.getElementById('invNumber').value || 'bidder-experts') + '.html';
@@ -807,12 +1463,12 @@ function sendByEmail() {
     '\n\n' + getVal('notes') + '\n\n' +
     '--- PAYMENT DETAILS ---\n' +
     'Bank Alfalah: 05521009543669 | IBAN: PK65ALFH0552001009543669\n' +
-    'HBL Bank: 50097918649703\n' +
+    'HBL Bank: 50097918649703 | IBAN: PK97HABB0050097918649703\n' +
     'Payoneer: Abdullahsohail63@gmail.com\n\n' +
     'Thank you for your business!\n\n' +
     '--- PAYMENT METHODS ---\n' +
-    'Bank Alfalah: Acc# 05521009543669 | IBAN: PK65ALFH0552001009543669\n' +
-    'HBL Bank: Acc# 50097918649703 (Account Title: Abdullah)\n' +
+    'Bank Alfalah: Acc# 05521009543669 | IBAN: PK65ALFH0552001009543669 (Muhammad Abdullah)\n' +
+    'HBL Bank: Acc# 50097918649703 | IBAN: PK97HABB0050097918649703 (Account Title: Abdullah · Branch: IBB Ali Block, Lahore)\n' +
     'Payoneer (USD): Abdullahsohail63@gmail.com\n\n' +
     'Best regards,\n' + getVal('fromPerson') + '\n' + getVal('fromName') + '\n' + getVal('fromEmail') + '\n' + getVal('fromPhone')
   );
@@ -835,13 +1491,15 @@ function sendByWhatsApp() {
     'Amount Due: ' + sym + parseFloat(t.total).toFixed(2) + '\n' +
     'Due Date: ' + due + '\n\n' +
     items.map(function(item) { return '- ' + item.desc + ' : ' + sym + (item.qty * item.rate).toFixed(2); }).join('\n') +
-    '\n\nPayment Methods:\n- Bank Alfalah: 05521009543669\n- HBL: 50097918649703\n- Payoneer: Abdullahsohail63@gmail.com\n\nPlease process payment at your earliest convenience. Thank you!\nBidder Experts'
+    '\n\nPayment Methods:\n- Bank Alfalah: 05521009543669 (IBAN: PK65ALFH0552001009543669)\n- HBL: 50097918649703 (IBAN: PK97HABB0050097918649703)\n- Payoneer: Abdullahsohail63@gmail.com\n\nPlease process payment at your earliest convenience. Thank you!\nBidder Experts'
   );
   window.open('https://wa.me/?text=' + msg, '_blank');
 }
 
 // Init - set default accent color
 document.documentElement.style.setProperty('--accent-color', '#B8FF3C');
+paintBrandPreviews();
+renderSavedTemplates();
 renderItems();
 render();
 
