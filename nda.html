@@ -537,6 +537,30 @@
     transition: all 0.2s ease;
   }
   .engagement-field textarea { min-height: 38px; }
+  .engagement-field select {
+    width: 100%;
+    background: var(--bg-card);
+    border: none;
+    border-bottom: 1px dashed var(--border-mid);
+    color: var(--cream);
+    font-family: var(--body-font);
+    font-size: 0.88rem;
+    padding: 6px 2px;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234ade80' d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 6px center;
+    transition: all 0.2s ease;
+  }
+  .engagement-field select:hover,
+  .engagement-field select:focus {
+    border-bottom-color: var(--green-bright);
+    background-color: rgba(74, 222, 128, 0.06);
+  }
+  .engagement-field select option { background: var(--bg-deep); color: var(--cream); }
   .engagement-field input:focus,
   .engagement-field textarea:focus,
   .engagement-field input:hover,
@@ -778,6 +802,15 @@
       color: #1a2620;
       border-bottom-color: #b8893a;
     }
+    .engagement-field select {
+      color: #1a2620 !important;
+      background: white !important;
+      background-image: none !important;
+      border-bottom-color: #b8893a !important;
+      appearance: none;
+      -webkit-appearance: none;
+      padding-right: 4px;
+    }
     .signature-section {
       border-top-color: #c4d5cc;
       page-break-inside: avoid;
@@ -798,6 +831,13 @@
     .footer-meta { color: #5a6b62; }
     .footer-meta a { color: #1f6e4a; }
     input, textarea { background: white !important; }
+    /* Hide ALL placeholder text in print — empty fields stay blank for hand-signing */
+    input::placeholder,
+    textarea::placeholder { color: transparent !important; opacity: 0 !important; }
+    input:-ms-input-placeholder,
+    textarea:-ms-input-placeholder { color: transparent !important; }
+    input::-ms-input-placeholder,
+    textarea::-ms-input-placeholder { color: transparent !important; }
     .section { page-break-inside: avoid; }
   }
 </style>
@@ -812,6 +852,9 @@
   </div>
   <div class="toolbar-actions">
     <button class="btn btn-ghost" onclick="resetForm()">Clear Fields</button>
+    <button class="btn btn-ghost" id="previewBtn" onclick="togglePreview()">Preview Empty</button>
+    <button class="btn btn-ghost" onclick="downloadGoogleDocs()">Google Docs</button>
+    <button class="btn btn-ghost" onclick="downloadWord()">Download Word</button>
     <button class="btn" onclick="window.print()">Print / Save as PDF</button>
   </div>
 </div>
@@ -952,6 +995,17 @@
             <label>Expected Duration</label>
             <input type="text" value="Monthly recurring · Ongoing engagement" />
           </div>
+          <div class="engagement-field">
+            <label>Upfront Payment</label>
+            <select id="upfrontSelect" onchange="updateUpfront(this.value)">
+              <option value="0">0% — No upfront</option>
+              <option value="10">10%</option>
+              <option value="20" selected>20%</option>
+              <option value="30">30%</option>
+              <option value="40">40%</option>
+              <option value="50">50%</option>
+            </select>
+          </div>
           <div class="engagement-field full">
             <label>Brief Scope / Purpose of Disclosure</label>
             <textarea rows="3">Upwork Account Management — including full access to the Client's Upwork profile for bidding, proposal writing, client communication, lead generation, pipeline management, and profile optimization. Confidential information shared may include Upwork login credentials, client communications, project briefs, pricing strategy, and business contacts obtained through the platform.</textarea>
@@ -1036,10 +1090,30 @@
       </div>
     </div>
 
-    <!-- SECTION 6: Term -->
-    <div class="section">
+    <!-- SECTION 6: Payment Terms -->
+    <div class="section" id="paymentTermsSection">
       <div class="section-header">
         <div class="section-number">§ 06</div>
+        <div class="section-title">Payment Terms &amp; Upfront Commitment</div>
+      </div>
+      <p>The Receiving Party (&ldquo;Client&rdquo;) agrees to make an <strong>upfront payment</strong> of <strong><span id="upfrontPct">20</span>%</strong> of the total monthly engagement fee, which serves as a non-refundable commitment to secure Bidder Experts&rsquo; services. The remaining balance shall be settled per the schedule below.</p>
+      <ul>
+        <li><strong>Upfront Payment:</strong> <span id="upfrontPctList">20</span>% of the agreed monthly fee, payable upon signing of this Agreement and prior to commencement of any work.</li>
+        <li><strong>Balance:</strong> <span id="balancePct">80</span>% of the agreed monthly fee, payable on or before the agreed milestone or month-end billing date, as defined in the corresponding Service Agreement.</li>
+        <li><strong>Plan Selected:</strong> <span id="planLabel">20%</span> upfront commitment. The Parties acknowledge that this upfront percentage reflects the level of commitment, priority, and resource allocation that Bidder Experts shall extend during the engagement.</li>
+        <li><strong>Method:</strong> Payments may be made via bank transfer, Wise, Payoneer, or any mutually agreed channel. All transaction fees shall be borne by the Receiving Party unless otherwise specified.</li>
+        <li><strong>Late Payment:</strong> Any balance not settled within seven (7) calendar days of the due date shall accrue a late fee of 2% per week and may result in suspension of services without further notice.</li>
+        <li><strong>Refunds:</strong> The upfront payment is <strong>non-refundable</strong> once work has commenced, given the immediate allocation of team capacity and operational resources.</li>
+      </ul>
+      <div class="callout">
+        <strong>Note:</strong> The selected upfront percentage above is binding once this Agreement is signed and will be referenced in the accompanying invoice and Service Agreement.
+      </div>
+    </div>
+
+    <!-- SECTION 7: Term -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-number renumber" data-base="7">§ 07</div>
         <div class="section-title">Term &amp; Duration</div>
       </div>
       <p>This Agreement shall commence on the Effective Date stated above and shall remain in force for a period of
@@ -1047,37 +1121,37 @@
         unless terminated earlier in writing by either Party. The obligations of confidentiality with respect to Confidential Information disclosed hereunder shall survive termination and continue for an additional <strong>three (3) years</strong> from the date of termination.</p>
     </div>
 
-    <!-- SECTION 7: Return of Materials -->
+    <!-- SECTION 8: Return of Materials -->
     <div class="section">
       <div class="section-header">
-        <div class="section-number">§ 07</div>
+        <div class="section-number renumber" data-base="8">§ 08</div>
         <div class="section-title">Return or Destruction of Materials</div>
       </div>
       <p>Upon termination of this Agreement, or upon written request from the Disclosing Party at any time, the Receiving Party shall <strong>promptly return or destroy</strong> all copies of Confidential Information in its possession or control — whether in physical, digital, or any other form — and shall certify such return or destruction in writing within fifteen (15) calendar days.</p>
     </div>
 
-    <!-- SECTION 8: Remedies -->
+    <!-- SECTION 9: Remedies -->
     <div class="section">
       <div class="section-header">
-        <div class="section-number">§ 08</div>
+        <div class="section-number renumber" data-base="9">§ 09</div>
         <div class="section-title">Remedies &amp; Breach</div>
       </div>
       <p>The Parties acknowledge that any breach of this Agreement may cause <strong>irreparable harm</strong> for which monetary damages may be inadequate. Accordingly, the non-breaching Party shall be entitled to seek injunctive relief, specific performance, and any other equitable remedies in addition to damages, attorney&rsquo;s fees, and recovery of costs.</p>
     </div>
 
-    <!-- SECTION 9: Governing Law -->
+    <!-- SECTION 10: Governing Law -->
     <div class="section">
       <div class="section-header">
-        <div class="section-number">§ 09</div>
+        <div class="section-number renumber" data-base="10">§ 10</div>
         <div class="section-title">Governing Law &amp; Jurisdiction</div>
       </div>
       <p>This Agreement shall be governed by, and construed in accordance with, the <strong>laws of the Islamic Republic of Pakistan</strong>. The Parties consent to the exclusive jurisdiction of the courts in <strong>Lahore, Punjab, Pakistan</strong> for any disputes arising under or in connection with this Agreement, save for matters where international arbitration may be mutually agreed.</p>
     </div>
 
-    <!-- SECTION 10: General -->
+    <!-- SECTION 11: General -->
     <div class="section">
       <div class="section-header">
-        <div class="section-number">§ 10</div>
+        <div class="section-number renumber" data-base="11">§ 11</div>
         <div class="section-title">General Provisions</div>
       </div>
       <ul>
@@ -1147,7 +1221,7 @@
 </article>
 
 <script>
-  // Auto-fill today's date in issue badge
+  // Auto-fill today's date in issue badge AND in the effective date field
   (function() {
     const today = new Date();
     const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -1158,7 +1232,374 @@
     const yy = today.getFullYear();
     const seq = String(Math.floor(Math.random() * 900) + 100);
     document.getElementById('docRef').textContent = 'BE-NDA-' + yy + '-' + seq;
+
+    // Pre-fill the effective date with today
+    const eff = document.getElementById('effectiveDate');
+    if (eff && !eff.value) eff.value = formatted;
+
+    // Also fill today's date in the signature date for the disclosing party
+    const ddmmyy = String(today.getDate()).padStart(2,'0') + ' / ' +
+                   String(today.getMonth()+1).padStart(2,'0') + ' / ' +
+                   today.getFullYear();
+    const sigDate = document.getElementById('dateDisclosing');
+    if (sigDate && !sigDate.value) sigDate.value = ddmmyy;
+
+    // If the user clears the effective date and clicks back, refill with today's date
+    if (eff) {
+      eff.addEventListener('focus', function() {
+        if (!this.value.trim()) this.value = formatted;
+      });
+    }
   })();
+
+  // BULLETPROOF: Physically strip placeholders before print/PDF save.
+  // CSS @media print + ::placeholder is unreliable across browsers (Chrome PDF
+  // sometimes renders placeholders anyway). Removing the attribute guarantees
+  // a clean output. Restored on afterprint.
+  window.addEventListener('beforeprint', function() {
+    document.querySelectorAll('input[placeholder], textarea[placeholder]').forEach(el => {
+      el.dataset._ph = el.getAttribute('placeholder');
+      el.setAttribute('placeholder', '');
+    });
+  });
+  window.addEventListener('afterprint', function() {
+    document.querySelectorAll('input[data-_ph], textarea[data-_ph]').forEach(el => {
+      el.setAttribute('placeholder', el.dataset._ph);
+      delete el.dataset._ph;
+    });
+  });
+
+  // Optional preview toggle — see exactly what the printed/PDF version looks like
+  let _placeholdersHidden = false;
+  function togglePreview() {
+    const btn = document.getElementById('previewBtn');
+    if (!_placeholdersHidden) {
+      document.querySelectorAll('input[placeholder], textarea[placeholder]').forEach(el => {
+        el.dataset._ph = el.getAttribute('placeholder');
+        el.setAttribute('placeholder', '');
+      });
+      btn.textContent = 'Show Hints';
+      _placeholdersHidden = true;
+    } else {
+      document.querySelectorAll('input[data-_ph], textarea[data-_ph]').forEach(el => {
+        el.setAttribute('placeholder', el.dataset._ph);
+        delete el.dataset._ph;
+      });
+      btn.textContent = 'Preview Empty';
+      _placeholdersHidden = false;
+    }
+  }
+
+  // Sync upfront % across the document when dropdown changes
+  function updateUpfront(pct) {
+    const labels = {
+      '0':  '0% — No upfront',
+      '10': '10%',
+      '20': '20%',
+      '30': '30%',
+      '40': '40%',
+      '50': '50%'
+    };
+    const paymentSection = document.getElementById('paymentTermsSection');
+
+    if (pct === '0') {
+      // Hide the payment terms section entirely
+      paymentSection.style.display = 'none';
+      // Renumber subsequent sections (shift -1)
+      document.querySelectorAll('.renumber').forEach(el => {
+        const base = parseInt(el.dataset.base, 10);
+        const shifted = base - 1;
+        el.textContent = '§ ' + String(shifted).padStart(2, '0');
+      });
+    } else {
+      // Show and update the section text
+      paymentSection.style.display = '';
+      document.querySelectorAll('.renumber').forEach(el => {
+        const base = parseInt(el.dataset.base, 10);
+        el.textContent = '§ ' + String(base).padStart(2, '0');
+      });
+      const balance = 100 - parseInt(pct, 10);
+      document.getElementById('upfrontPct').textContent = pct;
+      document.getElementById('upfrontPctList').textContent = pct;
+      document.getElementById('balancePct').textContent = balance;
+      document.getElementById('planLabel').textContent = labels[pct] || (pct + '%');
+    }
+  }
+
+  // Helper: read input value or return placeholder for blank fields
+  function val(selector, fallback) {
+    const el = document.querySelector(selector);
+    if (!el) return fallback || '____________________';
+    return el.value.trim() || (fallback || '____________________');
+  }
+
+  // Build a clean Word/Google Docs-compatible HTML document from current state
+  function buildExportHTML() {
+    const upfront = document.getElementById('upfrontSelect').value;
+    const isZero  = upfront === '0';
+    const balance = 100 - parseInt(upfront, 10);
+    const planLabels = {
+      '0':'0% — No upfront','10':'10%','20':'20%',
+      '30':'30%','40':'40%','50':'50%'
+    };
+
+    // Gather inputs by their order on the page
+    const fillInputs = document.querySelectorAll('.party-card.receiving input.fill');
+    const eng = document.querySelectorAll('.engagement-field input, .engagement-field textarea');
+    const sigInputs = document.querySelectorAll('.signatures .sig-input, .signatures .fill, .signatures .sig-date input');
+
+    const v = (el, def) => (el && el.value && el.value.trim()) ? el.value.trim() : (def || '____________________');
+
+    const effectiveDate = v(document.getElementById('effectiveDate'), '________________');
+    const dateDisclosing = v(document.getElementById('dateDisclosing'), '____ / ____ / ______');
+    const docRef = document.getElementById('docRef').textContent;
+    const issueDate = document.getElementById('issueDate').textContent;
+
+    // Receiving party fields (in order)
+    const clientName  = v(fillInputs[0], '________________________');
+    const clientRole  = v(fillInputs[1], '________________');
+    const clientEnt   = v(fillInputs[2], '________________');
+    const clientAddr  = v(fillInputs[3], '________________');
+    const clientPh    = v(fillInputs[4], '________________');
+    const clientEmail = v(fillInputs[5], '________________');
+    const clientWeb   = v(fillInputs[6], '________________');
+    const clientId    = v(fillInputs[7], '________________');
+
+    // Engagement fields
+    const projName  = v(eng[0]);
+    const serviceTy = v(eng[1]);
+    const budget    = v(eng[2]);
+    const startDate = v(eng[3]);
+    const duration  = v(eng[4]);
+    const scope     = v(eng[5]);
+
+    const css = `
+      body { font-family: Georgia, 'Times New Roman', serif; color: #1a2620; line-height: 1.55; max-width: 760px; margin: 0 auto; padding: 30px 40px; }
+      h1 { font-family: Georgia, serif; font-size: 26pt; color: #0f2a1f; text-align: center; margin: 0 0 6px; font-weight: bold; }
+      h2 { font-family: Georgia, serif; font-size: 14pt; color: #0f2a1f; margin: 22px 0 8px; border-bottom: 1px solid #c4d5cc; padding-bottom: 4px; }
+      h3 { font-family: Georgia, serif; font-size: 11pt; color: #1f6e4a; letter-spacing: 2px; text-transform: uppercase; text-align: center; margin: 0 0 18px; }
+      .ref { font-family: 'Courier New', monospace; font-size: 9pt; color: #5a6b62; text-align: center; margin-bottom: 22px; }
+      .intro { background: #eef5f0; border-left: 3px solid #1f6e4a; padding: 14px 18px; margin-bottom: 22px; font-style: italic; }
+      .parties { width: 100%; margin: 16px 0 22px; }
+      .party { background: #f6f9f7; border: 1px solid #c4d5cc; padding: 14px 18px; margin-bottom: 12px; }
+      .party .lbl { font-size: 9pt; color: #1f6e4a; letter-spacing: 2px; text-transform: uppercase; font-weight: bold; margin-bottom: 6px; }
+      .party .name { font-size: 14pt; font-weight: bold; color: #0f2a1f; }
+      .party .role { font-style: italic; color: #4a5953; margin-bottom: 8px; font-size: 10pt; }
+      .field { font-size: 10pt; padding: 3px 0; }
+      .field .k { display: inline-block; min-width: 100px; color: #5a6b62; font-size: 9pt; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; }
+      .eng { background: #f6f9f7; border: 1px solid #c4d5cc; padding: 12px 18px; margin: 10px 0 18px; font-size: 10pt; }
+      .eng div { padding: 4px 0; }
+      .eng .k { display: inline-block; min-width: 180px; color: #5a6b62; text-transform: uppercase; font-size: 9pt; letter-spacing: 1px; font-weight: bold; }
+      p, li { font-size: 11pt; }
+      ul { padding-left: 20px; }
+      li { margin: 4px 0; }
+      .sig-block { width: 100%; margin-top: 40px; border-top: 2px solid #c4d5cc; padding-top: 24px; }
+      .sig-row { display: table; width: 100%; margin-top: 28px; }
+      .sig-cell { display: table-cell; width: 50%; padding: 0 16px; vertical-align: top; }
+      .sig-line { border-bottom: 1.5px solid #1a2620; height: 36px; padding-bottom: 4px; font-family: Georgia, serif; font-style: italic; font-size: 16pt; }
+      .sig-name { font-weight: bold; margin-top: 6px; font-size: 10pt; }
+      .sig-role { font-style: italic; color: #4a5953; font-size: 9pt; }
+      .sig-date { font-size: 9pt; margin-top: 4px; color: #5a6b62; }
+      .footer { margin-top: 30px; padding-top: 12px; border-top: 1px solid #c4d5cc; text-align: center; font-size: 8.5pt; color: #5a6b62; }
+      .gold { color: #b8893a; }
+      .green { color: #1f6e4a; }
+      strong { color: #0f2a1f; }
+    `;
+
+    // Build payment section (skipped if 0%)
+    const paymentSection = isZero ? '' : `
+      <h2>§ 06 &nbsp;Payment Terms &amp; Upfront Commitment</h2>
+      <p>The Receiving Party (&ldquo;Client&rdquo;) agrees to make an <strong>upfront payment</strong> of <strong>${upfront}%</strong> of the total monthly engagement fee, which serves as a non-refundable commitment to secure Bidder Experts&rsquo; services. The remaining balance shall be settled per the schedule below.</p>
+      <ul>
+        <li><strong>Upfront Payment:</strong> ${upfront}% of the agreed monthly fee, payable upon signing of this Agreement and prior to commencement of any work.</li>
+        <li><strong>Balance:</strong> ${balance}% of the agreed monthly fee, payable on or before the agreed milestone or month-end billing date, as defined in the corresponding Service Agreement.</li>
+        <li><strong>Plan Selected:</strong> ${planLabels[upfront]} upfront commitment. The Parties acknowledge that this upfront percentage reflects the level of commitment, priority, and resource allocation that Bidder Experts shall extend during the engagement.</li>
+        <li><strong>Method:</strong> Payments may be made via bank transfer, Wise, Payoneer, or any mutually agreed channel. All transaction fees shall be borne by the Receiving Party unless otherwise specified.</li>
+        <li><strong>Late Payment:</strong> Any balance not settled within seven (7) calendar days of the due date shall accrue a late fee of 2% per week and may result in suspension of services without further notice.</li>
+        <li><strong>Refunds:</strong> The upfront payment is <strong>non-refundable</strong> once work has commenced, given the immediate allocation of team capacity and operational resources.</li>
+      </ul>
+    `;
+
+    // Renumber: if 0%, sections 07-11 become 06-10
+    const N = (base) => '§ ' + String(isZero ? base - 1 : base).padStart(2, '0');
+
+    return `<!DOCTYPE html>
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+<meta charset="utf-8">
+<title>NDA — Bidder Experts</title>
+<style>${css}</style>
+</head>
+<body>
+
+<h1>Non-Disclosure &amp; Confidentiality Agreement</h1>
+<h3>BIDDER EXPERTS · MUTUAL · BINDING</h3>
+<div class="ref">Document № ${docRef} &nbsp;·&nbsp; Issued ${issueDate} &nbsp;·&nbsp; Governed by the Laws of Pakistan</div>
+
+<div class="intro">
+  This Non-Disclosure Agreement (the &ldquo;Agreement&rdquo;) is entered into and made effective as of <strong>${effectiveDate}</strong> between <strong>Bidder Experts</strong>, represented by Muhammad Abdullah Sohail (the &ldquo;Disclosing Party&rdquo; / &ldquo;Company&rdquo;), and the Client identified below (the &ldquo;Receiving Party&rdquo;). Collectively referred to as the &ldquo;Parties&rdquo;.
+</div>
+
+<div class="parties">
+  <div class="party">
+    <div class="lbl green">— Disclosing Party</div>
+    <div class="name">Muhammad Abdullah Sohail</div>
+    <div class="role">CEO &amp; Lead Developer · Bidder Experts</div>
+    <div class="field"><span class="k">Entity</span> Bidder Experts</div>
+    <div class="field"><span class="k">Address</span> Lahore, Punjab, Pakistan</div>
+    <div class="field"><span class="k">Phone</span> +92 321 4900839</div>
+    <div class="field"><span class="k">Email</span> Abdullahsohail63@gmail.com</div>
+    <div class="field"><span class="k">Website</span> www.bidderexperts.com</div>
+    <div class="field"><span class="k">LinkedIn</span> muhammad-abdullah-sohail</div>
+  </div>
+
+  <div class="party">
+    <div class="lbl gold">— Receiving Party · Client</div>
+    <div class="name">${clientName}</div>
+    <div class="role">${clientRole}</div>
+    <div class="field"><span class="k">Entity</span> ${clientEnt}</div>
+    <div class="field"><span class="k">Address</span> ${clientAddr}</div>
+    <div class="field"><span class="k">Phone</span> ${clientPh}</div>
+    <div class="field"><span class="k">Email</span> ${clientEmail}</div>
+    <div class="field"><span class="k">Website</span> ${clientWeb}</div>
+    <div class="field"><span class="k">ID / Reg №</span> ${clientId}</div>
+  </div>
+</div>
+
+<h2>§ 00 &nbsp;Engagement Details</h2>
+<div class="eng">
+  <div><span class="k">Project / Engagement</span> ${projName}</div>
+  <div><span class="k">Service Type</span> ${serviceTy}</div>
+  <div><span class="k">Estimated Budget</span> ${budget}</div>
+  <div><span class="k">Start Date</span> ${startDate}</div>
+  <div><span class="k">Expected Duration</span> ${duration}</div>
+  <div><span class="k">Upfront Payment</span> ${planLabels[upfront]}</div>
+  <div style="padding-top:8px;"><span class="k">Brief Scope / Purpose</span><br/>${scope}</div>
+</div>
+
+<h2>§ 01 &nbsp;Definition of Confidential Information</h2>
+<p>For the purposes of this Agreement, &ldquo;<strong>Confidential Information</strong>&rdquo; shall mean any and all non-public information disclosed by either Party to the other, in any form — written, oral, electronic, visual, or otherwise — including but not limited to:</p>
+<ul>
+  <li>Business strategies, proposals, pricing models, client lists, and Upwork account credentials or analytics.</li>
+  <li>Source code, designs, mockups, wireframes, technical architecture, APIs, and database schemas.</li>
+  <li>Trade secrets, proprietary methodologies, bidding scripts, proposal templates, and internal workflows.</li>
+  <li>Financial data, revenue figures, commission structures, contracts with third parties, and project budgets.</li>
+  <li>Personal data, login credentials, API keys, and any data subject to data-protection laws.</li>
+  <li>Any information marked &ldquo;Confidential&rdquo; or that a reasonable person would treat as confidential.</li>
+</ul>
+
+<h2>§ 02 &nbsp;Obligations of the Receiving Party</h2>
+<p>The Receiving Party agrees that it shall:</p>
+<ul>
+  <li>Hold and maintain the Confidential Information in strict confidence and use it solely for the purposes of the engagement described above.</li>
+  <li>Not disclose, publish, distribute, or otherwise communicate the Confidential Information to any third party without prior written consent of the Disclosing Party.</li>
+  <li>Take all reasonable measures — at least the same degree of care it uses to protect its own confidential material — to safeguard the Confidential Information.</li>
+  <li>Limit access to the Confidential Information to those employees, contractors, or agents who have a strict need-to-know and who are bound by equivalent confidentiality obligations.</li>
+  <li>Not reverse engineer, decompile, copy, or create derivative works from any Confidential Information without express written authorization.</li>
+</ul>
+
+<h2>§ 03 &nbsp;Exclusions from Confidentiality</h2>
+<p>The obligations set forth in this Agreement shall <strong>not</strong> apply to information that:</p>
+<ul>
+  <li>Is or becomes publicly available through no fault of the Receiving Party.</li>
+  <li>Was lawfully known to the Receiving Party prior to disclosure, with documented evidence.</li>
+  <li>Is independently developed by the Receiving Party without use of the Confidential Information.</li>
+  <li>Is rightfully received from a third party without breach of any confidentiality obligation.</li>
+  <li>Is required to be disclosed by law, court order, or governmental authority — provided prompt notice is given to the Disclosing Party to allow for protective measures.</li>
+</ul>
+
+<h2>§ 04 &nbsp;Intellectual Property &amp; Ownership</h2>
+<p>All Confidential Information, including all intellectual property rights therein, shall <strong>remain the exclusive property</strong> of the Disclosing Party. Nothing in this Agreement shall be construed as granting any license, ownership, or other right to the Receiving Party in respect of the Confidential Information, except the limited right to use it strictly for the purpose stated above.</p>
+<p>Any work product, code, designs, or deliverables produced by Bidder Experts during the engagement shall be governed by a separate Service Agreement or Statement of Work and remains Bidder Experts&rsquo; property until full payment is received, after which ownership transfers as agreed therein.</p>
+
+<h2>§ 05 &nbsp;Non-Solicitation &amp; Non-Circumvention</h2>
+<p>During the term of this Agreement and for a period of <strong>twelve (12) months</strong> thereafter, the Receiving Party agrees <strong>not to</strong>:</p>
+<ul>
+  <li>Directly or indirectly solicit, hire, or engage any team member, freelancer, or contractor of Bidder Experts without prior written consent.</li>
+  <li>Bypass or circumvent Bidder Experts to contact clients, prospects, or business partners introduced through this engagement.</li>
+  <li>Use any Upwork account, profile, or platform credentials shared during the engagement for any purpose beyond the stated scope.</li>
+</ul>
+
+${paymentSection}
+
+<h2>${N(7)} &nbsp;Term &amp; Duration</h2>
+<p>This Agreement shall commence on the Effective Date stated above and shall remain in force, unless terminated earlier in writing by either Party. The obligations of confidentiality with respect to Confidential Information disclosed hereunder shall survive termination and continue for an additional <strong>three (3) years</strong> from the date of termination.</p>
+
+<h2>${N(8)} &nbsp;Return or Destruction of Materials</h2>
+<p>Upon termination of this Agreement, or upon written request from the Disclosing Party at any time, the Receiving Party shall <strong>promptly return or destroy</strong> all copies of Confidential Information in its possession or control — whether in physical, digital, or any other form — and shall certify such return or destruction in writing within fifteen (15) calendar days.</p>
+
+<h2>${N(9)} &nbsp;Remedies &amp; Breach</h2>
+<p>The Parties acknowledge that any breach of this Agreement may cause <strong>irreparable harm</strong> for which monetary damages may be inadequate. Accordingly, the non-breaching Party shall be entitled to seek injunctive relief, specific performance, and any other equitable remedies in addition to damages, attorney&rsquo;s fees, and recovery of costs.</p>
+
+<h2>${N(10)} &nbsp;Governing Law &amp; Jurisdiction</h2>
+<p>This Agreement shall be governed by, and construed in accordance with, the <strong>laws of the Islamic Republic of Pakistan</strong>. The Parties consent to the exclusive jurisdiction of the courts in <strong>Lahore, Punjab, Pakistan</strong> for any disputes arising under or in connection with this Agreement, save for matters where international arbitration may be mutually agreed.</p>
+
+<h2>${N(11)} &nbsp;General Provisions</h2>
+<ul>
+  <li><strong>Entire Agreement</strong> — This Agreement constitutes the complete understanding between the Parties regarding confidentiality and supersedes all prior negotiations or agreements on this subject.</li>
+  <li><strong>Amendments</strong> — Any modification must be in writing and signed by both Parties.</li>
+  <li><strong>Severability</strong> — If any provision is found unenforceable, the remaining provisions remain in full force and effect.</li>
+  <li><strong>Counterparts</strong> — This Agreement may be executed electronically and in counterparts, each of which shall be deemed an original.</li>
+  <li><strong>Notices</strong> — Any notice under this Agreement shall be sent via email to the addresses listed above and is deemed received upon confirmation of delivery.</li>
+</ul>
+
+<div class="sig-block">
+  <h3>IN WITNESS WHEREOF</h3>
+  <p style="text-align:center; font-size:10pt; color:#5a6b62; margin-bottom:10px;">The Parties have executed this Agreement on the Effective Date</p>
+
+  <div class="sig-row">
+    <div class="sig-cell">
+      <div class="sig-line">M. Abdullah</div>
+      <div class="sig-name">Muhammad Abdullah Sohail</div>
+      <div class="sig-role">CEO &amp; Lead Developer · Bidder Experts</div>
+      <div class="sig-date">Date: ${dateDisclosing}</div>
+    </div>
+    <div class="sig-cell">
+      <div class="sig-line">&nbsp;</div>
+      <div class="sig-name">${clientName !== '________________________' ? clientName : ''}</div>
+      <div class="sig-role">${clientRole !== '________________' ? clientRole + ' · ' + (clientEnt !== '________________' ? clientEnt : '') : ''}</div>
+      <div class="sig-date">Date: ____ / ____ / ______</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  BIDDER EXPERTS · CONFIDENTIAL &nbsp;·&nbsp; www.bidderexperts.com &nbsp;·&nbsp; +92 321 4900839 &nbsp;·&nbsp; Lahore, PK
+</div>
+
+</body>
+</html>`;
+  }
+
+  // Download as Word .doc
+  function downloadWord() {
+    const html = buildExportHTML();
+    const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'NDA_BidderExperts.doc';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
+  }
+
+  // Download as Word file + open Google Docs so user can upload it
+  function downloadGoogleDocs() {
+    downloadWord();
+    setTimeout(() => {
+      const proceed = confirm(
+        'A Word file (NDA_BidderExperts.doc) has been downloaded.\n\n' +
+        'Click OK to open Google Docs.\n' +
+        'In Google Docs: File → Open → Upload → drag the downloaded file.\n\n' +
+        'Google Docs will convert it to a fully editable doc.'
+      );
+      if (proceed) {
+        window.open('https://docs.google.com/document/u/0/', '_blank');
+      }
+    }, 600);
+  }
 
   // Reset all fillable fields
   function resetForm() {
