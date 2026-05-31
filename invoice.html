@@ -1200,10 +1200,50 @@ function bumpInvoiceNumber() {
 /* ============ PDF DOWNLOAD ============ */
 function downloadPDF() {
   // Use the browser's native print engine for PDF generation.
-  // This avoids html2canvas's limited CSS parser (no color-mix, no color(), etc)
-  // and produces a higher-quality, smaller PDF that perfectly preserves modern CSS.
-  // The user picks "Save as PDF" from the print dialog destination dropdown.
-  var paper = document.getElementById('invoicePaper').outerHTML;
+  // Buttons can't be clickable in PDFs (PDFs don't run JS), but ANCHOR LINKS can be.
+  // So we clone the invoice and convert each Pay Now <button> into a real <a href="...">
+  // pointing at the right URL — these become live, clickable links in the saved PDF.
+  var paperEl = document.getElementById('invoicePaper');
+  if (!paperEl) return;
+  var clone = paperEl.cloneNode(true);
+
+  // Replace each Pay Now button with a real anchor link
+  clone.querySelectorAll('.inv-pay-now').forEach(function(btn) {
+    var onclick = btn.getAttribute('onclick') || '';
+    var keyMatch = onclick.match(/payNow\(['"]([^'"]+)['"]\)/);
+    if (!keyMatch) return;
+    var key = keyMatch[1];
+    var p = (typeof PAYMENTS !== 'undefined') ? PAYMENTS[key] : null;
+    if (!p || !p.payUrls) return;
+    // Use the desktop URL in the PDF (most common case + works as fallback on mobile too)
+    var url = p.payUrls.desktop || p.payUrls.android || p.payUrls.ios;
+    if (!url) return;
+    var a = document.createElement('a');
+    a.className = btn.className;
+    a.setAttribute('style', btn.getAttribute('style') || '');
+    a.href = url;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.innerHTML = btn.innerHTML;
+    btn.parentNode.replaceChild(a, btn);
+  });
+
+  // Make the Payoneer account row a mailto link (it's an email — useful click target in PDF)
+  clone.querySelectorAll('.inv-pay-acc').forEach(function(div) {
+    var copyVal = div.getAttribute('data-copy') || '';
+    if (/@/.test(copyVal)) {
+      var a = document.createElement('a');
+      a.className = div.className;
+      a.setAttribute('style', div.getAttribute('style') || '');
+      a.href = 'mailto:' + copyVal;
+      a.style.textDecoration = 'none';
+      a.style.color = 'inherit';
+      a.innerHTML = div.innerHTML;
+      div.parentNode.replaceChild(a, div);
+    }
+  });
+
+  var paperHTML = clone.outerHTML;
   var styles = document.querySelector('style').innerHTML;
   var invNum = (document.getElementById('invNumber').value || 'bidder-experts').replace(/[^a-zA-Z0-9_-]/g,'_');
   var win = window.open('', '_blank');
@@ -1214,11 +1254,11 @@ function downloadPDF() {
     '<title>invoice-' + invNum + '</title>' +
     '<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">' +
     '<style>' + styles +
-      // print-specific overrides: kill animations so nothing is mid-animation in the PDF,
-      // and ensure colors print properly (browsers strip background colors by default for ink saving)
       'body{background:#fff;margin:0;padding:20px;}' +
       '*,*::before,*::after{animation:none !important;transition:none !important;opacity:1 !important;transform:none !important;}' +
       '.inv-stamp{opacity:0.85 !important;transform:rotate(-12deg) !important;}' +
+      // make link-style Pay Now buttons look identical to the button version
+      'a.inv-pay-now{text-decoration:none;}' +
       '@media print{' +
         'body{padding:0;}' +
         '*{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}' +
@@ -1226,8 +1266,7 @@ function downloadPDF() {
       '}' +
     '<\/style>' +
     '<meta name="robots" content="noindex, nofollow">' +
-    '</head><body>' + paper +
-    // Auto-open the print dialog once fonts/images are ready
+    '</head><body>' + paperHTML +
     '<scr' + 'ipt>' +
       'window.addEventListener("load",function(){' +
         'setTimeout(function(){window.print();},300);' +
