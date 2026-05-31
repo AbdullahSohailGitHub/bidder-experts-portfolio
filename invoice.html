@@ -563,10 +563,10 @@ textarea{resize:vertical;min-height:60px;}
   .inv-pay-head { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
   .inv-pay-logo {
     width:34px; height:34px; border-radius:8px; flex-shrink:0;
-    background:linear-gradient(135deg, var(--pc,#2D9B3A), color-mix(in srgb, var(--pc,#2D9B3A) 70%, #000));
+    background:var(--pc,#2D9B3A);
     color:#fff; font-family:'Syne',sans-serif; font-size:13px; font-weight:800;
     display:flex; align-items:center; justify-content:center;
-    box-shadow:0 4px 10px color-mix(in srgb, var(--pc,#2D9B3A) 35%, transparent);
+    box-shadow:0 4px 10px rgba(0,0,0,0.18);
   }
   .inv-pay-name { font-family:'Syne',sans-serif; font-size:12px; font-weight:700; color:#2A3A2C; letter-spacing:0.3px; }
   .inv-pay-acc {
@@ -588,7 +588,7 @@ textarea{resize:vertical;min-height:60px;}
     font-family:'Syne',sans-serif; font-size:12px; font-weight:700; letter-spacing:0.3px;
     display:flex; align-items:center; justify-content:center; gap:6px;
     transition:transform 0.2s, box-shadow 0.2s, filter 0.2s;
-    box-shadow:0 4px 12px color-mix(in srgb, var(--pc,#2D9B3A) 35%, transparent);
+    box-shadow:0 4px 12px rgba(0,0,0,0.18);
     position:relative; overflow:hidden;
   }
   .inv-pay-now::before {
@@ -596,7 +596,7 @@ textarea{resize:vertical;min-height:60px;}
     background:linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
     transition:left 0.5s ease;
   }
-  .inv-pay-now:hover { transform:translateY(-2px); filter:brightness(1.08); box-shadow:0 8px 20px color-mix(in srgb, var(--pc,#2D9B3A) 50%, transparent); }
+  .inv-pay-now:hover { transform:translateY(-2px); filter:brightness(1.08); box-shadow:0 8px 20px rgba(0,0,0,0.25); }
   .inv-pay-now:hover::before { left:130%; }
   .inv-pay-now:active { transform:translateY(0); }
   .inv-pay-foot {
@@ -1207,21 +1207,41 @@ function downloadPDF() {
   var paper = document.getElementById('invoicePaper');
   if (!paper) return;
   var invNum = (document.getElementById('invNumber').value || 'bidder-experts').replace(/[^a-zA-Z0-9_-]/g,'_');
-  // Temporarily pause animations for clean capture
-  paper.style.animation = 'none';
-  paper.querySelectorAll('*').forEach(function(el){ el.style.animation = 'none'; });
-  html2pdf().set({
-    margin: 0,
-    filename: 'invoice-' + invNum + '.pdf',
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-  }).from(paper).save().then(function(){
-    // restore animations
-    setTimeout(function(){ paper.style.animation = ''; render(); }, 200);
-  }).catch(function(err){
-    alert('PDF export failed: ' + (err && err.message ? err.message : 'unknown'));
-    render();
+
+  // Inject a temporary "pdf-mode" stylesheet that forces ALL animated elements
+  // to their final visible state (animations leave opacity:0 / transform offsets
+  // if html2canvas captures before they finish).
+  var pdfStyle = document.createElement('style');
+  pdfStyle.id = 'pdf-mode-style';
+  pdfStyle.textContent =
+    '.pdf-mode *,.pdf-mode *::before,.pdf-mode *::after{' +
+      'animation:none !important;transition:none !important;' +
+      'opacity:1 !important;transform:none !important;' +
+    '}' +
+    '.pdf-mode .inv-stamp{opacity:0.85 !important;transform:rotate(-12deg) !important;}' +
+    '.pdf-mode .inv-pay-now{display:flex !important;visibility:visible !important;}' +
+    '.pdf-mode .inv-pay-card{opacity:1 !important;}';
+  document.head.appendChild(pdfStyle);
+  paper.classList.add('pdf-mode');
+
+  // Give the browser a frame to apply the style, then capture
+  requestAnimationFrame(function() {
+    html2pdf().set({
+      margin: 0,
+      filename: 'invoice-' + invNum + '.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', logging: false },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    }).from(paper).save().then(function(){
+      paper.classList.remove('pdf-mode');
+      var s = document.getElementById('pdf-mode-style');
+      if (s) s.remove();
+    }).catch(function(err){
+      paper.classList.remove('pdf-mode');
+      var s = document.getElementById('pdf-mode-style');
+      if (s) s.remove();
+      alert('PDF export failed: ' + (err && err.message ? err.message : 'unknown'));
+    });
   });
 }
 
