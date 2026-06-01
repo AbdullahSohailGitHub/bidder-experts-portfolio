@@ -584,6 +584,20 @@
   #be-inp::placeholder { color:#4A6A4A; }
   #be-snd { width:34px; height:34px; border-radius:50%; background:#B8FF3C; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#0A0E0A; font-size:14px; flex-shrink:0; transition:transform .2s; }
   #be-snd:hover { transform:scale(1.1); }
+  /* Voice input mic button */
+  #be-mic { width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,0.06); border:1px solid rgba(184,255,60,0.25); cursor:pointer; display:flex; align-items:center; justify-content:center; color:#B8FF3C; flex-shrink:0; transition:all .2s; position:relative; }
+  #be-mic:hover { background:rgba(184,255,60,0.15); transform:scale(1.06); }
+  #be-mic.listening { background:#ff4d6d; border-color:#ff4d6d; color:#fff; animation:beMicPulse 1.2s ease-in-out infinite; }
+  #be-mic.listening::after { content:''; position:absolute; inset:-6px; border-radius:50%; border:2px solid rgba(255,77,109,0.5); animation:beMicRing 1.2s ease-out infinite; }
+  @keyframes beMicPulse { 0%,100%{box-shadow:0 0 0 0 rgba(255,77,109,0.6);} 50%{box-shadow:0 0 0 6px rgba(255,77,109,0);} }
+  @keyframes beMicRing { 0%{transform:scale(1);opacity:0.6;} 100%{transform:scale(1.5);opacity:0;} }
+  #be-mic[disabled] { opacity:0.4; cursor:not-allowed; }
+  /* Voice output toggle in header */
+  .be-voice-toggle { background:none; border:none; color:#7A9A7A; cursor:pointer; padding:4px 6px; transition:color .2s; line-height:0; }
+  .be-voice-toggle:hover { color:#B8FF3C; }
+  .be-voice-toggle.on { color:#B8FF3C; }
+  .be-voice-toggle.speaking { color:#B8FF3C; animation:beSpeakPulse 1s ease-in-out infinite; }
+  @keyframes beSpeakPulse { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
   .be-wa-cta { margin:4px 0; padding:10px 13px; background:rgba(37,211,102,0.08); border:1px solid rgba(37,211,102,0.2); border-radius:12px; display:flex; align-items:center; gap:10px; text-decoration:none; transition:background .2s; }
   .be-wa-cta:hover { background:rgba(37,211,102,0.15); }
   .be-wa-cta span { font-size:12px; color:#25D366; font-weight:700; }
@@ -6462,6 +6476,10 @@ function toggleProjects(person, type) {
         <span class="be-status-text">Online &nbsp;&middot;&nbsp; Powered by Gemini 1.5</span>
       </div>
     </div>
+    <button class="be-voice-toggle" id="be-voice-toggle" onclick="beToggleVoice()" title="Voice responses off" aria-label="Toggle voice responses">
+      <svg id="be-voice-icon-off" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+      <svg id="be-voice-icon-on" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+    </button>
     <button class="be-x" onclick="beToggle()" title="Close">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
@@ -6497,6 +6515,9 @@ function toggleProjects(person, type) {
   <div class="be-inp-row">
     <input id="be-inp" type="text" placeholder="Ask me anything..." autocomplete="off"
       onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();beSubmit();}"/>
+    <button id="be-mic" onclick="beToggleMic()" title="Speak your question" aria-label="Voice input">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+    </button>
     <button id="be-snd" onclick="beSubmit()">&#9658;</button>
   </div>
 </div>
@@ -6550,6 +6571,114 @@ function beNow() {
   return ('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2);
 }
 
+/* ===== Voice input (Speech Recognition) + Voice output (Speech Synthesis) ===== */
+window.beVoiceOn = false;          // is TTS output enabled
+window.beRecognition = null;       // browser SpeechRecognition instance
+window.beListening = false;        // is mic actively recording
+
+function beVoiceInit() {
+  // Set up speech recognition once (browser-native, free)
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) {
+    var mic = document.getElementById('be-mic');
+    if (mic) { mic.disabled = true; mic.title = 'Voice input not supported in this browser'; }
+    return;
+  }
+  var rec = new SR();
+  rec.lang = 'en-US';
+  rec.interimResults = true;
+  rec.continuous = false;
+  var inp = document.getElementById('be-inp');
+  rec.onresult = function(ev) {
+    var transcript = '';
+    for (var i = ev.resultIndex; i < ev.results.length; i++) {
+      transcript += ev.results[i][0].transcript;
+    }
+    if (inp) inp.value = transcript;
+  };
+  rec.onend = function() {
+    window.beListening = false;
+    var mic = document.getElementById('be-mic');
+    if (mic) mic.classList.remove('listening');
+    // If user actually said something, auto-submit
+    if (inp && inp.value.trim()) setTimeout(function(){ beSubmit(); }, 250);
+  };
+  rec.onerror = function(e) {
+    window.beListening = false;
+    var mic = document.getElementById('be-mic');
+    if (mic) mic.classList.remove('listening');
+    if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
+      beAddMsg('Microphone access was blocked. Please allow it in your browser settings to use voice input.', 'bot');
+    }
+  };
+  window.beRecognition = rec;
+}
+
+function beToggleMic() {
+  if (!window.beRecognition) { beVoiceInit(); if (!window.beRecognition) return; }
+  var mic = document.getElementById('be-mic');
+  if (window.beListening) {
+    try { window.beRecognition.stop(); } catch(_) {}
+    window.beListening = false;
+    if (mic) mic.classList.remove('listening');
+  } else {
+    // stop any current TTS so the mic can hear the user
+    try { window.speechSynthesis && window.speechSynthesis.cancel(); } catch(_) {}
+    try {
+      window.beRecognition.start();
+      window.beListening = true;
+      if (mic) mic.classList.add('listening');
+    } catch(_) {}
+  }
+}
+
+function beSpeak(text) {
+  if (!window.speechSynthesis || !text) return;
+  // Cancel any in-progress speech so we don't queue forever
+  try { window.speechSynthesis.cancel(); } catch(_) {}
+  var u = new SpeechSynthesisUtterance(text);
+  u.lang = 'en-US';
+  u.rate = 1.0;
+  u.pitch = 1.0;
+  u.volume = 1.0;
+  // Prefer a higher-quality voice if available
+  var voices = window.speechSynthesis.getVoices();
+  if (voices && voices.length) {
+    var preferred = voices.find(function(v){ return /Google.*US English|Microsoft.*Aria|Samantha/i.test(v.name); }) ||
+                    voices.find(function(v){ return /en-US/i.test(v.lang); }) ||
+                    voices[0];
+    if (preferred) u.voice = preferred;
+  }
+  var toggle = document.getElementById('be-voice-toggle');
+  u.onstart = function(){ if (toggle) toggle.classList.add('speaking'); };
+  u.onend   = function(){ if (toggle) toggle.classList.remove('speaking'); };
+  u.onerror = function(){ if (toggle) toggle.classList.remove('speaking'); };
+  window.speechSynthesis.speak(u);
+}
+
+function beToggleVoice() {
+  window.beVoiceOn = !window.beVoiceOn;
+  var toggle = document.getElementById('be-voice-toggle');
+  var iconOff = document.getElementById('be-voice-icon-off');
+  var iconOn  = document.getElementById('be-voice-icon-on');
+  if (toggle) {
+    toggle.classList.toggle('on', window.beVoiceOn);
+    toggle.title = window.beVoiceOn ? 'Voice responses on (click to mute)' : 'Voice responses off (click to enable)';
+  }
+  if (iconOff) iconOff.style.display = window.beVoiceOn ? 'none' : '';
+  if (iconOn)  iconOn.style.display  = window.beVoiceOn ? '' : 'none';
+  // If turning OFF, stop any current speech
+  if (!window.beVoiceOn) { try { window.speechSynthesis && window.speechSynthesis.cancel(); } catch(_) {} }
+  // Some browsers need a user gesture to "wake up" voices — read aloud a confirmation
+  if (window.beVoiceOn) beSpeak('Voice responses are now enabled.');
+}
+
+// Initialize voice on first load so the mic button knows its state
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', beVoiceInit);
+else beVoiceInit();
+// Some browsers load voices async — refresh once they're ready
+if (window.speechSynthesis) window.speechSynthesis.onvoiceschanged = function(){ /* voices now loaded */ };
+
 function beToggle() {
   beOpen = !beOpen;
   var win = document.getElementById('be-win');
@@ -6580,6 +6709,13 @@ function beAddMsg(html, who) {
   d.innerHTML = '<div class="bb">'+html+'</div><div class="bt">'+beNow()+'</div>';
   msgs.appendChild(d);
   msgs.scrollTop = msgs.scrollHeight;
+  // If voice output is enabled and this is a bot reply, speak it aloud
+  if (who === 'bot' && window.beVoiceOn) {
+    // strip HTML tags before reading (so it doesn't say "left bracket br right bracket")
+    var t = document.createElement('div'); t.innerHTML = html;
+    var spoken = (t.textContent || t.innerText || '').replace(/\s+/g,' ').trim();
+    if (spoken) beSpeak(spoken);
+  }
 }
 
 function beShowTyping() {
