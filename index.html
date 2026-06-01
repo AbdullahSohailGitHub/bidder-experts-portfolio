@@ -314,12 +314,29 @@
   .hero-tag { margin-bottom:0; }
 
   /* -- STATS BAR -- */
-  #stats-bar { background:var(--card); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:0; }
-  #stats-bar > div { max-width:1200px; margin:0 auto; padding:40px 60px; }
-  .stats-row { display:grid; grid-template-columns:repeat(6,1fr); gap:16px; }
-  .stat-box { text-align:center; }
+  #stats-bar { background:var(--card); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:0; overflow:hidden; }
+  #stats-bar > div { max-width:none; margin:0; padding:36px 0; -webkit-mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+  body #stats-bar .stats-row { display:flex !important; grid-template-columns:none !important; gap:64px !important; width:max-content; animation:statsMarquee 38s linear infinite; will-change:transform; padding:0 32px; }
+  .stats-row:hover { animation-play-state:paused; }
+  @keyframes statsMarquee { 0%{transform:translateX(0);} 100%{transform:translateX(-50%);} }
+  .stat-box { text-align:center; flex-shrink:0; min-width:160px; }
   .stat-big { font-family:'Syne',sans-serif; font-size:36px; font-weight:800; color:var(--lime); }
   .stat-box p { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; margin-top:6px; }
+  @media (prefers-reduced-motion: reduce) { body #stats-bar .stats-row { animation:none !important; } }
+  @media (max-width: 600px) { body #stats-bar .stats-row { gap:40px !important; animation-duration:28s; } .stat-box { min-width:130px; } }
+
+  /* -- PLATFORMS STRIP -- */
+  #platforms-strip { background:linear-gradient(180deg, rgba(184,255,60,0.02), transparent); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:28px 0 32px; overflow:hidden; position:relative; }
+  .ps-label { font-family:'Syne',sans-serif; font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:2.5px; text-align:center; margin-bottom:18px; }
+  .ps-track-wrap { -webkit-mask-image:linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask-image:linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
+  .ps-track { display:flex; gap:64px; width:max-content; animation:psMarquee 28s linear infinite; will-change:transform; padding:0 32px; align-items:center; }
+  .ps-track:hover { animation-play-state:paused; }
+  @keyframes psMarquee { 0%{transform:translateX(0);} 100%{transform:translateX(-50%);} }
+  .ps-item { display:flex; align-items:center; gap:10px; color:var(--text); text-decoration:none; opacity:0.55; transition:opacity 0.3s, transform 0.3s; flex-shrink:0; font-family:'Syne',sans-serif; font-size:15px; font-weight:700; letter-spacing:0.2px; }
+  .ps-item:hover { opacity:1; transform:translateY(-2px); }
+  .ps-item svg, .ps-item img { width:26px; height:26px; flex-shrink:0; object-fit:contain; }
+  @media (prefers-reduced-motion: reduce) { .ps-track { animation:none; } }
+  @media (max-width: 600px) { .ps-track { gap:40px; animation-duration:22s; } .ps-item { font-size:13px; } .ps-item svg { width:22px; height:22px; } }
 
   /* -- SERVICES -- */
   .services-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
@@ -333,8 +350,35 @@
 
   /* -- ACHIEVEMENTS -- */
   .achievements-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; align-items:start; }
-  .ach-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:18px; transition:transform 0.25s,border-color 0.25s; display:flex; flex-direction:column; gap:10px; }
-  .ach-card:hover { border-color:rgba(184,255,60,0.4); transform:translateY(-2px); }
+  .ach-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:18px; transition:transform 0.25s,border-color 0.25s,box-shadow 0.25s; display:flex; flex-direction:column; gap:10px; perspective:1200px; min-height:220px; }
+  .ach-card:hover { border-color:rgba(184,255,60,0.5); transform:translateY(-4px); box-shadow:0 14px 32px rgba(184,255,60,0.12); }
+  /* 3D flip mechanics */
+  .ach-flip-inner { position:relative; width:100%; height:100%; flex:1; transform-style:preserve-3d; transition:transform 0.7s cubic-bezier(0.34,1.1,0.5,1); }
+  .ach-card.flipped .ach-flip-inner { transform:rotateY(180deg); }
+  .ach-front, .ach-back { position:absolute; inset:0; -webkit-backface-visibility:hidden; backface-visibility:hidden; display:flex; flex-direction:column; }
+  .ach-front { z-index:2; gap:10px; }
+  .ach-back { transform:rotateY(180deg); gap:8px; overflow-y:auto; padding-right:2px; scrollbar-width:thin; scrollbar-color:rgba(184,255,60,0.3) transparent; }
+  .ach-back::-webkit-scrollbar { width:4px; }
+  .ach-back::-webkit-scrollbar-thumb { background:rgba(184,255,60,0.3); border-radius:2px; }
+  /* tap-flip hint on initial idle */
+  .ach-card { cursor:pointer; }
+  .ach-card::after {
+    content:''; position:absolute; top:10px; right:10px; width:6px; height:6px; border-radius:50%;
+    background:rgba(184,255,60,0.4); box-shadow:0 0 8px rgba(184,255,60,0.6);
+    opacity:0; transition:opacity 0.25s; pointer-events:none; z-index:3;
+  }
+  .ach-card:hover::after { opacity:1; animation:achHint 1.5s ease-in-out infinite; }
+  @keyframes achHint { 0%,100%{transform:scale(1);opacity:0.6;} 50%{transform:scale(1.4);opacity:1;} }
+  /* back panel content styling */
+  .ach-back-label { font-size:9px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; font-weight:600; }
+  .ach-back-title { font-family:'Syne',sans-serif; font-size:13px; font-weight:700; color:var(--lime); line-height:1.3; margin:2px 0 6px; }
+  .ach-back-row { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:4px 0; border-bottom:1px dashed rgba(184,255,60,0.12); font-size:11px; flex-shrink:0; }
+  .ach-back-row:last-of-type { border-bottom:none; }
+  .ach-back-row-k { color:var(--muted); flex-shrink:0; }
+  .ach-back-row-v { color:var(--white); font-weight:600; text-align:right; }
+  .ach-back-tags { display:flex; flex-wrap:wrap; gap:4px; margin-top:4px; }
+  .ach-back-tags span { font-size:10px; padding:2px 8px; border-radius:8px; background:rgba(184,255,60,0.1); border:1px solid rgba(184,255,60,0.25); color:var(--lime); white-space:nowrap; }
+  .ach-back-hint { font-size:9px; color:var(--muted); text-align:center; font-style:italic; margin-top:4px; padding-top:4px; flex-shrink:0; }
 
   /* -- CHART -- */
   #chart-section { background:var(--card2); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:0; }
@@ -2114,6 +2158,122 @@
     <div class="stat-box">
       <div class="stat-big" data-target="14" data-suffix="+">0</div>
       <p>Team Members</p>
+    </div>
+    <!-- Duplicate set for seamless marquee loop -->
+    <div class="stat-box" aria-hidden="true">
+      <div class="stat-big" data-target="2190" data-suffix="+" data-comma="true">0</div>
+      <p>Projects Completed</p>
+    </div>
+    <div class="stat-box" aria-hidden="true">
+      <div class="stat-big" data-target="1.4" data-prefix="$" data-suffix="M+" data-decimal="true">0</div>
+      <p>Total Earned</p>
+    </div>
+    <div class="stat-box" aria-hidden="true">
+      <div class="stat-big" data-target="5" data-decimal="true" data-suffix=" &#9733;">0</div>
+      <p>Avg Rating</p>
+    </div>
+    <div class="stat-box" aria-hidden="true">
+      <div class="stat-big" data-target="95" data-suffix="%+">0</div>
+      <p>Job Success Score</p>
+    </div>
+    <div class="stat-box" aria-hidden="true">
+      <div class="stat-big" data-target="100" data-suffix="+">0</div>
+      <p>Upwork Contracts</p>
+    </div>
+    <div class="stat-box" aria-hidden="true">
+      <div class="stat-big" data-target="14" data-suffix="+">0</div>
+      <p>Team Members</p>
+    </div>
+  </div>
+</div>
+
+<!-- TRUSTED PLATFORMS STRIP -->
+<div id="platforms-strip" aria-label="Platforms we're featured on">
+  <div class="ps-label">FEATURED &amp; ACTIVE ON</div>
+  <div class="ps-track-wrap">
+    <div class="ps-track">
+      <!-- Set 1 (real platform logos from Simple Icons CDN) -->
+      <a class="ps-item" href="https://www.upwork.com/" target="_blank" rel="noopener" title="Upwork">
+        <img src="https://cdn.simpleicons.org/upwork/6FDA44" alt="Upwork" loading="lazy" />
+        <span>Upwork</span>
+      </a>
+      <a class="ps-item" href="https://www.fiverr.com/" target="_blank" rel="noopener" title="Fiverr">
+        <img src="https://cdn.simpleicons.org/fiverr/1DBF73" alt="Fiverr" loading="lazy" />
+        <span>Fiverr</span>
+      </a>
+      <a class="ps-item" href="https://www.linkedin.com/" target="_blank" rel="noopener" title="LinkedIn">
+        <img src="https://cdn.simpleicons.org/linkedin/0A66C2" alt="LinkedIn" loading="lazy" />
+        <span>LinkedIn</span>
+      </a>
+      <a class="ps-item" href="https://github.com/" target="_blank" rel="noopener" title="GitHub">
+        <img src="https://cdn.simpleicons.org/github/ffffff" alt="GitHub" loading="lazy" />
+        <span>GitHub</span>
+      </a>
+      <a class="ps-item" href="https://www.behance.net/" target="_blank" rel="noopener" title="Behance">
+        <img src="https://cdn.simpleicons.org/behance/1769FF" alt="Behance" loading="lazy" />
+        <span>Behance</span>
+      </a>
+      <a class="ps-item" href="https://dribbble.com/" target="_blank" rel="noopener" title="Dribbble">
+        <img src="https://cdn.simpleicons.org/dribbble/EA4C89" alt="Dribbble" loading="lazy" />
+        <span>Dribbble</span>
+      </a>
+      <a class="ps-item" href="https://slack.com/" target="_blank" rel="noopener" title="Slack">
+        <img src="https://cdn.simpleicons.org/slack/4A154B" alt="Slack" loading="lazy" />
+        <span>Slack</span>
+      </a>
+      <a class="ps-item" href="https://zoom.us/" target="_blank" rel="noopener" title="Zoom">
+        <img src="https://cdn.simpleicons.org/zoom/2D8CFF" alt="Zoom" loading="lazy" />
+        <span>Zoom</span>
+      </a>
+      <a class="ps-item" href="https://clutch.co/" target="_blank" rel="noopener" title="Clutch.co">
+        <img src="https://cdn.simpleicons.org/clutch/17313B" alt="Clutch" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.marginLeft='0';" />
+        <span>Clutch</span>
+      </a>
+      <a class="ps-item" href="https://wellfound.com/" target="_blank" rel="noopener" title="Wellfound (AngelList)">
+        <img src="https://cdn.simpleicons.org/wellfound/000000" alt="Wellfound" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.marginLeft='0';" />
+        <span>Wellfound</span>
+      </a>
+      <!-- Set 2 (duplicate for seamless marquee loop) -->
+      <a class="ps-item" aria-hidden="true" href="https://www.upwork.com/" target="_blank" rel="noopener">
+        <img src="https://cdn.simpleicons.org/upwork/6FDA44" alt="" loading="lazy" />
+        <span>Upwork</span>
+      </a>
+      <a class="ps-item" aria-hidden="true" href="https://www.fiverr.com/" target="_blank" rel="noopener">
+        <img src="https://cdn.simpleicons.org/fiverr/1DBF73" alt="" loading="lazy" />
+        <span>Fiverr</span>
+      </a>
+      <a class="ps-item" aria-hidden="true" href="https://www.linkedin.com/" target="_blank" rel="noopener">
+        <img src="https://cdn.simpleicons.org/linkedin/0A66C2" alt="" loading="lazy" />
+        <span>LinkedIn</span>
+      </a>
+      <a class="ps-item" aria-hidden="true" href="https://github.com/" target="_blank" rel="noopener">
+        <img src="https://cdn.simpleicons.org/github/ffffff" alt="" loading="lazy" />
+        <span>GitHub</span>
+      </a>
+      <a class="ps-item" aria-hidden="true" href="https://www.behance.net/" target="_blank" rel="noopener">
+        <img src="https://cdn.simpleicons.org/behance/1769FF" alt="" loading="lazy" />
+        <span>Behance</span>
+      </a>
+      <a class="ps-item" aria-hidden="true" href="https://dribbble.com/" target="_blank" rel="noopener">
+        <img src="https://cdn.simpleicons.org/dribbble/EA4C89" alt="" loading="lazy" />
+        <span>Dribbble</span>
+      </a>
+      <a class="ps-item" aria-hidden="true" href="https://slack.com/" target="_blank" rel="noopener">
+        <img src="https://cdn.simpleicons.org/slack/4A154B" alt="" loading="lazy" />
+        <span>Slack</span>
+      </a>
+      <a class="ps-item" aria-hidden="true" href="https://zoom.us/" target="_blank" rel="noopener">
+        <img src="https://cdn.simpleicons.org/zoom/2D8CFF" alt="" loading="lazy" />
+        <span>Zoom</span>
+      </a>
+      <a class="ps-item" aria-hidden="true" href="https://clutch.co/" target="_blank" rel="noopener">
+        <img src="https://cdn.simpleicons.org/clutch/17313B" alt="" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.marginLeft='0';" />
+        <span>Clutch</span>
+      </a>
+      <a class="ps-item" aria-hidden="true" href="https://wellfound.com/" target="_blank" rel="noopener">
+        <img src="https://cdn.simpleicons.org/wellfound/000000" alt="" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.marginLeft='0';" />
+        <span>Wellfound</span>
+      </a>
     </div>
   </div>
 </div>
@@ -8309,6 +8469,79 @@ async function createAccount() {
     var panel = document.getElementById('pay-panel-' + tab);
     if (panel) panel.classList.add('active');
   };
+})();
+</script>
+<script>
+/* ===== Flip-card transform for project achievement cards ===== */
+(function() {
+  function buildFlipCards() {
+    var cards = document.querySelectorAll('.ach-card');
+    cards.forEach(function(card) {
+      // Skip if already processed
+      if (card.querySelector('.ach-flip-inner')) return;
+
+      // Parse the existing front content
+      var clientEl     = card.querySelector('span[style*="text-transform"]'); // client name
+      var statusBlock  = card.querySelectorAll('div[style*="display:flex"]')[0]; // top row with status
+      var titleEl      = card.querySelector('h3');
+      var amountEl     = card.querySelector('div[style*="22px"]'); // amount $ block
+      var rightMetaEls = card.querySelectorAll('div[style*="text-align:right"]'); // hours/in-progress
+      var tagSpans     = card.querySelectorAll('span[style*="border-radius:8px"]');
+
+      // Pull display values
+      var client = clientEl ? clientEl.textContent.trim() : '';
+      var title  = titleEl ? titleEl.textContent.trim() : '';
+      var amount = amountEl ? amountEl.textContent.trim() : '';
+      var meta   = rightMetaEls.length ? rightMetaEls[rightMetaEls.length-1].textContent.trim() : '';
+      // Status: look for "Active" / "Done" or 5.0 star
+      var statusText = '';
+      var statusColor = '';
+      if (statusBlock) {
+        var statusSpan = statusBlock.querySelector('span[style*="font-weight:700"]');
+        if (statusSpan) {
+          statusText = statusSpan.textContent.trim();
+          var inline = statusSpan.getAttribute('style') || '';
+          var m = inline.match(/color:([^;]+)/);
+          if (m) statusColor = m[1].trim();
+        }
+      }
+      // Collect all tag labels
+      var tags = Array.prototype.map.call(tagSpans, function(s){ return s.textContent.trim(); });
+
+      // Wrap existing children as front face
+      var front = document.createElement('div');
+      front.className = 'ach-front';
+      while (card.firstChild) front.appendChild(card.firstChild);
+
+      // Build back face
+      var back = document.createElement('div');
+      back.className = 'ach-back';
+      back.innerHTML =
+        (client ? '<div class="ach-back-label">Client &middot; ' + client + '</div>' : '') +
+        (title ? '<div class="ach-back-title">' + title + '</div>' : '') +
+        (amount ? '<div class="ach-back-row"><span class="ach-back-row-k">Earned</span><span class="ach-back-row-v">' + amount + '</span></div>' : '') +
+        (meta ? '<div class="ach-back-row"><span class="ach-back-row-k">Status</span><span class="ach-back-row-v">' + meta + '</span></div>' : '') +
+        (statusText ? '<div class="ach-back-row"><span class="ach-back-row-k">Rating</span><span class="ach-back-row-v" style="color:' + (statusColor || 'var(--lime)') + ';">' + statusText + '</span></div>' : '') +
+        (tags.length ? '<div class="ach-back-tags">' + tags.map(function(t){ return '<span>' + t + '</span>'; }).join('') + '</div>' : '') +
+        '<div class="ach-back-hint">Click to flip back</div>';
+
+      // Build flip inner wrapper
+      var inner = document.createElement('div');
+      inner.className = 'ach-flip-inner';
+      inner.appendChild(front);
+      inner.appendChild(back);
+      card.appendChild(inner);
+
+      // Click toggles flip
+      card.addEventListener('click', function(e) {
+        // Don't flip when clicking links inside the card
+        if (e.target.closest('a, button')) return;
+        card.classList.toggle('flipped');
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', buildFlipCards);
+  else buildFlipCards();
 })();
 </script>
 </body>
