@@ -197,13 +197,13 @@
   .uc-clock .city { font-size:8px; color:var(--muted); text-transform:uppercase; letter-spacing:0.4px; margin-top:2px; }
   @media (max-width:520px){ .uc-clocks { gap:5px; } .uc-clock { padding:5px 2px; } .uc-clock .city { font-size:7px; } .uc-clock .time { font-size:11px; } }
   /* meeting planner floating button + modal */
-  #mtg-fab { position:relative; height:46px; width:46px; padding:0; border-radius:23px; background:linear-gradient(135deg,#c9ff5e,#a3f028); color:var(--dark); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:0; overflow:hidden; white-space:nowrap; box-shadow:0 4px 20px rgba(184,255,60,0.45); transition:width 0.35s cubic-bezier(0.34,1.4,0.5,1), transform 0.25s ease, box-shadow 0.25s ease, gap 0.35s ease, padding 0.35s ease; flex-shrink:0; }
-  #mtg-fab::before { content:''; position:absolute; inset:-3px; border-radius:26px; background:radial-gradient(circle,rgba(184,255,60,0.5),transparent 70%); opacity:0; transition:opacity 0.3s ease; z-index:-1; }
+  #mtg-fab { position:relative; height:54px; width:54px; padding:0; border-radius:50%; background:linear-gradient(135deg,#c9ff5e,#a3f028); color:var(--dark); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:0; overflow:hidden; white-space:nowrap; box-shadow:0 4px 24px rgba(184,255,60,0.5); transition:width 0.35s cubic-bezier(0.34,1.4,0.5,1), border-radius 0.35s ease, transform 0.25s ease, box-shadow 0.25s ease, gap 0.35s ease, padding 0.35s ease; flex-shrink:0; vertical-align:middle; }
+  #mtg-fab::before { content:''; position:absolute; inset:-3px; border-radius:50%; background:radial-gradient(circle,rgba(184,255,60,0.5),transparent 70%); opacity:0; transition:opacity 0.3s ease; z-index:-1; }
   #mtg-fab .mtg-fab-label { max-width:0; opacity:0; font-family:'Syne',sans-serif; font-size:13px; font-weight:700; transition:max-width 0.35s ease, opacity 0.3s ease; overflow:hidden; }
-  #mtg-fab:hover { width:168px; padding:0 18px; gap:9px; transform:translateY(-3px); box-shadow:0 14px 40px rgba(184,255,60,0.6); }
-  #mtg-fab:hover::before { opacity:1; }
+  #mtg-fab:hover { width:172px; padding:0 18px; gap:9px; border-radius:27px; transform:translateY(-3px); box-shadow:0 14px 40px rgba(184,255,60,0.6); }
+  #mtg-fab:hover::before { opacity:1; border-radius:30px; }
   #mtg-fab:hover .mtg-fab-label { max-width:120px; opacity:1; }
-  #mtg-fab svg { width:21px; height:21px; flex-shrink:0; }
+  #mtg-fab svg { width:22px; height:22px; flex-shrink:0; }
   #mtg-overlay { position:fixed; inset:0; z-index:9990; background:rgba(5,8,5,0.7); backdrop-filter:blur(4px); display:flex; align-items:center; justify-content:center; padding:20px; opacity:0; transition:opacity 0.25s ease; }
   #mtg-overlay[hidden] { display:none; }
   #mtg-overlay.open { opacity:1; }
@@ -278,7 +278,7 @@
   @keyframes mtgVerdictGlow { 0%,100%{ box-shadow:0 0 0 rgba(93,202,165,0); } 50%{ box-shadow:0 0 18px rgba(93,202,165,0.35); } }
   /* fab gentle attention pulse */
   #mtg-fab { animation:mtgFabIdle 3.5s ease-in-out infinite; }
-  @keyframes mtgFabIdle { 0%,92%,100%{ transform:translateY(0); } 96%{ transform:translateY(-4px); } }
+  @keyframes mtgFabIdle { 0%,92%,100%{ box-shadow:0 4px 24px rgba(184,255,60,0.5); } 96%{ box-shadow:0 4px 28px rgba(184,255,60,0.85); } }
   #mtg-fab:hover { animation:none; }
   /* action buttons */
   .mtg-actions { display:flex; gap:10px; margin-top:16px; }
@@ -308,22 +308,19 @@
   .verdict-ok .vdot { background:#F5A623; }
   .verdict-bad { background:rgba(255,90,90,0.08); border:1px solid rgba(255,90,90,0.3); color:#ff9d9d; }
   .verdict-bad .vdot { background:#ff5a5a; }
-  @media (max-width:520px){ #mtg-fab { bottom:130px; right:18px; width:42px; height:42px; } .uc-conv-side .cs-time { font-size:22px; } }
+  @media (max-width:520px){ #mtg-fab { bottom:auto; right:auto; } .uc-conv-side .cs-time { font-size:22px; } }
 
   /* -- HERO TAG (section tag) -- */
   .hero-tag { margin-bottom:0; }
 
   /* -- STATS BAR -- */
   #stats-bar { background:var(--card); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:0; overflow:hidden; }
-  #stats-bar > div { max-width:none; margin:0; padding:36px 0; -webkit-mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
-  body #stats-bar .stats-row { display:flex !important; grid-template-columns:none !important; gap:64px !important; width:max-content; animation:statsMarquee 38s linear infinite; will-change:transform; padding:0 32px; }
-  .stats-row:hover { animation-play-state:paused; }
-  @keyframes statsMarquee { 0%{transform:translateX(0);} 100%{transform:translateX(-50%);} }
-  .stat-box { text-align:center; flex-shrink:0; min-width:160px; }
+  #stats-bar > div { max-width:1200px; margin:0 auto; padding:40px 32px; }
+  body #stats-bar .stats-row { display:flex !important; flex-wrap:wrap; justify-content:space-around; align-items:center; gap:24px !important; grid-template-columns:none !important; animation:none !important; width:auto; padding:0; }
+  .stat-box { text-align:center; flex:1 1 140px; min-width:140px; max-width:200px; }
   .stat-big { font-family:'Syne',sans-serif; font-size:36px; font-weight:800; color:var(--lime); }
   .stat-box p { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; margin-top:6px; }
-  @media (prefers-reduced-motion: reduce) { body #stats-bar .stats-row { animation:none !important; } }
-  @media (max-width: 600px) { body #stats-bar .stats-row { gap:40px !important; animation-duration:28s; } .stat-box { min-width:130px; } }
+  @media (max-width: 600px) { #stats-bar > div { padding:28px 16px; } body #stats-bar .stats-row { gap:18px !important; } .stat-big { font-size:24px; } .stat-box { flex:1 1 calc(33% - 18px); min-width:90px; } .stat-box p { font-size:10px; } }
 
   /* -- PLATFORMS STRIP -- */
   #platforms-strip { background:linear-gradient(180deg, rgba(184,255,60,0.02), transparent); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:28px 0 32px; overflow:hidden; position:relative; }
@@ -650,6 +647,10 @@
     #be-win { width:calc(100vw - 16px); right:8px; bottom:76px; }
     #be-fab { bottom:12px; right:12px; }
     #be-btn { width:48px; height:48px; }
+    #be-wa { width:42px; height:42px; }
+    #mtg-fab { width:48px; height:48px; }
+    #mtg-fab svg { width:20px; height:20px; }
+    #mtg-fab:hover { width:148px; padding:0 14px; }
   }
 
 
@@ -993,6 +994,10 @@
     #be-win { width:calc(100vw - 12px) !important; right:6px !important; bottom:72px !important; border-radius:16px !important; }
     #be-fab { bottom:10px !important; right:10px !important; }
     #be-btn { width:48px !important; height:48px !important; }
+    #be-wa { width:42px !important; height:42px !important; }
+    #mtg-fab { width:48px !important; height:48px !important; }
+    #mtg-fab svg { width:20px !important; height:20px !important; }
+    #mtg-fab:hover { width:148px !important; padding:0 14px !important; }
     .be-hdr { padding:10px 12px !important; }
     .be-av { width:34px !important; height:34px !important; font-size:11px !important; }
     .be-name { font-size:12px !important; }
@@ -1391,6 +1396,10 @@
     #be-win { width: calc(100vw - 14px) !important; right: 7px !important; bottom: 74px !important; border-radius: 16px !important; }
     #be-fab { bottom: 12px !important; right: 12px !important; }
     #be-btn { width: 48px !important; height: 48px !important; }
+    #be-wa { width: 42px !important; height: 42px !important; }
+    #mtg-fab { width: 48px !important; height: 48px !important; }
+    #mtg-fab svg { width: 20px !important; height: 20px !important; }
+    #mtg-fab:hover { width: 148px !important; padding: 0 14px !important; }
     .bm .bb { font-size: 12px !important; }
     .be-qr-row { padding: 0 10px !important; }
     .be-qr-row .be-qb { font-size: 9px !important; padding: 4px 7px !important; }
@@ -2159,31 +2168,6 @@
       <div class="stat-big" data-target="14" data-suffix="+">0</div>
       <p>Team Members</p>
     </div>
-    <!-- Duplicate set for seamless marquee loop -->
-    <div class="stat-box" aria-hidden="true">
-      <div class="stat-big" data-target="2190" data-suffix="+" data-comma="true">0</div>
-      <p>Projects Completed</p>
-    </div>
-    <div class="stat-box" aria-hidden="true">
-      <div class="stat-big" data-target="1.4" data-prefix="$" data-suffix="M+" data-decimal="true">0</div>
-      <p>Total Earned</p>
-    </div>
-    <div class="stat-box" aria-hidden="true">
-      <div class="stat-big" data-target="5" data-decimal="true" data-suffix=" &#9733;">0</div>
-      <p>Avg Rating</p>
-    </div>
-    <div class="stat-box" aria-hidden="true">
-      <div class="stat-big" data-target="95" data-suffix="%+">0</div>
-      <p>Job Success Score</p>
-    </div>
-    <div class="stat-box" aria-hidden="true">
-      <div class="stat-big" data-target="100" data-suffix="+">0</div>
-      <p>Upwork Contracts</p>
-    </div>
-    <div class="stat-box" aria-hidden="true">
-      <div class="stat-big" data-target="14" data-suffix="+">0</div>
-      <p>Team Members</p>
-    </div>
   </div>
 </div>
 
@@ -2194,15 +2178,15 @@
     <div class="ps-track">
       <!-- Set 1 (real platform logos from Simple Icons CDN) -->
       <a class="ps-item" href="https://www.upwork.com/" target="_blank" rel="noopener" title="Upwork">
-        <img src="https://cdn.simpleicons.org/upwork/6FDA44" alt="Upwork" loading="lazy" />
+        <img src="https://cdn.simpleicons.org/upwork/ffffff" alt="Upwork" loading="lazy" />
         <span>Upwork</span>
       </a>
       <a class="ps-item" href="https://www.fiverr.com/" target="_blank" rel="noopener" title="Fiverr">
-        <img src="https://cdn.simpleicons.org/fiverr/1DBF73" alt="Fiverr" loading="lazy" />
+        <img src="https://cdn.simpleicons.org/fiverr/ffffff" alt="Fiverr" loading="lazy" />
         <span>Fiverr</span>
       </a>
       <a class="ps-item" href="https://www.linkedin.com/" target="_blank" rel="noopener" title="LinkedIn">
-        <img src="https://cdn.simpleicons.org/linkedin/0A66C2" alt="LinkedIn" loading="lazy" />
+        <img src="https://cdn.simpleicons.org/linkedin/ffffff" alt="LinkedIn" loading="lazy" />
         <span>LinkedIn</span>
       </a>
       <a class="ps-item" href="https://github.com/" target="_blank" rel="noopener" title="GitHub">
@@ -2210,40 +2194,40 @@
         <span>GitHub</span>
       </a>
       <a class="ps-item" href="https://www.behance.net/" target="_blank" rel="noopener" title="Behance">
-        <img src="https://cdn.simpleicons.org/behance/1769FF" alt="Behance" loading="lazy" />
+        <img src="https://cdn.simpleicons.org/behance/ffffff" alt="Behance" loading="lazy" />
         <span>Behance</span>
       </a>
       <a class="ps-item" href="https://dribbble.com/" target="_blank" rel="noopener" title="Dribbble">
-        <img src="https://cdn.simpleicons.org/dribbble/EA4C89" alt="Dribbble" loading="lazy" />
+        <img src="https://cdn.simpleicons.org/dribbble/ffffff" alt="Dribbble" loading="lazy" />
         <span>Dribbble</span>
       </a>
       <a class="ps-item" href="https://slack.com/" target="_blank" rel="noopener" title="Slack">
-        <img src="https://cdn.simpleicons.org/slack/4A154B" alt="Slack" loading="lazy" />
+        <img src="https://cdn.simpleicons.org/slack/ffffff" alt="Slack" loading="lazy" />
         <span>Slack</span>
       </a>
       <a class="ps-item" href="https://zoom.us/" target="_blank" rel="noopener" title="Zoom">
-        <img src="https://cdn.simpleicons.org/zoom/2D8CFF" alt="Zoom" loading="lazy" />
+        <img src="https://cdn.simpleicons.org/zoom/ffffff" alt="Zoom" loading="lazy" />
         <span>Zoom</span>
       </a>
       <a class="ps-item" href="https://clutch.co/" target="_blank" rel="noopener" title="Clutch.co">
-        <img src="https://cdn.simpleicons.org/clutch/17313B" alt="Clutch" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.marginLeft='0';" />
+        <img src="https://cdn.simpleicons.org/clutch/ffffff" alt="Clutch" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.marginLeft='0';" />
         <span>Clutch</span>
       </a>
       <a class="ps-item" href="https://wellfound.com/" target="_blank" rel="noopener" title="Wellfound (AngelList)">
-        <img src="https://cdn.simpleicons.org/wellfound/000000" alt="Wellfound" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.marginLeft='0';" />
+        <img src="https://cdn.simpleicons.org/wellfound/ffffff" alt="Wellfound" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.marginLeft='0';" />
         <span>Wellfound</span>
       </a>
       <!-- Set 2 (duplicate for seamless marquee loop) -->
       <a class="ps-item" aria-hidden="true" href="https://www.upwork.com/" target="_blank" rel="noopener">
-        <img src="https://cdn.simpleicons.org/upwork/6FDA44" alt="" loading="lazy" />
+        <img src="https://cdn.simpleicons.org/upwork/ffffff" alt="" loading="lazy" />
         <span>Upwork</span>
       </a>
       <a class="ps-item" aria-hidden="true" href="https://www.fiverr.com/" target="_blank" rel="noopener">
-        <img src="https://cdn.simpleicons.org/fiverr/1DBF73" alt="" loading="lazy" />
+        <img src="https://cdn.simpleicons.org/fiverr/ffffff" alt="" loading="lazy" />
         <span>Fiverr</span>
       </a>
       <a class="ps-item" aria-hidden="true" href="https://www.linkedin.com/" target="_blank" rel="noopener">
-        <img src="https://cdn.simpleicons.org/linkedin/0A66C2" alt="" loading="lazy" />
+        <img src="https://cdn.simpleicons.org/linkedin/ffffff" alt="" loading="lazy" />
         <span>LinkedIn</span>
       </a>
       <a class="ps-item" aria-hidden="true" href="https://github.com/" target="_blank" rel="noopener">
@@ -2251,27 +2235,27 @@
         <span>GitHub</span>
       </a>
       <a class="ps-item" aria-hidden="true" href="https://www.behance.net/" target="_blank" rel="noopener">
-        <img src="https://cdn.simpleicons.org/behance/1769FF" alt="" loading="lazy" />
+        <img src="https://cdn.simpleicons.org/behance/ffffff" alt="" loading="lazy" />
         <span>Behance</span>
       </a>
       <a class="ps-item" aria-hidden="true" href="https://dribbble.com/" target="_blank" rel="noopener">
-        <img src="https://cdn.simpleicons.org/dribbble/EA4C89" alt="" loading="lazy" />
+        <img src="https://cdn.simpleicons.org/dribbble/ffffff" alt="" loading="lazy" />
         <span>Dribbble</span>
       </a>
       <a class="ps-item" aria-hidden="true" href="https://slack.com/" target="_blank" rel="noopener">
-        <img src="https://cdn.simpleicons.org/slack/4A154B" alt="" loading="lazy" />
+        <img src="https://cdn.simpleicons.org/slack/ffffff" alt="" loading="lazy" />
         <span>Slack</span>
       </a>
       <a class="ps-item" aria-hidden="true" href="https://zoom.us/" target="_blank" rel="noopener">
-        <img src="https://cdn.simpleicons.org/zoom/2D8CFF" alt="" loading="lazy" />
+        <img src="https://cdn.simpleicons.org/zoom/ffffff" alt="" loading="lazy" />
         <span>Zoom</span>
       </a>
       <a class="ps-item" aria-hidden="true" href="https://clutch.co/" target="_blank" rel="noopener">
-        <img src="https://cdn.simpleicons.org/clutch/17313B" alt="" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.marginLeft='0';" />
+        <img src="https://cdn.simpleicons.org/clutch/ffffff" alt="" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.marginLeft='0';" />
         <span>Clutch</span>
       </a>
       <a class="ps-item" aria-hidden="true" href="https://wellfound.com/" target="_blank" rel="noopener">
-        <img src="https://cdn.simpleicons.org/wellfound/000000" alt="" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.marginLeft='0';" />
+        <img src="https://cdn.simpleicons.org/wellfound/ffffff" alt="" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.marginLeft='0';" />
         <span>Wellfound</span>
       </a>
     </div>
