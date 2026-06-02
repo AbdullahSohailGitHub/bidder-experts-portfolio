@@ -323,17 +323,85 @@
   @media (max-width: 600px) { #stats-bar > div { padding:28px 16px; } body #stats-bar .stats-row { gap:18px !important; } .stat-big { font-size:24px; } .stat-box { flex:1 1 calc(33% - 18px); min-width:90px; } .stat-box p { font-size:10px; } }
 
   /* -- PLATFORMS STRIP -- */
-  #platforms-strip { background:linear-gradient(180deg, rgba(184,255,60,0.02), transparent); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:28px 0 32px; overflow:hidden; position:relative; }
-  .ps-label { font-family:'Syne',sans-serif; font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:2.5px; text-align:center; margin-bottom:18px; }
-  .ps-track-wrap { -webkit-mask-image:linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask-image:linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
-  .ps-track { display:flex; gap:64px; width:max-content; animation:psMarquee 28s linear infinite; will-change:transform; padding:0 32px; align-items:center; }
+  #platforms-strip { background:linear-gradient(180deg, rgba(184,255,60,0.03), transparent 65%); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:30px 0 34px; overflow:hidden; position:relative; }
+  .ps-label { font-family:'Syne',sans-serif; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:3px; text-align:center; margin-bottom:22px; display:flex; align-items:center; justify-content:center; gap:12px; }
+  .ps-label-txt { color:var(--muted); animation:psLabelGlow 3.4s ease-in-out infinite; }
+  .ps-label::before, .ps-label::after { content:''; width:34px; height:1px; background:linear-gradient(90deg, transparent, rgba(184,255,60,0.45)); background-size:200% 100%; animation:psDivShine 3.4s ease-in-out infinite; }
+  .ps-label::after { background:linear-gradient(90deg, rgba(184,255,60,0.45), transparent); background-size:200% 100%; }
+  @keyframes psLabelGlow { 0%,100%{ color:var(--muted); text-shadow:0 0 0 rgba(184,255,60,0); } 50%{ color:#a6d472; text-shadow:0 0 14px rgba(184,255,60,0.3); } }
+  @keyframes psDivShine { 0%,100%{ opacity:0.5; } 50%{ opacity:1; } }
+  .ps-track-wrap { -webkit-mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+  .ps-track { display:flex; gap:18px; width:max-content; animation:psMarquee 36s linear infinite; will-change:transform; padding:6px 24px; align-items:center; }
   .ps-track:hover { animation-play-state:paused; }
   @keyframes psMarquee { 0%{transform:translateX(0);} 100%{transform:translateX(-50%);} }
-  .ps-item { display:flex; align-items:center; gap:10px; color:var(--text); text-decoration:none; opacity:0.55; transition:opacity 0.3s, transform 0.3s; flex-shrink:0; font-family:'Syne',sans-serif; font-size:15px; font-weight:700; letter-spacing:0.2px; }
-  .ps-item:hover { opacity:1; transform:translateY(-2px); }
-  .ps-item svg, .ps-item img { width:26px; height:26px; flex-shrink:0; object-fit:contain; }
-  @media (prefers-reduced-motion: reduce) { .ps-track { animation:none; } }
-  @media (max-width: 600px) { .ps-track { gap:40px; animation-duration:22s; } .ps-item { font-size:13px; } .ps-item svg { width:22px; height:22px; } }
+
+  .ps-item {
+    --brand:#B8FF3C; --co-bg:rgba(184,255,60,0.18); --co-bd:rgba(184,255,60,0.34); --co-gl:rgba(184,255,60,0.42); --sd:0;
+    position:relative; isolation:isolate;
+    display:inline-flex; align-items:center; gap:11px; flex-shrink:0;
+    padding:8px 18px 8px 8px; border-radius:40px;
+    background:rgba(255,255,255,0.022); border:1px solid var(--border);
+    color:var(--text); text-decoration:none;
+    font-family:'Syne',sans-serif; font-size:14px; font-weight:700; letter-spacing:0.2px; opacity:0.82;
+    transition:opacity .3s ease, transform .3s ease, border-color .3s ease, background .3s ease, box-shadow .3s ease;
+  }
+  .ps-item:hover { opacity:1; transform:translateY(-3px); border-color:rgba(184,255,60,0.45); background:rgba(184,255,60,0.05); box-shadow:0 10px 26px rgba(0,0,0,0.38), 0 0 0 1px rgba(184,255,60,0.05); }
+  /* periodic sheen glint sweeping across each chip (staggered per-item via --sd) */
+  .ps-item::after {
+    content:''; position:absolute; inset:0; border-radius:inherit; pointer-events:none; z-index:3;
+    background:linear-gradient(105deg, transparent 38%, rgba(255,255,255,0.16) 50%, transparent 62%);
+    background-size:260% 100%; background-position:210% 0;
+    animation:psSheen 7s ease-in-out infinite; animation-delay:calc(var(--sd) * -1.27s);
+  }
+  @keyframes psSheen { 0%{ background-position:210% 0; } 16%{ background-position:-130% 0; } 100%{ background-position:-130% 0; } }
+
+  .ps-ico { position:relative; width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; background:var(--co-bg); border:1px solid var(--co-bd); transition:border-color .3s ease, box-shadow .3s ease, transform .3s ease; }
+  /* breathing brand glow — always subtly alive */
+  .ps-ico::before {
+    content:''; position:absolute; inset:-1px; border-radius:50%; pointer-events:none;
+    box-shadow:0 0 10px 0 var(--co-gl); opacity:0.18;
+    animation:psBreath 5s ease-in-out infinite; animation-delay:calc(var(--sd) * -1s);
+  }
+  @keyframes psBreath { 0%,100%{ opacity:0.16; } 50%{ opacity:0.5; } }
+  /* rotating conic halo behind coin — intensifies on hover */
+  .ps-ico::after {
+    content:''; position:absolute; inset:-4px; border-radius:50%; pointer-events:none; z-index:-1;
+    background:conic-gradient(from 0deg, transparent 0 55%, var(--co-gl) 76%, transparent 92%);
+    filter:blur(2px); opacity:0; transition:opacity .35s ease;
+    animation:psSpin 3.2s linear infinite;
+  }
+  @keyframes psSpin { to{ transform:rotate(360deg); } }
+  .ps-item:hover .ps-ico { border-color:var(--co-gl); box-shadow:0 0 16px var(--co-gl); transform:scale(1.07); }
+  .ps-item:hover .ps-ico::before { opacity:0.7; animation-duration:2.2s; }
+  .ps-item:hover .ps-ico::after { opacity:0.85; }
+  .ps-ico svg { width:18px; height:18px; display:block; fill:var(--brand); transition:transform .35s cubic-bezier(.34,1.56,.64,1); }
+  .ps-item:hover .ps-ico svg { animation:psIcoBob .55s ease; }
+  @keyframes psIcoBob { 0%{ transform:translateY(0); } 35%{ transform:translateY(-3px) scale(1.08); } 100%{ transform:translateY(0); } }
+  .ps-name { white-space:nowrap; position:relative; z-index:2; }
+
+  /* staggered entrance when strip scrolls into view */
+  @keyframes psRise { from{ opacity:0; transform:translateY(16px) scale(.95); } to{ opacity:0.82; transform:translateY(0) scale(1); } }
+  #platforms-strip:not(.ps-in) .ps-item { opacity:0; }
+  #platforms-strip.ps-in .ps-item { animation:psRise .6s cubic-bezier(.2,.7,.2,1) backwards; }
+  #platforms-strip.ps-in .ps-item:nth-child(1){animation-delay:.02s}
+  #platforms-strip.ps-in .ps-item:nth-child(2){animation-delay:.07s}
+  #platforms-strip.ps-in .ps-item:nth-child(3){animation-delay:.12s}
+  #platforms-strip.ps-in .ps-item:nth-child(4){animation-delay:.17s}
+  #platforms-strip.ps-in .ps-item:nth-child(5){animation-delay:.22s}
+  #platforms-strip.ps-in .ps-item:nth-child(6){animation-delay:.27s}
+  #platforms-strip.ps-in .ps-item:nth-child(7){animation-delay:.32s}
+  #platforms-strip.ps-in .ps-item:nth-child(8){animation-delay:.37s}
+  #platforms-strip.ps-in .ps-item:nth-child(9){animation-delay:.42s}
+  #platforms-strip.ps-in .ps-item:nth-child(n+10){animation-delay:.47s}
+
+  @media (prefers-reduced-motion: reduce) {
+    .ps-track { animation:none; }
+    .ps-label-txt, .ps-label::before, .ps-label::after { animation:none; opacity:1; }
+    .ps-item, #platforms-strip.ps-in .ps-item, #platforms-strip:not(.ps-in) .ps-item { animation:none !important; opacity:0.82 !important; transform:none !important; }
+    .ps-item::after, .ps-ico::before, .ps-ico::after, .ps-item:hover .ps-ico svg { animation:none !important; }
+    .ps-ico::after { opacity:0; }
+  }
+  @media (max-width: 600px) { .ps-track { gap:13px; animation-duration:28s; } .ps-item { font-size:13px; padding:6px 15px 6px 6px; gap:9px; } .ps-ico { width:30px; height:30px; } .ps-ico svg { width:16px; height:16px; } .ps-label::before, .ps-label::after { width:22px; } }
 
   /* -- SERVICES -- */
   .services-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
@@ -392,60 +460,141 @@
   .team-avatar { width:52px; height:52px; border-radius:50%; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-size:16px; font-weight:800; margin-bottom:12px; }
 
   /* -- PRICING -- */
-  /* ===== Payoneer payment CTA + modal ===== */
-  .pay-cta-box { display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap; background:linear-gradient(135deg,rgba(184,255,60,0.07),rgba(184,255,60,0.02)); border:1px solid var(--border); border-radius:20px; padding:28px 32px; margin:8px 0; }
+  /* ===== Advanced multi-method payment ===== */
+  .pay-cta-box { position:relative; overflow:hidden; display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap; background:linear-gradient(135deg,rgba(184,255,60,0.09),rgba(184,255,60,0.02)); border:1px solid var(--border); border-radius:20px; padding:28px 32px; margin:8px 0; transition:border-color .3s, box-shadow .3s; }
+  .pay-cta-box:hover { border-color:rgba(184,255,60,0.3); box-shadow:0 16px 40px rgba(0,0,0,0.35), 0 0 30px -12px rgba(184,255,60,0.4); }
+  .pay-cta-box::before { content:''; position:absolute; inset:0; pointer-events:none; background:radial-gradient(60% 120% at 85% 0%, rgba(184,255,60,0.10), transparent 60%); animation:payCtaGlow 6s ease-in-out infinite; }
+  @keyframes payCtaGlow { 0%,100%{opacity:.5;} 50%{opacity:1;} }
+  .pay-cta-info { position:relative; z-index:1; }
   .pay-cta-title { font-family:'Syne',sans-serif; font-size:22px; font-weight:800; color:var(--white); margin:0 0 6px; }
-  .pay-cta-sub { font-size:13.5px; color:var(--muted); margin:0; max-width:560px; line-height:1.55; }
-  .pay-cta-btn { flex-shrink:0; display:inline-flex; align-items:center; gap:9px; background:var(--lime); color:var(--dark); border:none; font-family:'Syne',sans-serif; font-size:14px; font-weight:800; padding:14px 26px; border-radius:30px; cursor:pointer; transition:transform 0.2s,box-shadow 0.2s; }
-  .pay-cta-btn:hover { transform:translateY(-2px); box-shadow:0 12px 32px rgba(184,255,60,0.4); }
-  #pay-overlay { position:fixed; inset:0; z-index:9995; background:rgba(5,8,5,0.72); backdrop-filter:blur(5px); display:flex; align-items:center; justify-content:center; padding:20px; opacity:0; transition:opacity 0.25s ease; overflow-y:auto; }
+  .pay-cta-sub { font-size:13.5px; color:var(--muted); margin:0; max-width:600px; line-height:1.55; }
+  .pay-cta-badges { display:flex; flex-wrap:wrap; gap:6px; margin-top:13px; }
+  .pay-cta-badge { font-size:10.5px; font-weight:700; font-family:'Syne',sans-serif; color:var(--muted); background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:20px; padding:4px 10px; }
+  .pay-cta-btn { position:relative; z-index:1; flex-shrink:0; display:inline-flex; align-items:center; gap:9px; background:var(--lime); color:var(--dark); border:none; font-family:'Syne',sans-serif; font-size:14px; font-weight:800; padding:14px 26px; border-radius:30px; cursor:pointer; transition:transform .2s, box-shadow .2s; }
+  .pay-cta-btn:hover { transform:translateY(-2px); box-shadow:0 12px 32px rgba(184,255,60,0.45); }
+  .pay-cta-btn svg { width:18px; height:18px; }
+
+  #pay-overlay { position:fixed; inset:0; z-index:9995; background:rgba(5,8,5,0.74); backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; padding:20px; opacity:0; transition:opacity .25s ease; overflow-y:auto; }
   #pay-overlay[hidden] { display:none; }
   #pay-overlay.open { opacity:1; }
-  #pay-modal { width:100%; max-width:460px; background:#0D120D; border:1px solid rgba(184,255,60,0.25); border-radius:22px; padding:28px; box-shadow:0 30px 90px rgba(0,0,0,0.8); position:relative; transform:scale(0.92) translateY(12px); transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1); margin:auto; }
+  #pay-modal { width:100%; max-width:540px; background:#0C110C; border:1px solid rgba(184,255,60,0.25); border-radius:22px; padding:26px 26px 22px; box-shadow:0 30px 90px rgba(0,0,0,0.8); position:relative; transform:scale(0.92) translateY(14px); transition:transform .32s cubic-bezier(0.34,1.56,0.64,1); margin:auto; }
   #pay-overlay.open #pay-modal { transform:scale(1) translateY(0); }
-  .pay-close { position:absolute; top:18px; right:20px; background:none; border:none; color:var(--muted); font-size:26px; line-height:1; cursor:pointer; transition:color 0.2s; }
-  .pay-close:hover { color:var(--lime); }
+  .pay-close { position:absolute; top:16px; right:18px; width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,0.04); border:1px solid var(--border); color:var(--muted); font-size:20px; line-height:1; cursor:pointer; transition:all .25s; display:flex; align-items:center; justify-content:center; z-index:5; }
+  .pay-close:hover { color:var(--lime); border-color:rgba(184,255,60,0.4); transform:rotate(90deg); }
   .pay-title { display:flex; align-items:center; gap:9px; font-family:'Syne',sans-serif; font-size:19px; font-weight:800; color:var(--white); margin-bottom:5px; }
-  .pay-sub { font-size:12.5px; color:var(--muted); line-height:1.5; margin-bottom:20px; }
-  .pay-label { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; margin:14px 0 7px; }
+  .pay-title svg { width:20px; height:20px; color:var(--lime); }
+  .pay-sub { font-size:12.5px; color:var(--muted); line-height:1.5; margin-bottom:16px; }
+
+  /* country recommender */
+  .pay-geo-label { font-size:10.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.6px; margin-bottom:8px; }
+  .pay-geo { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:18px; }
+  .pay-geo-btn { font-size:12px; font-weight:700; font-family:'Syne',sans-serif; color:var(--muted); background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:30px; padding:7px 13px; cursor:pointer; transition:all .2s; display:inline-flex; align-items:center; gap:5px; }
+  .pay-geo-btn:hover { color:var(--text); border-color:rgba(184,255,60,0.3); transform:translateY(-1px); }
+  .pay-geo-btn.active { background:rgba(184,255,60,0.15); border-color:rgba(184,255,60,0.5); color:var(--lime); }
+
+  /* method grid */
+  .pay-cat { display:flex; align-items:center; gap:10px; font-family:'Syne',sans-serif; font-size:11px; font-weight:800; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin:8px 0 10px; }
+  .pay-cat:first-of-type { margin-top:0; }
+  .pay-cat::after { content:''; flex:1; height:1px; background:linear-gradient(90deg, var(--border), transparent); }
+  .pay-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px; }
+  .pay-mcard { --m:#B8FF3C; --mbg:rgba(184,255,60,0.14); --mbd:rgba(184,255,60,0.30); --mgl:rgba(184,255,60,0.45); position:relative; overflow:hidden; display:flex; align-items:center; gap:11px; text-align:left; background:rgba(255,255,255,0.025); border:1px solid var(--border); border-radius:14px; padding:11px 12px; cursor:pointer; transition:transform .25s, border-color .25s, background .25s, box-shadow .3s; }
+  .pay-mcard:hover { transform:translateY(-3px); border-color:var(--mbd); background:rgba(255,255,255,0.05); box-shadow:0 12px 26px rgba(0,0,0,0.35), 0 0 18px -8px var(--mgl); }
+  .pay-mcard::after { content:''; position:absolute; inset:0; pointer-events:none; background:linear-gradient(115deg, transparent 42%, rgba(255,255,255,0.07) 50%, transparent 58%); transform:translateX(-130%); transition:transform .7s ease; }
+  .pay-mcard:hover::after { transform:translateX(130%); }
+  .pay-mico { flex-shrink:0; width:38px; height:38px; border-radius:11px; display:flex; align-items:center; justify-content:center; background:var(--mbg); border:1px solid var(--mbd); }
+  .pay-mico svg { width:19px; height:19px; stroke:var(--m); fill:none; }
+  .pay-minfo { min-width:0; flex:1; }
+  .pay-mname { font-family:'Syne',sans-serif; font-size:13.5px; font-weight:800; color:var(--white); line-height:1.15; }
+  .pay-mtag { font-size:10.5px; color:var(--muted); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .pay-meta-row { display:flex; align-items:center; gap:6px; margin-top:5px; flex-wrap:wrap; }
+  .pay-eta { font-size:9.5px; font-weight:700; color:var(--lime); background:rgba(184,255,60,0.10); border-radius:20px; padding:2px 7px; white-space:nowrap; }
+  .pay-rec-badge { display:none; font-size:9px; font-weight:800; color:var(--dark); background:var(--lime); border-radius:20px; padding:2px 7px; white-space:nowrap; }
+  .pay-mcard.rec .pay-rec-badge { display:inline-block; }
+  .pay-mcard.rec { border-color:rgba(184,255,60,0.45); }
+  .pay-mcard.dim { opacity:.45; }
+  .pay-arrow { flex-shrink:0; color:var(--muted); transition:transform .25s, color .25s; }
+  .pay-mcard:hover .pay-arrow { color:var(--m); transform:translateX(3px); }
+  .pay-arrow svg { width:15px; height:15px; }
+
+  /* detail view */
+  .pay-detail { display:none; }
+  .pay-detail.show { display:block; animation:payPanelIn .32s ease; }
+  .pay-list.hide { display:none; }
+  @keyframes payPanelIn { 0%{ opacity:0; transform:translateY(8px); } 100%{ opacity:1; transform:translateY(0); } }
+  .pay-back { display:inline-flex; align-items:center; gap:6px; background:none; border:none; color:var(--muted); font-family:'Syne',sans-serif; font-size:12px; font-weight:700; cursor:pointer; padding:0; margin-bottom:14px; transition:color .2s; }
+  .pay-back:hover { color:var(--lime); }
+  .pay-back svg { width:15px; height:15px; }
+  .pay-dhead { display:flex; align-items:center; gap:12px; margin-bottom:4px; }
+  .pay-dico { flex-shrink:0; width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; background:var(--mbg,rgba(184,255,60,0.14)); border:1px solid var(--mbd,rgba(184,255,60,0.30)); }
+  .pay-dico svg { width:22px; height:22px; stroke:var(--m,#B8FF3C); fill:none; }
+  .pay-method-title { font-family:'Syne',sans-serif; font-size:16px; font-weight:800; color:var(--white); }
+  .pay-method-sub { font-size:12px; color:var(--muted); line-height:1.5; margin-top:3px; }
+  .pay-label { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin:16px 0 7px; }
   .pay-email-row { display:flex; align-items:stretch; gap:8px; background:rgba(184,255,60,0.06); border:1px solid var(--border); border-radius:12px; padding:4px; }
   .pay-email { flex:1; padding:11px 12px; font-family:'DM Sans',sans-serif; font-size:14px; font-weight:600; color:var(--lime); word-break:break-all; user-select:all; }
-  .pay-copy { background:rgba(184,255,60,0.12); border:1px solid var(--border); color:var(--text); font-family:'Syne',sans-serif; font-size:11.5px; font-weight:700; padding:0 14px; border-radius:9px; cursor:pointer; display:inline-flex; align-items:center; gap:5px; transition:all 0.2s; white-space:nowrap; }
+  .pay-copy { background:rgba(184,255,60,0.12); border:1px solid var(--border); color:var(--text); font-family:'Syne',sans-serif; font-size:11.5px; font-weight:700; padding:0 14px; border-radius:9px; cursor:pointer; display:inline-flex; align-items:center; gap:5px; transition:all .2s; white-space:nowrap; }
   .pay-copy:hover { background:var(--lime); color:var(--dark); border-color:var(--lime); }
   .pay-copy.copied { background:#5DCAA5; color:var(--dark); border-color:#5DCAA5; }
-  .pay-steps { margin:18px 0 4px; }
-  .pay-step { display:flex; align-items:flex-start; gap:11px; padding:8px 0; font-size:13px; color:var(--text); line-height:1.55; }
+  .pay-copy svg { width:14px; height:14px; }
+  .pay-steps { margin:16px 0 4px; }
+  .pay-step { display:flex; align-items:flex-start; gap:11px; padding:7px 0; font-size:13px; color:var(--text); line-height:1.55; }
   .pay-step-num { flex-shrink:0; width:22px; height:22px; border-radius:50%; background:rgba(184,255,60,0.15); color:var(--lime); font-family:'Syne',sans-serif; font-size:11px; font-weight:800; display:flex; align-items:center; justify-content:center; margin-top:1px; }
-  .pay-go { display:block; width:100%; margin-top:18px; background:var(--lime); color:var(--dark); border:none; font-family:'Syne',sans-serif; font-size:14.5px; font-weight:800; padding:14px; border-radius:13px; cursor:pointer; transition:transform 0.2s,box-shadow 0.2s; text-decoration:none; text-align:center; box-sizing:border-box; }
-  .pay-go:hover { transform:translateY(-2px); box-shadow:0 12px 32px rgba(184,255,60,0.4); }
-  .pay-alt { margin-top:18px; padding-top:16px; border-top:1px solid var(--border); }
-  .pay-alt-title { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:9px; }
-  .pay-alt-link { display:inline-flex; align-items:center; gap:7px; font-size:12.5px; color:var(--text); text-decoration:none; transition:color 0.2s; }
-  .pay-alt-link:hover { color:var(--lime); }
-  .pay-trust { display:flex; align-items:center; justify-content:center; gap:7px; margin-top:14px; font-size:11px; color:var(--muted); }
-  /* multi-method tabs */
-  .pay-tabs { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin:18px 0; }
-  .pay-tab { background:rgba(184,255,60,0.05); border:1px solid var(--border); color:var(--muted); font-family:'Syne',sans-serif; font-size:12px; font-weight:700; padding:10px 8px; border-radius:10px; cursor:pointer; transition:all 0.2s; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-align:center; }
-  .pay-tab:hover { color:var(--text); border-color:rgba(184,255,60,0.3); }
-  .pay-tab.active { background:var(--lime); color:var(--dark); border-color:var(--lime); }
-  .pay-panel { display:none; animation:payPanelIn 0.3s ease; }
-  .pay-panel.active { display:block; }
-  @keyframes payPanelIn { 0%{ opacity:0; transform:translateY(6px); } 100%{ opacity:1; transform:translateY(0); } }
-  .pay-method-head { margin-bottom:14px; }
-  .pay-method-title { font-family:'Syne',sans-serif; font-size:15px; font-weight:800; color:var(--white); margin-bottom:4px; }
-  .pay-method-sub { font-size:12px; color:var(--muted); line-height:1.5; }
-  .pay-note { font-size:11.5px; color:var(--muted); line-height:1.5; margin:10px 0 0; }
   .pay-bank-card { margin-top:6px; background:rgba(184,255,60,0.04); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
   .pay-bank-row { display:flex; justify-content:space-between; gap:12px; padding:10px 14px; border-top:1px solid rgba(184,255,60,0.08); font-size:13px; }
   .pay-bank-row:first-child { border-top:none; }
-  .pay-bank-k { color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:0.4px; }
+  .pay-bank-k { color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:.4px; }
   .pay-bank-v { color:var(--text); font-weight:600; text-align:right; }
   .pay-bank-secure .pay-bank-v { color:var(--lime); font-size:11.5px; font-style:italic; font-weight:500; }
+  .pay-note { font-size:11.5px; color:var(--muted); line-height:1.5; margin:12px 0 0; }
+  .pay-go { display:block; width:100%; margin-top:16px; background:var(--lime); color:var(--dark); border:none; font-family:'Syne',sans-serif; font-size:14.5px; font-weight:800; padding:14px; border-radius:13px; cursor:pointer; transition:transform .2s, box-shadow .2s; text-decoration:none; text-align:center; box-sizing:border-box; }
+  .pay-go:hover { transform:translateY(-2px); box-shadow:0 12px 32px rgba(184,255,60,0.4); }
+  .pay-go.alt { background:transparent; color:var(--lime); border:1px solid rgba(184,255,60,0.4); }
+  .pay-go.alt:hover { background:rgba(184,255,60,0.08); box-shadow:none; }
   .pay-bank-actions { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:14px; }
-  .pay-go-sm { padding:12px 10px; font-size:12.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  @media (max-width:520px){ .pay-bank-actions { grid-template-columns:1fr; } .pay-go-sm { padding:13px 10px; } }
-  @media (max-width:520px){ .pay-tab { font-size:11px; padding:9px 5px; } .pay-bank-row { flex-direction:column; gap:3px; padding:10px 12px; } .pay-bank-v { text-align:left; } }
-  @media (max-width:600px){ .pay-cta-box { padding:22px; } .pay-cta-btn { width:100%; justify-content:center; } #pay-modal { padding:24px 20px; } }
+  .pay-go-sm { margin-top:0; padding:12px 10px; font-size:12.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+  /* amount helper */
+  .pay-amt { margin-top:16px; background:rgba(255,255,255,0.025); border:1px solid var(--border); border-radius:14px; padding:14px; }
+  .pay-amt-title { font-family:'Syne',sans-serif; font-size:12px; font-weight:800; color:var(--white); margin-bottom:10px; display:flex; align-items:center; gap:7px; }
+  .pay-amt-title svg { width:14px; height:14px; color:var(--lime); }
+  .pay-amt-row { display:flex; gap:8px; }
+  .pay-amt-row input { flex:1; min-width:0; background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:10px; padding:11px 13px; color:var(--white); font-family:'DM Sans',sans-serif; font-size:14px; font-weight:600; outline:none; transition:border-color .2s; }
+  .pay-amt-row input:focus { border-color:rgba(184,255,60,0.5); }
+  .pay-amt-row select { background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:10px; padding:11px 10px; color:var(--white); font-family:'Syne',sans-serif; font-size:13px; font-weight:700; outline:none; cursor:pointer; }
+  .pay-amt-go { margin-top:10px; }
+
+  .pay-trust { display:flex; align-items:center; justify-content:center; gap:7px; margin-top:16px; padding-top:14px; border-top:1px solid var(--border); font-size:11px; color:var(--muted); text-align:center; }
+  .pay-trust svg { width:13px; height:13px; flex-shrink:0; }
+  .pay-trust a { color:var(--lime); text-decoration:none; }
+
+  /* entrance + reduced motion */
+  @keyframes payCardIn { from{ opacity:0; transform:translateY(14px); } to{ opacity:1; transform:translateY(0); } }
+  #pay-overlay.open .pay-list .pay-mcard { animation:payCardIn .4s ease backwards; }
+  #pay-overlay.open .pay-grid .pay-mcard:nth-child(1){ animation-delay:.05s; }
+  #pay-overlay.open .pay-grid .pay-mcard:nth-child(2){ animation-delay:.10s; }
+  #pay-overlay.open .pay-grid .pay-mcard:nth-child(3){ animation-delay:.15s; }
+  #pay-overlay.open .pay-grid .pay-mcard:nth-child(4){ animation-delay:.20s; }
+  #pay-overlay.open .pay-grid .pay-mcard:nth-child(5){ animation-delay:.25s; }
+  @media (prefers-reduced-motion: reduce) {
+    .pay-cta-box::before, .pay-mcard::after, #pay-overlay.open .pay-list .pay-mcard, .pay-detail.show { animation:none !important; }
+    .pay-close:hover { transform:none; }
+    .pay-mcard:hover .pay-arrow { transform:none; }
+  }
+  @media (max-width:560px){
+    #pay-modal { padding:22px 18px; }
+    .pay-grid { grid-template-columns:1fr; }
+    .pay-cta-box { padding:22px; } .pay-cta-btn { width:100%; justify-content:center; }
+    .pay-bank-actions { grid-template-columns:1fr; }
+  }
+  /* footer layout (responsive) */
+  .footer-inner { max-width:1200px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap; }
+  .footer-inner p { margin:0; }
+  @media (max-width:760px){
+    .footer-inner { flex-direction:column; text-align:center; gap:16px; padding-bottom:64px; }
+    .footer-inner p { order:3; }
+    .footer-inner > div[style*="flex"] { order:2; justify-content:center; flex-wrap:wrap; }
+  }
+
   .pricing-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-bottom:32px; align-items:start; }
   .pricing-card { background:var(--card); border:1px solid var(--border); border-radius:20px; padding:32px 28px; position:relative; overflow:hidden; display:flex; flex-direction:column; transition:transform 0.25s,border-color 0.25s; }
   .pricing-card:hover { transform:translateY(-4px); }
@@ -756,6 +905,51 @@
     height: 320px !important;
   }
 
+  /* ---- Chart section: enhanced motion ---- */
+  /* glowing lime word in heading */
+  .chart-glow { animation:chWordGlow 3.4s ease-in-out infinite; }
+  @keyframes chWordGlow { 0%,100%{ text-shadow:0 0 0 rgba(184,255,60,0); } 50%{ text-shadow:0 0 16px rgba(184,255,60,0.45); } }
+  /* legend dots breathe in their own colour */
+  .legend-dot { animation:chDotPulse 2.6s ease-in-out infinite; }
+  .legend-item:nth-child(2) .legend-dot { animation-delay:.5s; }
+  .legend-item:nth-child(3) .legend-dot { animation-delay:1s; }
+  @keyframes chDotPulse { 0%,100%{ box-shadow:0 0 0 0 transparent; transform:scale(1); } 50%{ box-shadow:0 0 8px 1px currentColor; transform:scale(1.3); } }
+  /* year buttons: lift + glow on hover, breathing pulse when active */
+  .ybtn { transition:all .2s, transform .2s ease, box-shadow .25s ease; }
+  .ybtn:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,0.3), 0 0 12px -3px var(--lime); }
+  .ybtn-active { animation:chYbtnPulse 2.6s ease-in-out infinite; }
+  @keyframes chYbtnPulse { 0%,100%{ box-shadow:0 0 0 0 rgba(184,255,60,0); } 50%{ box-shadow:0 0 14px -1px rgba(184,255,60,0.5); } }
+  /* KPI cards: breathing accent glow, hover lift + sheen */
+  .kpi-card { position:relative; overflow:hidden; transition:transform .3s ease, border-color .3s ease, box-shadow .35s ease, background .3s ease; }
+  .kpi-card::before { content:''; position:absolute; inset:0; border-radius:inherit; pointer-events:none; box-shadow:inset 0 0 16px -6px var(--kc, var(--lime)); opacity:.4; animation:chKpiBreath 3.8s ease-in-out infinite; animation-delay:var(--kd,0s); }
+  @keyframes chKpiBreath { 0%,100%{ opacity:.32; } 50%{ opacity:.85; } }
+  .kpi-card::after { content:''; position:absolute; inset:0; pointer-events:none; background:linear-gradient(115deg, transparent 42%, rgba(255,255,255,0.08) 50%, transparent 58%); transform:translateX(-130%); transition:transform .7s ease; }
+  .kpi-card:hover::after { transform:translateX(130%); }
+  .kpi-card:hover { transform:translateY(-4px); background:rgba(255,255,255,0.05); border-color:var(--kc, var(--lime)); box-shadow:0 12px 28px rgba(0,0,0,0.35), 0 0 18px -8px var(--kc, var(--lime)); }
+  .kpi-val { transition:transform .3s ease; transform-origin:left; }
+  .kpi-card:hover .kpi-val { transform:scale(1.06); }
+  /* subtle breathing backdrop glow behind the chart */
+  .chart-canvas-wrap::before { content:''; position:absolute; inset:0; pointer-events:none; z-index:0; background:radial-gradient(55% 65% at 28% 42%, rgba(184,255,60,0.06), transparent 72%); animation:chBackdrop 6.5s ease-in-out infinite; }
+  @keyframes chBackdrop { 0%,100%{ opacity:.45; } 50%{ opacity:1; } }
+  .chart-canvas-wrap canvas { position:relative; z-index:1; }
+  /* staggered scroll entrance for header / year buttons / KPI cards */
+  @keyframes chRise { from{ opacity:0; transform:translateY(20px); } to{ opacity:1; transform:translateY(0); } }
+  @keyframes chPop { 0%{ opacity:0; transform:translateY(14px) scale(.92); } 60%{ transform:translateY(0) scale(1.04); } 100%{ opacity:1; transform:translateY(0) scale(1); } }
+  #chart-section:not(.chart-in) .chart-top, #chart-section:not(.chart-in) .year-btns-wrap, #chart-section:not(.chart-in) .kpi-card { opacity:0; }
+  #chart-section.chart-in .chart-top { animation:chRise .6s ease backwards; }
+  #chart-section.chart-in .year-btns-wrap { animation:chRise .6s ease .12s backwards; }
+  #chart-section.chart-in .kpi-card { animation:chPop .6s cubic-bezier(.2,.7,.2,1) backwards; }
+  #chart-section.chart-in .kpi-card:nth-child(1){ animation-delay:.22s; }
+  #chart-section.chart-in .kpi-card:nth-child(2){ animation-delay:.32s; }
+  #chart-section.chart-in .kpi-card:nth-child(3){ animation-delay:.42s; }
+  #chart-section.chart-in .kpi-card:nth-child(4){ animation-delay:.52s; }
+  @media (prefers-reduced-motion: reduce) {
+    .chart-glow, .legend-dot, .ybtn-active, .kpi-card::before, .chart-canvas-wrap::before { animation:none !important; }
+    .kpi-card::after { display:none; }
+    #chart-section .chart-top, #chart-section .year-btns-wrap, #chart-section .kpi-card,
+    #chart-section.chart-in .chart-top, #chart-section.chart-in .year-btns-wrap, #chart-section.chart-in .kpi-card { animation:none !important; opacity:1 !important; transform:none !important; }
+  }
+
   /* CHART RESPONSIVE */
   @media (max-width: 900px) {
     .chart-wrap { padding: 40px 24px; gap: 18px; }
@@ -862,6 +1056,51 @@
   .strat-stat span {
     font-family: 'Syne', sans-serif;
     font-weight: 700;
+  }
+
+  /* ---- Strategy: enhanced motion ---- */
+  .strat-card { --accent:#B8FF3C; transition:border-color .25s, transform .3s, box-shadow .35s; }
+  .strat-card:hover { transform:translateY(-5px); border-color:var(--acc-bd, rgba(184,255,60,0.3)); box-shadow:0 16px 34px rgba(0,0,0,0.4), 0 0 22px -8px var(--accent); }
+  /* growing accent top-bar */
+  .strat-card::before { background:linear-gradient(90deg, var(--accent), transparent); transform:scaleX(0); transform-origin:left; transition:transform .45s ease, opacity .25s; }
+  .strat-card:hover::before { opacity:1; transform:scaleX(1); }
+  /* diagonal sheen sweep on hover */
+  .strat-card::after { content:''; position:absolute; inset:0; pointer-events:none; background:linear-gradient(115deg, transparent 42%, rgba(255,255,255,0.08) 50%, transparent 58%); transform:translateX(-130%); transition:transform .75s ease; }
+  .strat-card:hover::after { transform:translateX(130%); }
+  /* accent-tinted icon + breathing glow */
+  .strat-icon { position:relative; background:var(--acc-bg, rgba(184,255,60,0.08)); border:1px solid var(--acc-bd, rgba(184,255,60,0.2)); }
+  .strat-icon::after { content:''; position:absolute; inset:-1px; border-radius:13px; pointer-events:none; box-shadow:0 0 12px 0 var(--accent); opacity:.13; animation:stratIcoBreath 4.5s ease-in-out infinite; animation-delay:var(--d,0s); }
+  @keyframes stratIcoBreath { 0%,100%{ opacity:.12; } 50%{ opacity:.4; } }
+  .strat-card:hover .strat-icon { transform:scale(1.1) rotate(-4deg); }
+  .strat-card:hover .strat-icon::after { opacity:.6; animation-duration:2.2s; }
+  .strat-card:hover .strat-icon svg { animation:stratIcoPop .55s ease; }
+  @keyframes stratIcoPop { 0%{ transform:scale(1) rotate(0); } 40%{ transform:scale(1.16) translateY(-2px) rotate(4deg); } 100%{ transform:scale(1) rotate(0); } }
+  /* accent watermark number */
+  .strat-num { color:var(--accent); opacity:.09; transition:opacity .3s, transform .35s ease; }
+  .strat-card:hover .strat-num { color:var(--accent); opacity:.2; transform:translateY(-2px) scale(1.08); }
+  /* stat badge glow on hover */
+  .strat-stat { transition:box-shadow .3s, transform .3s; }
+  .strat-card:hover .strat-stat { transform:translateY(-1px); box-shadow:0 0 14px -3px var(--accent); }
+  /* lime word glow in heading */
+  .strat-glow { animation:stratWordGlow 3.4s ease-in-out infinite; }
+  @keyframes stratWordGlow { 0%,100%{ text-shadow:0 0 0 rgba(184,255,60,0); } 50%{ text-shadow:0 0 16px rgba(184,255,60,0.45); } }
+  /* staggered scroll entrance */
+  @keyframes stratRise { from{ opacity:0; transform:translateY(20px); } to{ opacity:1; transform:translateY(0); } }
+  @keyframes stratCardRise { from{ opacity:0; transform:translateY(24px) scale(.96); } to{ opacity:1; transform:translateY(0) scale(1); } }
+  #strategy:not(.strat-in) .section-tag, #strategy:not(.strat-in) > h2, #strategy:not(.strat-in) .section-sub, #strategy:not(.strat-in) .strat-card { opacity:0; }
+  #strategy.strat-in .section-tag { animation:stratRise .6s ease backwards; }
+  #strategy.strat-in > h2 { animation:stratRise .6s ease .07s backwards; }
+  #strategy.strat-in .section-sub { animation:stratRise .6s ease .14s backwards; }
+  #strategy.strat-in .strat-card { animation:stratCardRise .65s cubic-bezier(.2,.7,.2,1) backwards; }
+  #strategy.strat-in .strat-card:nth-child(1){ animation-delay:.22s; }
+  #strategy.strat-in .strat-card:nth-child(2){ animation-delay:.32s; }
+  #strategy.strat-in .strat-card:nth-child(3){ animation-delay:.42s; }
+  #strategy.strat-in .strat-card:nth-child(4){ animation-delay:.52s; }
+  @media (prefers-reduced-motion: reduce) {
+    .strat-glow, .strat-icon::after, .strat-card:hover .strat-icon svg { animation:none !important; }
+    #strategy .section-tag, #strategy > h2, #strategy .section-sub, #strategy .strat-card,
+    #strategy.strat-in .section-tag, #strategy.strat-in > h2, #strategy.strat-in .section-sub, #strategy.strat-in .strat-card { animation:none !important; opacity:1 !important; transform:none !important; }
+    .strat-card::after { display:none; }
   }
 
   /* Strategy responsive */
@@ -1881,6 +2120,18 @@
   #admin-panel[data-theme="light"] .ap-section-body { background: transparent; }
   #admin-panel[data-theme="light"] .ap-tab-panel { background: var(--ap-bg) !important; }
   .admin-tab-panel { background: var(--ap-bg, #09100A); transition: background 0.3s; }
+
+  /* ===== Final responsive polish (loaded last so it wins) ===== */
+  img { max-width:100%; height:auto; }
+  /* tablet: comfortable single-column pricing instead of a narrow strip */
+  @media (min-width:601px) and (max-width:900px){
+    .pricing-grid { grid-template-columns:1fr !important; max-width:600px !important; margin-left:auto !important; margin-right:auto !important; gap:18px !important; }
+    .pricing-card { padding:30px 28px !important; }
+  }
+  /* keep primary buttons comfortably tappable on small phones */
+  @media (max-width:480px){
+    .pay-cta-btn, .pay-go, .pay-geo-btn, .ybtn { min-height:40px; }
+  }
 </style>
   <!-- ===== STRUCTURED DATA (JSON-LD, added) ===== -->
   <script type="application/ld+json">
@@ -2143,90 +2394,90 @@
 
 <!-- TRUSTED PLATFORMS STRIP -->
 <div id="platforms-strip" aria-label="Platforms we're featured on">
-  <div class="ps-label">FEATURED &amp; ACTIVE ON</div>
+  <div class="ps-label"><span class="ps-label-txt">FEATURED &amp; ACTIVE ON</span></div>
   <div class="ps-track-wrap">
     <div class="ps-track">
       <!-- Set 1 (real platform logos as inline SVG) -->
-      <a class="ps-item" href="https://www.upwork.com/" target="_blank" rel="noopener" title="Upwork">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#6FDA44" aria-hidden="true"><path d="M18.561 13.158c-1.102 0-2.135-.467-3.074-1.227l.228-1.076.008-.042c.207-1.143.849-3.06 2.839-3.06 1.492 0 2.703 1.212 2.703 2.703 0 1.489-1.212 2.702-2.704 2.702zm0-8.14c-2.539 0-4.51 1.649-5.31 4.366-1.22-1.834-2.148-4.036-2.687-5.892H7.828v7.112c-.002 1.406-1.141 2.546-2.547 2.548-1.405-.002-2.543-1.143-2.545-2.548V3.492H0v7.112c0 2.914 2.37 5.303 5.281 5.303 2.913 0 5.283-2.389 5.283-5.303v-1.19c.529 1.107 1.182 2.229 1.974 3.221l-1.673 7.873h2.797l1.213-5.71c1.063.679 2.285 1.109 3.686 1.109 3 0 5.439-2.452 5.439-5.45 0-3-2.439-5.439-5.439-5.439z"/></svg>
-        <span>Upwork</span>
+      <a class="ps-item" style="--brand:#6FDA44;--co-bg:radial-gradient(circle at 32% 28%, rgba(111,218,68,0.30), rgba(111,218,68,0.07) 72%);--co-bd:rgba(111,218,68,0.34);--co-gl:rgba(111,218,68,0.45);--sd:0.0" href="https://www.upwork.com/" target="_blank" rel="noopener" title="Upwork">
+        <span class="ps-ico"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M18.561 13.158c-1.102 0-2.135-.467-3.074-1.227l.228-1.076.008-.042c.207-1.143.849-3.06 2.839-3.06 1.492 0 2.703 1.212 2.703 2.703-.001 1.489-1.212 2.702-2.704 2.702zm0-8.14c-2.539 0-4.51 1.649-5.31 4.366-1.22-1.834-2.148-4.036-2.687-5.892H7.828v7.112c-.002 1.406-1.141 2.546-2.547 2.548-1.405-.002-2.543-1.143-2.545-2.548V3.492H0v7.112c0 2.914 2.37 5.303 5.281 5.303 2.913 0 5.283-2.389 5.283-5.303v-1.19c.529 1.107 1.182 2.229 1.974 3.221l-1.673 7.873h2.797l1.213-5.71c1.063.679 2.285 1.109 3.686 1.109 3 0 5.439-2.452 5.439-5.45 0-3-2.439-5.439-5.439-5.439z"/></svg></span>
+        <span class="ps-name">Upwork</span>
       </a>
-      <a class="ps-item" href="https://www.fiverr.com/" target="_blank" rel="noopener" title="Fiverr">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#1DBF73" aria-hidden="true"><path d="M23.004 15.588a.995.995 0 0 0-.996.996v.012c0 .55.446.997.996.997s.996-.446.996-.997v-.012a.995.995 0 0 0-.996-.996ZM7.738 9.084h5.092c.13 0 .234.105.234.234V18.99c0 .13.106.234.235.234h2.96c.13 0 .235-.105.235-.234V8.79c0-.13-.105-.234-.234-.234h-2.96a.234.234 0 0 0-.235.234v.293H7.738c-.5 0-1.043-.292-1.043-1.04v-.21h2.503c.13 0 .234-.105.234-.234V4.65a.234.234 0 0 0-.234-.234H6.695C6.612 2.04 8.106 0 11.04 0c1.044 0 1.92.21 2.586.502.103.045.236.005.282-.097l1.083-2.357A.235.235 0 0 0 14.91-2.16C13.94-2.564 12.61-3 11.04-3c-5.297 0-7.69 3.42-7.69 7.416v.21H0.747a.234.234 0 0 0-.234.234v2.95c0 .13.105.234.234.234H3.35v9.946c0 .13.106.234.234.234h2.96c.13 0 .235-.105.235-.234V9.084h.96z M22.008 8.789a.995.995 0 0 0-.996.996v8.207c0 .55.446.996.996.996s.996-.446.996-.996V9.785a.995.995 0 0 0-.996-.996z"/></svg>
-        <span>Fiverr</span>
+      <a class="ps-item" style="--brand:#1DBF73;--co-bg:radial-gradient(circle at 32% 28%, rgba(29,191,115,0.30), rgba(29,191,115,0.07) 72%);--co-bd:rgba(29,191,115,0.34);--co-gl:rgba(29,191,115,0.45);--sd:2.3" href="https://www.fiverr.com/" target="_blank" rel="noopener" title="Fiverr">
+        <span class="ps-ico"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M23.004 15.588a.995.995 0 1 0 .002-1.99.995.995 0 0 0-.002 1.99zm-.996-3.705h-.85c-.546 0-.84.41-.84 1.092v2.466h-1.61v-3.558h-.684c-.547 0-.84.41-.84 1.092v2.466h-1.61v-4.874h1.61v.74c.264-.574.626-.74 1.163-.74h1.972v.74c.264-.574.625-.74 1.162-.74h.527v1.316zm-6.786 1.501h-3.359c.088.546.43.858 1.006.858.43 0 .732-.175.83-.487l1.425.4c-.351.848-1.22 1.364-2.255 1.364-1.748 0-2.549-1.355-2.549-2.515 0-1.14.703-2.505 2.45-2.505 1.856 0 2.471 1.384 2.471 2.408 0 .224-.01.37-.02.477zm-1.562-.945c-.04-.42-.342-.81-.889-.81-.508 0-.81.225-.908.81h1.797zM7.508 15.44h1.416l1.767-4.874h-1.62l-.86 2.837-.878-2.837H5.72l1.787 4.874zm-6.6 0H2.51v-3.558h1.524v3.558h1.591v-4.874H2.51v-.302c0-.332.235-.536.606-.536h.918V8.412H2.85c-1.162 0-1.943.712-1.943 1.755v.4H0v1.316h.908v3.558z"/></svg></span>
+        <span class="ps-name">Fiverr</span>
       </a>
-      <a class="ps-item" href="https://www.linkedin.com/" target="_blank" rel="noopener" title="LinkedIn">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#0A66C2" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.063 2.063 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        <span>LinkedIn</span>
+      <a class="ps-item" style="--brand:#4DA8FF;--co-bg:radial-gradient(circle at 32% 28%, rgba(10,102,194,0.30), rgba(10,102,194,0.07) 72%);--co-bd:rgba(10,102,194,0.34);--co-gl:rgba(10,102,194,0.45);--sd:4.1" href="https://www.linkedin.com/" target="_blank" rel="noopener" title="LinkedIn">
+        <span class="ps-ico"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.063 2.063 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></span>
+        <span class="ps-name">LinkedIn</span>
       </a>
-      <a class="ps-item" href="https://github.com/" target="_blank" rel="noopener" title="GitHub">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-        <span>GitHub</span>
+      <a class="ps-item" style="--brand:#F5F5F0;--co-bg:radial-gradient(circle at 32% 28%, rgba(255,255,255,0.30), rgba(255,255,255,0.07) 72%);--co-bd:rgba(255,255,255,0.34);--co-gl:rgba(255,255,255,0.45);--sd:1.2" href="https://github.com/" target="_blank" rel="noopener" title="GitHub">
+        <span class="ps-ico"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></span>
+        <span class="ps-name">GitHub</span>
       </a>
-      <a class="ps-item" href="https://www.behance.net/" target="_blank" rel="noopener" title="Behance">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#1769FF" aria-hidden="true"><path d="M7.799 5.698c.589 0 1.12.051 1.606.156.484.107.9.282 1.252.526.349.243.619.564.81.965.187.4.281.895.281 1.479 0 .633-.143 1.162-.428 1.585-.288.422-.713.768-1.277 1.037.768.22 1.341.605 1.72 1.152.379.553.566 1.215.566 1.992 0 .627-.121 1.17-.367 1.625a3.155 3.155 0 0 1-.99 1.122 4.473 4.473 0 0 1-1.42.625 6.685 6.685 0 0 1-1.638.205L0 17.61V5.698h7.799zm-.453 4.818c.484 0 .883-.115 1.196-.347.311-.23.466-.609.466-1.139 0-.293-.054-.532-.158-.722a1.16 1.16 0 0 0-.41-.443 1.795 1.795 0 0 0-.59-.227 3.736 3.736 0 0 0-.694-.062H3.815v2.94h3.531zm.21 5.052c.265 0 .518-.027.759-.075.245-.05.466-.137.654-.263.188-.122.336-.292.451-.504.109-.213.164-.488.164-.823 0-.66-.186-1.132-.557-1.412-.375-.282-.867-.422-1.475-.422H3.815v3.499h3.741zm9.247-.01c.516.505 1.258.757 2.225.757.694 0 1.292-.174 1.793-.521.501-.349.808-.717.92-1.103h2.582c-.413 1.286-1.047 2.207-1.902 2.764-.852.555-1.886.834-3.09.834-.839 0-1.596-.135-2.27-.404a4.929 4.929 0 0 1-1.713-1.142 5.115 5.115 0 0 1-1.08-1.776 6.582 6.582 0 0 1-.382-2.277c0-.797.131-1.538.392-2.225a5.245 5.245 0 0 1 1.114-1.787 5.149 5.149 0 0 1 1.719-1.187c.665-.288 1.401-.432 2.209-.432.904 0 1.689.176 2.358.522a4.866 4.866 0 0 1 1.658 1.391c.439.581.756 1.242.953 1.981.196.74.265 1.512.211 2.311h-7.621c0 .825.279 1.605.793 2.103zm3.963-5.336c-.412-.453-1.072-.701-1.92-.701-.553 0-1.012.094-1.379.281a2.79 2.79 0 0 0-.873.668 2.46 2.46 0 0 0-.471.842 3.717 3.717 0 0 0-.154.736h4.715c-.069-.867-.359-1.482-.918-1.826zM15.121 6.815h5.84v1.417h-5.84V6.815z"/></svg>
-        <span>Behance</span>
+      <a class="ps-item" style="--brand:#5B8CFF;--co-bg:radial-gradient(circle at 32% 28%, rgba(23,105,255,0.30), rgba(23,105,255,0.07) 72%);--co-bd:rgba(23,105,255,0.34);--co-gl:rgba(23,105,255,0.45);--sd:3.4" href="https://www.behance.net/" target="_blank" rel="noopener" title="Behance">
+        <span class="ps-ico"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M16.969 16.927a2.561 2.561 0 0 0 1.901.677 2.501 2.501 0 0 0 1.531-.475c.362-.235.636-.584.779-.99h2.585a5.091 5.091 0 0 1-1.9 2.896 5.292 5.292 0 0 1-3.091.88 5.839 5.839 0 0 1-2.284-.433 4.871 4.871 0 0 1-1.723-1.211 5.657 5.657 0 0 1-1.08-1.874 7.057 7.057 0 0 1-.383-2.393c-.005-.8.129-1.595.396-2.349a5.313 5.313 0 0 1 5.088-3.604 4.87 4.87 0 0 1 2.376.563c.661.362 1.231.87 1.668 1.485a6.2 6.2 0 0 1 .943 2.133c.194.821.263 1.666.205 2.508h-7.699c-.063.79.184 1.574.688 2.187ZM6.947 4.084a8.065 8.065 0 0 1 1.928.198 4.29 4.29 0 0 1 1.49.638c.418.303.748.711.958 1.182.241.579.357 1.203.341 1.83a3.506 3.506 0 0 1-.506 1.961 3.726 3.726 0 0 1-1.503 1.287 3.588 3.588 0 0 1 2.027 1.437c.464.747.697 1.615.67 2.494a4.593 4.593 0 0 1-.423 2.032 3.945 3.945 0 0 1-1.163 1.413 5.114 5.114 0 0 1-1.683.807 7.135 7.135 0 0 1-1.928.259H0V4.084h6.947Zm-.235 12.9c.308.004.616-.029.916-.099a2.18 2.18 0 0 0 .766-.332c.228-.158.411-.371.534-.619.142-.317.208-.663.191-1.009a2.08 2.08 0 0 0-.642-1.715 2.618 2.618 0 0 0-1.696-.505h-3.54v4.279h3.471Zm13.635-5.967a2.13 2.13 0 0 0-1.654-.619 2.336 2.336 0 0 0-1.163.259 2.474 2.474 0 0 0-.738.62 2.359 2.359 0 0 0-.396.792c-.074.239-.12.485-.137.734h4.769a3.239 3.239 0 0 0-.679-1.785l-.002-.001Zm-13.813-.648a2.254 2.254 0 0 0 1.423-.433c.399-.355.607-.88.56-1.413a1.916 1.916 0 0 0-.178-.891 1.298 1.298 0 0 0-.495-.533 1.851 1.851 0 0 0-.711-.274 3.966 3.966 0 0 0-.835-.073H3.241v3.631h3.293v-.014ZM21.62 5.122h-5.976v1.527h5.976V5.122Z"/></svg></span>
+        <span class="ps-name">Behance</span>
       </a>
-      <a class="ps-item" href="https://dribbble.com/" target="_blank" rel="noopener" title="Dribbble">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#EA4C89" aria-hidden="true"><path d="M12 24C5.385 24 0 18.615 0 12S5.385 0 12 0s12 5.385 12 12-5.385 12-12 12zm10.12-10.358c-.35-.11-3.17-.953-6.384-.438 1.34 3.684 1.887 6.684 1.992 7.308 2.3-1.555 3.936-4.02 4.395-6.87zm-6.115 7.808c-.153-.9-.75-4.032-2.19-7.77l-.066.02c-5.79 2.015-7.86 6.025-8.04 6.4 1.73 1.358 3.92 2.166 6.29 2.166 1.42 0 2.77-.29 4-.814zm-11.62-2.58c.232-.4 3.045-5.055 8.332-6.765.135-.045.27-.084.405-.12-.26-.585-.54-1.167-.832-1.74C7.17 11.775 2.206 11.71 1.756 11.7l-.004.312c0 2.633.998 5.037 2.634 6.855zm-2.42-8.955c.46.008 4.683.026 9.477-1.248-1.698-3.018-3.53-5.558-3.8-5.928-2.868 1.35-5.01 3.99-5.676 7.17zM9.6 2.052c.282.38 2.145 2.914 3.822 6 3.645-1.365 5.19-3.44 5.373-3.702-1.81-1.61-4.19-2.586-6.795-2.586-.825 0-1.63.1-2.4.285zm10.335 3.483c-.218.29-1.935 2.493-5.724 4.04.24.49.47.985.68 1.486.08.18.15.36.22.53 3.41-.43 6.8.26 7.14.33-.02-2.42-.88-4.64-2.31-6.38z"/></svg>
-        <span>Dribbble</span>
+      <a class="ps-item" style="--brand:#EA4C89;--co-bg:radial-gradient(circle at 32% 28%, rgba(234,76,137,0.30), rgba(234,76,137,0.07) 72%);--co-bd:rgba(234,76,137,0.34);--co-gl:rgba(234,76,137,0.45);--sd:0.7" href="https://dribbble.com/" target="_blank" rel="noopener" title="Dribbble">
+        <span class="ps-ico"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 24C5.385 24 0 18.615 0 12S5.385 0 12 0s12 5.385 12 12-5.385 12-12 12zm10.12-10.358c-.35-.11-3.17-.953-6.384-.438 1.34 3.684 1.887 6.684 1.992 7.308 2.3-1.555 3.936-4.02 4.395-6.87zm-6.115 7.808c-.153-.9-.75-4.032-2.19-7.77l-.066.02c-5.79 2.015-7.86 6.025-8.04 6.4 1.73 1.358 3.92 2.166 6.29 2.166 1.42 0 2.77-.29 4-.814zm-11.62-2.58c.232-.4 3.045-5.055 8.332-6.765.135-.045.27-.084.405-.12-.26-.585-.54-1.167-.832-1.74C7.17 11.775 2.206 11.71 1.756 11.7l-.004.312c0 2.633.998 5.037 2.634 6.855zm-2.42-8.955c.46.008 4.683.026 9.477-1.248-1.698-3.018-3.53-5.558-3.8-5.928-2.868 1.35-5.01 3.99-5.676 7.17zM9.6 2.052c.282.38 2.145 2.914 3.822 6 3.645-1.365 5.19-3.44 5.373-3.702-1.81-1.61-4.19-2.586-6.795-2.586-.825 0-1.63.1-2.4.285zm10.335 3.483c-.218.29-1.935 2.493-5.724 4.04.24.49.47.985.68 1.486.08.18.15.36.22.53 3.41-.43 6.8.26 7.14.33-.02-2.42-.88-4.64-2.31-6.38z"/></svg></span>
+        <span class="ps-name">Dribbble</span>
       </a>
-      <a class="ps-item" href="https://slack.com/" target="_blank" rel="noopener" title="Slack">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" aria-hidden="true"><path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/></svg>
-        <span>Slack</span>
+      <a class="ps-item" style="--brand:#F5F5F0;--co-bg:radial-gradient(circle at 32% 28%, rgba(255,255,255,0.30), rgba(255,255,255,0.07) 72%);--co-bd:rgba(255,255,255,0.34);--co-gl:rgba(255,255,255,0.45);--sd:2.9" href="https://slack.com/" target="_blank" rel="noopener" title="Slack">
+        <span class="ps-ico"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/></svg></span>
+        <span class="ps-name">Slack</span>
       </a>
-      <a class="ps-item" href="https://zoom.us/" target="_blank" rel="noopener" title="Zoom">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#2D8CFF" aria-hidden="true"><path d="M24 12c0 6.627-5.373 12-12 12S0 18.627 0 12 5.373 0 12 0s12 5.373 12 12zM4.872 8.602v4.97c.004 1.124.917 2.034 2.038 2.04h7.292a.371.371 0 0 0 .375-.373v-4.967a2.042 2.042 0 0 0-2.04-2.04H5.247a.376.376 0 0 0-.375.37zm10.435 1.59l3.005-2.19c.262-.217.461-.165.461.225v7.547c0 .445-.246.39-.461.226l-3.005-2.186v-3.622z"/></svg>
-        <span>Zoom</span>
+      <a class="ps-item" style="--brand:#2D8CFF;--co-bg:radial-gradient(circle at 32% 28%, rgba(45,140,255,0.30), rgba(45,140,255,0.07) 72%);--co-bd:rgba(45,140,255,0.34);--co-gl:rgba(45,140,255,0.45);--sd:1.8" href="https://zoom.us/" target="_blank" rel="noopener" title="Zoom">
+        <span class="ps-ico"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5.033 14.649H.743a.74.74 0 0 1-.686-.458.74.74 0 0 1 .16-.808L3.19 10.41H1.06A1.06 1.06 0 0 1 0 9.35h3.957c.301 0 .57.18.686.458a.74.74 0 0 1-.161.808L1.51 13.59h2.464c.585 0 1.06.475 1.06 1.06zM24 11.338c0-1.14-.927-2.066-2.066-2.066-.61 0-1.158.265-1.537.686a2.061 2.061 0 0 0-1.536-.686c-1.14 0-2.066.926-2.066 2.066v3.311a1.06 1.06 0 0 0 1.06-1.06v-2.251a1.004 1.004 0 0 1 2.013 0v2.251c0 .586.474 1.06 1.06 1.06v-3.311a1.004 1.004 0 0 1 2.012 0v2.251c0 .586.475 1.06 1.06 1.06zM16.265 12a2.728 2.728 0 1 1-5.457 0 2.728 2.728 0 0 1 5.457 0zm-1.06 0a1.669 1.669 0 1 0-3.338 0 1.669 1.669 0 0 0 3.338 0zm-4.82 0a2.728 2.728 0 1 1-5.458 0 2.728 2.728 0 0 1 5.457 0zm-1.06 0a1.669 1.669 0 1 0-3.338 0 1.669 1.669 0 0 0 3.338 0z"/></svg></span>
+        <span class="ps-name">Zoom</span>
       </a>
-      <a class="ps-item" href="https://clutch.co/" target="_blank" rel="noopener" title="Clutch">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" aria-hidden="true"><path d="M12.27 16.226a3.444 3.444 0 1 1 0-6.888 3.444 3.444 0 0 1 0 6.888zM12.27 7.072A5.733 5.733 0 0 0 6.547 12.8c0 3.144 2.566 5.71 5.722 5.71 3.144 0 5.722-2.566 5.722-5.71 0-3.156-2.578-5.722-5.722-5.722zM12.27 0C5.508 0 0 5.508 0 12.27c0 6.762 5.508 12.27 12.27 12.27 6.774 0 12.27-5.508 12.27-12.27C24.54 5.508 19.044 0 12.27 0zm0 22.184c-5.484 0-9.914-4.43-9.914-9.914 0-5.473 4.43-9.914 9.914-9.914 5.473 0 9.914 4.441 9.914 9.914 0 5.484-4.441 9.914-9.914 9.914z"/></svg>
-        <span>Clutch</span>
+      <a class="ps-item" style="--brand:#F5F5F0;--co-bg:radial-gradient(circle at 32% 28%, rgba(255,255,255,0.30), rgba(255,255,255,0.07) 72%);--co-bd:rgba(255,255,255,0.34);--co-gl:rgba(255,255,255,0.45);--sd:3.9" href="https://clutch.co/" target="_blank" rel="noopener" title="Clutch">
+        <span class="ps-ico"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12.27 16.226a3.444 3.444 0 1 1 0-6.888 3.444 3.444 0 0 1 0 6.888zM12.27 7.072A5.733 5.733 0 0 0 6.547 12.8c0 3.144 2.566 5.71 5.722 5.71 3.144 0 5.722-2.566 5.722-5.71 0-3.156-2.578-5.722-5.722-5.722zM12.27 0C5.508 0 0 5.508 0 12.27c0 6.762 5.508 12.27 12.27 12.27 6.774 0 12.27-5.508 12.27-12.27C24.54 5.508 19.044 0 12.27 0zm0 22.184c-5.484 0-9.914-4.43-9.914-9.914 0-5.473 4.43-9.914 9.914-9.914 5.473 0 9.914 4.441 9.914 9.914 0 5.484-4.441 9.914-9.914 9.914z"/></svg></span>
+        <span class="ps-name">Clutch</span>
       </a>
-      <a class="ps-item" href="https://wellfound.com/" target="_blank" rel="noopener" title="Wellfound">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" aria-hidden="true"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm-1.5 17.25h-2.25V9h2.25v8.25zm-1.125-9.375a1.313 1.313 0 1 1 0-2.625 1.313 1.313 0 0 1 0 2.625zm9 9.375h-2.25v-4.5c0-1.243-.504-1.5-1.125-1.5s-1.125.257-1.125 1.5v4.5h-2.25V9h2.25v.937c.464-.643 1.158-1.062 1.969-1.062 1.553 0 2.531 1.043 2.531 3.187v5.188z"/></svg>
-        <span>Wellfound</span>
+      <a class="ps-item" style="--brand:#F5F5F0;--co-bg:radial-gradient(circle at 32% 28%, rgba(255,255,255,0.30), rgba(255,255,255,0.07) 72%);--co-bd:rgba(255,255,255,0.34);--co-gl:rgba(255,255,255,0.45);--sd:0.4" href="https://wellfound.com/" target="_blank" rel="noopener" title="Wellfound">
+        <span class="ps-ico"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M23.998 8.128c.063-1.379-1.612-2.376-2.795-1.664-1.23.598-1.322 2.52-.156 3.234 1.2.862 2.995-.09 2.951-1.57zm0 7.748c.063-1.38-1.612-2.377-2.795-1.665-1.23.598-1.322 2.52-.156 3.234 1.2.863 2.995-.09 2.951-1.57zm-20.5 1.762L0 6.364h3.257l2.066 8.106 2.245-8.106h3.267l2.244 8.106 2.065-8.106h3.257l-3.54 11.274H11.39c-.73-2.713-1.46-5.426-2.188-8.14l-2.233 8.14H3.5z"/></svg></span>
+        <span class="ps-name">Wellfound</span>
       </a>
       <!-- Set 2 (duplicate for seamless marquee loop) -->
-      <a class="ps-item" aria-hidden="true" href="https://www.upwork.com/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#6FDA44" aria-hidden="true"><path d="M18.561 13.158c-1.102 0-2.135-.467-3.074-1.227l.228-1.076.008-.042c.207-1.143.849-3.06 2.839-3.06 1.492 0 2.703 1.212 2.703 2.703 0 1.489-1.212 2.702-2.704 2.702zm0-8.14c-2.539 0-4.51 1.649-5.31 4.366-1.22-1.834-2.148-4.036-2.687-5.892H7.828v7.112c-.002 1.406-1.141 2.546-2.547 2.548-1.405-.002-2.543-1.143-2.545-2.548V3.492H0v7.112c0 2.914 2.37 5.303 5.281 5.303 2.913 0 5.283-2.389 5.283-5.303v-1.19c.529 1.107 1.182 2.229 1.974 3.221l-1.673 7.873h2.797l1.213-5.71c1.063.679 2.285 1.109 3.686 1.109 3 0 5.439-2.452 5.439-5.45 0-3-2.439-5.439-5.439-5.439z"/></svg>
-        <span>Upwork</span>
+      <a class="ps-item" style="--brand:#6FDA44;--co-bg:radial-gradient(circle at 32% 28%, rgba(111,218,68,0.30), rgba(111,218,68,0.07) 72%);--co-bd:rgba(111,218,68,0.34);--co-gl:rgba(111,218,68,0.45);--sd:0.0" href="https://www.upwork.com/" target="_blank" rel="noopener" aria-hidden="true">
+        <span class="ps-ico"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M18.561 13.158c-1.102 0-2.135-.467-3.074-1.227l.228-1.076.008-.042c.207-1.143.849-3.06 2.839-3.06 1.492 0 2.703 1.212 2.703 2.703-.001 1.489-1.212 2.702-2.704 2.702zm0-8.14c-2.539 0-4.51 1.649-5.31 4.366-1.22-1.834-2.148-4.036-2.687-5.892H7.828v7.112c-.002 1.406-1.141 2.546-2.547 2.548-1.405-.002-2.543-1.143-2.545-2.548V3.492H0v7.112c0 2.914 2.37 5.303 5.281 5.303 2.913 0 5.283-2.389 5.283-5.303v-1.19c.529 1.107 1.182 2.229 1.974 3.221l-1.673 7.873h2.797l1.213-5.71c1.063.679 2.285 1.109 3.686 1.109 3 0 5.439-2.452 5.439-5.45 0-3-2.439-5.439-5.439-5.439z"/></svg></span>
+        <span class="ps-name">Upwork</span>
       </a>
-      <a class="ps-item" aria-hidden="true" href="https://www.fiverr.com/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#1DBF73" aria-hidden="true"><path d="M23.004 15.588a.995.995 0 0 0-.996.996v.012c0 .55.446.997.996.997s.996-.446.996-.997v-.012a.995.995 0 0 0-.996-.996ZM7.738 9.084h5.092c.13 0 .234.105.234.234V18.99c0 .13.106.234.235.234h2.96c.13 0 .235-.105.235-.234V8.79c0-.13-.105-.234-.234-.234h-2.96a.234.234 0 0 0-.235.234v.293H7.738c-.5 0-1.043-.292-1.043-1.04v-.21h2.503c.13 0 .234-.105.234-.234V4.65a.234.234 0 0 0-.234-.234H6.695C6.612 2.04 8.106 0 11.04 0c1.044 0 1.92.21 2.586.502.103.045.236.005.282-.097l1.083-2.357A.235.235 0 0 0 14.91-2.16C13.94-2.564 12.61-3 11.04-3c-5.297 0-7.69 3.42-7.69 7.416v.21H0.747a.234.234 0 0 0-.234.234v2.95c0 .13.105.234.234.234H3.35v9.946c0 .13.106.234.234.234h2.96c.13 0 .235-.105.235-.234V9.084h.96z M22.008 8.789a.995.995 0 0 0-.996.996v8.207c0 .55.446.996.996.996s.996-.446.996-.996V9.785a.995.995 0 0 0-.996-.996z"/></svg>
-        <span>Fiverr</span>
+      <a class="ps-item" style="--brand:#1DBF73;--co-bg:radial-gradient(circle at 32% 28%, rgba(29,191,115,0.30), rgba(29,191,115,0.07) 72%);--co-bd:rgba(29,191,115,0.34);--co-gl:rgba(29,191,115,0.45);--sd:2.3" href="https://www.fiverr.com/" target="_blank" rel="noopener" aria-hidden="true">
+        <span class="ps-ico"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M23.004 15.588a.995.995 0 1 0 .002-1.99.995.995 0 0 0-.002 1.99zm-.996-3.705h-.85c-.546 0-.84.41-.84 1.092v2.466h-1.61v-3.558h-.684c-.547 0-.84.41-.84 1.092v2.466h-1.61v-4.874h1.61v.74c.264-.574.626-.74 1.163-.74h1.972v.74c.264-.574.625-.74 1.162-.74h.527v1.316zm-6.786 1.501h-3.359c.088.546.43.858 1.006.858.43 0 .732-.175.83-.487l1.425.4c-.351.848-1.22 1.364-2.255 1.364-1.748 0-2.549-1.355-2.549-2.515 0-1.14.703-2.505 2.45-2.505 1.856 0 2.471 1.384 2.471 2.408 0 .224-.01.37-.02.477zm-1.562-.945c-.04-.42-.342-.81-.889-.81-.508 0-.81.225-.908.81h1.797zM7.508 15.44h1.416l1.767-4.874h-1.62l-.86 2.837-.878-2.837H5.72l1.787 4.874zm-6.6 0H2.51v-3.558h1.524v3.558h1.591v-4.874H2.51v-.302c0-.332.235-.536.606-.536h.918V8.412H2.85c-1.162 0-1.943.712-1.943 1.755v.4H0v1.316h.908v3.558z"/></svg></span>
+        <span class="ps-name">Fiverr</span>
       </a>
-      <a class="ps-item" aria-hidden="true" href="https://www.linkedin.com/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#0A66C2" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.063 2.063 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        <span>LinkedIn</span>
+      <a class="ps-item" style="--brand:#4DA8FF;--co-bg:radial-gradient(circle at 32% 28%, rgba(10,102,194,0.30), rgba(10,102,194,0.07) 72%);--co-bd:rgba(10,102,194,0.34);--co-gl:rgba(10,102,194,0.45);--sd:4.1" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-hidden="true">
+        <span class="ps-ico"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.063 2.063 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></span>
+        <span class="ps-name">LinkedIn</span>
       </a>
-      <a class="ps-item" aria-hidden="true" href="https://github.com/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-        <span>GitHub</span>
+      <a class="ps-item" style="--brand:#F5F5F0;--co-bg:radial-gradient(circle at 32% 28%, rgba(255,255,255,0.30), rgba(255,255,255,0.07) 72%);--co-bd:rgba(255,255,255,0.34);--co-gl:rgba(255,255,255,0.45);--sd:1.2" href="https://github.com/" target="_blank" rel="noopener" aria-hidden="true">
+        <span class="ps-ico"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></span>
+        <span class="ps-name">GitHub</span>
       </a>
-      <a class="ps-item" aria-hidden="true" href="https://www.behance.net/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#1769FF" aria-hidden="true"><path d="M7.799 5.698c.589 0 1.12.051 1.606.156.484.107.9.282 1.252.526.349.243.619.564.81.965.187.4.281.895.281 1.479 0 .633-.143 1.162-.428 1.585-.288.422-.713.768-1.277 1.037.768.22 1.341.605 1.72 1.152.379.553.566 1.215.566 1.992 0 .627-.121 1.17-.367 1.625a3.155 3.155 0 0 1-.99 1.122 4.473 4.473 0 0 1-1.42.625 6.685 6.685 0 0 1-1.638.205L0 17.61V5.698h7.799zm-.453 4.818c.484 0 .883-.115 1.196-.347.311-.23.466-.609.466-1.139 0-.293-.054-.532-.158-.722a1.16 1.16 0 0 0-.41-.443 1.795 1.795 0 0 0-.59-.227 3.736 3.736 0 0 0-.694-.062H3.815v2.94h3.531zm.21 5.052c.265 0 .518-.027.759-.075.245-.05.466-.137.654-.263.188-.122.336-.292.451-.504.109-.213.164-.488.164-.823 0-.66-.186-1.132-.557-1.412-.375-.282-.867-.422-1.475-.422H3.815v3.499h3.741zm9.247-.01c.516.505 1.258.757 2.225.757.694 0 1.292-.174 1.793-.521.501-.349.808-.717.92-1.103h2.582c-.413 1.286-1.047 2.207-1.902 2.764-.852.555-1.886.834-3.09.834-.839 0-1.596-.135-2.27-.404a4.929 4.929 0 0 1-1.713-1.142 5.115 5.115 0 0 1-1.08-1.776 6.582 6.582 0 0 1-.382-2.277c0-.797.131-1.538.392-2.225a5.245 5.245 0 0 1 1.114-1.787 5.149 5.149 0 0 1 1.719-1.187c.665-.288 1.401-.432 2.209-.432.904 0 1.689.176 2.358.522a4.866 4.866 0 0 1 1.658 1.391c.439.581.756 1.242.953 1.981.196.74.265 1.512.211 2.311h-7.621c0 .825.279 1.605.793 2.103zm3.963-5.336c-.412-.453-1.072-.701-1.92-.701-.553 0-1.012.094-1.379.281a2.79 2.79 0 0 0-.873.668 2.46 2.46 0 0 0-.471.842 3.717 3.717 0 0 0-.154.736h4.715c-.069-.867-.359-1.482-.918-1.826zM15.121 6.815h5.84v1.417h-5.84V6.815z"/></svg>
-        <span>Behance</span>
+      <a class="ps-item" style="--brand:#5B8CFF;--co-bg:radial-gradient(circle at 32% 28%, rgba(23,105,255,0.30), rgba(23,105,255,0.07) 72%);--co-bd:rgba(23,105,255,0.34);--co-gl:rgba(23,105,255,0.45);--sd:3.4" href="https://www.behance.net/" target="_blank" rel="noopener" aria-hidden="true">
+        <span class="ps-ico"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M16.969 16.927a2.561 2.561 0 0 0 1.901.677 2.501 2.501 0 0 0 1.531-.475c.362-.235.636-.584.779-.99h2.585a5.091 5.091 0 0 1-1.9 2.896 5.292 5.292 0 0 1-3.091.88 5.839 5.839 0 0 1-2.284-.433 4.871 4.871 0 0 1-1.723-1.211 5.657 5.657 0 0 1-1.08-1.874 7.057 7.057 0 0 1-.383-2.393c-.005-.8.129-1.595.396-2.349a5.313 5.313 0 0 1 5.088-3.604 4.87 4.87 0 0 1 2.376.563c.661.362 1.231.87 1.668 1.485a6.2 6.2 0 0 1 .943 2.133c.194.821.263 1.666.205 2.508h-7.699c-.063.79.184 1.574.688 2.187ZM6.947 4.084a8.065 8.065 0 0 1 1.928.198 4.29 4.29 0 0 1 1.49.638c.418.303.748.711.958 1.182.241.579.357 1.203.341 1.83a3.506 3.506 0 0 1-.506 1.961 3.726 3.726 0 0 1-1.503 1.287 3.588 3.588 0 0 1 2.027 1.437c.464.747.697 1.615.67 2.494a4.593 4.593 0 0 1-.423 2.032 3.945 3.945 0 0 1-1.163 1.413 5.114 5.114 0 0 1-1.683.807 7.135 7.135 0 0 1-1.928.259H0V4.084h6.947Zm-.235 12.9c.308.004.616-.029.916-.099a2.18 2.18 0 0 0 .766-.332c.228-.158.411-.371.534-.619.142-.317.208-.663.191-1.009a2.08 2.08 0 0 0-.642-1.715 2.618 2.618 0 0 0-1.696-.505h-3.54v4.279h3.471Zm13.635-5.967a2.13 2.13 0 0 0-1.654-.619 2.336 2.336 0 0 0-1.163.259 2.474 2.474 0 0 0-.738.62 2.359 2.359 0 0 0-.396.792c-.074.239-.12.485-.137.734h4.769a3.239 3.239 0 0 0-.679-1.785l-.002-.001Zm-13.813-.648a2.254 2.254 0 0 0 1.423-.433c.399-.355.607-.88.56-1.413a1.916 1.916 0 0 0-.178-.891 1.298 1.298 0 0 0-.495-.533 1.851 1.851 0 0 0-.711-.274 3.966 3.966 0 0 0-.835-.073H3.241v3.631h3.293v-.014ZM21.62 5.122h-5.976v1.527h5.976V5.122Z"/></svg></span>
+        <span class="ps-name">Behance</span>
       </a>
-      <a class="ps-item" aria-hidden="true" href="https://dribbble.com/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#EA4C89" aria-hidden="true"><path d="M12 24C5.385 24 0 18.615 0 12S5.385 0 12 0s12 5.385 12 12-5.385 12-12 12zm10.12-10.358c-.35-.11-3.17-.953-6.384-.438 1.34 3.684 1.887 6.684 1.992 7.308 2.3-1.555 3.936-4.02 4.395-6.87zm-6.115 7.808c-.153-.9-.75-4.032-2.19-7.77l-.066.02c-5.79 2.015-7.86 6.025-8.04 6.4 1.73 1.358 3.92 2.166 6.29 2.166 1.42 0 2.77-.29 4-.814zm-11.62-2.58c.232-.4 3.045-5.055 8.332-6.765.135-.045.27-.084.405-.12-.26-.585-.54-1.167-.832-1.74C7.17 11.775 2.206 11.71 1.756 11.7l-.004.312c0 2.633.998 5.037 2.634 6.855zm-2.42-8.955c.46.008 4.683.026 9.477-1.248-1.698-3.018-3.53-5.558-3.8-5.928-2.868 1.35-5.01 3.99-5.676 7.17zM9.6 2.052c.282.38 2.145 2.914 3.822 6 3.645-1.365 5.19-3.44 5.373-3.702-1.81-1.61-4.19-2.586-6.795-2.586-.825 0-1.63.1-2.4.285zm10.335 3.483c-.218.29-1.935 2.493-5.724 4.04.24.49.47.985.68 1.486.08.18.15.36.22.53 3.41-.43 6.8.26 7.14.33-.02-2.42-.88-4.64-2.31-6.38z"/></svg>
-        <span>Dribbble</span>
+      <a class="ps-item" style="--brand:#EA4C89;--co-bg:radial-gradient(circle at 32% 28%, rgba(234,76,137,0.30), rgba(234,76,137,0.07) 72%);--co-bd:rgba(234,76,137,0.34);--co-gl:rgba(234,76,137,0.45);--sd:0.7" href="https://dribbble.com/" target="_blank" rel="noopener" aria-hidden="true">
+        <span class="ps-ico"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 24C5.385 24 0 18.615 0 12S5.385 0 12 0s12 5.385 12 12-5.385 12-12 12zm10.12-10.358c-.35-.11-3.17-.953-6.384-.438 1.34 3.684 1.887 6.684 1.992 7.308 2.3-1.555 3.936-4.02 4.395-6.87zm-6.115 7.808c-.153-.9-.75-4.032-2.19-7.77l-.066.02c-5.79 2.015-7.86 6.025-8.04 6.4 1.73 1.358 3.92 2.166 6.29 2.166 1.42 0 2.77-.29 4-.814zm-11.62-2.58c.232-.4 3.045-5.055 8.332-6.765.135-.045.27-.084.405-.12-.26-.585-.54-1.167-.832-1.74C7.17 11.775 2.206 11.71 1.756 11.7l-.004.312c0 2.633.998 5.037 2.634 6.855zm-2.42-8.955c.46.008 4.683.026 9.477-1.248-1.698-3.018-3.53-5.558-3.8-5.928-2.868 1.35-5.01 3.99-5.676 7.17zM9.6 2.052c.282.38 2.145 2.914 3.822 6 3.645-1.365 5.19-3.44 5.373-3.702-1.81-1.61-4.19-2.586-6.795-2.586-.825 0-1.63.1-2.4.285zm10.335 3.483c-.218.29-1.935 2.493-5.724 4.04.24.49.47.985.68 1.486.08.18.15.36.22.53 3.41-.43 6.8.26 7.14.33-.02-2.42-.88-4.64-2.31-6.38z"/></svg></span>
+        <span class="ps-name">Dribbble</span>
       </a>
-      <a class="ps-item" aria-hidden="true" href="https://slack.com/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" aria-hidden="true"><path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/></svg>
-        <span>Slack</span>
+      <a class="ps-item" style="--brand:#F5F5F0;--co-bg:radial-gradient(circle at 32% 28%, rgba(255,255,255,0.30), rgba(255,255,255,0.07) 72%);--co-bd:rgba(255,255,255,0.34);--co-gl:rgba(255,255,255,0.45);--sd:2.9" href="https://slack.com/" target="_blank" rel="noopener" aria-hidden="true">
+        <span class="ps-ico"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/></svg></span>
+        <span class="ps-name">Slack</span>
       </a>
-      <a class="ps-item" aria-hidden="true" href="https://zoom.us/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#2D8CFF" aria-hidden="true"><path d="M24 12c0 6.627-5.373 12-12 12S0 18.627 0 12 5.373 0 12 0s12 5.373 12 12zM4.872 8.602v4.97c.004 1.124.917 2.034 2.038 2.04h7.292a.371.371 0 0 0 .375-.373v-4.967a2.042 2.042 0 0 0-2.04-2.04H5.247a.376.376 0 0 0-.375.37zm10.435 1.59l3.005-2.19c.262-.217.461-.165.461.225v7.547c0 .445-.246.39-.461.226l-3.005-2.186v-3.622z"/></svg>
-        <span>Zoom</span>
+      <a class="ps-item" style="--brand:#2D8CFF;--co-bg:radial-gradient(circle at 32% 28%, rgba(45,140,255,0.30), rgba(45,140,255,0.07) 72%);--co-bd:rgba(45,140,255,0.34);--co-gl:rgba(45,140,255,0.45);--sd:1.8" href="https://zoom.us/" target="_blank" rel="noopener" aria-hidden="true">
+        <span class="ps-ico"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5.033 14.649H.743a.74.74 0 0 1-.686-.458.74.74 0 0 1 .16-.808L3.19 10.41H1.06A1.06 1.06 0 0 1 0 9.35h3.957c.301 0 .57.18.686.458a.74.74 0 0 1-.161.808L1.51 13.59h2.464c.585 0 1.06.475 1.06 1.06zM24 11.338c0-1.14-.927-2.066-2.066-2.066-.61 0-1.158.265-1.537.686a2.061 2.061 0 0 0-1.536-.686c-1.14 0-2.066.926-2.066 2.066v3.311a1.06 1.06 0 0 0 1.06-1.06v-2.251a1.004 1.004 0 0 1 2.013 0v2.251c0 .586.474 1.06 1.06 1.06v-3.311a1.004 1.004 0 0 1 2.012 0v2.251c0 .586.475 1.06 1.06 1.06zM16.265 12a2.728 2.728 0 1 1-5.457 0 2.728 2.728 0 0 1 5.457 0zm-1.06 0a1.669 1.669 0 1 0-3.338 0 1.669 1.669 0 0 0 3.338 0zm-4.82 0a2.728 2.728 0 1 1-5.458 0 2.728 2.728 0 0 1 5.457 0zm-1.06 0a1.669 1.669 0 1 0-3.338 0 1.669 1.669 0 0 0 3.338 0z"/></svg></span>
+        <span class="ps-name">Zoom</span>
       </a>
-      <a class="ps-item" aria-hidden="true" href="https://clutch.co/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" aria-hidden="true"><path d="M12.27 16.226a3.444 3.444 0 1 1 0-6.888 3.444 3.444 0 0 1 0 6.888zM12.27 7.072A5.733 5.733 0 0 0 6.547 12.8c0 3.144 2.566 5.71 5.722 5.71 3.144 0 5.722-2.566 5.722-5.71 0-3.156-2.578-5.722-5.722-5.722zM12.27 0C5.508 0 0 5.508 0 12.27c0 6.762 5.508 12.27 12.27 12.27 6.774 0 12.27-5.508 12.27-12.27C24.54 5.508 19.044 0 12.27 0zm0 22.184c-5.484 0-9.914-4.43-9.914-9.914 0-5.473 4.43-9.914 9.914-9.914 5.473 0 9.914 4.441 9.914 9.914 0 5.484-4.441 9.914-9.914 9.914z"/></svg>
-        <span>Clutch</span>
+      <a class="ps-item" style="--brand:#F5F5F0;--co-bg:radial-gradient(circle at 32% 28%, rgba(255,255,255,0.30), rgba(255,255,255,0.07) 72%);--co-bd:rgba(255,255,255,0.34);--co-gl:rgba(255,255,255,0.45);--sd:3.9" href="https://clutch.co/" target="_blank" rel="noopener" aria-hidden="true">
+        <span class="ps-ico"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12.27 16.226a3.444 3.444 0 1 1 0-6.888 3.444 3.444 0 0 1 0 6.888zM12.27 7.072A5.733 5.733 0 0 0 6.547 12.8c0 3.144 2.566 5.71 5.722 5.71 3.144 0 5.722-2.566 5.722-5.71 0-3.156-2.578-5.722-5.722-5.722zM12.27 0C5.508 0 0 5.508 0 12.27c0 6.762 5.508 12.27 12.27 12.27 6.774 0 12.27-5.508 12.27-12.27C24.54 5.508 19.044 0 12.27 0zm0 22.184c-5.484 0-9.914-4.43-9.914-9.914 0-5.473 4.43-9.914 9.914-9.914 5.473 0 9.914 4.441 9.914 9.914 0 5.484-4.441 9.914-9.914 9.914z"/></svg></span>
+        <span class="ps-name">Clutch</span>
       </a>
-      <a class="ps-item" aria-hidden="true" href="https://wellfound.com/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" aria-hidden="true"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm-1.5 17.25h-2.25V9h2.25v8.25zm-1.125-9.375a1.313 1.313 0 1 1 0-2.625 1.313 1.313 0 0 1 0 2.625zm9 9.375h-2.25v-4.5c0-1.243-.504-1.5-1.125-1.5s-1.125.257-1.125 1.5v4.5h-2.25V9h2.25v.937c.464-.643 1.158-1.062 1.969-1.062 1.553 0 2.531 1.043 2.531 3.187v5.188z"/></svg>
-        <span>Wellfound</span>
+      <a class="ps-item" style="--brand:#F5F5F0;--co-bg:radial-gradient(circle at 32% 28%, rgba(255,255,255,0.30), rgba(255,255,255,0.07) 72%);--co-bd:rgba(255,255,255,0.34);--co-gl:rgba(255,255,255,0.45);--sd:0.4" href="https://wellfound.com/" target="_blank" rel="noopener" aria-hidden="true">
+        <span class="ps-ico"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M23.998 8.128c.063-1.379-1.612-2.376-2.795-1.664-1.23.598-1.322 2.52-.156 3.234 1.2.862 2.995-.09 2.951-1.57zm0 7.748c.063-1.38-1.612-2.377-2.795-1.665-1.23.598-1.322 2.52-.156 3.234 1.2.863 2.995-.09 2.951-1.57zm-20.5 1.762L0 6.364h3.257l2.066 8.106 2.245-8.106h3.267l2.244 8.106 2.065-8.106h3.257l-3.54 11.274H11.39c-.73-2.713-1.46-5.426-2.188-8.14l-2.233 8.14H3.5z"/></svg></span>
+        <span class="ps-name">Wellfound</span>
       </a>
     </div>
   </div>
@@ -3069,114 +3320,159 @@
 <!-- PAYMENT CTA -->
 <div id="pay-cta" style="max-width:1200px;margin:0 auto;padding:0 24px;">
   <div class="pay-cta-box">
-    <div>
+    <div class="pay-cta-info">
       <div class="section-tag" style="margin-bottom:8px;">-- Secure Payments</div>
-      <h3 class="pay-cta-title">Ready to start? Pay securely from anywhere</h3>
-      <p class="pay-cta-sub">Choose how you&rsquo;d like to pay &mdash; Payoneer, Wise, bank transfer (SWIFT), or Western&nbsp;Union. We accept clients from the US, UK, UAE, Canada, and 190+&nbsp;countries.</p>
+      <h3 class="pay-cta-title">Ready to start? Pay me from anywhere</h3>
+      <p class="pay-cta-sub">Pick whatever suits you &mdash; Payoneer, Wise, Skrill, bank&nbsp;/&nbsp;SWIFT wire or crypto from abroad, or JazzCash, Easypaisa, Raast&nbsp;&amp; local bank transfer inside Pakistan. Clients from the US, UK, UAE, Canada &amp; 190+ countries welcome.</p>
+      <div class="pay-cta-badges">
+        <span class="pay-cta-badge">Payoneer</span>
+        <span class="pay-cta-badge">Wise</span>
+        <span class="pay-cta-badge">Skrill</span>
+        <span class="pay-cta-badge">Bank / SWIFT</span>
+        <span class="pay-cta-badge">Crypto · USDT</span>
+        <span class="pay-cta-badge">JazzCash</span>
+        <span class="pay-cta-badge">Easypaisa</span>
+        <span class="pay-cta-badge">Raast</span>
+        <span class="pay-cta-badge">Western Union</span>
+      </div>
     </div>
     <button class="pay-cta-btn" onclick="openPayModal()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
       View Payment Options
     </button>
   </div>
 </div>
 
-<!-- MULTI-METHOD PAYMENT MODAL -->
+<!-- ADVANCED MULTI-METHOD PAYMENT MODAL -->
 <div id="pay-overlay" hidden>
   <div id="pay-modal">
     <button class="pay-close" onclick="closePayModal()" aria-label="Close">&times;</button>
     <div class="pay-title">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;color:var(--lime);"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
-      Payment Methods
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+      Choose a payment method
     </div>
-    <div class="pay-sub">Choose the option that works best for you. All transfers go to Bidder Experts (Muhammad Abdullah Sohail).</div>
+    <div class="pay-sub">All transfers go to Bidder Experts (Muhammad Abdullah Sohail). Pick a method to see step-by-step details.</div>
 
-    <!-- TABS -->
-    <div class="pay-tabs" role="tablist">
-      <button class="pay-tab active" data-tab="payoneer" onclick="payTab('payoneer')">🌐 Payoneer</button>
-      <button class="pay-tab" data-tab="wise" onclick="payTab('wise')">💸 Wise</button>
-      <button class="pay-tab" data-tab="bank" onclick="payTab('bank')">🏦 Bank / SWIFT</button>
-      <button class="pay-tab" data-tab="wu" onclick="payTab('wu')">🌍 Western Union</button>
+    <!-- CHOOSER VIEW -->
+    <div class="pay-list" id="pay-list">
+      <div class="pay-geo-label">Where are you paying from? <span style="opacity:.7;">(optional — we’ll recommend the best options)</span></div>
+      <div class="pay-geo" id="payGeo">
+        <button class="pay-geo-btn" data-geo="us"    onclick="payGeo('us',this)">🇺🇸 USA</button>
+        <button class="pay-geo-btn" data-geo="uk"    onclick="payGeo('uk',this)">🇬🇧 UK</button>
+        <button class="pay-geo-btn" data-geo="uae"   onclick="payGeo('uae',this)">🇦🇪 UAE</button>
+        <button class="pay-geo-btn" data-geo="ca"    onclick="payGeo('ca',this)">🇨🇦 Canada</button>
+        <button class="pay-geo-btn" data-geo="pk"    onclick="payGeo('pk',this)">🇵🇰 Pakistan</button>
+        <button class="pay-geo-btn" data-geo="other" onclick="payGeo('other',this)">🌍 Other</button>
+      </div>
+
+      <div class="pay-cat">💳 International</div>
+      <div class="pay-grid">
+        <button class="pay-mcard" data-id="payoneer" style="--m:#FF7A00;--mbg:rgba(255,122,0,0.14);--mbd:rgba(255,122,0,0.30);--mgl:rgba(255,122,0,0.45)" onclick="paySelect('payoneer')">
+          <span class="pay-mico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18"/></svg></span>
+          <span class="pay-minfo">
+            <span class="pay-mname">Payoneer</span>
+            <span class="pay-mtag">US · UK · EU · CA · UAE</span>
+            <span class="pay-meta-row"><span class="pay-eta">≈ 2 hours</span><span class="pay-rec-badge">★ Recommended</span></span>
+          </span>
+          <span class="pay-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
+        </button>
+        <button class="pay-mcard" data-id="wise" style="--m:#6FE26F;--mbg:rgba(111,226,111,0.14);--mbd:rgba(111,226,111,0.30);--mgl:rgba(111,226,111,0.45)" onclick="paySelect('wise')">
+          <span class="pay-mico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg></span>
+          <span class="pay-minfo">
+            <span class="pay-mname">Wise</span>
+            <span class="pay-mtag">Low fees · real FX rate</span>
+            <span class="pay-meta-row"><span class="pay-eta">Same day</span><span class="pay-rec-badge">★ Recommended</span></span>
+          </span>
+          <span class="pay-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
+        </button>
+        <button class="pay-mcard" data-id="skrill" style="--m:#A24CC8;--mbg:rgba(162,76,200,0.14);--mbd:rgba(162,76,200,0.30);--mgl:rgba(162,76,200,0.45)" onclick="paySelect('skrill')">
+          <span class="pay-mico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a2 2 0 0 1 2-2h12l3 3v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M17 6V4H6"/><circle cx="16.5" cy="13" r="1.3"/></svg></span>
+          <span class="pay-minfo">
+            <span class="pay-mname">Skrill</span>
+            <span class="pay-mtag">Fast global e-wallet</span>
+            <span class="pay-meta-row"><span class="pay-eta">Instant</span><span class="pay-rec-badge">★ Recommended</span></span>
+          </span>
+          <span class="pay-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
+        </button>
+        <button class="pay-mcard" data-id="bankintl" style="--m:#4DA8FF;--mbg:rgba(77,168,255,0.14);--mbd:rgba(77,168,255,0.30);--mgl:rgba(77,168,255,0.45)" onclick="paySelect('bankintl')">
+          <span class="pay-mico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V10M9 21V10M15 21V10M19 21V10"/><path d="M12 3 21 8H3z"/></svg></span>
+          <span class="pay-minfo">
+            <span class="pay-mname">Bank / SWIFT Wire</span>
+            <span class="pay-mtag">International wire</span>
+            <span class="pay-meta-row"><span class="pay-eta">1–3 days</span><span class="pay-rec-badge">★ Recommended</span></span>
+          </span>
+          <span class="pay-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
+        </button>
+        <button class="pay-mcard" data-id="crypto" style="--m:#26C2A3;--mbg:rgba(38,194,163,0.14);--mbd:rgba(38,194,163,0.30);--mgl:rgba(38,194,163,0.45)" onclick="paySelect('crypto')">
+          <span class="pay-mico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 6.5v11"/><path d="M14.8 9a2.6 2.6 0 0 0-2.8-1.6c-1.5 0-2.7.9-2.7 2.1s1.1 1.8 2.7 2.1 2.8.9 2.8 2.1-1.2 2.1-2.7 2.1A2.6 2.6 0 0 1 9.2 15"/></svg></span>
+          <span class="pay-minfo">
+            <span class="pay-mname">Crypto · USDT</span>
+            <span class="pay-mtag">USDT · Binance Pay</span>
+            <span class="pay-meta-row"><span class="pay-eta">Minutes</span><span class="pay-rec-badge">★ Recommended</span></span>
+          </span>
+          <span class="pay-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
+        </button>
+      </div>
+
+      <div class="pay-cat">🇵🇰 Local · Pakistan</div>
+      <div class="pay-grid">
+        <button class="pay-mcard" data-id="bankloc" style="--m:#B8FF3C;--mbg:rgba(184,255,60,0.14);--mbd:rgba(184,255,60,0.30);--mgl:rgba(184,255,60,0.45)" onclick="paySelect('bankloc')">
+          <span class="pay-mico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V10M9 21V10M15 21V10M19 21V10"/><path d="M12 3 21 8H3z"/></svg></span>
+          <span class="pay-minfo">
+            <span class="pay-mname">Bank Transfer / Raast</span>
+            <span class="pay-mtag">HBL · Alfalah · Meezan · IBFT</span>
+            <span class="pay-meta-row"><span class="pay-eta">Instant (Raast)</span><span class="pay-rec-badge">★ Recommended</span></span>
+          </span>
+          <span class="pay-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
+        </button>
+        <button class="pay-mcard" data-id="jazzcash" style="--m:#FF4D5E;--mbg:rgba(255,77,94,0.14);--mbd:rgba(255,77,94,0.30);--mgl:rgba(255,77,94,0.45)" onclick="paySelect('jazzcash')">
+          <span class="pay-mico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a2 2 0 0 1 2-2h12l3 3v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M17 6V4H6"/><circle cx="16.5" cy="13" r="1.3"/></svg></span>
+          <span class="pay-minfo">
+            <span class="pay-mname">JazzCash</span>
+            <span class="pay-mtag">Mobile wallet</span>
+            <span class="pay-meta-row"><span class="pay-eta">Instant</span><span class="pay-rec-badge">★ Recommended</span></span>
+          </span>
+          <span class="pay-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
+        </button>
+        <button class="pay-mcard" data-id="easypaisa" style="--m:#2ED47A;--mbg:rgba(46,212,122,0.14);--mbd:rgba(46,212,122,0.30);--mgl:rgba(46,212,122,0.45)" onclick="paySelect('easypaisa')">
+          <span class="pay-mico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M10.5 18h3"/></svg></span>
+          <span class="pay-minfo">
+            <span class="pay-mname">Easypaisa</span>
+            <span class="pay-mtag">Mobile wallet</span>
+            <span class="pay-meta-row"><span class="pay-eta">Instant</span><span class="pay-rec-badge">★ Recommended</span></span>
+          </span>
+          <span class="pay-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
+        </button>
+        <button class="pay-mcard" data-id="sadapay" style="--m:#7C6CFF;--mbg:rgba(124,108,255,0.14);--mbd:rgba(124,108,255,0.30);--mgl:rgba(124,108,255,0.45)" onclick="paySelect('sadapay')">
+          <span class="pay-mico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2.5"/><path d="M2 10h20"/><path d="M6 15h4"/></svg></span>
+          <span class="pay-minfo">
+            <span class="pay-mname">SadaPay / NayaPay</span>
+            <span class="pay-mtag">Digital bank · IBAN</span>
+            <span class="pay-meta-row"><span class="pay-eta">Instant (Raast)</span><span class="pay-rec-badge">★ Recommended</span></span>
+          </span>
+          <span class="pay-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
+        </button>
+        <button class="pay-mcard" data-id="wu" style="--m:#FFC83D;--mbg:rgba(255,200,61,0.14);--mbd:rgba(255,200,61,0.30);--mgl:rgba(255,200,61,0.45)" onclick="paySelect('wu')">
+          <span class="pay-mico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M7.5 12h7"/><path d="M12 8.5 15.5 12 12 15.5"/></svg></span>
+          <span class="pay-minfo">
+            <span class="pay-mname">Western Union / Ria</span>
+            <span class="pay-mtag">Cash from any country</span>
+            <span class="pay-meta-row"><span class="pay-eta">Minutes</span><span class="pay-rec-badge">★ Recommended</span></span>
+          </span>
+          <span class="pay-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
+        </button>
+      </div>
     </div>
 
-    <!-- PAYONEER PANEL -->
-    <div class="pay-panel active" id="pay-panel-payoneer">
-      <div class="pay-method-head">
-        <div class="pay-method-title">Pay via Payoneer</div>
-        <div class="pay-method-sub">Best for US, UK, EU, Canada, UAE clients. Funds typically arrive within 2 hours.</div>
-      </div>
-      <div class="pay-label">Send payment to this email</div>
-      <div class="pay-email-row">
-        <div class="pay-email" id="payoneerEmail">Abdullahsohail63@gmail.com</div>
-        <button class="pay-copy" onclick="copyPayField('payoneerEmail',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Copy</span></button>
-      </div>
-      <div class="pay-steps">
-        <div class="pay-step"><span class="pay-step-num">1</span><span>Sign in to your <strong>Payoneer account</strong>.</span></div>
-        <div class="pay-step"><span class="pay-step-num">2</span><span>Click <strong>&ldquo;Pay&rdquo;</strong> &rarr; <strong>&ldquo;Make a Payment&rdquo;</strong>.</span></div>
-        <div class="pay-step"><span class="pay-step-num">3</span><span>Paste the email above as the recipient, enter amount, confirm.</span></div>
-      </div>
-      <a class="pay-go" href="https://login.payoneer.com/" target="_blank" rel="noopener">Open Payoneer &rarr;</a>
-    </div>
-
-    <!-- WISE PANEL -->
-    <div class="pay-panel" id="pay-panel-wise">
-      <div class="pay-method-head">
-        <div class="pay-method-title">Pay via Wise (TransferWise)</div>
-        <div class="pay-method-sub">Excellent for US, UK & EU clients &mdash; low fees, real exchange rates, fast.</div>
-      </div>
-      <div class="pay-label">Send payment to this email</div>
-      <div class="pay-email-row">
-        <div class="pay-email" id="wiseEmail">Abdullahsohail63@gmail.com</div>
-        <button class="pay-copy" onclick="copyPayField('wiseEmail',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Copy</span></button>
-      </div>
-      <div class="pay-steps">
-        <div class="pay-step"><span class="pay-step-num">1</span><span>Sign in (or sign up) at <strong>wise.com</strong>.</span></div>
-        <div class="pay-step"><span class="pay-step-num">2</span><span>Click <strong>&ldquo;Send money&rdquo;</strong> and choose <strong>&ldquo;Email recipient&rdquo;</strong>.</span></div>
-        <div class="pay-step"><span class="pay-step-num">3</span><span>Paste the email above, enter amount, confirm.</span></div>
-      </div>
-      <a class="pay-go" href="https://wise.com/" target="_blank" rel="noopener">Open Wise &rarr;</a>
-      <div class="pay-note">Don&rsquo;t have Wise yet? It&rsquo;s free to sign up and takes 2 minutes.</div>
-    </div>
-
-    <!-- BANK / SWIFT PANEL -->
-    <div class="pay-panel" id="pay-panel-bank">
-      <div class="pay-method-head">
-        <div class="pay-method-title">Bank Transfer</div>
-        <div class="pay-method-sub">We support both local Pakistani transfers (HBL, Bank&nbsp;Alfalah, IBFT) and international SWIFT wires from US, UK, UAE, EU and beyond.</div>
-      </div>
-      <div class="pay-bank-card">
-        <div class="pay-bank-row"><span class="pay-bank-k">Account Holder</span><span class="pay-bank-v">Muhammad Abdullah Sohail</span></div>
-        <div class="pay-bank-row"><span class="pay-bank-k">Country</span><span class="pay-bank-v">Pakistan</span></div>
-        <div class="pay-bank-row"><span class="pay-bank-k">City</span><span class="pay-bank-v">Lahore</span></div>
-        <div class="pay-bank-row pay-bank-secure"><span class="pay-bank-k">Account &amp; SWIFT</span><span class="pay-bank-v">Shared privately via WhatsApp &mdash; for your security</span></div>
-      </div>
-      <p class="pay-note" style="margin-top:14px;">For security, full account numbers, IBAN and SWIFT codes are sent privately. Pick your transfer type below and we&rsquo;ll reply within minutes.</p>
-      <div class="pay-bank-actions">
-        <a class="pay-go pay-go-sm" href="https://wa.me/923214900839?text=Hi%20Abdullah%2C%20I%27d%20like%20to%20send%20a%20LOCAL%20Pakistani%20bank%20transfer.%20Please%20share%20your%20HBL%20or%20Bank%20Alfalah%20account%20details." target="_blank" rel="noopener">🇵🇰 Local Transfer</a>
-        <a class="pay-go pay-go-sm" href="https://wa.me/923214900839?text=Hi%20Abdullah%2C%20I%27d%20like%20to%20send%20an%20INTERNATIONAL%20SWIFT%20wire%20transfer.%20Please%20share%20your%20IBAN%20and%20SWIFT%2FBIC%20code." target="_blank" rel="noopener">🌍 SWIFT / Wire</a>
-      </div>
-    </div>
-
-    <!-- WESTERN UNION PANEL -->
-    <div class="pay-panel" id="pay-panel-wu">
-      <div class="pay-method-head">
-        <div class="pay-method-title">Western Union / Ria</div>
-        <div class="pay-method-sub">Quick cash transfer from any country to Pakistan. Pickup or direct bank deposit.</div>
-      </div>
-      <div class="pay-bank-card">
-        <div class="pay-bank-row"><span class="pay-bank-k">Receiver Name</span><span class="pay-bank-v">Muhammad Abdullah Sohail</span></div>
-        <div class="pay-bank-row"><span class="pay-bank-k">Country</span><span class="pay-bank-v">Pakistan</span></div>
-        <div class="pay-bank-row"><span class="pay-bank-k">City</span><span class="pay-bank-v">Lahore</span></div>
-        <div class="pay-bank-row pay-bank-secure"><span class="pay-bank-k">Phone / CNIC</span><span class="pay-bank-v">Shared on request</span></div>
-      </div>
-      <p class="pay-note" style="margin-top:14px;">After sending, share the <strong>MTCN tracking code</strong> with us via WhatsApp.</p>
-      <a class="pay-go" href="https://wa.me/923214900839?text=Hi%20Abdullah%2C%20I%27d%20like%20to%20send%20a%20Western%20Union%20transfer%20%E2%80%94%20please%20share%20the%20receiver%20phone%2FCNIC." target="_blank" rel="noopener">Request receiver details on WhatsApp &rarr;</a>
-    </div>
+    <!-- DETAIL VIEW (rendered by JS) -->
+    <div class="pay-detail" id="pay-detail"></div>
 
     <div class="pay-trust">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-      All methods are verified and secure &middot; Need help? <a href="https://wa.me/923214900839" target="_blank" rel="noopener" style="color:var(--lime);text-decoration:none;">WhatsApp us</a>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      All methods are verified &amp; secure &middot; Need help? <a href="https://wa.me/923214900839" target="_blank" rel="noopener">WhatsApp us</a>
     </div>
+
+    <script id="pay-data" type="application/json">{"methods": [{"id": "payoneer", "name": "Payoneer", "color": "#FF7A00", "icon": "globe", "group": "intl", "tag": "US · UK · EU · CA · UAE", "eta": "≈ 2 hours", "sub": "Best for US, UK, EU, Canada & UAE clients. Funds typically arrive within 2 hours.", "rtype": "email", "action_label": "Open Payoneer →", "action_href": "https://login.payoneer.com/", "steps": ["Sign in to your <strong>Payoneer</strong> account.", "Click <strong>Pay</strong> → <strong>Make a Payment</strong>.", "Paste the email above as recipient, enter the amount, confirm."], "note": "", "bank_rows": [], "mbg": "rgba(255,122,0,0.14)", "mbd": "rgba(255,122,0,0.30)", "mgl": "rgba(255,122,0,0.45)", "svg": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M3 12h18\"/><path d=\"M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18\"/>", "value": "Abdullahsohail63@gmail.com"}, {"id": "wise", "name": "Wise", "color": "#6FE26F", "icon": "send", "group": "intl", "tag": "Low fees · real FX rate", "eta": "Same day", "sub": "Excellent for US, UK & EU clients — low fees, real exchange rates, fast.", "rtype": "email", "action_label": "Open Wise →", "action_href": "https://wise.com/", "steps": ["Sign in (or sign up free) at <strong>wise.com</strong>.", "Click <strong>Send money</strong> → <strong>Email recipient</strong>.", "Paste the email above, enter the amount, confirm."], "note": "New to Wise? It’s free to sign up and takes ~2 minutes.", "bank_rows": [], "mbg": "rgba(111,226,111,0.14)", "mbd": "rgba(111,226,111,0.30)", "mgl": "rgba(111,226,111,0.45)", "svg": "<path d=\"M22 2 11 13\"/><path d=\"M22 2 15 22l-4-9-9-4z\"/>", "value": "Abdullahsohail63@gmail.com"}, {"id": "skrill", "name": "Skrill", "color": "#A24CC8", "icon": "wallet", "group": "intl", "tag": "Fast global e-wallet", "eta": "Instant", "sub": "Works worldwide including Pakistan — instant wallet-to-wallet transfers.", "rtype": "email", "action_label": "Open Skrill →", "action_href": "https://www.skrill.com/", "steps": ["Log in to <strong>Skrill</strong>.", "Choose <strong>Send money</strong> → to an email address.", "Paste the email above, enter the amount, confirm."], "note": "", "bank_rows": [], "mbg": "rgba(162,76,200,0.14)", "mbd": "rgba(162,76,200,0.30)", "mgl": "rgba(162,76,200,0.45)", "svg": "<path d=\"M3 8a2 2 0 0 1 2-2h12l3 3v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/><path d=\"M17 6V4H6\"/><circle cx=\"16.5\" cy=\"13\" r=\"1.3\"/>", "value": "Abdullahsohail63@gmail.com"}, {"id": "bankintl", "name": "Bank / SWIFT Wire", "color": "#4DA8FF", "icon": "bank", "group": "intl", "tag": "International wire", "eta": "1–3 days", "sub": "Direct SWIFT wire transfer from any US, UK, UAE or EU bank to my account in Pakistan.", "rtype": "private", "action_label": "Get IBAN & SWIFT on WhatsApp →", "action_href": "https://wa.me/923214900839?text=Hi%20Abdullah%2C%20I%27d%20like%20to%20send%20an%20INTERNATIONAL%20SWIFT%20wire%20transfer.%20Please%20share%20your%20IBAN%20and%20SWIFT/BIC%20code.", "steps": [], "note": "For your security, full account number, IBAN and SWIFT/BIC code are shared privately. Tap below and I’ll reply within minutes.", "bank_rows": [["Account Holder", "Muhammad Abdullah Sohail"], ["Country", "Pakistan"], ["City", "Lahore"], ["__secure__", "IBAN & SWIFT — shared privately via WhatsApp"]], "mbg": "rgba(77,168,255,0.14)", "mbd": "rgba(77,168,255,0.30)", "mgl": "rgba(77,168,255,0.45)", "svg": "<path d=\"M3 21h18\"/><path d=\"M5 21V10M9 21V10M15 21V10M19 21V10\"/><path d=\"M12 3 21 8H3z\"/>"}, {"id": "crypto", "name": "Crypto · USDT", "color": "#26C2A3", "icon": "coin", "group": "intl", "tag": "USDT · Binance Pay", "eta": "Minutes", "sub": "Pay in stablecoin (USDT) via Binance Pay or on-chain (TRC20 / BEP20). Great for any country, fast and low fee.", "rtype": "private", "action_label": "Get wallet address on WhatsApp →", "action_href": "https://wa.me/923214900839?text=Hi%20Abdullah%2C%20I%27d%20like%20to%20pay%20in%20crypto%20%28USDT%29.%20Please%20share%20your%20wallet%20address%20/%20Binance%20Pay%20ID%20and%20the%20network%20%28TRC20/BEP20%29.", "steps": [], "note": "For your security I’ll share the exact wallet address & network on request — please always confirm it with me before sending.", "bank_rows": [["Receiver", "Muhammad Abdullah Sohail"], ["Asset", "USDT (Tether)"], ["Networks", "TRC20 / BEP20 / Binance Pay"], ["__secure__", "Wallet address — shared privately via WhatsApp"]], "mbg": "rgba(38,194,163,0.14)", "mbd": "rgba(38,194,163,0.30)", "mgl": "rgba(38,194,163,0.45)", "svg": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 6.5v11\"/><path d=\"M14.8 9a2.6 2.6 0 0 0-2.8-1.6c-1.5 0-2.7.9-2.7 2.1s1.1 1.8 2.7 2.1 2.8.9 2.8 2.1-1.2 2.1-2.7 2.1A2.6 2.6 0 0 1 9.2 15\"/>"}, {"id": "bankloc", "name": "Bank Transfer / Raast", "color": "#B8FF3C", "icon": "bank", "group": "local", "tag": "HBL · Alfalah · Meezan · IBFT", "eta": "Instant (Raast)", "sub": "Local Pakistani bank transfer via IBFT / Raast / 1Link from any PK bank or app — instant and free.", "rtype": "private", "action_label": "Get account & IBAN on WhatsApp →", "action_href": "https://wa.me/923214900839?text=Hi%20Abdullah%2C%20I%27d%20like%20to%20send%20a%20LOCAL%20Pakistani%20bank%20transfer%20%28IBFT/Raast%29.%20Please%20share%20your%20bank%20account%20number%20/%20IBAN.", "steps": [], "note": "Full account number & IBAN are shared privately for your security. Tap below to receive them instantly.", "bank_rows": [["Account Holder", "Muhammad Abdullah Sohail"], ["Country", "Pakistan"], ["City", "Lahore"], ["__secure__", "Account # & IBAN — shared privately via WhatsApp"]], "mbg": "rgba(184,255,60,0.14)", "mbd": "rgba(184,255,60,0.30)", "mgl": "rgba(184,255,60,0.45)", "svg": "<path d=\"M3 21h18\"/><path d=\"M5 21V10M9 21V10M15 21V10M19 21V10\"/><path d=\"M12 3 21 8H3z\"/>"}, {"id": "jazzcash", "name": "JazzCash", "color": "#FF4D5E", "icon": "wallet", "group": "local", "tag": "Mobile wallet", "eta": "Instant", "sub": "Send straight to my JazzCash mobile wallet from the JazzCash app, any bank, or a retailer.", "rtype": "private", "action_label": "Get JazzCash number on WhatsApp →", "action_href": "https://wa.me/923214900839?text=Hi%20Abdullah%2C%20I%27d%20like%20to%20send%20money%20to%20your%20JazzCash%20wallet.%20Please%20share%20your%20JazzCash%20account%20number.", "steps": [], "note": "My JazzCash number is shared privately on request for security.", "bank_rows": [["Wallet", "JazzCash"], ["Account Title", "Muhammad Abdullah Sohail"], ["__secure__", "Wallet number — shared privately via WhatsApp"]], "mbg": "rgba(255,77,94,0.14)", "mbd": "rgba(255,77,94,0.30)", "mgl": "rgba(255,77,94,0.45)", "svg": "<path d=\"M3 8a2 2 0 0 1 2-2h12l3 3v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/><path d=\"M17 6V4H6\"/><circle cx=\"16.5\" cy=\"13\" r=\"1.3\"/>"}, {"id": "easypaisa", "name": "Easypaisa", "color": "#2ED47A", "icon": "mobile", "group": "local", "tag": "Mobile wallet", "eta": "Instant", "sub": "Send to my Easypaisa wallet from the Easypaisa app, any bank, or a retailer shop.", "rtype": "private", "action_label": "Get Easypaisa number on WhatsApp →", "action_href": "https://wa.me/923214900839?text=Hi%20Abdullah%2C%20I%27d%20like%20to%20send%20money%20to%20your%20Easypaisa%20wallet.%20Please%20share%20your%20Easypaisa%20account%20number.", "steps": [], "note": "My Easypaisa number is shared privately on request for security.", "bank_rows": [["Wallet", "Easypaisa"], ["Account Title", "Muhammad Abdullah Sohail"], ["__secure__", "Wallet number — shared privately via WhatsApp"]], "mbg": "rgba(46,212,122,0.14)", "mbd": "rgba(46,212,122,0.30)", "mgl": "rgba(46,212,122,0.45)", "svg": "<rect x=\"6\" y=\"2\" width=\"12\" height=\"20\" rx=\"2.5\"/><path d=\"M10.5 18h3\"/>"}, {"id": "sadapay", "name": "SadaPay / NayaPay", "color": "#7C6CFF", "icon": "card", "group": "local", "tag": "Digital bank · IBAN", "eta": "Instant (Raast)", "sub": "Transfer to my SadaPay / NayaPay account via Raast or IBFT using the IBAN.", "rtype": "private", "action_label": "Get IBAN on WhatsApp →", "action_href": "https://wa.me/923214900839?text=Hi%20Abdullah%2C%20I%27d%20like%20to%20send%20to%20your%20SadaPay/NayaPay%20account.%20Please%20share%20your%20IBAN.", "steps": [], "note": "The IBAN is shared privately on request for your security.", "bank_rows": [["Provider", "SadaPay / NayaPay"], ["Account Title", "Muhammad Abdullah Sohail"], ["__secure__", "IBAN — shared privately via WhatsApp"]], "mbg": "rgba(124,108,255,0.14)", "mbd": "rgba(124,108,255,0.30)", "mgl": "rgba(124,108,255,0.45)", "svg": "<rect x=\"2\" y=\"5\" width=\"20\" height=\"14\" rx=\"2.5\"/><path d=\"M2 10h20\"/><path d=\"M6 15h4\"/>"}, {"id": "wu", "name": "Western Union / Ria", "color": "#FFC83D", "icon": "globe_arrow", "group": "local", "tag": "Cash from any country", "eta": "Minutes", "sub": "Quick cash transfer from any country to Pakistan via Western Union, Ria or MoneyGram. Pickup or direct deposit.", "rtype": "private", "action_label": "Get receiver details on WhatsApp →", "action_href": "https://wa.me/923214900839?text=Hi%20Abdullah%2C%20I%27d%20like%20to%20send%20a%20Western%20Union%20/%20Ria%20transfer%20%E2%80%94%20please%20share%20the%20receiver%20phone/CNIC%20details.", "steps": [], "note": "After sending, share the <strong>MTCN tracking code</strong> with me on WhatsApp.", "bank_rows": [["Receiver Name", "Muhammad Abdullah Sohail"], ["Country", "Pakistan"], ["City", "Lahore"], ["__secure__", "Phone / CNIC — shared on request"]], "mbg": "rgba(255,200,61,0.14)", "mbd": "rgba(255,200,61,0.30)", "mgl": "rgba(255,200,61,0.45)", "svg": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M7.5 12h7\"/><path d=\"M12 8.5 15.5 12 12 15.5\"/>"}], "geo": {"us": ["payoneer", "wise", "skrill", "bankintl", "crypto"], "uk": ["payoneer", "wise", "skrill", "bankintl", "crypto"], "uae": ["payoneer", "wise", "bankintl", "crypto", "wu"], "ca": ["payoneer", "wise", "skrill", "bankintl", "crypto"], "pk": ["bankloc", "jazzcash", "easypaisa", "sadapay"], "other": ["payoneer", "wise", "crypto", "wu"]}}</script>
   </div>
 </div>
   </div>
@@ -3186,20 +3482,20 @@
 
 <!-- CHART -->
 <div id="chart-section">
-  <div class="chart-wrap reveal">
+  <div class="chart-wrap">
 
     <!-- Header -->
     <div class="chart-top">
       <div>
         <div class="section-tag">-- Revenue Growth</div>
-        <h2 class="chart-title">Monthly Progress <span style="color:var(--lime);">Chart</span></h2>
+        <h2 class="chart-title">Monthly Progress <span class="chart-glow" style="color:var(--lime);">Chart</span></h2>
         <p class="chart-sub">Team-wide revenue &amp; projects per month. Tap a year to filter.</p>
       </div>
       <!-- Legend -->
       <div class="chart-legend">
-        <div class="legend-item"><div class="legend-dot" style="background:#B8FF3C;"></div>Revenue</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#5DCAA5;"></div>Projects</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#F5A623;opacity:0.6;"></div>Target</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#B8FF3C;color:#B8FF3C;"></div>Revenue</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#5DCAA5;color:#5DCAA5;"></div>Projects</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#F5A623;opacity:0.6;color:#F5A623;"></div>Target</div>
       </div>
     </div>
 
@@ -3218,19 +3514,19 @@
 
     <!-- KPI Cards -->
     <div id="yearKPIs" class="kpi-grid">
-      <div class="kpi-card" style="--kc:var(--lime);">
+      <div class="kpi-card" style="--kc:var(--lime);--kd:0s">
         <div id="kpi-revenue" class="kpi-val">$1.4M+</div>
         <div class="kpi-lbl">Total Revenue</div>
       </div>
-      <div class="kpi-card" style="--kc:#5DCAA5;">
+      <div class="kpi-card" style="--kc:#5DCAA5;--kd:.6s">
         <div id="kpi-projects" class="kpi-val">2190+</div>
         <div class="kpi-lbl">Projects Closed</div>
       </div>
-      <div class="kpi-card" style="--kc:#F5A623;">
+      <div class="kpi-card" style="--kc:#F5A623;--kd:1.2s">
         <div id="kpi-avg" class="kpi-val">$21K</div>
         <div class="kpi-lbl">Avg Monthly</div>
       </div>
-      <div class="kpi-card" style="--kc:var(--lime);">
+      <div class="kpi-card" style="--kc:var(--lime);--kd:1.8s">
         <div id="kpi-best" class="kpi-val">2025</div>
         <div class="kpi-lbl">Best Year</div>
       </div>
@@ -3247,13 +3543,13 @@
 <!-- STRATEGY -->
 <section id="strategy" style="max-width:1200px;">
   <div class="section-tag">-- Our Approach</div>
-  <h2>Bidding <span style="color:var(--lime);">Strategy</span></h2>
+  <h2>Bidding <span class="strat-glow" style="color:var(--lime);">Strategy</span></h2>
   <p class="section-sub">A systematic approach to winning high-quality Upwork contracts targeting clients in the USA, UAE, UK &amp; Canada.</p>
 
   <div class="strategy-grid">
 
     <!-- 01 -->
-    <div class="strat-card reveal">
+    <div class="strat-card" style="--accent:#B8FF3C;--acc-bd:rgba(184,255,60,0.30);--acc-bg:rgba(184,255,60,0.08);--d:0s">
       <div class="strat-num">01</div>
       <div class="strat-icon">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B8FF3C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -3264,7 +3560,7 @@
     </div>
 
     <!-- 02 -->
-    <div class="strat-card reveal">
+    <div class="strat-card" style="--accent:#5DCAA5;--acc-bd:rgba(93,202,165,0.30);--acc-bg:rgba(93,202,165,0.08);--d:.7s">
       <div class="strat-num">02</div>
       <div class="strat-icon">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5DCAA5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
@@ -3275,7 +3571,7 @@
     </div>
 
     <!-- 03 -->
-    <div class="strat-card reveal">
+    <div class="strat-card" style="--accent:#F5A623;--acc-bd:rgba(245,166,35,0.30);--acc-bg:rgba(245,166,35,0.08);--d:1.4s">
       <div class="strat-num">03</div>
       <div class="strat-icon">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -3286,7 +3582,7 @@
     </div>
 
     <!-- 04 -->
-    <div class="strat-card reveal">
+    <div class="strat-card" style="--accent:#B8FF3C;--acc-bd:rgba(184,255,60,0.30);--acc-bg:rgba(184,255,60,0.08);--d:2.1s">
       <div class="strat-num">04</div>
       <div class="strat-icon">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B8FF3C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
@@ -5969,28 +6265,80 @@ function submitLeadForm() {
 
 <!-- FOOTER -->
 <footer style="max-width: 100%; padding: 40px 60px;">
-  <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+  <div class="footer-inner">
     <a href="#hero" class="logo-wrap" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;" style="text-decoration:none;">
-    <svg style="width:28px;height:28px;display:block;overflow:visible;" viewBox="0 0 230 230" xmlns="http://www.w3.org/2000/svg">
+    <svg class="logo-svg-nav" style="width:28px;height:28px;" viewBox="0 0 230 230" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <radialGradient id="fsph" cx="36%" cy="30%" r="65%"><stop offset="0%" stop-color="#1a1a1a"/><stop offset="100%" stop-color="#050505"/></radialGradient>
-        <linearGradient id="fbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c6ff00"/><stop offset="100%" stop-color="#6a8800"/></linearGradient>
-        <clipPath id="fclip"><circle cx="115" cy="115" r="100"/></clipPath>
+        <radialGradient id="fnsph" cx="36%" cy="30%" r="65%">
+          <stop offset="0%" stop-color="#1a1a1a"/>
+          <stop offset="55%" stop-color="#0d0d0d"/>
+          <stop offset="100%" stop-color="#050505"/>
+        </radialGradient>
+        <radialGradient id="fnsphH" cx="32%" cy="25%" r="38%">
+          <stop offset="0%" stop-color="rgba(200,255,0,0.15)"/>
+          <stop offset="100%" stop-color="rgba(200,255,0,0)"/>
+        </radialGradient>
+        <linearGradient id="fnbg1" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#c6ff00"/>
+          <stop offset="100%" stop-color="#6a8800"/>
+        </linearGradient>
+        <linearGradient id="fnbg2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#d4ff33"/>
+          <stop offset="100%" stop-color="#7a9a00"/>
+        </linearGradient>
+        <linearGradient id="fnarrGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="rgba(200,255,0,0.6)"/>
+          <stop offset="100%" stop-color="#d4ff33"/>
+        </linearGradient>
+        <filter id="fnbarGlow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="2.5" result="g"/>
+          <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="fnouterGlow" x="-8%" y="-8%" width="116%" height="116%">
+          <feGaussianBlur stdDeviation="7" result="g"/>
+          <feColorMatrix in="g" type="matrix" values="0.6 0 0 0 0  0.9 0 0 0 0  0 0 0 0 0  0 0 0 0.6 0" result="green"/>
+          <feMerge><feMergeNode in="green"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <clipPath id="fncircClip"><circle cx="115" cy="115" r="100"/></clipPath>
       </defs>
-      <circle cx="115" cy="115" r="100" fill="url(#fsph)"/>
+      <circle cx="115" cy="115" r="100" fill="none" stroke="rgba(180,255,0,0.18)" stroke-width="2" filter="url(#fnouterGlow)"/>
+      <circle cx="115" cy="115" r="100" fill="url(#fnsph)"/>
+      <circle cx="115" cy="115" r="100" fill="url(#fnsphH)"/>
       <circle cx="115" cy="115" r="100" fill="none" stroke="rgba(180,255,0,0.3)" stroke-width="1.5"/>
-      <g clip-path="url(#fclip)">
-        <rect x="52" y="98" width="17" height="67" rx="3" fill="url(#fbg)" opacity="0.75"/>
-        <rect x="74" y="75" width="17" height="90" rx="3" fill="url(#fbg)"/>
-        <rect x="96" y="84" width="17" height="81" rx="3" fill="url(#fbg)" opacity="0.85"/>
-        <rect x="118" y="60" width="17" height="105" rx="3" fill="url(#fbg)"/>
-        <rect x="140" y="46" width="17" height="119" rx="3" fill="url(#fbg)"/>
-        <polyline points="38,162 72,178 108,145 145,160 182,102" fill="none" stroke="#c6ff00" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+      <g clip-path="url(#fncircClip)" filter="url(#fnbarGlow)">
+        <rect x="52" y="98" width="17" height="67" rx="3" fill="url(#fnbg1)" opacity="0.75">
+          <animate attributeName="height" values="67;77;67" dur="2.3s" repeatCount="indefinite"/>
+          <animate attributeName="y" values="98;88;98" dur="2.3s" repeatCount="indefinite"/>
+        </rect>
+        <rect x="74" y="75" width="17" height="90" rx="3" fill="url(#fnbg2)">
+          <animate attributeName="height" values="90;100;90" dur="2.7s" repeatCount="indefinite" begin="0.3s"/>
+          <animate attributeName="y" values="75;65;75" dur="2.7s" repeatCount="indefinite" begin="0.3s"/>
+        </rect>
+        <rect x="96" y="84" width="17" height="81" rx="3" fill="url(#fnbg1)" opacity="0.85">
+          <animate attributeName="height" values="81;91;81" dur="2.1s" repeatCount="indefinite" begin="0.6s"/>
+          <animate attributeName="y" values="84;74;84" dur="2.1s" repeatCount="indefinite" begin="0.6s"/>
+        </rect>
+        <rect x="118" y="60" width="17" height="105" rx="3" fill="url(#fnbg2)">
+          <animate attributeName="height" values="105;118;105" dur="2.9s" repeatCount="indefinite" begin="0.15s"/>
+          <animate attributeName="y" values="60;47;60" dur="2.9s" repeatCount="indefinite" begin="0.15s"/>
+        </rect>
+        <rect x="140" y="46" width="17" height="119" rx="3" fill="url(#fnbg1)">
+          <animate attributeName="height" values="119;132;119" dur="2.5s" repeatCount="indefinite" begin="0.45s"/>
+          <animate attributeName="y" values="46;33;46" dur="2.5s" repeatCount="indefinite" begin="0.45s"/>
+        </rect>
+      </g>
+      <g clip-path="url(#fncircClip)">
+        <polyline points="38,162 72,178 108,145 145,160 182,102" fill="none" stroke="url(#fnarrGrad)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="310" stroke-dashoffset="310">
+          <animate attributeName="stroke-dashoffset" values="310;0;0;310" keyTimes="0;0.48;0.78;1" dur="3.6s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0 0 1 1;0.4 0 0.2 1"/>
+        </polyline>
+        <polygon points="182,102 166,94 170,111" fill="#c8ff00" opacity="0">
+          <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.44;0.5;0.78;1" dur="3.6s" repeatCount="indefinite"/>
+        </polygon>
       </g>
     </svg>
     <div class="logo-text-nav">
-      <span class="logo-bidders" style="font-size:15px;letter-spacing:2px;">BIDDERS</span>
-      <span class="logo-expert">EXPERT</span>
+      <span class="logo-bidders">BIDDER</span>
+      <span class="logo-expert">EXPERTS</span>
     </div>
   </a>
     <p style="font-size: 13px; color: var(--muted);">© 2025 Muhammad Abdullah Sohail · CEO, Bidder Experts · Lahore, PK</p>
@@ -6464,6 +6812,51 @@ function toggleProjects(person, type) {
   }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
   
   els.forEach(function(el) { obs.observe(el); });
+})();
+</script>
+
+<script>
+// Platforms strip — trigger staggered entrance when scrolled into view
+(function() {
+  var strip = document.getElementById('platforms-strip');
+  if (!strip) return;
+  if (!window.IntersectionObserver) { strip.classList.add('ps-in'); return; }
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) { strip.classList.add('ps-in'); io.disconnect(); }
+    });
+  }, { threshold: 0.2 });
+  io.observe(strip);
+})();
+</script>
+
+<script>
+// Strategy section — staggered entrance on scroll
+(function() {
+  var sec = document.getElementById('strategy');
+  if (!sec) return;
+  if (!window.IntersectionObserver) { sec.classList.add('strat-in'); return; }
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) { sec.classList.add('strat-in'); io.disconnect(); }
+    });
+  }, { threshold: 0.15 });
+  io.observe(sec);
+})();
+</script>
+
+<script>
+// Chart section — staggered entrance on scroll (chart canvas keeps its own animation)
+(function() {
+  var sec = document.getElementById('chart-section');
+  if (!sec) return;
+  if (!window.IntersectionObserver) { sec.classList.add('chart-in'); return; }
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) { sec.classList.add('chart-in'); io.disconnect(); }
+    });
+  }, { threshold: 0.12 });
+  io.observe(sec);
 })();
 </script>
 
@@ -8328,10 +8721,21 @@ async function createAccount() {
   </div>
 </div>
 <script>
-/* ===== Payoneer payment modal ===== */
+/* ===== Advanced multi-method payment ===== */
 (function(){
   var overlay = document.getElementById('pay-overlay');
   if (!overlay) return;
+  var DATA = {};
+  try { DATA = JSON.parse(document.getElementById('pay-data').textContent); } catch(e){}
+  var METHODS = {};
+  (DATA.methods||[]).forEach(function(m){ METHODS[m.id]=m; });
+  var GEO = DATA.geo||{};
+  var listEl = document.getElementById('pay-list');
+  var detailEl = document.getElementById('pay-detail');
+  var WA = '923214900839';
+
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function waLink(text){ return 'https://wa.me/'+WA+'?text='+encodeURIComponent(text); }
 
   window.openPayModal = function(){
     overlay.hidden = false;
@@ -8339,32 +8743,95 @@ async function createAccount() {
   };
   window.closePayModal = function(){
     overlay.classList.remove('open');
-    setTimeout(function(){ overlay.hidden = true; }, 250);
+    setTimeout(function(){ overlay.hidden = true; payBack(); }, 250);
   };
   overlay.addEventListener('click', function(e){ if (e.target === overlay) window.closePayModal(); });
-  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !overlay.hidden) window.closePayModal(); });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && !overlay.hidden){
+      if (detailEl && detailEl.classList.contains('show')) payBack(); else window.closePayModal();
+    }
+  });
 
   window.copyPayField = function(elementId, btn){
-    var val = document.getElementById(elementId).textContent.trim();
+    var el = document.getElementById(elementId); if(!el) return;
+    var val = el.textContent.trim();
     var txt = btn.querySelector('span');
-    function done(){
-      var old = txt.textContent;
-      txt.textContent = 'Copied!';
-      btn.classList.add('copied');
-      setTimeout(function(){ txt.textContent = old; btn.classList.remove('copied'); }, 1800);
-    }
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(val).then(done).catch(function(){ window.prompt('Copy this:', val); });
-    } else {
-      window.prompt('Copy this:', val);
-    }
+    function done(){ var old = txt.textContent; txt.textContent='Copied!'; btn.classList.add('copied'); setTimeout(function(){ txt.textContent=old; btn.classList.remove('copied'); },1800); }
+    if (navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(val).then(done).catch(function(){ window.prompt('Copy this:', val); }); }
+    else { window.prompt('Copy this:', val); }
   };
 
-  window.payTab = function(tab){
-    document.querySelectorAll('.pay-tab').forEach(function(t){ t.classList.toggle('active', t.getAttribute('data-tab') === tab); });
-    document.querySelectorAll('.pay-panel').forEach(function(p){ p.classList.remove('active'); });
-    var panel = document.getElementById('pay-panel-' + tab);
-    if (panel) panel.classList.add('active');
+  window.payGeo = function(geo, btn){
+    var on = !btn.classList.contains('active');
+    document.querySelectorAll('.pay-geo-btn').forEach(function(b){ b.classList.remove('active'); });
+    var rec = on ? (GEO[geo]||[]) : [];
+    if (on) btn.classList.add('active');
+    document.querySelectorAll('.pay-mcard').forEach(function(c){
+      var id = c.getAttribute('data-id');
+      var isRec = rec.indexOf(id) !== -1;
+      c.classList.toggle('rec', on && isRec);
+      c.classList.toggle('dim', on && !isRec);
+    });
+  };
+
+  window.paySelect = function(id){
+    var m = METHODS[id]; if(!m || !detailEl) return;
+    detailEl.style.setProperty('--m', m.color);
+    detailEl.style.setProperty('--mbg', m.mbg);
+    detailEl.style.setProperty('--mbd', m.mbd);
+    detailEl.style.setProperty('--mgl', m.mgl);
+    var h = '';
+    h += '<button class="pay-back" onclick="payBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg> All methods</button>';
+    h += '<div class="pay-dhead"><span class="pay-dico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+m.svg+'</svg></span>';
+    h += '<div><div class="pay-method-title">'+esc(m.name)+'</div><div class="pay-method-sub">'+esc(m.sub)+'</div></div></div>';
+    if (m.rtype === 'email'){
+      h += '<div class="pay-label">Send payment to this email</div>';
+      h += '<div class="pay-email-row"><div class="pay-email" id="payField">'+esc(m.value)+'</div>';
+      h += '<button class="pay-copy" onclick="copyPayField(\'payField\',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Copy</span></button></div>';
+    }
+    if (m.bank_rows && m.bank_rows.length){
+      h += '<div class="pay-bank-card">';
+      m.bank_rows.forEach(function(row){
+        var k=row[0], v=row[1];
+        if (k === '__secure__') h += '<div class="pay-bank-row pay-bank-secure"><span class="pay-bank-k">\uD83D\uDD12 Secure</span><span class="pay-bank-v">'+esc(v)+'</span></div>';
+        else h += '<div class="pay-bank-row"><span class="pay-bank-k">'+esc(k)+'</span><span class="pay-bank-v">'+esc(v)+'</span></div>';
+      });
+      h += '</div>';
+    }
+    if (m.steps && m.steps.length){
+      h += '<div class="pay-steps">';
+      m.steps.forEach(function(s,i){ h += '<div class="pay-step"><span class="pay-step-num">'+(i+1)+'</span><span>'+s+'</span></div>'; });
+      h += '</div>';
+    }
+    if (m.note) h += '<p class="pay-note">'+m.note+'</p>';
+    h += '<a class="pay-go" href="'+m.action_href+'" target="_blank" rel="noopener">'+esc(m.action_label)+'</a>';
+    h += '<div class="pay-amt"><div class="pay-amt-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Tell me the amount (optional)</div>';
+    h += '<div class="pay-amt-row"><input id="payAmtInput" type="number" min="0" inputmode="decimal" placeholder="e.g. 500"><select id="payAmtCur"><option>USD</option><option>GBP</option><option>EUR</option><option>AED</option><option>CAD</option><option>PKR</option></select></div>';
+    h += '<a class="pay-go alt pay-amt-go" href="#" onclick="return payConfirmAmt(\''+m.id+'\')">Confirm &amp; notify me on WhatsApp \u2192</a></div>';
+    detailEl.innerHTML = h;
+    listEl.classList.add('hide');
+    detailEl.classList.remove('show'); void detailEl.offsetWidth; detailEl.classList.add('show');
+    var modal = document.getElementById('pay-modal'); if (modal) modal.scrollTop = 0;
+  };
+
+  window.payBack = function(){
+    if (!detailEl) return;
+    detailEl.classList.remove('show');
+    detailEl.innerHTML = '';
+    if (listEl) listEl.classList.remove('hide');
+  };
+
+  window.payConfirmAmt = function(id){
+    var m = METHODS[id]; if(!m) return false;
+    var amtEl = document.getElementById('payAmtInput');
+    var curEl = document.getElementById('payAmtCur');
+    var amt = amtEl ? amtEl.value : '';
+    var cur = curEl ? curEl.value : '';
+    var msg;
+    if (amt && parseFloat(amt) > 0) msg = "Hi Abdullah, I'd like to pay "+amt+" "+cur+" via "+m.name+". Please confirm the details so I can send it.";
+    else msg = "Hi Abdullah, I'd like to pay via "+m.name+". Please confirm the details.";
+    window.open(waLink(msg), '_blank', 'noopener');
+    return false;
   };
 })();
 </script>
