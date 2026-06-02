@@ -1640,6 +1640,11 @@ function downloadPDF() {
     if (repEl) {
       // Clone, force display:block (it may be hidden if user is on the Invoice tab)
       var repClone = repEl.cloneNode(true);
+      // Pre-set count-up values to their final targets (animations won't run in print)
+      repClone.querySelectorAll('.rep-perf-val[data-target]').forEach(function(el) {
+        var t = parseInt(el.getAttribute('data-target') || '0', 10);
+        el.textContent = isNaN(t) ? '0' : t.toLocaleString();
+      });
       repClone.style.display = 'block';
       repClone.style.pageBreakBefore = 'always';
       repClone.style.marginTop = '0';
@@ -1663,6 +1668,11 @@ function downloadPDF() {
       'a.inv-pay-now{text-decoration:none;}' +
       // ensure report paper is visible when included
       '.report-paper{display:block !important;}' +
+      // print-safe overrides for the report: solid brand text, no shimmer overlays
+      '.rep-hdr-brand{background:none !important;-webkit-text-fill-color:#0A1A0C !important;color:#0A1A0C !important;}' +
+      '.report-paper.is-client .rep-hdr-brand{-webkit-text-fill-color:#0A1A0C !important;color:#0A1A0C !important;background:none !important;}' +
+      '.report-paper::after{display:none !important;}' +
+      '.rep-comm-total::before{display:none !important;}' +
       '@media print{' +
         'body{padding:0;}' +
         '*{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}' +
@@ -2466,6 +2476,11 @@ function downloadReportPDF() {
   var paperEl = document.getElementById('reportPaper');
   if (!paperEl) return;
   var clone = paperEl.cloneNode(true);
+  // Pre-set count-up values to their final targets (animations won't run in print)
+  clone.querySelectorAll('.rep-perf-val[data-target]').forEach(function(el) {
+    var t = parseInt(el.getAttribute('data-target') || '0', 10);
+    el.textContent = isNaN(t) ? '0' : t.toLocaleString();
+  });
   var paperHTML = clone.outerHTML;
   var styles = document.querySelector('style').innerHTML;
   var name = ((document.getElementById('rep-name') || {}).value || 'report').replace(/[^a-zA-Z0-9_-]/g,'_');
@@ -2481,7 +2496,12 @@ function downloadReportPDF() {
     '<style>' + styles +
       'body{background:#fff;margin:0;padding:20px;}' +
       '.report-paper{display:block !important;}' +
+      // print-safe overrides: kill animations + restore solid brand color
       '*,*::before,*::after{animation:none !important;transition:none !important;opacity:1 !important;transform:none !important;}' +
+      '.rep-hdr-brand{background:none !important;-webkit-text-fill-color:#0A1A0C !important;color:#0A1A0C !important;}' +
+      '.report-paper.is-client .rep-hdr-brand{-webkit-text-fill-color:#0A1A0C !important;color:#0A1A0C !important;background:none !important;}' +
+      '.report-paper::after{display:none !important;}' +
+      '.rep-comm-total::before{display:none !important;}' +
       '@media print{body{padding:0;}*{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}@page{size:A4;margin:0;}}' +
     '<\/style>' +
     '<meta name="robots" content="noindex, nofollow">' +
