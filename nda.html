@@ -1001,16 +1001,16 @@
             <label>Upfront Payment</label>
             <select id="upfrontSelect" onchange="updateUpfront(this.value)">
               <option value="0">0% — No upfront</option>
-              <option value="10">10%</option>
-              <option value="20" selected>20%</option>
-              <option value="30">30%</option>
-              <option value="40">40%</option>
-              <option value="50">50%</option>
+              <option value="10">10% upfront</option>
+              <option value="20" selected>20% upfront</option>
+              <option value="30">30% upfront</option>
+              <option value="40">40% upfront</option>
+              <option value="50">50% upfront</option>
             </select>
           </div>
           <div class="engagement-field full">
             <label>Brief Scope / Purpose of Disclosure</label>
-            <textarea rows="3">Upwork Account Management — including full access to the Client's Upwork profile for bidding, proposal writing, client communication, lead generation, pipeline management, and profile optimization. Confidential information shared may include Upwork login credentials, client communications, project briefs, pricing strategy, and business contacts obtained through the platform.</textarea>
+            <textarea rows="3">Upwork Account Management: Full profile access for lead generation, bidding, proposal writing, and client communication. Confidential data includes login credentials, project briefs, pricing strategies, and business contacts.</textarea>
           </div>
         </div>
       </div>
@@ -1102,7 +1102,7 @@
       <ul>
         <li><strong>Upfront Payment:</strong> <span id="upfrontPctList">20</span>% of the agreed monthly fee, payable upon signing of this Agreement and prior to commencement of any work.</li>
         <li><strong>Balance:</strong> <span id="balancePct">80</span>% of the agreed monthly fee, payable on or before the agreed milestone or month-end billing date, as defined in the corresponding Service Agreement.</li>
-        <li><strong>Plan Selected:</strong> <span id="planLabel">20%</span> upfront commitment. The Parties acknowledge that this upfront percentage reflects the level of commitment, priority, and resource allocation that Bidder Experts shall extend during the engagement.</li>
+        <li><strong>Plan Selected:</strong> <span id="planLabel">20% upfront</span> commitment. The Parties acknowledge that this upfront percentage reflects the level of commitment, priority, and resource allocation that Bidder Experts shall extend during the engagement.</li>
         <li><strong>Method:</strong> Payments may be made via bank transfer, Wise, Payoneer, or any mutually agreed channel. All transaction fees shall be borne by the Receiving Party unless otherwise specified.</li>
         <li><strong>Late Payment:</strong> Any balance not settled within seven (7) calendar days of the due date shall accrue a late fee of 2% per week and may result in suspension of services without further notice.</li>
         <li><strong>Refunds:</strong> The upfront payment is <strong>non-refundable</strong> once work has commenced, given the immediate allocation of team capacity and operational resources.</li>
@@ -1296,11 +1296,11 @@
   function updateUpfront(pct) {
     const labels = {
       '0':  '0% — No upfront',
-      '10': '10%',
-      '20': '20%',
-      '30': '30%',
-      '40': '40%',
-      '50': '50%'
+      '10': '10% upfront',
+      '20': '20% upfront',
+      '30': '30% upfront',
+      '40': '40% upfront',
+      '50': '50% upfront'
     };
     const paymentSection = document.getElementById('paymentTermsSection');
 
@@ -1341,8 +1341,8 @@
     const isZero  = upfront === '0';
     const balance = 100 - parseInt(upfront, 10);
     const planLabels = {
-      '0':'0% — No upfront','10':'10%','20':'20%',
-      '30':'30%','40':'40%','50':'50%'
+      '0':'0% — No upfront','10':'10% upfront','20':'20% upfront',
+      '30':'30% upfront','40':'40% upfront','50':'50% upfront'
     };
 
     // Gather inputs by their order on the page
@@ -1415,7 +1415,7 @@
       <ul>
         <li><strong>Upfront Payment:</strong> ${upfront}% of the agreed monthly fee, payable upon signing of this Agreement and prior to commencement of any work.</li>
         <li><strong>Balance:</strong> ${balance}% of the agreed monthly fee, payable on or before the agreed milestone or month-end billing date, as defined in the corresponding Service Agreement.</li>
-        <li><strong>Plan Selected:</strong> ${planLabels[upfront]} upfront commitment. The Parties acknowledge that this upfront percentage reflects the level of commitment, priority, and resource allocation that Bidder Experts shall extend during the engagement.</li>
+        <li><strong>Plan Selected:</strong> ${planLabels[upfront]} commitment. The Parties acknowledge that this upfront percentage reflects the level of commitment, priority, and resource allocation that Bidder Experts shall extend during the engagement.</li>
         <li><strong>Method:</strong> Payments may be made via bank transfer, Wise, Payoneer, or any mutually agreed channel. All transaction fees shall be borne by the Receiving Party unless otherwise specified.</li>
         <li><strong>Late Payment:</strong> Any balance not settled within seven (7) calendar days of the due date shall accrue a late fee of 2% per week and may result in suspension of services without further notice.</li>
         <li><strong>Refunds:</strong> The upfront payment is <strong>non-refundable</strong> once work has commenced, given the immediate allocation of team capacity and operational resources.</li>
