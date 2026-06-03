@@ -287,17 +287,236 @@ nav{
   .e-ico{animation:none !important;}
 }
 
+
+/* ===================== WELCOME / LANDING SCREEN ===================== */
+.welcome{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;overflow-x:hidden;overflow-y:auto;padding:32px 22px;
+  background:
+    radial-gradient(900px 600px at 14% 0%, rgba(184,255,60,0.16), transparent 55%),
+    radial-gradient(820px 620px at 100% 100%, rgba(93,202,165,0.12), transparent 55%),
+    linear-gradient(180deg, #0A120B, #070D08);
+  transition:transform .6s cubic-bezier(.7,0,.25,1), opacity .5s ease;}
+.welcome.out{transform:translateY(-101%);opacity:0;}
+.w-orb{position:absolute;border-radius:50%;filter:blur(60px);opacity:.5;pointer-events:none;}
+.w-o1{width:340px;height:340px;background:rgba(184,255,60,0.45);top:-90px;left:-60px;animation:wFloat 9s ease-in-out infinite;}
+.w-o2{width:300px;height:300px;background:rgba(93,202,165,0.4);bottom:-80px;right:-50px;animation:wFloat 11s ease-in-out infinite reverse;}
+.w-grid{position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);background-size:30px 30px;-webkit-mask-image:radial-gradient(ellipse at 50% 45%, #000 35%, transparent 80%);mask-image:radial-gradient(ellipse at 50% 45%, #000 35%, transparent 80%);}
+.w-inner{position:relative;z-index:1;max-width:520px;width:100%;margin:auto;text-align:center;display:flex;flex-direction:column;align-items:center;}
+.w-badge{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--lime);background:var(--ld);border:1px solid var(--lb);border-radius:20px;padding:4px 12px;margin-bottom:18px;animation:wIn .6s .05s both;}
+.w-logo{width:66px;height:66px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:22px;color:var(--lime);background:linear-gradient(135deg, rgba(184,255,60,0.30), rgba(184,255,60,0.06));border:1px solid var(--lb);box-shadow:0 0 40px -8px var(--lime), inset 0 0 0 1px rgba(184,255,60,0.2);margin-bottom:18px;animation:wPop .6s .1s both;}
+.w-title{font-family:'Syne',sans-serif;font-weight:800;font-size:42px;line-height:1.05;color:var(--wh);letter-spacing:-0.5px;animation:wIn .6s .18s both;}
+.w-title span{color:var(--lime);text-shadow:0 0 30px rgba(184,255,60,0.45);}
+.w-sub{font-size:14px;line-height:1.65;color:var(--tx);max-width:440px;margin:14px 0 24px;animation:wIn .6s .26s both;}
+.w-feats{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;margin-bottom:26px;animation:wIn .6s .34s both;}
+.w-feat{display:flex;align-items:center;gap:10px;text-align:left;background:rgba(255,255,255,0.03);border:1px solid var(--b1);border-radius:12px;padding:11px 13px;transition:border-color .18s, transform .18s, background .18s;}
+.w-feat:hover{border-color:var(--lb);transform:translateY(-2px);background:rgba(184,255,60,0.05);}
+.w-fi{font-size:18px;width:34px;height:34px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--ld);border:1px solid var(--lb);border-radius:9px;}
+.w-ft{display:flex;flex-direction:column;gap:2px;}
+.w-ft b{font-size:12px;font-weight:700;color:var(--wh);font-family:'Syne',sans-serif;}
+.w-ft i{font-size:10.5px;font-style:normal;color:var(--mt);line-height:1.3;}
+.w-cta{display:inline-flex;align-items:center;gap:9px;font-family:'Syne',sans-serif;font-weight:800;font-size:15px;color:#0A1207;background:linear-gradient(135deg,#CCFF5C,#93E223);border:none;border-radius:12px;padding:14px 30px;cursor:pointer;box-shadow:0 10px 34px -8px rgba(184,255,60,0.6), inset 0 1px 0 rgba(255,255,255,0.35);transition:transform .18s, box-shadow .18s;animation:wPop .6s .42s both, wPulse 2.6s 1.6s ease-in-out infinite;}
+.w-cta:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 16px 40px -8px rgba(184,255,60,0.75), inset 0 1px 0 rgba(255,255,255,0.4);}
+.w-stats{margin-top:18px;font-size:10.5px;color:var(--mt);font-family:'JetBrains Mono',monospace;letter-spacing:0.3px;animation:wIn .6s .5s both;}
+@keyframes wFloat{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(22px,-22px) scale(1.06);}}
+@keyframes wIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+@keyframes wPop{0%{opacity:0;transform:scale(.85);}70%{transform:scale(1.04);}100%{opacity:1;transform:scale(1);}}
+@keyframes wPulse{0%,100%{box-shadow:0 10px 34px -8px rgba(184,255,60,0.55), inset 0 1px 0 rgba(255,255,255,0.35);}50%{box-shadow:0 14px 44px -6px rgba(184,255,60,0.8), inset 0 1px 0 rgba(255,255,255,0.4);}}
+@media(max-width:560px){
+  .w-title{font-size:33px;}
+  .w-feats{grid-template-columns:1fr;}
+  .w-inner{max-width:420px;}
+  .w-cta{width:100%;justify-content:center;}
+}
+@media(max-width:560px) and (max-height:660px){
+  .w-feats{display:none;}
+}
+
+
+/* ===================== PAGE NAV (in top bar) ===================== */
+.n-nav{display:flex;align-items:center;gap:2px;margin-left:8px;overflow-x:auto;scrollbar-width:none;}
+.n-nav::-webkit-scrollbar{display:none;}
+.n-link{display:flex;align-items:center;gap:5px;height:28px;padding:0 10px;border-radius:7px;background:transparent;border:1px solid transparent;color:var(--mt);font-family:'Syne',sans-serif;font-size:10.5px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .15s;}
+.n-link:hover{color:var(--wh);background:rgba(255,255,255,0.04);}
+.n-link.active{color:var(--lime);background:var(--ld);border-color:var(--lb);box-shadow:0 0 12px -5px var(--lime);}
+
+/* ===================== FULL PAGES ===================== */
+.page{position:fixed;inset:0;z-index:900;display:none;overflow-y:auto;overflow-x:hidden;
+  background:
+    radial-gradient(800px 520px at 12% 0%, rgba(184,255,60,0.10), transparent 55%),
+    radial-gradient(720px 540px at 100% 100%, rgba(93,202,165,0.08), transparent 55%),
+    linear-gradient(180deg,#0A120B,#070D08);
+  animation:pgIn .35s ease both;}
+.page.on{display:block;}
+@keyframes pgIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+.pg-head{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 22px;background:rgba(10,17,11,0.82);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--b2);}
+.pg-title{display:flex;align-items:center;gap:9px;font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:var(--wh);}
+.pg-ico{font-size:18px;}
+.pg-count{font-size:10px;color:var(--lime);background:var(--ld);border:1px solid var(--lb);border-radius:20px;padding:1px 8px;font-weight:700;}
+.pg-nav{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;}
+.pg-nav::-webkit-scrollbar{display:none;}
+.pg-nav button{height:28px;padding:0 11px;border-radius:7px;background:rgba(255,255,255,0.04);border:1px solid var(--b1);color:var(--mt);font-family:'Syne',sans-serif;font-size:10.5px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .15s;}
+.pg-nav button:hover{color:var(--wh);border-color:var(--lb);}
+.pg-nav button.active{color:var(--lime);background:var(--ld);border-color:var(--lb);}
+.pg-wrap{max-width:1000px;margin:0 auto;padding:24px 22px 60px;}
+
+/* Saved proposals */
+.sv-empty{text-align:center;color:var(--mt);padding:60px 20px;font-size:13px;line-height:1.7;}
+.sv-empty .sv-ico{font-size:40px;display:block;margin-bottom:12px;opacity:.6;}
+.sv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px;}
+.sv-card{background:rgba(255,255,255,0.03);border:1px solid var(--b1);border-radius:13px;padding:15px;transition:border-color .18s,transform .18s,box-shadow .18s;display:flex;flex-direction:column;}
+.sv-card:hover{border-color:var(--lb);transform:translateY(-2px);box-shadow:0 10px 26px -12px #000;}
+.sv-card h4{font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--wh);margin-bottom:5px;line-height:1.25;}
+.sv-meta{font-size:10px;color:var(--mt);font-family:'JetBrains Mono',monospace;margin-bottom:9px;display:flex;gap:8px;flex-wrap:wrap;}
+.sv-tplchip{color:var(--lime);}
+.sv-snip{font-size:11.5px;color:var(--tx);line-height:1.55;max-height:64px;overflow:hidden;margin-bottom:12px;opacity:.85;}
+.sv-acts{display:flex;gap:6px;margin-top:auto;}
+.sv-acts button{flex:1;height:30px;border-radius:7px;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;cursor:pointer;border:1px solid var(--b1);transition:all .15s;background:rgba(255,255,255,0.04);color:var(--tx);}
+.sv-acts .sv-open{background:var(--ld);border-color:var(--lb);color:var(--lime);}
+.sv-acts .sv-open:hover{background:rgba(184,255,60,0.18);}
+.sv-acts .sv-del:hover{color:#FF6B6B;border-color:rgba(255,107,107,0.4);}
+.sv-acts button:hover{transform:translateY(-1px);}
+
+/* Tracker */
+.trk-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px;}
+.trk-stat{background:rgba(255,255,255,0.03);border:1px solid var(--b1);border-radius:12px;padding:13px 14px;}
+.trk-stat .num{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--wh);line-height:1;}
+.trk-stat .lbl{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);margin-top:5px;}
+.trk-stat.win .num{color:var(--lime);text-shadow:0 0 18px rgba(184,255,60,0.4);}
+.trk-add{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;background:rgba(255,255,255,0.02);border:1px solid var(--b1);border-radius:12px;padding:11px;}
+.trk-add .inp{font-size:12px;padding:8px 10px;}
+.trk-add-btn{height:auto;padding:0 18px;border-radius:8px;background:linear-gradient(135deg,#CCFF5C,#93E223);color:#0A1207;border:none;font-family:'Syne',sans-serif;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;box-shadow:0 4px 14px -5px rgba(184,255,60,0.5);transition:transform .15s;}
+.trk-add-btn:hover{transform:translateY(-1px);}
+.trk-row{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.03);border:1px solid var(--b1);border-radius:10px;padding:11px 14px;margin-bottom:8px;transition:border-color .15s;}
+.trk-row:hover{border-color:var(--lb);}
+.trk-main{flex:1;min-width:0;}
+.trk-main b{font-size:13px;color:var(--wh);font-weight:600;display:block;}
+.trk-main .trk-sub{font-size:10px;color:var(--mt);font-family:'JetBrains Mono',monospace;margin-top:2px;}
+.trk-sel{height:30px;border-radius:7px;background:rgba(255,255,255,0.05);border:1px solid var(--b1);color:var(--wh);font-size:11px;font-family:'DM Sans',sans-serif;padding:0 6px;cursor:pointer;outline:none;}
+.trk-badge{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;padding:3px 9px;border-radius:20px;flex-shrink:0;}
+.st-Sent{background:rgba(120,140,160,0.15);color:#9fb3c8;border:1px solid rgba(120,140,160,0.3);}
+.st-Replied{background:rgba(77,168,255,0.13);color:#7CC0FF;border:1px solid rgba(77,168,255,0.3);}
+.st-Interview{background:rgba(255,200,61,0.13);color:#FFCF5C;border:1px solid rgba(255,200,61,0.3);}
+.st-Won{background:rgba(184,255,60,0.16);color:var(--lime);border:1px solid var(--lb);}
+.st-Lost{background:rgba(255,107,107,0.12);color:#FF8A8A;border:1px solid rgba(255,107,107,0.3);}
+.trk-del{background:none;border:none;color:var(--mt);cursor:pointer;font-size:16px;line-height:1;padding:4px;border-radius:5px;transition:color .15s;flex-shrink:0;}
+.trk-del:hover{color:#FF6B6B;}
+
+/* Tips */
+.tip-card{background:rgba(255,255,255,0.03);border:1px solid var(--b1);border-radius:14px;padding:18px 20px;margin-bottom:14px;}
+.tip-card h3{font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--wh);margin-bottom:13px;}
+.tip-formula{background:linear-gradient(135deg, rgba(184,255,60,0.06), rgba(255,255,255,0.02));border-color:var(--b2);}
+.tip-flow{display:flex;align-items:stretch;gap:8px;flex-wrap:wrap;}
+.tip-step{flex:1;min-width:130px;background:rgba(9,16,10,0.5);border:1px solid var(--b1);border-radius:11px;padding:13px;text-align:center;}
+.tip-step span{display:inline-flex;width:24px;height:24px;border-radius:50%;background:var(--ld);border:1px solid var(--lb);color:var(--lime);font-family:'Syne',sans-serif;font-weight:800;font-size:11px;align-items:center;justify-content:center;margin-bottom:8px;}
+.tip-step b{display:block;font-family:'Syne',sans-serif;font-size:13px;color:var(--wh);margin-bottom:4px;}
+.tip-step i{font-style:normal;font-size:10.5px;color:var(--mt);line-height:1.4;}
+.tip-arrow{display:flex;align-items:center;color:var(--lime);font-size:18px;opacity:.5;}
+.tip-two{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.tip-card ul{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.tip-card li{font-size:12px;color:var(--tx);line-height:1.5;padding-left:18px;position:relative;}
+.tip-do li::before{content:'\2713';position:absolute;left:0;color:var(--lime);font-weight:800;}
+.tip-dont li::before{content:'\2717';position:absolute;left:0;color:#FF6B6B;font-weight:800;}
+.tip-do{border-color:var(--lb);}
+.tip-dont{border-color:rgba(255,107,107,0.25);}
+.tip-check{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.tip-check .cb{font-size:12px;color:var(--tx);}
+.tip-tpls{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.tip-tpl{display:flex;gap:9px;align-items:flex-start;background:rgba(9,16,10,0.4);border:1px solid var(--b1);border-radius:10px;padding:10px 12px;}
+.tip-tpl .tt-n{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--wh);}
+.tip-tpl .tt-w{font-size:10.5px;color:var(--mt);line-height:1.4;margin-top:2px;}
+
+@media(max-width:720px){
+  .trk-stats{grid-template-columns:repeat(3,1fr);}
+  .tip-two{grid-template-columns:1fr;}
+  .tip-tpls{grid-template-columns:1fr;}
+  .tip-check{grid-template-columns:1fr;}
+  .tip-flow{flex-direction:column;}
+  .tip-arrow{transform:rotate(90deg);justify-content:center;}
+}
+@media(max-width:600px){
+  .n-link .nl{display:none;}
+  .n-link{padding:0 8px;}
+  .pg-title{font-size:15px;}
+  .trk-stats{grid-template-columns:repeat(2,1fr);}
+}
+
+
+/* ===================== DASHBOARD + LIBRARY ===================== */
+.n-link .ni{font-size:13px;line-height:1;}
+.n-link .nl{}
+
+/* Dashboard */
+.dash-hero{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;background:linear-gradient(135deg, rgba(184,255,60,0.08), rgba(255,255,255,0.02));border:1px solid var(--b2);border-radius:16px;padding:22px 24px;}
+.dash-hi{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--wh);}
+.dash-sub{font-size:13px;color:var(--mt);margin-top:4px;}
+.dash-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0;}
+.dash-actions button{display:flex;flex-direction:column;align-items:center;gap:7px;padding:16px 10px;background:rgba(255,255,255,0.03);border:1px solid var(--b1);border-radius:13px;color:var(--tx);font-family:'Syne',sans-serif;font-size:11.5px;font-weight:700;cursor:pointer;transition:all .16s;}
+.dash-actions button span{font-size:22px;}
+.dash-actions button:hover{border-color:var(--lb);background:var(--ld);color:var(--lime);transform:translateY(-2px);}
+.dash-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.dash-card{background:rgba(255,255,255,0.03);border:1px solid var(--b1);border-radius:14px;padding:16px 18px;}
+.dash-card h3{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:var(--wh);margin-bottom:12px;}
+.dash-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 11px;border-radius:10px;background:rgba(9,16,10,0.4);border:1px solid var(--b1);margin-bottom:7px;cursor:pointer;transition:border-color .15s,background .15s;}
+.dash-item:hover{border-color:var(--lb);background:rgba(184,255,60,0.05);}
+.di-main{min-width:0;}
+.di-main b{font-size:12.5px;color:var(--wh);font-weight:600;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.di-main i{font-size:10px;color:var(--mt);font-style:normal;font-family:'JetBrains Mono',monospace;}
+.di-go{font-size:10px;font-weight:700;color:var(--lime);font-family:'Syne',sans-serif;flex-shrink:0;}
+.dash-empty{font-size:11.5px;color:var(--mt);padding:14px 4px;text-align:center;}
+
+/* Template library */
+.lib-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:13px;}
+.lib-card{background:rgba(255,255,255,0.03);border:1px solid var(--b1);border-radius:14px;padding:16px 17px;display:flex;flex-direction:column;transition:border-color .18s,transform .18s,box-shadow .18s;}
+.lib-card:hover{border-color:var(--lb);transform:translateY(-2px);box-shadow:0 12px 28px -14px #000;}
+.lib-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px;}
+.lib-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:var(--wh);}
+.lib-tag{font-size:8px;text-transform:uppercase;letter-spacing:.8px;color:var(--lime);background:var(--ld);border:1px solid var(--lb);border-radius:20px;padding:2px 8px;font-weight:700;white-space:nowrap;}
+.lib-desc{font-size:11.5px;color:var(--tx);line-height:1.5;margin-bottom:11px;}
+.lib-desc b{color:var(--wh);} .lib-desc .tpl-bestfor{color:var(--lime);font-weight:700;}
+.lib-ex{font-size:11px;color:var(--mt);line-height:1.5;font-style:italic;background:rgba(9,16,10,0.45);border-left:2px solid var(--lb);border-radius:6px;padding:8px 10px;margin-bottom:12px;}
+.lib-ex span{display:block;font-style:normal;font-size:8.5px;text-transform:uppercase;letter-spacing:1px;color:var(--lime);margin-bottom:3px;font-weight:700;}
+.lib-use{margin-top:auto;height:34px;border-radius:8px;background:var(--ld);border:1px solid var(--lb);color:var(--lime);font-family:'Syne',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;}
+.lib-use:hover{background:rgba(184,255,60,0.18);transform:translateY(-1px);}
+
+@media(max-width:720px){
+  .dash-actions{grid-template-columns:repeat(2,1fr);}
+  .dash-cols{grid-template-columns:1fr;}
+}
+
 </style>
 </head>
 <body>
 
+<!-- WELCOME / LANDING -->
+<div class="welcome" id="welcome">
+  <div class="w-orb w-o1"></div>
+  <div class="w-orb w-o2"></div>
+  <div class="w-grid"></div>
+  <div class="w-inner">
+    <div class="w-badge">Bidder Experts</div>
+    <div class="w-logo">BE</div>
+    <h1 class="w-title">Proposal <span>Writer</span></h1>
+    <p class="w-sub">Win more Upwork clients — craft high-converting proposals, generate an instant draft, and produce Figma-ready design prompts in seconds.</p>
+    <div class="w-feats">
+      <div class="w-feat"><div class="w-fi">&#127919;</div><div class="w-ft"><b>12 Winning Templates</b><i>Proven, high-converting angles</i></div></div>
+      <div class="w-feat"><div class="w-fi">&#10024;</div><div class="w-ft"><b>Smart Job-Match</b><i>Auto-picks the best template</i></div></div>
+      <div class="w-feat"><div class="w-fi">&#9997;</div><div class="w-ft"><b>Instant Draft</b><i>A ready letter in one click</i></div></div>
+      <div class="w-feat"><div class="w-fi">&#127912;</div><div class="w-ft"><b>Figma Make Prompts</b><i>Design the screens too</i></div></div>
+    </div>
+    <button class="w-cta" onclick="startProposal()">Start a Proposal
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </button>
+    <div class="w-stats">100+ contracts &middot; $500K+ earned &middot; 5.0&#9733; &middot; 95%+ JSS</div>
+  </div>
+</div>
+
 <!-- NAV -->
 <nav>
-  <div class="n-logo">
+  <div class="n-logo" onclick="showWelcome()" style="cursor:pointer;" title="Back to start">
     <div class="n-box">BE</div>
     <div class="n-title">Proposal Writer</div>
     <div class="n-tag">AI-Powered</div>
   </div>
+  <div class="n-nav" id="topNav"></div>
   <div class="right">
     <div class="n-wc" id="navWc">0 words</div>
     <button class="n-btn n-clr" onclick="doClear()">
@@ -499,6 +718,7 @@ nav{
         <span class="pbar-t">&#9997;&#65039; Editable cover letter</span>
         <div style="display:flex;gap:6px;">
           <button class="pbar-btn" onclick="generateLetter()">&#9997;&#65039; Generate Draft</button>
+          <button class="pbar-btn" onclick="saveProposal()">&#128190; Save</button>
           <button class="pbar-btn" onclick="doCopy()">Copy</button>
           <button class="pbar-btn" onclick="doClear()">Clear</button>
         </div>
@@ -564,6 +784,126 @@ nav{
 
 </div><!-- /main -->
 </div><!-- /app -->
+
+<!-- ============ EXTRA PAGES ============ -->
+
+<!-- DASHBOARD / HOME -->
+<section class="page" id="page-home">
+  <div class="pg-head">
+    <div class="pg-title"><span class="pg-ico">&#127968;</span> Dashboard</div>
+    <div class="pg-nav"></div>
+  </div>
+  <div class="pg-wrap" id="homeBody"></div>
+</section>
+
+<!-- TEMPLATE LIBRARY -->
+<section class="page" id="page-templates">
+  <div class="pg-head">
+    <div class="pg-title"><span class="pg-ico">&#128218;</span> Template Library <span class="pg-count" id="tplLibCount">12</span></div>
+    <div class="pg-nav"></div>
+  </div>
+  <div class="pg-wrap" id="tplLibBody"></div>
+</section>
+
+
+<!-- SAVED PROPOSALS -->
+<section class="page" id="page-saved">
+  <div class="pg-head">
+    <div class="pg-title"><span class="pg-ico">&#128190;</span> Saved Proposals <span class="pg-count" id="savedCount">0</span></div>
+    <div class="pg-nav"></div>
+  </div>
+  <div class="pg-wrap" id="savedBody"></div>
+</section>
+
+<!-- BID TRACKER -->
+<section class="page" id="page-tracker">
+  <div class="pg-head">
+    <div class="pg-title"><span class="pg-ico">&#128202;</span> Bid Tracker</div>
+    <div class="pg-nav"></div>
+  </div>
+  <div class="pg-wrap">
+    <div class="trk-stats" id="trackStats"></div>
+    <div class="trk-add">
+      <input class="inp" id="trkTitle" placeholder="Client or job title (e.g. Acme — React dashboard)" style="flex:2;min-width:180px;">
+      <select class="inp" id="trkStatus" style="flex:1;min-width:110px;">
+        <option value="Sent">Sent</option>
+        <option value="Replied">Replied</option>
+        <option value="Interview">Interview</option>
+        <option value="Won">Won</option>
+        <option value="Lost">Lost</option>
+      </select>
+      <input class="inp" id="trkNotes" placeholder="Notes (optional)" style="flex:2;min-width:140px;">
+      <button class="trk-add-btn" onclick="addTrack()">+ Add Bid</button>
+    </div>
+    <div id="trackBody"></div>
+  </div>
+</section>
+
+<!-- PROPOSAL TIPS -->
+<section class="page" id="page-tips">
+  <div class="pg-head">
+    <div class="pg-title"><span class="pg-ico">&#128161;</span> Proposal Playbook</div>
+    <div class="pg-nav"></div>
+  </div>
+  <div class="pg-wrap">
+    <div class="tip-card tip-formula">
+      <h3>The winning formula</h3>
+      <div class="tip-flow">
+        <div class="tip-step"><span>1</span><b>Hook</b><i>Open with their exact problem, not your bio</i></div>
+        <div class="tip-arrow">&rarr;</div>
+        <div class="tip-step"><span>2</span><b>Proof</b><i>One sharp, relevant result or project</i></div>
+        <div class="tip-arrow">&rarr;</div>
+        <div class="tip-step"><span>3</span><b>Plan</b><i>A short, clear path to the outcome</i></div>
+        <div class="tip-arrow">&rarr;</div>
+        <div class="tip-step"><span>4</span><b>CTA</b><i>Invite an easy next step</i></div>
+      </div>
+    </div>
+
+    <div class="tip-two">
+      <div class="tip-card tip-do">
+        <h3>&#10003; Do</h3>
+        <ul>
+          <li>Lead with the client's problem in the first line.</li>
+          <li>Mirror keywords from the job post.</li>
+          <li>Keep it skimmable &mdash; short paragraphs, one idea each.</li>
+          <li>Show one specific, relevant result.</li>
+          <li>End with a low-friction question.</li>
+          <li>Apply in the first hour while the post is fresh.</li>
+        </ul>
+      </div>
+      <div class="tip-card tip-dont">
+        <h3>&#10007; Don't</h3>
+        <ul>
+          <li>Open with "I am a passionate developer with&hellip;".</li>
+          <li>Paste the same generic template every time.</li>
+          <li>List every skill you have ever touched.</li>
+          <li>Write a wall of text with no breaks.</li>
+          <li>Over-promise or undercut your rate to win.</li>
+          <li>Forget to actually answer their question.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <h3>Before you hit send</h3>
+      <div class="tip-check">
+        <label class="cb"><input type="checkbox"> First line names their problem</label>
+        <label class="cb"><input type="checkbox"> Mentioned one relevant result</label>
+        <label class="cb"><input type="checkbox"> Clear next step / question</label>
+        <label class="cb"><input type="checkbox"> Under ~150 words, easy to skim</label>
+        <label class="cb"><input type="checkbox"> No typos, client's name correct</label>
+        <label class="cb"><input type="checkbox"> Answered any screening question</label>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <h3>Which template, when</h3>
+      <div class="tip-tpls" id="tipTpls"></div>
+    </div>
+  </div>
+</section>
+
+
 <div class="flash" id="flash">Done!</div>
 <script>
 
@@ -997,6 +1337,225 @@ function genFigma(){
   updateStats();
   flash('Figma Make prompts ready -- copied to clipboard!');
 }
+
+
+// ===== Welcome / landing screen control =====
+function startProposal(){
+  var w = document.getElementById('welcome'); if(!w) return;
+  w.classList.add('out');
+  document.body.classList.add('started');
+  try { sessionStorage.setItem('bw_seen','1'); } catch(e){}
+  setTimeout(function(){ w.style.display='none'; }, 650);
+  setTimeout(function(){ var jt=document.getElementById('jobTitle'); if(jt){ try{ jt.focus(); }catch(e){} } }, 700);
+}
+function showWelcome(){
+  var w = document.getElementById('welcome'); if(!w) return;
+  w.style.display='flex';
+  void w.offsetWidth;
+  w.classList.remove('out');
+}
+(function(){
+  var w = document.getElementById('welcome'); if(!w) return;
+  var seen=false; try { seen = sessionStorage.getItem('bw_seen')==='1'; } catch(e){}
+  if(seen){ w.style.display='none'; document.body.classList.add('started'); }
+})();
+
+
+// ===== Extra pages: routing + Saved Proposals + Bid Tracker =====
+var BW_SAVED='bw_saved', BW_TRACK='bw_track';
+function bwGet(k){ try{ var v=localStorage.getItem(k); return v?JSON.parse(v):[]; }catch(e){ return []; } }
+function bwSet(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+function bwEsc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function bwDate(iso){ try{ return new Date(iso).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'}); }catch(e){ return ''; } }
+var savedList = bwGet(BW_SAVED);
+var trackList = bwGet(BW_TRACK);
+
+function goPage(name){
+  ['home','templates','saved','tracker','tips'].forEach(function(p){ var el=document.getElementById('page-'+p); if(el) el.classList.toggle('on', p===name); });
+  renderNavs(name);
+  if(name==='home') renderHome();
+  if(name==='templates') renderTemplatesPage();
+  if(name==='saved') renderSaved();
+  if(name==='tracker') renderTracker();
+  if(name==='tips') renderTipTpls();
+  var cur=document.getElementById('page-'+name); if(cur) cur.scrollTop=0;
+}
+
+/* ---- Saved proposals ---- */
+function saveProposal(){
+  var le=document.getElementById('letterEditor'); var text=(le&&le.value||'').trim();
+  if(!text){ flash('Generate or write a letter first!'); return; }
+  var title=gv('jobTitle')||'Untitled proposal';
+  var tplName=(((typeof TEMPLATES!=='undefined'&&TEMPLATES[tpl])||{}).name||'').replace(/^\S+\s*/,'')||'General';
+  savedList.unshift({id:Date.now(), title:title, template:tplName, date:new Date().toISOString(), text:text});
+  bwSet(BW_SAVED, savedList);
+  flash('Saved to your proposals');
+}
+function findSaved(id){ for(var i=0;i<savedList.length;i++){ if(savedList[i].id===id) return savedList[i]; } return null; }
+function renderSaved(){
+  var b=document.getElementById('savedBody'); var c=document.getElementById('savedCount'); if(!b) return;
+  if(c) c.textContent=savedList.length;
+  if(!savedList.length){ b.innerHTML='<div class="sv-empty"><span class="sv-ico">&#128193;</span>No saved proposals yet.<br>Write or generate a cover letter, then click <b>&#128190; Save</b> in the editor.</div>'; return; }
+  var html='<div class="sv-grid">';
+  savedList.forEach(function(p){
+    var snip=bwEsc(p.text.slice(0,160))+(p.text.length>160?'\u2026':'');
+    html+='<div class="sv-card"><h4>'+bwEsc(p.title)+'</h4>'
+      +'<div class="sv-meta"><span class="sv-tplchip">'+bwEsc(p.template)+'</span><span>'+bwDate(p.date)+'</span></div>'
+      +'<div class="sv-snip">'+snip+'</div>'
+      +'<div class="sv-acts"><button class="sv-open" onclick="openSaved('+p.id+')">Open</button>'
+      +'<button onclick="copySaved('+p.id+')">Copy</button>'
+      +'<button class="sv-del" onclick="deleteSaved('+p.id+')">Delete</button></div></div>';
+  });
+  b.innerHTML=html+'</div>';
+}
+function openSaved(id){ var p=findSaved(id); if(!p) return; var le=document.getElementById('letterEditor'); if(le) le.value=p.text; var es=document.getElementById('emptyState'); if(es) es.classList.add('gone'); goPage('writer'); if(typeof goTab==='function') goTab('letter', document.getElementById('t-letter')); if(typeof updateStats==='function') updateStats(); flash('Loaded into the editor'); }
+function copySaved(id){ var p=findSaved(id); if(!p) return; navigator.clipboard.writeText(p.text).then(function(){ flash('Copied'); }).catch(function(){}); }
+function deleteSaved(id){ savedList=savedList.filter(function(x){return x.id!==id;}); bwSet(BW_SAVED, savedList); renderSaved(); }
+
+/* ---- Bid tracker ---- */
+function addTrack(){
+  var t=document.getElementById('trkTitle'); var title=(t&&t.value||'').trim();
+  if(!title){ if(t) t.focus(); flash('Add a client or job title'); return; }
+  var status=(document.getElementById('trkStatus')||{}).value||'Sent';
+  var notes=((document.getElementById('trkNotes')||{}).value||'').trim();
+  trackList.unshift({id:Date.now(), title:title, status:status, notes:notes, date:new Date().toISOString()});
+  bwSet(BW_TRACK, trackList);
+  if(t) t.value=''; var n=document.getElementById('trkNotes'); if(n) n.value='';
+  renderTracker(); flash('Bid added');
+}
+function trackStats(){
+  var s={Sent:0,Replied:0,Interview:0,Won:0,Lost:0};
+  trackList.forEach(function(x){ if(s[x.status]!==undefined) s[x.status]++; });
+  var decided=s.Won+s.Lost; var wr=decided?Math.round(s.Won/decided*100):0;
+  return {total:trackList.length, active:s.Sent+s.Replied+s.Interview, won:s.Won, lost:s.Lost, wr:wr};
+}
+function renderTracker(){
+  var st=document.getElementById('trackStats'); var b=document.getElementById('trackBody'); if(!b) return;
+  var s=trackStats();
+  if(st) st.innerHTML=
+    '<div class="trk-stat"><div class="num">'+s.total+'</div><div class="lbl">Total Bids</div></div>'+
+    '<div class="trk-stat"><div class="num">'+s.active+'</div><div class="lbl">In Play</div></div>'+
+    '<div class="trk-stat"><div class="num">'+s.won+'</div><div class="lbl">Won</div></div>'+
+    '<div class="trk-stat"><div class="num">'+s.lost+'</div><div class="lbl">Lost</div></div>'+
+    '<div class="trk-stat win"><div class="num">'+s.wr+'%</div><div class="lbl">Win Rate</div></div>';
+  if(!trackList.length){ b.innerHTML='<div class="sv-empty"><span class="sv-ico">&#128202;</span>No bids tracked yet.<br>Add your first bid above to start tracking your win rate.</div>'; return; }
+  var opts=['Sent','Replied','Interview','Won','Lost']; var html='';
+  trackList.forEach(function(x){
+    var sel='<select class="trk-sel" onchange="updateTrackStatus('+x.id+',this.value)">';
+    opts.forEach(function(o){ sel+='<option'+(o===x.status?' selected':'')+'>'+o+'</option>'; });
+    sel+='</select>';
+    html+='<div class="trk-row"><span class="trk-badge st-'+x.status+'">'+x.status+'</span>'
+      +'<div class="trk-main"><b>'+bwEsc(x.title)+'</b><div class="trk-sub">'+bwDate(x.date)+(x.notes?(' \u00b7 '+bwEsc(x.notes)):'')+'</div></div>'
+      +sel+'<button class="trk-del" onclick="deleteTrack('+x.id+')" title="Delete">\u00d7</button></div>';
+  });
+  b.innerHTML=html;
+}
+function updateTrackStatus(id,val){ for(var i=0;i<trackList.length;i++){ if(trackList[i].id===id){ trackList[i].status=val; break; } } bwSet(BW_TRACK, trackList); renderTracker(); }
+function deleteTrack(id){ trackList=trackList.filter(function(x){return x.id!==id;}); bwSet(BW_TRACK, trackList); renderTracker(); }
+
+/* ---- Tips: template cheat-sheet ---- */
+function renderTipTpls(){
+  var el=document.getElementById('tipTpls'); if(!el || typeof TEMPLATES==='undefined') return;
+  var html='';
+  for(var k in TEMPLATES){ if(!TEMPLATES.hasOwnProperty(k)) continue;
+    var t=TEMPLATES[k]; var m=/Best for:\s*([^<]+)/.exec(t.desc||''); var when=m?m[1].trim():'';
+    html+='<div class="tip-tpl"><div><div class="tt-n">'+t.name+'</div><div class="tt-w">'+when+'</div></div></div>';
+  }
+  el.innerHTML=html;
+}
+renderTipTpls();
+
+
+// ===== Nav generation + Dashboard + Template Library =====
+var PAGES=[
+  {id:'home',label:'Home',icon:'&#127968;'},
+  {id:'writer',label:'Writer',icon:'&#9997;'},
+  {id:'templates',label:'Templates',icon:'&#128218;'},
+  {id:'saved',label:'Saved',icon:'&#128190;'},
+  {id:'tracker',label:'Tracker',icon:'&#128200;'},
+  {id:'tips',label:'Tips',icon:'&#128161;'}
+];
+function buildNav(el, active, topbar){
+  var h=''; PAGES.forEach(function(p){
+    if(topbar){
+      h+='<button class="n-link'+(p.id===active?' active':'')+'" data-page="'+p.id+'" onclick="goPage(\''+p.id+'\')"><span class="ni">'+p.icon+'</span><span class="nl">'+p.label+'</span></button>';
+    } else {
+      h+='<button'+(p.id===active?' class="active"':'')+' onclick="goPage(\''+p.id+'\')">'+p.label+'</button>';
+    }
+  });
+  el.innerHTML=h;
+}
+function renderNavs(active){
+  var top=document.getElementById('topNav'); if(top) buildNav(top, active, true);
+  document.querySelectorAll('.pg-nav').forEach(function(el){ buildNav(el, active, false); });
+}
+
+/* ---- Dashboard ---- */
+function renderHome(){
+  var el=document.getElementById('homeBody'); if(!el) return;
+  var s=trackStats();
+  var name=((gv('yourName')||'there').split(' ')[0]);
+  var rs=savedList.slice(0,3), rb=trackList.slice(0,3);
+  var h='';
+  h+='<div class="dash-hero"><div><div class="dash-hi">Welcome back, '+bwEsc(name)+' &#128075;</div><div class="dash-sub">Let\u2019s win your next Upwork client.</div></div><button class="w-cta" style="animation:none" onclick="goPage(\'writer\')">&#9997;&#65039; New Proposal</button></div>';
+  h+='<div class="trk-stats" style="margin-top:16px;">'
+    +'<div class="trk-stat"><div class="num">'+savedList.length+'</div><div class="lbl">Saved</div></div>'
+    +'<div class="trk-stat"><div class="num">'+s.total+'</div><div class="lbl">Total Bids</div></div>'
+    +'<div class="trk-stat"><div class="num">'+s.won+'</div><div class="lbl">Won</div></div>'
+    +'<div class="trk-stat"><div class="num">'+s.active+'</div><div class="lbl">In Play</div></div>'
+    +'<div class="trk-stat win"><div class="num">'+s.wr+'%</div><div class="lbl">Win Rate</div></div></div>';
+  h+='<div class="dash-actions">'
+    +'<button onclick="goPage(\'templates\')"><span>&#128218;</span>Browse Templates</button>'
+    +'<button onclick="goPage(\'tracker\')"><span>&#128202;</span>Track a Bid</button>'
+    +'<button onclick="goPage(\'saved\')"><span>&#128190;</span>Saved Proposals</button>'
+    +'<button onclick="goPage(\'tips\')"><span>&#128161;</span>Proposal Tips</button></div>';
+  h+='<div class="dash-cols">';
+  h+='<div class="dash-card"><h3>Recent proposals</h3>';
+  if(rs.length){ rs.forEach(function(p){ h+='<div class="dash-item" onclick="openSaved('+p.id+')"><div class="di-main"><b>'+bwEsc(p.title)+'</b><i>'+bwEsc(p.template)+' \u00b7 '+bwDate(p.date)+'</i></div><span class="di-go">Open &rarr;</span></div>'; }); }
+  else h+='<div class="dash-empty">No saved proposals yet \u2014 generate one and hit Save.</div>';
+  h+='</div>';
+  h+='<div class="dash-card"><h3>Recent bids</h3>';
+  if(rb.length){ rb.forEach(function(x){ h+='<div class="dash-item" style="cursor:default"><div class="di-main"><b>'+bwEsc(x.title)+'</b><i>'+bwDate(x.date)+'</i></div><span class="trk-badge st-'+x.status+'">'+x.status+'</span></div>'; }); }
+  else h+='<div class="dash-empty">No bids tracked yet \u2014 add one in the Tracker.</div>';
+  h+='</div></div>';
+  el.innerHTML=h;
+}
+
+/* ---- Template Library ---- */
+var TPL_EXAMPLES={
+  solver:"It looks like your biggest challenge is getting this built right the first time \u2014 here is exactly how I would solve that\u2026",
+  highticket:"I deliver a complete solution, not just the basics: the core build, a strategic add-on, and 30 days of free support\u2026",
+  roadmap:"Here is exactly how I will deliver: 1) Discovery, 2) Execution with weekly updates, 3) Handover with docs\u2026",
+  quickwin:"I can start today \u2014 within 24-48 hours you will have a working first milestone in your hands\u2026",
+  guarantee:"To make this easy, we start with a small paid milestone. You only continue once you are 100% happy\u2026",
+  roi:"The goal is not just to build it \u2014 it is to drive the result: more signups, higher conversion, hours saved\u2026",
+  niche:"This is squarely in my wheelhouse \u2014 I have built almost exactly this using your exact stack\u2026",
+  partner:"I am after a long-term collaboration, not a one-off: consistent communication and timezone overlap\u2026",
+  mvp:"As a founder you need to validate fast without burning runway \u2014 I would ship a lean MVP of the core idea\u2026",
+  question:"Quick question before we start: are you leaning toward option A or option B? It changes the approach\u2026",
+  rescue:"Inheriting a half-finished project is stressful \u2014 step one is a calm audit of what is salvageable\u2026",
+  proof:"Rather than tell you I can do this, here is proof: two recent projects just like yours, with results\u2026"
+};
+function renderTemplatesPage(){
+  var el=document.getElementById('tplLibBody'); if(!el || typeof TEMPLATES==='undefined') return;
+  var c=document.getElementById('tplLibCount'); if(c) c.textContent=Object.keys(TEMPLATES).length;
+  var h='<div class="lib-grid">';
+  for(var k in TEMPLATES){ if(!TEMPLATES.hasOwnProperty(k)) continue; var t=TEMPLATES[k]; var ex=TPL_EXAMPLES[k]||'';
+    h+='<div class="lib-card"><div class="lib-top"><div class="lib-name">'+t.name+'</div><div class="lib-tag">'+t.tag+'</div></div>'
+      +'<div class="lib-desc">'+t.desc+'</div>'
+      +(ex?'<div class="lib-ex"><span>Example opener</span>\u201c'+bwEsc(ex)+'\u201d</div>':'')
+      +'<button class="lib-use" onclick="useTemplate(\''+k+'\')">Use this template &rarr;</button></div>';
+  }
+  el.innerHTML=h+'</div>';
+}
+function useTemplate(k){
+  var card=document.querySelector('#tplGrid .tc[data-key="'+k+'"]');
+  if(card){ setTpl(card,k); } else { tpl=k; tplManual=true; if(typeof renderTplDesc==='function') renderTplDesc(); }
+  goPage('writer');
+  flash('Template selected \u2014 ready to write');
+}
+
+renderNavs('writer');
 
 function buildPrompt(){
   var title=gv('jobTitle'), desc=gv('jobDesc'), plat=gv('platform');
