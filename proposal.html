@@ -72,16 +72,28 @@ select.inp option{background:#0D120D;color:var(--wh);}
 .pp-list button:hover{background:rgba(184,255,60,0.07);color:var(--lime);}
 
 /* Template cards */
-.tpl-grid{display:flex;flex-direction:column;gap:4px;margin-bottom:4px;}
-.tc{padding:7px 9px;border-radius:6px;background:rgba(255,255,255,0.02);border:1px solid var(--b1);cursor:pointer;transition:all 0.16s;position:relative;}
-.tc:hover{border-color:var(--lb);}
-.tc.on,.tc.active{background:var(--ld);border-color:var(--lb);}
-.tc-tag{font-size:8px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:700;}
+.tpl-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:6px;}
+.tc{padding:6px 8px;border-radius:7px;background:rgba(255,255,255,0.02);border:1px solid var(--b1);cursor:pointer;transition:all 0.16s;position:relative;min-height:40px;display:flex;flex-direction:column;justify-content:center;gap:1px;}
+.tc:hover{border-color:var(--lb);transform:translateY(-1px);}
+.tc.on,.tc.active{background:var(--ld);border-color:var(--lb);box-shadow:0 0 0 1px var(--lb) inset;}
+.tc-tag{font-size:7.5px;text-transform:uppercase;letter-spacing:0.7px;color:var(--mt);font-weight:700;}
 .tc.on .tc-tag,.tc.active .tc-tag{color:var(--lime);}
-.tc-name{font-size:11px;font-weight:700;color:var(--wh);margin:1px 0;}
+.tc-name{font-size:10.5px;font-weight:700;color:var(--wh);line-height:1.15;}
 .tc-desc{font-size:10px;color:var(--mt);line-height:1.4;}
-.tc-dot{position:absolute;top:8px;right:9px;width:5px;height:5px;border-radius:50%;background:var(--lime);display:none;}
+.tc-dot{position:absolute;top:7px;right:7px;width:5px;height:5px;border-radius:50%;background:var(--lime);display:none;box-shadow:0 0 6px var(--lime);}
 .tc.on .tc-dot,.tc.active .tc-dot{display:block;}
+.tpl-desc-box{font-size:10px;color:var(--mt);line-height:1.45;background:rgba(184,255,60,0.045);border:1px solid var(--b1);border-left:2px solid var(--lime);border-radius:6px;padding:7px 9px;margin-bottom:4px;}
+.tpl-desc-box b{color:var(--wh);font-weight:700;}
+.tpl-desc-box .tpl-bestfor{color:var(--lime);font-weight:700;}
+.tpl-count{font-size:8.5px;color:var(--lime);font-weight:700;margin-left:6px;background:var(--ld);border:1px solid var(--lb);border-radius:20px;padding:1px 7px;}
+.tc-star{position:absolute;top:5px;right:6px;font-size:10px;line-height:1;display:none;filter:drop-shadow(0 0 4px var(--lime));}
+.tc.rec .tc-star{display:block;}
+.tc.rec .tc-dot{display:none;}
+.tc.rec{border-color:var(--lb);box-shadow:0 0 0 1px var(--lb) inset, 0 0 12px -3px var(--lime);}
+.tpl-rec-line{font-size:9.5px;font-weight:700;color:var(--lime);margin-bottom:5px;}
+.tpl-rec-switch{cursor:pointer;}
+.tpl-rec-switch:hover{text-decoration:underline;}
+.tpl-rec-switch b{color:var(--wh);}
 
 /* Tone pills */
 .tone-g{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
@@ -133,6 +145,8 @@ select.inp option{background:#0D120D;color:var(--wh);}
 .wbig:hover{transform:translateY(-2px);filter:brightness(1.1);}
 .wbig.g{background:#4285F4;}.wbig.c{background:#10A37F;}
 .wbig.a{background:#C96A3A;}.wbig.d{background:#7B68EE;}
+.wbig.draft{background:var(--lime);color:#0A1207;box-shadow:0 0 16px -4px var(--lime);}
+.wbig.draft:hover{filter:brightness(1.05);}
 
 /* Editor */
 .letter-area{flex:1;position:relative;display:flex;flex-direction:column;overflow:hidden;}
@@ -303,27 +317,9 @@ select.inp option{background:#0D120D;color:var(--wh);}
     </div>
 
     <!-- 3. TEMPLATE -->
-    <div class="sh"><span class="sh-n">3</span>Template</div>
-    <div class="tpl-grid">
-      <div class="tc on" onclick="setTpl(this,'solver')">
-        <div class="tc-dot"></div>
-        <div class="tc-tag">Most Used</div>
-        <div class="tc-name">&#127919; Problem-Solver Hook</div>
-        <div class="tc-desc">Open with their exact challenge. High response rate.</div>
-      </div>
-      <div class="tc" onclick="setTpl(this,'highticket')">
-        <div class="tc-dot"></div>
-        <div class="tc-tag">Premium</div>
-        <div class="tc-name">&#128176; High-Ticket Package</div>
-        <div class="tc-desc">Core + add-on + 30-day support. Justifies premium price.</div>
-      </div>
-      <div class="tc" onclick="setTpl(this,'roadmap')">
-        <div class="tc-dot"></div>
-        <div class="tc-tag">Trust Builder</div>
-        <div class="tc-name">&#128202; The Roadmap</div>
-        <div class="tc-desc">Discovery &rarr; Execution &rarr; Handover. Removes anxiety.</div>
-      </div>
-    </div>
+    <div class="sh"><span class="sh-n">3</span>Winning Template<span class="tpl-count" id="tplCount">12</span></div>
+    <div class="tpl-grid" id="tplGrid"></div>
+    <div class="tpl-desc-box" id="tplDescBox"></div>
 
     <!-- 4. SETTINGS -->
     <div class="sh"><span class="sh-n">4</span>Settings</div>
@@ -412,11 +408,20 @@ select.inp option{background:#0D120D;color:var(--wh);}
   <!-- Cover Letter Panel -->
   <div class="panel on" id="p-letter">
     <div class="letter-area">
+      <div class="pbar">
+        <span class="pbar-t">&#9997;&#65039; Editable cover letter</span>
+        <div style="display:flex;gap:6px;">
+          <button class="pbar-btn" onclick="generateLetter()">&#9997;&#65039; Generate Draft</button>
+          <button class="pbar-btn" onclick="doCopy()">Copy</button>
+          <button class="pbar-btn" onclick="doClear()">Clear</button>
+        </div>
+      </div>
       <div class="empty" id="emptyState">
         <div class="e-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#B8FF3C" stroke-width="1.5"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
         <div class="e-title">Your cover letter appears here</div>
-        <div class="e-desc">Paste the job description, pick a template, then click an AI to write.</div>
+        <div class="e-desc">Pick a template, then <b style="color:#B8FF3C;">Generate Draft</b> for an instant letter — or send the prompt to an AI for a fully custom one.</div>
         <div class="e-btns">
+          <button class="wbig draft" onclick="generateLetter()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>Generate Draft</button>
           <button class="wbig g" onclick="writeWith('gemini')"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Gemini</button>
           <button class="wbig c" onclick="writeWith('gpt')"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="10"/></svg>ChatGPT</button>
           <button class="wbig a" onclick="writeWith('claude')"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M12 2L4 7v10l8 5 8-5V7L12 2z"/></svg>Claude</button>
@@ -473,6 +478,132 @@ var AI_URLS = {
   claude:   'https://claude.ai/new',
   deepseek: 'https://chat.deepseek.com'
 };
+
+// ===== Winning proposal template library (advanced) =====
+var TEMPLATES = {
+  solver: { tag:'Most Used', name:'&#127919; Problem-Solver',
+    desc:"<b>Problem-Solver Hook.</b> Open with the client's exact challenge, then your solution. <span class='tpl-bestfor'>Best for: most jobs &mdash; highest reply rate</span>",
+    ins:"OPEN WITH THIS TEMPLATE (Problem-Solver Hook):\n\"It looks like your biggest challenge with [project] is [specific problem]. I reviewed your requirements and can solve this by [specific solution] so you achieve [goal].\"\nFill ALL brackets with REAL specifics from the job post. Lead with THEIR problem, not your bio.\n\n" },
+  highticket: { tag:'Premium', name:'&#128176; High-Ticket',
+    desc:"<b>High-Ticket Package.</b> Core build + strategic add-on + 30-day support to justify a premium price. <span class='tpl-bestfor'>Best for: bigger budgets</span>",
+    ins:"USE THIS TEMPLATE (High-Ticket Package):\nAfter a strong opening hook, present a packaged solution:\n\"I deliver a complete solution -- not just a basic build:\n* Core Build: [main deliverable]\n* Strategic Add-on: [bonus that increases value]\n* 30-Day Free Support after launch\nThis is built for growth, not just to get it done.\"\nJustify the premium with outcomes, not hours.\n\n" },
+  roadmap: { tag:'Trust', name:'&#128202; The Roadmap',
+    desc:"<b>The Roadmap.</b> Discovery &rarr; Execution &rarr; Handover. Removes anxiety with full visibility. <span class='tpl-bestfor'>Best for: cautious clients</span>",
+    ins:"USE THIS TEMPLATE (Roadmap):\nAfter a strong opening, lay out a clear 3-step process:\n\"Here is exactly how I will deliver:\n1. Discovery -- lock specs, deliverables & milestones\n2. Execution -- weekly updates + a live staging link\n3. Handover -- testing, walkthrough & documentation\nZero surprises, full visibility.\"\n\n" },
+  quickwin: { tag:'Speed', name:'&#9889; Quick-Win',
+    desc:"<b>Quick-Win / Fast Start.</b> Stress immediate availability and a fast first milestone. <span class='tpl-bestfor'>Best for: urgent jobs</span>",
+    ins:"USE THIS TEMPLATE (Quick-Win / Fast Start):\nEmphasize immediate availability and a fast first result:\n\"I can start today. Within the first 24-48 hours you will have [a concrete first milestone -- e.g. working prototype / first screen / quick audit], so you see real progress before committing further.\"\nShow momentum and low time-to-value.\n\n" },
+  guarantee: { tag:'Closer', name:'&#128737; Risk-Reversal',
+    desc:"<b>Risk-Reversal Guarantee.</b> Remove the client's risk with a small paid milestone + fix-it promise. <span class='tpl-bestfor'>Best for: winning new clients</span>",
+    ins:"USE THIS TEMPLATE (Risk-Reversal Guarantee):\nRemove the client's risk explicitly:\n\"To make this easy we start with a small paid milestone. You only continue once you are 100% happy with the first deliverable -- if it is not right, I fix it at no extra cost.\"\nPosition yourself as the safe, low-risk choice.\n\n" },
+  roi: { tag:'Results', name:'&#128200; ROI-Driven',
+    desc:"<b>ROI / Results-Driven.</b> Frame the work around business outcomes &mdash; revenue, growth, time saved. <span class='tpl-bestfor'>Best for: business & startup clients</span>",
+    ins:"USE THIS TEMPLATE (ROI / Results-Driven):\nFrame everything around business outcomes, not features:\n\"The goal is not just to build [deliverable] -- it is to [drive the business result: more signups / faster load / higher conversion / hours saved]. Here is how I will tie the work directly to that outcome: [1-2 specific levers].\"\nSpeak revenue, growth and time saved.\n\n" },
+  niche: { tag:'Specialist', name:'&#129513; Niche Expert',
+    desc:"<b>Niche Expert Match.</b> Position as the precise specialist; lead with a near-identical past project. <span class='tpl-bestfor'>Best for: exact stack/domain match</span>",
+    ins:"USE THIS TEMPLATE (Niche Expert Match):\nPosition as the precise specialist and lead with a near-identical project:\n\"This is squarely in my wheelhouse -- I have built [almost the same thing] using [their exact stack]. Most recently [Relevant Project], where I [specific result]. I can apply that same playbook to your project.\"\n\n" },
+  partner: { tag:'Retainer', name:'&#129309; Long-Term',
+    desc:"<b>Long-Term Partner.</b> Emphasize reliability, communication and timezone overlap. <span class='tpl-bestfor'>Best for: ongoing / retainer roles</span>",
+    ins:"USE THIS TEMPLATE (Long-Term Partner):\nEmphasize reliability, communication and availability:\n\"I am looking for a long-term collaboration, not a one-off. You will get consistent communication, overlap with your timezone, and someone who treats your product like my own. Here is how I would support it week to week: [brief].\"\n\n" },
+  mvp: { tag:'Founders', name:'&#128640; Startup MVP',
+    desc:"<b>Startup / MVP Builder.</b> Founder empathy + a lean, ship-fast scope. <span class='tpl-bestfor'>Best for: early-stage founders</span>",
+    ins:"USE THIS TEMPLATE (Startup / MVP):\nShow founder empathy and a lean, ship-fast approach:\n\"As a founder you need to validate fast without burning runway. I would ship a lean MVP focused only on [the core feature that proves the idea], get it in users hands, then iterate. Here is the smallest version that still delivers value: [scope].\"\n\n" },
+  question: { tag:'Engage', name:'&#10067; Question-First',
+    desc:"<b>Question-First Opener.</b> Open with 1-2 sharp questions that prove understanding and invite a reply. <span class='tpl-bestfor'>Best for: vague / short job posts</span>",
+    ins:"USE THIS TEMPLATE (Question-First):\nOpen with 1-2 sharp, specific questions that prove you understand the project and invite a reply:\n\"Quick question before we start: are you looking for [option A] or [option B] for [key decision]? I ask because it changes [impact]. Either way, here is how I would approach it: [brief].\"\nQuestions get replies.\n\n" },
+  rescue: { tag:'Fix-It', name:'&#128295; Project Rescue',
+    desc:"<b>Project Rescue.</b> Reassure, then propose an audit-first plan to fix inherited or broken work. <span class='tpl-bestfor'>Best for: failed / half-finished projects</span>",
+    ins:"USE THIS TEMPLATE (Project Rescue):\nReassure, then propose an audit-first approach:\n\"Inheriting a half-finished project is stressful -- I have rescued several. Step one is a quick audit of the current code so we know exactly what is salvageable and what needs rebuilding. Then I give you a clear plan and a fixed path to a working product. No judgment, just a fix.\"\n\n" },
+  proof: { tag:'Show', name:'&#128444; Portfolio-Proof',
+    desc:"<b>Portfolio-Proof.</b> Show, don't tell &mdash; lead with 2-3 directly relevant proof points. <span class='tpl-bestfor'>Best for: when you have matching work</span>",
+    ins:"USE THIS TEMPLATE (Portfolio-Proof):\nShow, do not tell -- lead with 2-3 directly relevant proof points:\n\"Rather than tell you I can do this, here is proof: [Relevant Project 1 -- result], [Relevant Project 2 -- result]. Same stack, same kind of problem. I can do the same for you.\"\nUse REAL projects from the freelancer profile.\n\n" }
+};
+
+var tplManual = false;      // becomes true once the user picks a template by hand
+var recommendedTpl = null;  // best-match template for the current job post
+
+// keyword signals -> template (mirrors the profile auto-match approach)
+var TPL_SIGNALS = {
+  rescue:    ['fix','broken','bug','glitch','previous developer','previous dev','last developer','last dev','took over','take over','existing code','existing project','half done','half-done','incomplete','unfinished','abandoned','left the project','left off','messy','not working','rescue','redo','clean up','legacy','inherited'],
+  mvp:       ['mvp','startup','start-up','founder','co-founder','prototype','proof of concept','poc','validate','early stage','early-stage','from scratch','build from scratch','new idea','launch fast','first version'],
+  partner:   ['long-term','long term','ongoing','on-going','maintenance','retainer','monthly basis','continuous','part-time','part time','full-time','full time','dedicated','for months','someone reliable','regular work'],
+  quickwin:  ['urgent','asap','as soon as possible','immediately','right away','quick ','quickly','rush','tight deadline','time-sensitive','time sensitive','need it fast','start today'],
+  roi:       ['revenue','conversion','conversions','sales','growth','roi','leads','signups','sign-ups','scale','scaling','funnel','increase sales','business results','more customers','grow my'],
+  guarantee: ['scam','scammed','burned','bad experience','worried','guarantee','nervous','let down','disappointed','too many freelancers','hard to find'],
+  proof:     ['portfolio','examples','samples','previous work','past work','show me','case study','case studies','similar work','show your'],
+  highticket:['premium','high quality','high-quality','top quality','best developer','enterprise','large budget','big budget','well-funded','complex system'],
+  roadmap:   ['milestone','milestones','phases','phased','structured','step by step','step-by-step','clear plan','clear process']
+};
+
+function recommendTemplate(){
+  var text = ((gv('jobTitle')||'') + ' ' + (gv('jobDesc')||'')).toLowerCase();
+  var words = (gv('jobDesc')||'').split(/\s+/).filter(Boolean).length;
+  var scores = {};
+  Object.keys(TPL_SIGNALS).forEach(function(k){
+    var hits = 0;
+    TPL_SIGNALS[k].forEach(function(w){ if(w && text.indexOf(w) !== -1) hits++; });
+    if(hits) scores[k] = hits*2;
+  });
+  if(words > 0 && words < 25) scores.question = (scores.question||0) + 3; // thin / vague post
+  var best=null, bestScore=0;
+  Object.keys(scores).forEach(function(k){ if(scores[k] > bestScore){ bestScore=scores[k]; best=k; } });
+  return best || 'solver';
+}
+
+function applyTemplateRecommendation(){
+  recommendedTpl = recommendTemplate();
+  document.querySelectorAll('#tplGrid .tc').forEach(function(c){
+    c.classList.toggle('rec', c.getAttribute('data-key') === recommendedTpl);
+  });
+  if(!tplManual){
+    tpl = recommendedTpl;
+    document.querySelectorAll('#tplGrid .tc').forEach(function(c){
+      var on = c.getAttribute('data-key') === recommendedTpl;
+      c.classList.toggle('active', on);
+      c.classList.remove('on');
+    });
+  }
+  renderTplDesc();
+}
+
+function useRecommended(){
+  if(!recommendedTpl) return;
+  var card = document.querySelector('#tplGrid .tc[data-key="'+recommendedTpl+'"]');
+  if(card) setTpl(card, recommendedTpl);
+}
+
+function renderTemplates(){
+  var g=document.getElementById('tplGrid'); if(!g) return;
+  var html='';
+  for(var k in TEMPLATES){ if(!TEMPLATES.hasOwnProperty(k)) continue;
+    var t=TEMPLATES[k];
+    html+='<div class="tc'+(k===tpl?' active':'')+'" data-key="'+k+'" onclick="setTpl(this,\''+k+'\')">'
+        + '<div class="tc-dot"></div>'
+        + '<div class="tc-star">&#10024;</div>'
+        + '<div class="tc-tag">'+t.tag+'</div>'
+        + '<div class="tc-name">'+t.name+'</div>'
+        + '</div>';
+  }
+  g.innerHTML=html;
+  var c=document.getElementById('tplCount'); if(c) c.textContent=Object.keys(TEMPLATES).length;
+  renderTplDesc();
+}
+
+function renderTplDesc(){
+  var box=document.getElementById('tplDescBox'); if(!box) return;
+  var t=TEMPLATES[tpl]||TEMPLATES.solver;
+  var note='';
+  if(recommendedTpl){
+    if(tpl===recommendedTpl){
+      note='<div class="tpl-rec-line">&#10024; Best match for this job post</div>';
+    } else {
+      var rt=TEMPLATES[recommendedTpl];
+      note='<div class="tpl-rec-line tpl-rec-switch" onclick="useRecommended()">&#128161; Suggested: <b>'+(rt?rt.name:'')+'</b> &mdash; tap to use</div>';
+    }
+  }
+  box.innerHTML=note+t.desc;
+}
+
 var QF = {
   mern:   {t:'MERN Stack Developer for SaaS Web App',d:'We need an experienced MERN Stack developer to build a SaaS platform with user authentication, real-time dashboard, REST APIs, Stripe payments and MongoDB. AWS deployment.',sk:'MongoDB, Express.js, React.js, Node.js, AWS, Stripe, JWT',b:'$3,000-$8,000',tl:'5-8 weeks',c:'Full-Stack Web'},
   mobile: {t:'React Native Developer for iOS & Android App',d:'Looking for a React Native developer to build a cross-platform app with Firebase auth, push notifications, real-time chat and a clean modern UI.',sk:'React Native, iOS, Android, Firebase, Redux, Expo',b:'$4,000-$10,000',tl:'8-12 weeks',c:'Mobile App'},
@@ -508,12 +639,15 @@ function updateStats(){
 
 function setTpl(el,key){
   tpl=key;
+  tplManual=true;
   document.querySelectorAll('.tc').forEach(function(c){
     c.classList.remove('active');
     c.classList.remove('on');
   });
-  el.classList.add('active');
+  if(el) el.classList.add('active');
+  renderTplDesc();
 }
+renderTemplates();
 function setTone(el,t){
   tone=t;
   document.querySelectorAll('.tp').forEach(function(p){p.classList.remove('on');});
@@ -551,20 +685,107 @@ function doClear(){
   if(es) es.classList.remove('gone');
 }
 
+
+// ===== Instant local cover-letter draft (uses the selected winning template) =====
+function composeLetter(key, d){
+  function sk(n){ var a=(d.skills||'').split(',').map(function(s){return s.trim();}).filter(Boolean); return a.slice(0,n).join(', '); }
+  var title = d.title;
+  var openings = {
+    solver:     "Your " + title + " posting stood out to me — the heart of what you need is a solution built right the first time, and that is exactly where I focus. I can take what you have outlined and turn it into something that works the way you intended.",
+    highticket: "Thanks for posting " + title + ". I deliver complete solutions rather than the bare minimum, so you end up with something built to last — not just something that technically ticks the box.",
+    roadmap:    "I would be glad to help with " + title + ". What sets my work apart is the process: you will always know exactly where things stand, with zero surprises from start to finish.",
+    quickwin:   "I saw your " + title + " posting and I can start right away. If speed matters here, I will get a working first result in front of you fast so you see real progress immediately.",
+    guarantee:  "Your " + title + " posting caught my eye. I know hiring online can feel like a gamble, so I make it low-risk: we start small and you only continue once you are happy with the first deliverable.",
+    roi:        "Your " + title + " posting is interesting because the real goal is not just the build — it is the result it drives for your business. That is how I approach every project: tie the work to an outcome that matters.",
+    niche:      title + " is squarely in my wheelhouse. This is the exact kind of project I specialize in, so you will not be paying me to learn on the job.",
+    partner:    "I am interested in your " + title + " posting, especially as a long-term collaboration. I am looking for a client I can support consistently, not just a one-off task.",
+    mvp:        "Your " + title + " posting resonates with me. Working with founders, I know the priority is validating fast without burning runway, so I would keep the first version lean and focused on what proves the idea.",
+    question:   "Your " + title + " posting caught my attention. Before I dive in, I have a couple of quick questions so I scope this exactly right rather than guessing.",
+    rescue:     "I saw your " + title + " posting. Taking over a project that has stalled or broken is stressful — I have done it several times, and the first step is always a calm, honest audit of where things really stand.",
+    proof:      "Rather than just tell you I can handle " + title + ", let me show you: I have built very similar projects and can point you straight to the results."
+  };
+  var middles = {
+    solver:     "Here is how I would approach it: clarify the exact requirements, build in focused milestones with regular check-ins, then test thoroughly and hand everything over cleanly.",
+    highticket: "Here is what you would get: the core build done properly, a strategic add-on that adds real value, and 30 days of free support after launch so you are never left stranded.",
+    roadmap:    "My process is simple and transparent:\n1. Discovery — we lock the specs, deliverables and milestones\n2. Execution — weekly updates and a live staging link you can check anytime\n3. Handover — full testing, a walkthrough and documentation",
+    quickwin:   "Within the first 24-48 hours you will have a concrete first milestone in hand, and I will keep that momentum going with frequent updates so nothing stalls.",
+    guarantee:  "The way it works: we begin with a small paid milestone. If the first deliverable is not right, I fix it at no extra cost — so the risk sits with me, not you.",
+    roi:        "I would focus the work on the levers that move your numbers — conversion, speed, signups, whichever matters most — and keep tying each decision back to that outcome.",
+    niche:      "Because I have done this before, I can move quickly and avoid the common pitfalls, using " + (sk(3) || "the right tools") + " the way they are meant to be used.",
+    partner:    "Week to week you would get consistent communication, reliable availability with overlap in your timezone, and someone who treats your product as their own.",
+    mvp:        "I would ship the smallest version that still delivers value, get it in front of real users quickly, then iterate based on what you actually learn.",
+    question:   "Once those are clear, I would map a short plan and move straight into focused milestones so you see progress fast.",
+    rescue:     "From there I would give you a clear, honest plan: what is salvageable, what needs rebuilding, and a fixed path to a working product — no judgment, just a fix.",
+    proof:      "Same stack, same kind of problem — I can apply that directly to your project and get you a comparable result."
+  };
+  var P = [];
+  P.push(openings[key] || openings.solver);
+  var short = (d.len === 'short');
+
+  if (gc('i-proof')) {
+    var pf = '';
+    if (d.exp) pf = 'A little on my background: ' + d.exp.trim();
+    else if (sk(3)) pf = 'I work with ' + sk(3) + ' day in and day out.';
+    if (pf && !/[.!?]$/.test(pf)) pf += '.';
+    if (d.rel) pf += ' A recent, closely related project is ' + d.rel.trim() + '.';
+    if (pf) P.push(pf);
+  }
+
+  if (!short) {
+    if (middles[key]) P.push(middles[key]);
+  } else if (middles[key] && (key === 'highticket' || key === 'guarantee' || key === 'quickwin' || key === 'rescue' || key === 'roadmap')) {
+    P.push(middles[key]);
+  }
+
+  if (gc('i-q') && !short) {
+    if (key === 'question') P.push('To start: are you leaning toward a quick functional build or a more polished, scalable version? And what is the single most important outcome for you?');
+    else P.push('One quick question so I scope this exactly right: what does a great outcome look like for you here — is it speed, polish, or long-term maintainability?');
+  }
+
+  if (gc('i-rate')) {
+    P.push(d.bud ? ('On budget, ' + d.bud + ' works for the scope as I understand it, and I am happy to refine it together.') : 'Happy to align on budget and scope as soon as we connect.');
+  }
+
+  if (gc('i-cta')) {
+    P.push('If this sounds like a fit, I can share a short plan and we can start this week. When are you free for a quick chat?');
+  }
+
+  P.push('Best,\n' + (d.name || 'Abdullah'));
+  return P.join('\n\n');
+}
+
+function generateLetter(){
+  var jd = document.getElementById('jobDesc');
+  if (!jd || !jd.value.trim()) {
+    if (jd) { jd.focus(); jd.style.borderColor = 'rgba(255,92,92,0.5)'; setTimeout(function(){ jd.style.borderColor=''; }, 2000); }
+    flash('Paste the job description first!');
+    return;
+  }
+  var d = {
+    title:  gv('jobTitle') || 'your project',
+    cat:    gv('category'),
+    bud:    gv('budget'),
+    name:   gv('yourName') || 'Abdullah',
+    skills: gv('skills'),
+    exp:    gv('experience'),
+    rel:    gv('relProject'),
+    len:    gv('length')
+  };
+  var le = document.getElementById('letterEditor');
+  if (le) { le.value = composeLetter(tpl, d); }
+  var es = document.getElementById('emptyState'); if (es) es.classList.add('gone');
+  if (typeof goTab === 'function') goTab('letter', document.getElementById('t-letter'));
+  updateStats();
+  flash('Draft ready — edit it here, or send to an AI to refine');
+}
+
 function buildPrompt(){
   var title=gv('jobTitle'), desc=gv('jobDesc'), plat=gv('platform');
   var bud=gv('budget'), tl=gv('timeline'), cat=gv('category');
   var name=gv('yourName'), sk=gv('skills'), exp=gv('experience'), rel=gv('relProject');
   var len=gv('length'), lang=gv('language');
   var wt=len==='short'?'150-200':len==='medium'?'280-350':'400-500';
-  var tplT='';
-  if(tpl==='solver'){
-    tplT='OPEN WITH THIS TEMPLATE (Problem-Solver Hook):\n"It looks like your biggest challenge with [project] is [specific problem]. I reviewed your requirements and can solve this by [specific solution] to ensure you achieve [goal]."\nFill ALL brackets with REAL specifics from the job description.\n\n';
-  } else if(tpl==='highticket'){
-    tplT='USE THIS TEMPLATE (High-Ticket Package):\nAfter a strong opening hook, include:\n"I provide a complete solution -- not just a basic deliverable. My package includes:\n* Core Build: [main deliverable]\n* Strategic Add-on: [bonus value]\n* 30-day Free Support post-launch\nThis ensures your project is built for growth."\n\n';
-  } else {
-    tplT='USE THIS TEMPLATE (Roadmap):\nAfter a strong opening, include:\n"Here is my 3-step process:\n1. Discovery: Specs, deliverables and milestones\n2. Execution: Weekly updates with live staging link\n3. Handover: Testing, walkthrough and documentation\nZero surprises."\n\n';
-  }
+  var tplT=(TEMPLATES[tpl]||TEMPLATES.solver).ins;
   var inc=[];
   if(gc('i-hook'))  inc.push('a compelling opening that shows you READ the job -- reference specific details');
   if(gc('i-proof')) inc.push('1-2 specific proof points: past projects, numbers or relevant results');
@@ -911,7 +1132,9 @@ function autoMatchProfile() {
 
   // Update profile selector UI
   renderProfileSuggestions(ranked.slice(0,4), topId);
-  flash('Profile matched: ' + top.name + ' -- best fit for this job!');
+  applyTemplateRecommendation();
+  var recName = ((TEMPLATES[recommendedTpl]||{}).name || '').replace(/^\S+\s*/, '');
+  flash('Matched ' + top.name + (recName ? (' + ' + recName + ' template') : ''));
 }
 
 function selectProfile(pid) {
@@ -1017,7 +1240,8 @@ function pickProject(btn) {
 (function() {
   function fixHeight() {
     var isIframe = window.self !== window.top;
-    if (isIframe) {
+    var mobile = window.innerWidth <= 900;
+    if (isIframe && !mobile) {
       document.documentElement.style.height = '100%';
       document.body.style.height = '100%';
       document.body.style.overflow = 'hidden';
@@ -1027,6 +1251,12 @@ function pickProject(btn) {
         var navH = nav ? nav.offsetHeight : 50;
         app.style.height = (window.innerHeight - navH) + 'px';
       }
+    } else {
+      document.documentElement.style.height = '';
+      document.body.style.height = '';
+      document.body.style.overflow = '';
+      var app2 = document.querySelector('.app');
+      if (app2) app2.style.height = '';
     }
   }
   fixHeight();
@@ -1048,7 +1278,7 @@ function pickProject(btn) {
     var mn  = document.querySelector('.main');
     var navH = nav ? nav.offsetHeight : 44;
     var total = window.innerHeight;
-    var avail = (total - navH) + 'px';
+    var avail = (window.innerWidth <= 900) ? '' : (total - navH) + 'px';
     if (app) app.style.height = avail;
     if (sb)  sb.style.height  = avail;
     if (mn)  mn.style.height  = avail;
