@@ -13,7 +13,11 @@
   --b1:rgba(255,255,255,0.07);--b2:rgba(184,255,60,0.12);
   --mt:#5A7A5E;--tx:#C8DCC8;--wh:#EEF4EE;
 }
-html,/* body merged above */
+html{background:var(--bg);}
+body{min-height:100vh;color:var(--tx);font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;background:
+  radial-gradient(1000px 560px at 6% -12%, rgba(184,255,60,0.10), transparent 55%),
+  radial-gradient(900px 620px at 110% -6%, rgba(93,202,165,0.06), transparent 52%),
+  var(--bg);}
 
 /*  NAV  */
 nav{height:44px;flex-shrink:0;background:var(--s1);border-bottom:1px solid var(--b1);display:flex;align-items:center;padding:0 16px;gap:10px;}
@@ -117,7 +121,8 @@ select.inp option{background:#0D120D;color:var(--wh);}
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
 
 /* Tabs */
-.tabs{height:40px;flex-shrink:0;background:rgba(9,16,10,0.8);border-bottom:1px solid var(--b1);display:flex;align-items:stretch;padding:0 14px;}
+.tabs{height:40px;flex-shrink:0;background:rgba(9,16,10,0.8);border-bottom:1px solid var(--b1);display:flex;align-items:stretch;padding:0 14px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
 .tab{padding:0 12px;font-size:11px;font-weight:600;color:var(--mt);cursor:pointer;border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;font-family:'Syne',sans-serif;transition:all 0.16s;display:flex;align-items:center;gap:5px;white-space:nowrap;}
 .tab:hover:not(.on){color:var(--wh);}
 .tab.on{color:var(--lime);border-bottom-color:var(--lime);}
@@ -204,6 +209,84 @@ select.inp option{background:#0D120D;color:var(--wh);}
   .sb-body::-webkit-scrollbar-track{background:rgba(255,255,255,0.03);border-radius:4px;}
   .sb-body::-webkit-scrollbar-thumb{background:rgba(184,255,60,0.25);border-radius:4px;}
   .sb-body::-webkit-scrollbar-thumb:hover{background:rgba(184,255,60,0.45);}
+
+/* ============================================================
+   PREMIUM THEME POLISH  (loaded last — refines the whole UI)
+   ============================================================ */
+::selection{background:rgba(184,255,60,0.25);color:#fff;}
+
+/* Canvas: soft glow + subtle dot texture behind the output */
+.main{
+  background-color:transparent;
+  background-image:
+    radial-gradient(640px 400px at 80% -12%, rgba(184,255,60,0.06), transparent 60%),
+    radial-gradient(rgba(255,255,255,0.022) 1px, transparent 1px);
+  background-size:auto, 24px 24px;
+}
+
+/* Glassy chrome */
+nav{
+  background:linear-gradient(180deg, rgba(18,26,18,0.88), rgba(12,18,13,0.72));
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--b2);
+  box-shadow:0 1px 0 rgba(184,255,60,0.06), 0 8px 26px -20px #000;
+}
+.n-box{background:linear-gradient(135deg, rgba(184,255,60,0.30), rgba(184,255,60,0.08));box-shadow:0 0 16px -5px var(--lime), inset 0 0 0 1px var(--lb);}
+.n-title{letter-spacing:0.3px;}
+.sidebar{
+  background:linear-gradient(180deg, rgba(16,22,16,0.62), rgba(11,17,12,0.62));
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  border-right:1px solid var(--b2);
+}
+.gen-bar{background:rgba(12,18,13,0.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);}
+.tabs{background:rgba(11,17,12,0.66);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);}
+.pbar{background:rgba(184,255,60,0.05);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);}
+.send-row{background:rgba(12,18,13,0.85);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);}
+.stats{background:rgba(9,16,10,0.6);}
+
+/* Primary generate button — richer gradient + glow */
+.btn-g{background:linear-gradient(135deg,#CCFF5C,#93E223);box-shadow:0 6px 20px -6px rgba(184,255,60,0.55), inset 0 1px 0 rgba(255,255,255,0.35);}
+.btn-g:hover{transform:translateY(-1px);box-shadow:0 9px 26px -6px rgba(184,255,60,0.7), inset 0 1px 0 rgba(255,255,255,0.4);}
+
+/* Inputs — glow focus ring */
+.inp{background:rgba(255,255,255,0.035);transition:border-color .18s, box-shadow .18s, background .18s;}
+.inp:focus{border-color:var(--lb);background:rgba(184,255,60,0.045);box-shadow:0 0 0 3px rgba(184,255,60,0.10);}
+
+/* Section number chip glow */
+.sh-n{background:linear-gradient(135deg, rgba(184,255,60,0.28), rgba(184,255,60,0.07));box-shadow:0 0 12px -4px var(--lime);}
+
+/* Template cards — depth + gradient active */
+.tc{background:rgba(255,255,255,0.025);}
+.tc:hover{box-shadow:0 6px 16px -8px rgba(0,0,0,0.7);}
+.tc.on,.tc.active{background:linear-gradient(135deg, rgba(184,255,60,0.15), rgba(184,255,60,0.045));}
+
+/* Tabs — active glow */
+.tab.on{text-shadow:0 0 14px rgba(184,255,60,0.45);}
+
+/* Button depth (brand colors kept) */
+.wbig,.snd,.wb{box-shadow:0 3px 12px -4px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.14);}
+.wbig.draft{background:linear-gradient(135deg,#CCFF5C,#9BEA2E);}
+
+/* Empty-state icon — gradient + glow */
+.e-ico{background:linear-gradient(135deg, rgba(184,255,60,0.22), rgba(184,255,60,0.06));box-shadow:0 0 30px -8px var(--lime), inset 0 0 0 1px var(--lb);}
+
+/* Per-view accent — each tab reads as its own page */
+#p-letter .pbar{border-left:3px solid #B8FF3C;}
+#p-prompt .pbar{border-left:3px solid #4DA8FF;}
+#p-pres   .pbar{border-left:3px solid #FFC83D;}
+#p-figma  .pbar{border-left:3px solid #B388FF;}
+
+/* Entrance animations */
+@keyframes pwUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+@keyframes pwFade{from{opacity:0;}to{opacity:1;}}
+.sidebar{animation:pwUp .5s cubic-bezier(.2,.7,.2,1) both;}
+.main{animation:pwFade .6s .06s ease both;}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:1ms !important;animation-iteration-count:1 !important;transition-duration:1ms !important;scroll-behavior:auto !important;}
+  .e-ico{animation:none !important;}
+}
+
 </style>
 </head>
 <body>
@@ -383,6 +466,10 @@ select.inp option{background:#0D120D;color:var(--wh);}
       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
       Presentation
     </button>
+    <button class="tab" id="t-figma" onclick="genFigma()">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><circle cx="17.5" cy="17.5" r="3"/></svg>
+      Figma Prompts
+    </button>
     <div class="t-space"></div>
     <div class="wb-row">
       <span class="wb-lbl">Write:</span>
@@ -454,6 +541,17 @@ select.inp option{background:#0D120D;color:var(--wh);}
       <button class="snd g" style="flex:1" onclick="presTo('gemini')">Gemini</button>
       <button class="snd c" style="flex:1" onclick="presTo('gpt')">ChatGPT</button>
       <button class="snd a" style="flex:1" onclick="presTo('claude')">Claude</button>
+    </div>
+  </div>
+
+  <!-- Figma Prompts Panel -->
+  <div class="panel" id="p-figma">
+    <div class="pbar"><span class="pbar-t">&#127912; Figma Make prompts &mdash; paste into Figma Make to build the screens</span><button class="pbar-btn" onclick="doCopy()">Copy</button></div>
+    <textarea class="editor mono" id="figmaEditor" placeholder="Click Figma Prompts to generate design prompts for this platform..." readonly></textarea>
+    <div class="send-row">
+      <span class="s-lbl">Build in:</span>
+      <button class="snd a" style="flex:1" onclick="openFigma()">&#127912; Open Figma Make</button>
+      <button class="snd c" style="flex:1" onclick="doCopy()">Copy Prompts</button>
     </div>
   </div>
 
@@ -777,6 +875,127 @@ function generateLetter(){
   if (typeof goTab === 'function') goTab('letter', document.getElementById('t-letter'));
   updateStats();
   flash('Draft ready — edit it here, or send to an AI to refine');
+}
+
+
+// ===== Figma Make design-prompt generator (per platform type) =====
+function openFigma(){ window.open('https://www.figma.com/make/', '_blank'); }
+
+var FIG_WEB = [
+  ["Landing / Marketing Page","Design a high-converting landing page: a bold hero (headline, subheadline, primary + secondary CTA) with a clean product mockup, a logo cloud, a 3-column feature section with icons, a stats band, one testimonial, a pricing teaser, and a footer. Animations: hero text fades and slides in, the product mockup floats with subtle parallax, feature cards lift on hover, the stat numbers count up, and a soft gradient glow sits behind the hero."],
+  ["Sign Up & Login","Design an auth screen as a split layout: left a branded panel with a gradient and 3 short value props, right a clean card with email + password, social sign-in buttons, and a Login / Sign Up toggle. Animations: input focus glow, button press feedback, gentle motion on the panel illustration, and a smooth cross-fade when switching between Login and Sign Up."],
+  ["Dashboard / Overview","Design the main dashboard: a left sidebar nav, a top bar with search and avatar, a row of KPI cards, a large primary chart (area or line) plus a secondary donut chart, and a recent-activity table. Animations: KPI cards stagger in, the numbers count up, the charts draw in, hover tooltips on data points, and skeleton loaders before content appears."],
+  ["Core Feature - Management","Design the core working screen: a data table with search, filters and status badges, row actions and pagination, plus a slide-in detail drawer on the right and bulk-action support. Animations: rows fade in, the drawer slides in from the right, status badges pulse on change, and inline edits transition smoothly."],
+  ["Settings & Profile","Design a settings area with tabs (Profile, Account, Notifications, Billing): avatar upload, form fields, toggle switches, and a sticky save bar. Animations: tab content cross-fades, toggles animate on and off, and the save button shows a success check animation."]
+];
+var FIG_MOBILE = [
+  ["Splash & Onboarding","Design a mobile splash plus a 3-slide onboarding flow: each slide has an illustration, a short headline, body text, and progress dots, ending on a Get Started CTA. Animations: smooth slide transitions, the illustration floats, the progress dots morph, and the CTA gently pulses."],
+  ["Sign Up & Login","Design a mobile auth screen: logo, email + password inputs, social sign-in, a biometric hint, and a Sign Up link. Animations: field focus states, a button loading spinner, and a keyboard-aware layout that animates up."],
+  ["Home","Design the app home: a top app bar with greeting and search, horizontally scrollable category chips, a vertical feed of rich content cards, and a bottom tab bar. Animations: cards stagger in, pull-to-refresh, the active bottom tab morphs, and cards scale slightly on press."],
+  ["Detail / Action","Design a detail screen: a hero image header, title and meta, description, primary action buttons, and a related-items row. Animations: a shared-element transition from the list, the header collapses on scroll, and the like/save button has a small burst animation."],
+  ["Profile & Settings","Design a profile screen: header with avatar and key stats, a list of settings rows with icons, toggles, and a logout button. Animations: header parallax on scroll, row press highlight, and animated toggles."]
+];
+var FIG_AI = [
+  ["Landing","Design an AI-product landing page: a hero with a bold promise and CTA, an animated gradient-mesh background, a live typing demo of the AI in action, a feature grid, and social proof. Animations: the demo types out text, a glowing orb pulses, feature cards lift on hover, and stats count up."],
+  ["Dashboard","Design an AI dashboard: usage-metric cards, a recent-runs list, model/agent cards, and credits remaining. Animations: counters animate, the activity stream updates live, and accent glows pulse softly."],
+  ["AI Chat / Assistant","Design a chat assistant: a conversation with user and AI message bubbles, a typing indicator, a prompt input with attach and send, suggestion chips, and streaming AI responses. Animations: messages slide in, animated typing dots, a streaming text reveal, and a send button that morphs while sending."],
+  ["Workflow / Automation Builder","Design a node-based automation canvas: draggable nodes (Trigger, Action, Condition) connected by smooth curved edges, a left panel of building blocks, zoom controls, and a minimap. Animations: nodes drop in, edges draw between them, nodes glow on hover, and a satisfying connect animation when linking."],
+  ["Settings & Integrations","Design an integrations screen: a grid of integration cards with connect/disconnect states, API keys with copy, and model settings. Animations: card connect-state transition, animated toggles, and copy-key confirmation feedback."]
+];
+var FIG_WEB3 = [
+  ["Landing","Design a Web3 landing page: a bold hero with an animated 3D coin/token, key stats, a how-it-works section, audited/secure badges, and a footer. Animations: the 3D coin floats and rotates, numbers count up, and a gradient glow sits behind the hero."],
+  ["Connect Wallet","Design a connect-wallet screen/modal: cards for MetaMask, WalletConnect and Coinbase Wallet, each with logo and a short label. Animations: the modal scales in, wallet cards glow on hover, and a connecting spinner appears on select."],
+  ["Portfolio Dashboard","Design a portfolio dashboard: total balance, an asset-allocation donut, a holdings list with mini sparklines and 24h change, and overall P&L. Animations: the balance counts up, the donut draws in, sparklines animate, and values flash green or red on change."],
+  ["Swap / Trade","Design a token-swap screen: a swap card with from/to token selectors, amount input, exchange rate, slippage, and a swap button, beside a price chart. Animations: a token-select modal, a rotating swap arrow, animated button states, and a live-updating chart."],
+  ["Transactions / Activity","Design a transactions screen: a list of transactions with status (pending/confirmed), shortened hashes, timestamps, and filters. Animations: rows fade in, pending rows pulse, and a confirmed check animates in."]
+];
+var FIG_SHOP = [
+  ["Storefront Home","Design an e-commerce home: a hero promo banner, category tiles, a featured-products carousel, a deals strip, and a newsletter signup. Animations: a subtle ken-burns on the banner, product cards lift with a quick-add reveal, and the carousel auto-scrolls."],
+  ["Product Listing","Design a product listing/collection page: a filter sidebar (price, category, rating), a responsive product grid with image, price, rating and hover quick-view, and a sort bar. Animations: the grid staggers in, cards swap image and reveal an add-to-cart on hover, and filters apply with a smooth transition."],
+  ["Product Detail","Design a product detail page: an image gallery with thumbnails, title, price, variant swatches (size/color), add-to-cart, an accordion for details, and reviews. Animations: gallery image zoom, swatch selection, an add-to-cart fly-to-cart animation, and a sticky buy bar on scroll."],
+  ["Cart & Checkout","Design cart + checkout: cart line items with quantity steppers and an order summary, then a multi-step checkout (information, shipping, payment) with a progress indicator. Animations: quantity changes animate, steps transition smoothly, fields validate inline, and a success state with subtle confetti."],
+  ["Account & Orders","Design an account area: profile details, order-history cards with status, saved addresses, and a wishlist. Animations: order cards expand for detail, animated status badges, and tab transitions."]
+];
+var FIG_DATA = [
+  ["Landing","Design an analytics-product landing page: a hero with a bold data-driven promise and CTA, a dashboard preview mockup, a feature grid, and social proof. Animations: the dashboard preview animates, charts draw in, and stats count up."],
+  ["Analytics Dashboard","Design a data dashboard: a row of KPI cards, multiple charts (line, bar, and a heatmap), a date-range picker, and filters. Animations: charts draw in, numbers count up, and filter/date changes transition smoothly."],
+  ["Data Explorer","Design a data explorer: a query/filter panel, a results table with sortable columns and column controls, and a pivot/group option. Animations: skeleton loading, smooth sort/filter transitions, and row hover highlights."],
+  ["Insights / Report","Design an insights report: a narrative layout with section headings, embedded charts, key-finding callout cards, and an export button. Animations: sections reveal on scroll, charts animate, and key numbers highlight."],
+  ["Settings","Design a settings screen: data sources, team members, and notification preferences with toggles and a save bar. Animations: tab cross-fades, animated toggles, and a save success check."]
+];
+
+var FIG_SETS = {
+  "Full-Stack Web":    {accent:"an indigo-blue", domain:"full-stack web", flow:"Landing -> Sign Up -> Dashboard -> Management -> Settings", screens:FIG_WEB},
+  "Ruby on Rails":     {accent:"an indigo-blue", domain:"web application", flow:"Landing -> Sign Up -> Dashboard -> Management -> Settings", screens:FIG_WEB},
+  "UI/UX Design":      {accent:"a violet", domain:"product", flow:"Landing -> Sign Up -> Dashboard -> Management -> Settings", screens:FIG_WEB},
+  "Other":             {accent:"an indigo-blue", domain:"software", flow:"Landing -> Sign Up -> Dashboard -> Management -> Settings", screens:FIG_WEB},
+  "Mobile App":        {accent:"a violet", domain:"mobile app", flow:"Onboarding -> Sign Up -> Home -> Detail -> Profile", screens:FIG_MOBILE},
+  "AI & Automation":   {accent:"an electric purple and cyan", domain:"AI", flow:"Landing -> Dashboard -> AI Chat -> Workflow Builder -> Settings", screens:FIG_AI},
+  "Blockchain/Web3":   {accent:"an emerald-teal with subtle gold", domain:"Web3", flow:"Landing -> Connect Wallet -> Portfolio -> Swap -> Transactions", screens:FIG_WEB3},
+  "WordPress/Shopify": {accent:"a warm coral", domain:"e-commerce", flow:"Home -> Listing -> Product Detail -> Cart & Checkout -> Account", screens:FIG_SHOP},
+  "Data Science":      {accent:"a blue-teal", domain:"data analytics", flow:"Landing -> Dashboard -> Data Explorer -> Insights -> Settings", screens:FIG_DATA}
+};
+
+function genFigma(){
+  var title = gv('jobTitle') || 'Untitled Platform';
+  var cat   = gv('category') || 'Other';
+  var desc  = gv('jobDesc') || '';
+  var s = FIG_SETS[cat] || FIG_SETS['Other'];
+  var shortDesc = desc ? (desc.length > 260 ? desc.slice(0,260).trim() + '...' : desc.trim()) : '(briefly describe what the platform does here)';
+  var L = [];
+  L.push('====================================================');
+  L.push('  FIGMA MAKE - DESIGN PROMPTS');
+  L.push('  Platform: ' + title);
+  L.push('  Type: ' + cat + (s.domain ? (' (' + s.domain + ')') : ''));
+  L.push('====================================================');
+  L.push('');
+  L.push('HOW TO USE: Open Figma Make. Paste STEP 0 first to lock the style, then paste each SCREEN prompt one at a time (or paste everything for a full multi-screen flow). Finish with the PROTOTYPE prompt to make it clickable for the client.');
+  L.push('');
+  L.push('----------------------------------------------------');
+  L.push('STEP 0 - DESIGN SYSTEM & STYLE   (paste first)');
+  L.push('----------------------------------------------------');
+  L.push('Create a modern, premium design system for "' + title + '", a ' + (s.domain || 'software') + ' platform.');
+  L.push('What it does: ' + shortDesc);
+  L.push('Style: clean and spacious, with ' + s.accent + ' accent on a neutral base, soft layered shadows, 14-16px rounded corners, generous whitespace, crisp icons, and a clear type scale (large bold display headings, comfortable readable body). Provide BOTH light and dark themes.');
+  L.push('Reusable components: primary / secondary / ghost buttons, inputs and dropdowns, cards, top nav, sidebar, tabs, badges and chips, tooltips, modals, data tables, and chart styles.');
+  L.push('Overall feel: polished, trustworthy and high-effort -- like a well-funded product, not a template.');
+  L.push('');
+  s.screens.forEach(function(sc, i){
+    L.push('----------------------------------------------------');
+    L.push('SCREEN ' + (i+1) + ' - ' + sc[0]);
+    L.push('----------------------------------------------------');
+    L.push(sc[1]);
+    L.push('');
+  });
+  L.push('----------------------------------------------------');
+  L.push('GLOBAL ANIMATIONS & POLISH   (apply to every screen)');
+  L.push('----------------------------------------------------');
+  L.push('- Staggered entrance: elements fade and slide up on load, about 70ms apart');
+  L.push('- Hover/active states everywhere: cards lift with a soft glow, buttons press');
+  L.push('- Animated data: numbers count up, charts draw in, progress bars fill');
+  L.push('- Loading skeletons and friendly empty states');
+  L.push('- Smooth transitions between screens (smart-animate)');
+  L.push('- Subtle gradient/glow accents and light glassmorphism on key surfaces');
+  L.push('- Fully responsive: design BOTH desktop and mobile versions');
+  L.push('');
+  L.push('----------------------------------------------------');
+  L.push('PROTOTYPE / FLOW   (paste last)');
+  L.push('----------------------------------------------------');
+  L.push('Connect the screens into an interactive prototype: ' + s.flow + ', using smart-animate transitions, so I can show the client a clickable demo.');
+  L.push('');
+  L.push('TIP: On any screen you can add "make it look more premium and more animated" to push the quality even higher.');
+  var out = L.join('\n');
+
+  var fe = document.getElementById('figmaEditor');
+  if (fe) { fe.removeAttribute('readonly'); fe.value = out; fe.setAttribute('readonly',''); }
+  navigator.clipboard.writeText(out).catch(function(){});
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('on'); });
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('on'); });
+  var tb = document.getElementById('t-figma'); if (tb) tb.classList.add('on');
+  var pf = document.getElementById('p-figma'); if (pf) pf.classList.add('on');
+  curTab = 'figma';
+  updateStats();
+  flash('Figma Make prompts ready -- copied to clipboard!');
 }
 
 function buildPrompt(){
