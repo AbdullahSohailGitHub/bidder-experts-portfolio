@@ -41,10 +41,10 @@ nav .right{margin-left:auto;display:flex;align-items:center;gap:6px;}
 
 /* Generate buttons -- always pinned top */
 .gen-bar{flex-shrink:0;display:flex;gap:5px;padding:8px 12px;border-bottom:1px solid var(--b2);background:var(--s1);}
-.btn-g{flex:1;padding:8px 6px;background:var(--lime);color:#09100A;font-family:'Syne',sans-serif;font-size:11px;font-weight:800;border:none;border-radius:7px;cursor:pointer;transition:all 0.18s;display:flex;align-items:center;justify-content:center;gap:5px;box-shadow:0 2px 10px rgba(184,255,60,0.28);}
+.btn-g{flex:1;padding:10px 6px;background:var(--lime);color:#09100A;font-family:'Syne',sans-serif;font-size:11.5px;font-weight:800;letter-spacing:.3px;border:none;border-radius:9px;cursor:pointer;transition:all 0.18s;display:flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 2px 10px rgba(184,255,60,0.28);}
 .btn-g:hover{background:#9fe030;transform:translateY(-1px);}
-.btn-p{flex:1;padding:8px 6px;background:var(--ld);border:1px solid var(--lb);border-radius:7px;color:var(--lime);font-family:'Syne',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:all 0.18s;display:flex;align-items:center;justify-content:center;gap:5px;}
-.btn-p:hover{background:rgba(184,255,60,0.18);}
+.btn-p{flex:1;padding:10px 6px;background:linear-gradient(160deg,rgba(184,255,60,0.10),rgba(184,255,60,0.03));border:1px solid var(--lb);border-radius:9px;color:var(--lime);font-family:'Syne',sans-serif;font-size:11.5px;font-weight:700;letter-spacing:.3px;cursor:pointer;transition:all 0.18s;display:flex;align-items:center;justify-content:center;gap:6px;}
+.btn-p:hover{background:rgba(184,255,60,0.18);transform:translateY(-1px);border-color:var(--lime);}
 
 /* Scrollable form area */
 .sb-body{flex:1;overflow-y:auto;overflow-x:hidden;padding:10px 12px 16px;scrollbar-width:thin;scrollbar-color:rgba(184,255,60,0.15) transparent;min-height:0;}
@@ -112,10 +112,15 @@ select.inp option{background:#0D120D;color:var(--wh);}
 .cb input{accent-color:var(--lime);width:11px;height:11px;flex-shrink:0;}
 
 /* Quick fill */
-.qf-g{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
-.qb{padding:5px 4px;border-radius:6px;background:rgba(255,255,255,0.03);border:1px solid var(--b1);color:var(--mt);font-size:10px;cursor:pointer;transition:all 0.16s;font-family:'DM Sans',sans-serif;display:flex;flex-direction:column;align-items:center;gap:1px;white-space:nowrap;}
-.qb:hover{background:var(--ld);border-color:var(--lb);color:var(--lime);}
-.qb span:first-child{font-size:13px;}
+.qf-g{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
+.qb{display:flex;flex-direction:column;align-items:center;gap:7px;padding:11px 6px 9px;border-radius:11px;background:linear-gradient(160deg,rgba(255,255,255,0.05),rgba(255,255,255,0.015));border:1px solid var(--b1);color:var(--tx);font-family:'Syne',sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.2px;cursor:pointer;transition:transform .16s,border-color .16s,box-shadow .16s,background .16s;white-space:nowrap;}
+.qb .qb-ic{display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;background:rgba(184,255,60,0.07);border:1px solid var(--b1);color:var(--lime);transition:all .16s;}
+.qb .qb-ic svg{width:15px;height:15px;}
+.qb .qb-l{color:var(--tx);transition:color .16s;}
+.qb:hover{transform:translateY(-2px);border-color:var(--lb);background:linear-gradient(160deg,rgba(184,255,60,0.09),rgba(184,255,60,0.02));box-shadow:0 9px 22px -11px #000;}
+.qb:hover .qb-ic{background:var(--lime);color:#0A1207;border-color:transparent;box-shadow:0 0 14px -3px var(--lime);}
+.qb:hover .qb-l{color:var(--lime);}
+.qb:active{transform:translateY(0);}
 
 /*  MAIN  */
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
@@ -547,6 +552,29 @@ nav{
 .wz-next:hover{transform:translateY(-1px);}
 @media(prefers-reduced-motion:reduce){ .wz-step{animation:none;} }
 
+
+/* ===================== ADD CUSTOM PROFILE ===================== */
+.addp{margin-top:6px;border-top:1px dashed var(--b1);padding-top:12px;}
+.addp-toggle{width:100%;display:flex;align-items:center;justify-content:center;gap:7px;height:36px;border-radius:9px;background:var(--ld);border:1px dashed var(--lb);color:var(--lime);font-family:'Syne',sans-serif;font-size:11.5px;font-weight:700;cursor:pointer;transition:all .15s;}
+.addp-toggle span{font-size:15px;line-height:1;}
+.addp-toggle:hover{background:rgba(184,255,60,0.16);border-style:solid;}
+.addp-panel{display:none;margin-top:10px;background:rgba(255,255,255,0.02);border:1px solid var(--b1);border-radius:11px;padding:11px;}
+.addp-panel.on{display:block;animation:wzFade .2s ease both;}
+.addp-panel .inp{margin-bottom:7px;font-size:12px;}
+.addp-actions{display:flex;gap:7px;margin-top:2px;}
+.addp-save{flex:1;height:34px;border-radius:8px;background:linear-gradient(135deg,#CCFF5C,#93E223);border:none;color:#0A1207;font-family:'Syne',sans-serif;font-size:11.5px;font-weight:800;cursor:pointer;transition:transform .15s;}
+.addp-save:hover{transform:translateY(-1px);}
+.addp-cancel{flex:0 0 auto;padding:0 14px;height:34px;border-radius:8px;background:rgba(255,255,255,0.04);border:1px solid var(--b1);color:var(--mt);font-family:'Syne',sans-serif;font-size:11px;font-weight:700;cursor:pointer;}
+.addp-cancel:hover{color:var(--wh);border-color:var(--lb);}
+.addp-list{margin-top:10px;}
+.addp-list-t{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);margin-bottom:6px;font-weight:700;}
+.addp-item{display:flex;align-items:center;gap:8px;background:rgba(9,16,10,0.4);border:1px solid var(--b1);border-radius:8px;padding:7px 9px;margin-bottom:6px;}
+.addp-item span{flex:1;min-width:0;font-size:11.5px;color:var(--wh);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.addp-item span i{font-style:normal;color:var(--mt);font-size:10px;}
+.addp-item button{flex:0 0 auto;height:24px;padding:0 9px;border-radius:6px;background:var(--ld);border:1px solid var(--lb);color:var(--lime);font-family:'Syne',sans-serif;font-size:9.5px;font-weight:700;cursor:pointer;}
+.addp-item .addp-del{background:none;border:none;color:var(--mt);font-size:16px;padding:0 4px;}
+.addp-item .addp-del:hover{color:#FF6B6B;}
+
 </style>
 </head>
 <body>
@@ -629,12 +657,12 @@ nav{
 <!-- 5. QUICK FILL -->
     <div class="sh"><span class="sh-n">&#9889;</span>Quick Start <span class="wz-hint">pre-fill from your stack</span></div>
     <div class="qf-g" style="margin-bottom:4px;">
-      <button class="qb" onclick="qf('mern')"><span>&#9889;</span><span>MERN</span></button>
-      <button class="qb" onclick="qf('mobile')"><span>&#128241;</span><span>Mobile</span></button>
-      <button class="qb" onclick="qf('ai')"><span>&#129302;</span><span>AI/n8n</span></button>
-      <button class="qb" onclick="qf('rails')"><span>&#128200;</span><span>Rails</span></button>
-      <button class="qb" onclick="qf('wp')"><span>&#127760;</span><span>WP</span></button>
-      <button class="qb" onclick="qf('design')"><span>&#127912;</span><span>UI/UX</span></button>
+      <button class="qb" onclick="qf('mern')"><span class="qb-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span><span class="qb-l">MERN</span></button>
+      <button class="qb" onclick="qf('mobile')"><span class="qb-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2.5"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></span><span class="qb-l">Mobile</span></button>
+      <button class="qb" onclick="qf('ai')"><span class="qb-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="14" rx="2.5"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="2" x2="9" y2="5"/><line x1="15" y1="2" x2="15" y2="5"/><line x1="9" y1="19" x2="9" y2="22"/><line x1="15" y1="19" x2="15" y2="22"/><line x1="19" y1="9" x2="22" y2="9"/><line x1="19" y1="15" x2="22" y2="15"/><line x1="2" y1="9" x2="5" y2="9"/><line x1="2" y1="15" x2="5" y2="15"/></svg></span><span class="qb-l">AI/n8n</span></button>
+      <button class="qb" onclick="qf('rails')"><span class="qb-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></span><span class="qb-l">Rails</span></button>
+      <button class="qb" onclick="qf('wp')"><span class="qb-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span><span class="qb-l">WordPress</span></button>
+      <button class="qb" onclick="qf('design')"><span class="qb-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg></span><span class="qb-l">UI/UX</span></button>
     </div>
 
 <!-- 1. JOB -->
@@ -705,6 +733,23 @@ nav{
       <input class="inp" id="relProject" placeholder="Most relevant past project">
       <div id="project-picker" style="display:none;margin-top:4px;background:rgba(255,255,255,0.03);border:1px solid var(--b1);border-radius:6px;padding:6px;max-height:120px;overflow-y:auto;">
         <div class="pp-list" id="project-list"></div>
+      </div>
+    </div>
+
+    <!-- Add custom profile -->
+    <div class="addp">
+      <button class="addp-toggle" type="button" onclick="toggleAddProfile()"><span>&#43;</span> Add a new profile</button>
+      <div class="addp-panel" id="addpPanel">
+        <input class="inp" id="np-name" placeholder="Full name *">
+        <input class="inp" id="np-title" placeholder="Short label (e.g. MERN -- $50K+)">
+        <input class="inp" id="np-skills" placeholder="Skills (comma separated)">
+        <textarea class="inp" id="np-exp" rows="2" placeholder="Experience / short bio"></textarea>
+        <input class="inp" id="np-proj" placeholder="Best project (optional)">
+        <div class="addp-actions">
+          <button class="addp-save" type="button" onclick="addProfile()">&#128190; Save profile</button>
+          <button class="addp-cancel" type="button" onclick="toggleAddProfile()">Cancel</button>
+        </div>
+        <div class="addp-list" id="addpList"></div>
       </div>
     </div>
     </div>
@@ -1708,7 +1753,7 @@ function trackThis(){
 }
 function exportData(){
   try{
-    var data={app:'Bidder Experts Proposal Writer', version:1, exported:new Date().toISOString(), saved:savedList, track:trackList};
+    var data={app:'Bidder Experts Proposal Writer', version:1, exported:new Date().toISOString(), saved:savedList, track:trackList, profiles:customProfiles};
     var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
     var url=URL.createObjectURL(blob);
     var a=document.createElement('a'); a.href=url;
@@ -1723,11 +1768,12 @@ function importData(input){
   var r=new FileReader();
   r.onload=function(){
     try{
-      var d=JSON.parse(r.result); var aS=0, aT=0;
+      var d=JSON.parse(r.result); var aS=0, aT=0, aP=0;
       if(Array.isArray(d.saved)){ var ids={}; savedList.forEach(function(x){ids[x.id]=1;}); d.saved.forEach(function(x){ if(x&&x.id&&!ids[x.id]){ savedList.push(x); aS++; } }); savedList.sort(function(a,b){return b.id-a.id;}); bwSet(BW_SAVED, savedList); }
       if(Array.isArray(d.track)){ var idt={}; trackList.forEach(function(x){idt[x.id]=1;}); d.track.forEach(function(x){ if(x&&x.id&&!idt[x.id]){ trackList.push(x); aT++; } }); trackList.sort(function(a,b){return b.id-a.id;}); bwSet(BW_TRACK, trackList); }
+      if(Array.isArray(d.profiles)){ var idp={}; customProfiles.forEach(function(x){idp[x.id]=1;}); d.profiles.forEach(function(x){ if(x&&x.id&&!idp[x.id]){ customProfiles.push(x); registerProfileOption(x); aP++; } }); try{ localStorage.setItem(BW_PROFILES, JSON.stringify(customProfiles)); }catch(e){} if(typeof renderCustomProfileList==='function') renderCustomProfileList(); }
       if(typeof renderHome==='function') renderHome();
-      flash('Imported '+aS+' proposal'+(aS===1?'':'s')+', '+aT+' bid'+(aT===1?'':'s'));
+      flash('Imported '+aS+' proposal'+(aS===1?'':'s')+', '+aT+' bid'+(aT===1?'':'s')+(aP?(', '+aP+' profile'+(aP===1?'':'s')):''));
     }catch(e){ flash('That does not look like a valid backup file'); }
     input.value='';
   };
@@ -2231,6 +2277,64 @@ function pickProject(btn) {
   var sel = document.getElementById('profileSelect');
   if (sel) sel.value = 'moeed';
 })();
+
+// ===== Custom (user-added) profiles =====
+var BW_PROFILES='bw_profiles';
+var customProfiles=[];
+function registerProfileOption(p){
+  if(!p||!p.id) return;
+  PROFILES[p.id]={ name:p.name, title:p.title||'', skills:p.skills||'', experience:p.experience||'', categories:['general'], portfolioProjects: (p.project?[p.project]:[]) };
+  var sel=document.getElementById('profileSelect');
+  if(sel && !sel.querySelector('option[value="'+p.id+'"]')){
+    var o=document.createElement('option'); o.value=p.id;
+    o.textContent=(p.name+(p.title?(' -- '+p.title):''))+' (custom)';
+    sel.appendChild(o);
+  }
+}
+function loadCustomProfiles(){
+  try{ customProfiles=JSON.parse(localStorage.getItem(BW_PROFILES)||'[]'); }catch(e){ customProfiles=[]; }
+  if(!Array.isArray(customProfiles)) customProfiles=[];
+  customProfiles.forEach(registerProfileOption);
+  renderCustomProfileList();
+}
+function toggleAddProfile(){ var el=document.getElementById('addpPanel'); if(el) el.classList.toggle('on'); }
+function addProfile(){
+  var name=(gv('np-name')||'').trim();
+  if(!name){ var n=document.getElementById('np-name'); if(n) n.focus(); flash('Enter a name for the profile'); return; }
+  var p={ id:'custom_'+Date.now(), name:name, title:(gv('np-title')||'').trim(), skills:(gv('np-skills')||'').trim(), experience:(gv('np-exp')||'').trim(), project:(gv('np-proj')||'').trim() };
+  customProfiles.push(p);
+  try{ localStorage.setItem(BW_PROFILES, JSON.stringify(customProfiles)); }catch(e){}
+  registerProfileOption(p);
+  var sel=document.getElementById('profileSelect'); if(sel) sel.value=p.id;
+  selectProfile(p.id); if(typeof showProjectsForProfile==='function') showProjectsForProfile(p.id);
+  ['np-name','np-title','np-skills','np-exp','np-proj'].forEach(function(idf){ var e=document.getElementById(idf); if(e) e.value=''; });
+  renderCustomProfileList();
+  var panel=document.getElementById('addpPanel'); if(panel) panel.classList.remove('on');
+  flash('Profile added & selected');
+}
+function deleteCustomProfile(id){
+  if(!confirm('Delete this custom profile?')) return;
+  customProfiles=customProfiles.filter(function(x){return x.id!==id;});
+  try{ localStorage.setItem(BW_PROFILES, JSON.stringify(customProfiles)); }catch(e){}
+  if(PROFILES[id]) delete PROFILES[id];
+  var sel=document.getElementById('profileSelect');
+  if(sel){ var o=sel.querySelector('option[value="'+id+'"]'); if(o) o.remove(); if(sel.value===id){ sel.value='moeed'; selectProfile('moeed'); } }
+  renderCustomProfileList();
+}
+function useCustomProfile(id){ var sel=document.getElementById('profileSelect'); if(sel) sel.value=id; selectProfile(id); if(typeof showProjectsForProfile==='function') showProjectsForProfile(id); flash('Profile selected'); }
+function renderCustomProfileList(){
+  var el=document.getElementById('addpList'); if(!el) return;
+  if(!customProfiles.length){ el.innerHTML=''; return; }
+  var h='<div class="addp-list-t">Your saved profiles ('+customProfiles.length+')</div>';
+  customProfiles.forEach(function(p){
+    h+='<div class="addp-item"><span>'+bwEsc(p.name)+(p.title?(' <i>'+bwEsc(p.title)+'</i>'):'')+'</span>'
+      +'<button type="button" onclick="useCustomProfile(\''+p.id+'\')">Use</button>'
+      +'<button type="button" class="addp-del" onclick="deleteCustomProfile(\''+p.id+'\')" title="Delete">&times;</button></div>';
+  });
+  el.innerHTML=h;
+}
+loadCustomProfiles();
+
 
 
 // Fix height when running inside iframe
