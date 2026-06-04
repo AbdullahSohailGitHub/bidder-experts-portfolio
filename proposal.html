@@ -482,6 +482,71 @@ nav{
   .dash-cols{grid-template-columns:1fr;}
 }
 
+
+/* ===================== FOLLOW-UP MESSAGES ===================== */
+.fu-intro{font-size:12px;color:var(--mt);line-height:1.6;margin-bottom:16px;max-width:700px;}
+.fu-intro b{color:var(--lime);}
+.fu-card{background:rgba(255,255,255,0.03);border:1px solid var(--b1);border-radius:14px;padding:16px 18px;margin-bottom:13px;transition:border-color .16s;}
+.fu-card:hover{border-color:var(--lb);}
+.fu-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:11px;}
+.fu-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--wh);}
+.fu-when{font-size:10.5px;color:var(--mt);margin-top:2px;}
+.fu-copy{flex-shrink:0;height:30px;padding:0 15px;border-radius:7px;background:var(--ld);border:1px solid var(--lb);color:var(--lime);font-family:'Syne',sans-serif;font-size:10.5px;font-weight:700;cursor:pointer;transition:all .15s;}
+.fu-copy:hover{background:rgba(184,255,60,0.18);transform:translateY(-1px);}
+.fu-body{font-size:12.5px;color:var(--tx);line-height:1.65;white-space:pre-wrap;background:rgba(9,16,10,0.4);border:1px solid var(--b1);border-radius:9px;padding:13px 15px;}
+
+
+/* ---- backup buttons ---- */
+.data-row{display:flex;gap:8px;flex-wrap:wrap;}
+.data-btn{display:inline-flex;align-items:center;gap:7px;height:36px;padding:0 16px;border-radius:9px;background:rgba(255,255,255,0.04);border:1px solid var(--b1);color:var(--tx);font-family:'Syne',sans-serif;font-size:11.5px;font-weight:700;cursor:pointer;transition:all .15s;}
+.data-btn:hover{border-color:var(--lb);color:var(--lime);background:var(--ld);transform:translateY(-1px);}
+
+
+/* ===================== PDF / PRINT SHEET ===================== */
+#printSheet{display:none;}
+.pbar-pdf{color:var(--lime)!important;border-color:var(--lb)!important;background:var(--ld)!important;}
+@media print{
+  @page{ size:A4; margin:18mm 16mm; }
+  html,body{ background:#fff !important; }
+  body > *:not(#printSheet){ display:none !important; }
+  #printSheet{ display:block !important; position:static; color:#1c1c1c; font-family:'DM Sans',Arial,Helvetica,sans-serif; }
+  #printSheet .ps-head{ display:flex; align-items:center; justify-content:space-between; border-bottom:2px solid #93E223; padding-bottom:15px; margin-bottom:24px; }
+  #printSheet .ps-brand{ display:flex; align-items:center; gap:13px; }
+  #printSheet .ps-logo{ width:48px; height:48px; border-radius:12px; background:#0A120B; color:#B8FF3C; font-family:'Syne','DM Sans',sans-serif; font-weight:800; font-size:19px; display:flex; align-items:center; justify-content:center; }
+  #printSheet .ps-co{ font-family:'Syne','DM Sans',sans-serif; font-weight:800; font-size:21px; color:#0A120B; letter-spacing:-0.3px; }
+  #printSheet .ps-tag{ font-size:11px; color:#5a7a5e; letter-spacing:.6px; text-transform:uppercase; margin-top:2px; }
+  #printSheet .ps-date{ font-size:12px; color:#777; text-align:right; }
+  #printSheet .ps-subject{ font-size:15px; font-weight:700; color:#0A120B; margin-bottom:18px; font-family:'Syne','DM Sans',sans-serif; }
+  #printSheet .ps-body{ font-size:13.5px; line-height:1.75; color:#252525; }
+  #printSheet .ps-body p{ margin:0 0 13px; }
+  #printSheet .ps-foot{ margin-top:34px; padding-top:13px; border-top:1px solid #e2e2e2; font-size:11px; color:#888; text-align:center; letter-spacing:.3px; }
+}
+
+
+/* ===================== WRITER STEP WIZARD ===================== */
+.wz-top{margin-bottom:14px;}
+.wz-steps{display:flex;gap:4px;margin-bottom:10px;}
+.wz-pill{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;border-radius:10px;background:rgba(255,255,255,0.03);border:1px solid var(--b1);color:var(--mt);cursor:pointer;transition:all .16s;}
+.wz-pill b{width:21px;height:21px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:10px;font-weight:800;background:rgba(255,255,255,0.06);color:var(--mt);transition:all .16s;}
+.wz-pill span{font-size:9px;font-weight:700;font-family:'Syne',sans-serif;letter-spacing:.3px;}
+.wz-pill:hover{border-color:var(--lb);color:var(--tx);}
+.wz-pill.on{border-color:var(--lb);background:var(--ld);color:var(--lime);}
+.wz-pill.on b{background:var(--lime);color:#0A1207;box-shadow:0 0 10px -2px var(--lime);}
+.wz-pill.done{color:var(--tx);}
+.wz-pill.done b{background:rgba(184,255,60,0.22);color:var(--lime);}
+.wz-bar{height:3px;border-radius:3px;background:rgba(255,255,255,0.06);overflow:hidden;}
+.wz-bar-fill{height:100%;background:linear-gradient(90deg,#93E223,#CCFF5C);border-radius:3px;width:0;transition:width .3s ease;box-shadow:0 0 8px var(--lime);}
+.wz-hint{font-size:8px;font-weight:600;color:var(--mt);text-transform:none;letter-spacing:0;margin-left:5px;opacity:.8;}
+.wz-step{display:none;animation:wzFade .25s ease both;}
+.wz-step.on{display:block;}
+@keyframes wzFade{from{opacity:0;transform:translateX(6px);}to{opacity:1;transform:none;}}
+.wz-nav{display:flex;gap:8px;margin-top:16px;padding-top:13px;border-top:1px solid var(--b1);}
+.wz-back{flex:0 0 auto;padding:0 16px;height:38px;border-radius:9px;background:rgba(255,255,255,0.04);border:1px solid var(--b1);color:var(--tx);font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s;}
+.wz-back:hover{border-color:var(--lb);color:var(--wh);}
+.wz-next{flex:1;height:38px;border-radius:9px;background:linear-gradient(135deg,#CCFF5C,#93E223);border:none;color:#0A1207;font-family:'Syne',sans-serif;font-size:12.5px;font-weight:800;cursor:pointer;box-shadow:0 5px 16px -5px rgba(184,255,60,0.5);transition:transform .15s;}
+.wz-next:hover{transform:translateY(-1px);}
+@media(prefers-reduced-motion:reduce){ .wz-step{animation:none;} }
+
 </style>
 </head>
 <body>
@@ -549,7 +614,30 @@ nav{
 
   <div class="sb-body">
 
-    <!-- 1. JOB -->
+    <!-- STEP WIZARD -->
+    <div class="wz-top">
+      <div class="wz-steps">
+        <button class="wz-pill on" data-s="1" onclick="goStep(1)"><b>1</b><span>Job</span></button>
+        <button class="wz-pill" data-s="2" onclick="goStep(2)"><b>2</b><span>Profile</span></button>
+        <button class="wz-pill" data-s="3" onclick="goStep(3)"><b>3</b><span>Template</span></button>
+        <button class="wz-pill" data-s="4" onclick="goStep(4)"><b>4</b><span>Settings</span></button>
+      </div>
+      <div class="wz-bar"><div class="wz-bar-fill" id="wzBarFill" style="width:0"></div></div>
+    </div>
+
+    <div class="wz-step on" data-step="1">
+<!-- 5. QUICK FILL -->
+    <div class="sh"><span class="sh-n">&#9889;</span>Quick Start <span class="wz-hint">pre-fill from your stack</span></div>
+    <div class="qf-g" style="margin-bottom:4px;">
+      <button class="qb" onclick="qf('mern')"><span>&#9889;</span><span>MERN</span></button>
+      <button class="qb" onclick="qf('mobile')"><span>&#128241;</span><span>Mobile</span></button>
+      <button class="qb" onclick="qf('ai')"><span>&#129302;</span><span>AI/n8n</span></button>
+      <button class="qb" onclick="qf('rails')"><span>&#128200;</span><span>Rails</span></button>
+      <button class="qb" onclick="qf('wp')"><span>&#127760;</span><span>WP</span></button>
+      <button class="qb" onclick="qf('design')"><span>&#127912;</span><span>UI/UX</span></button>
+    </div>
+
+<!-- 1. JOB -->
     <div class="sh"><span class="sh-n">1</span>Job Details</div>
     <div class="fg"><label class="lb">Job Title <span style="color:var(--lime)">*</span></label>
       <input class="inp" id="jobTitle" placeholder="e.g. Full Stack React Developer" oninput="scheduleAutoMatch()">
@@ -577,8 +665,10 @@ nav{
         </select>
       </div>
     </div>
+    </div>
 
-    <!-- 2. PROFILE -->
+    <div class="wz-step" data-step="2">
+<!-- 2. PROFILE -->
     <div class="sh"><span class="sh-n">2</span>Profile</div>
     <div class="fg"><label class="lb">Select Profile <span style="color:var(--lime);font-size:8px;font-weight:700;">AUTO</span></label>
       <select class="inp" id="profileSelect" onchange="selectProfileFromDropdown(this.value)">
@@ -617,13 +707,17 @@ nav{
         <div class="pp-list" id="project-list"></div>
       </div>
     </div>
+    </div>
 
-    <!-- 3. TEMPLATE -->
+    <div class="wz-step" data-step="3">
+<!-- 3. TEMPLATE -->
     <div class="sh"><span class="sh-n">3</span>Winning Template<span class="tpl-count" id="tplCount">12</span></div>
     <div class="tpl-grid" id="tplGrid"></div>
     <div class="tpl-desc-box" id="tplDescBox"></div>
+    </div>
 
-    <!-- 4. SETTINGS -->
+    <div class="wz-step" data-step="4">
+<!-- 4. SETTINGS -->
     <div class="sh"><span class="sh-n">4</span>Settings</div>
     <div class="fg"><label class="lb">Tone</label>
       <div class="tone-g">
@@ -653,16 +747,11 @@ nav{
         <label class="cb"><input type="checkbox" id="i-rate"> Rate Mention</label>
       </div>
     </div>
+    </div>
 
-    <!-- 5. QUICK FILL -->
-    <div class="sh"><span class="sh-n">5</span>Quick Fill</div>
-    <div class="qf-g" style="margin-bottom:4px;">
-      <button class="qb" onclick="qf('mern')"><span>&#9889;</span><span>MERN</span></button>
-      <button class="qb" onclick="qf('mobile')"><span>&#128241;</span><span>Mobile</span></button>
-      <button class="qb" onclick="qf('ai')"><span>&#129302;</span><span>AI/n8n</span></button>
-      <button class="qb" onclick="qf('rails')"><span>&#128200;</span><span>Rails</span></button>
-      <button class="qb" onclick="qf('wp')"><span>&#127760;</span><span>WP</span></button>
-      <button class="qb" onclick="qf('design')"><span>&#127912;</span><span>UI/UX</span></button>
+    <div class="wz-nav">
+      <button class="wz-back" id="wzBack" onclick="goStep(wzCur-1)" style="visibility:hidden">&larr; Back</button>
+      <button class="wz-next" id="wzNext" onclick="wizNext()">Next &rarr;</button>
     </div>
 
   </div><!-- /sb-body -->
@@ -719,6 +808,8 @@ nav{
         <div style="display:flex;gap:6px;">
           <button class="pbar-btn" onclick="generateLetter()">&#9997;&#65039; Generate Draft</button>
           <button class="pbar-btn" onclick="saveProposal()">&#128190; Save</button>
+          <button class="pbar-btn" onclick="trackThis()">&#128202; Track</button>
+          <button class="pbar-btn pbar-pdf" onclick="downloadPDF()">&#128196; PDF</button>
           <button class="pbar-btn" onclick="doCopy()">Copy</button>
           <button class="pbar-btn" onclick="doClear()">Clear</button>
         </div>
@@ -904,6 +995,20 @@ nav{
 </section>
 
 
+
+<!-- FOLLOW-UP MESSAGES -->
+<section class="page" id="page-followups">
+  <div class="pg-head">
+    <div class="pg-title"><span class="pg-ico">&#128172;</span> Follow-up Messages</div>
+    <div class="pg-nav"></div>
+  </div>
+  <div class="pg-wrap">
+    <div class="fu-intro">Ready-to-paste messages for every stage after you apply. Swap the <b>[placeholders]</b>, then copy. A polite, well-timed follow-up is one of the biggest win-rate boosters on Upwork.</div>
+    <div id="followBody"></div>
+  </div>
+</section>
+
+<div id="printSheet" aria-hidden="true"></div>
 <div class="flash" id="flash">Done!</div>
 <script>
 
@@ -1371,12 +1476,13 @@ var savedList = bwGet(BW_SAVED);
 var trackList = bwGet(BW_TRACK);
 
 function goPage(name){
-  ['home','templates','saved','tracker','tips'].forEach(function(p){ var el=document.getElementById('page-'+p); if(el) el.classList.toggle('on', p===name); });
+  ['home','templates','saved','tracker','followups','tips'].forEach(function(p){ var el=document.getElementById('page-'+p); if(el) el.classList.toggle('on', p===name); });
   renderNavs(name);
   if(name==='home') renderHome();
   if(name==='templates') renderTemplatesPage();
   if(name==='saved') renderSaved();
   if(name==='tracker') renderTracker();
+  if(name==='followups') renderFollowups();
   if(name==='tips') renderTipTpls();
   var cur=document.getElementById('page-'+name); if(cur) cur.scrollTop=0;
 }
@@ -1403,6 +1509,7 @@ function renderSaved(){
       +'<div class="sv-meta"><span class="sv-tplchip">'+bwEsc(p.template)+'</span><span>'+bwDate(p.date)+'</span></div>'
       +'<div class="sv-snip">'+snip+'</div>'
       +'<div class="sv-acts"><button class="sv-open" onclick="openSaved('+p.id+')">Open</button>'
+      +'<button onclick="printSaved('+p.id+')">PDF</button>'
       +'<button onclick="copySaved('+p.id+')">Copy</button>'
       +'<button class="sv-del" onclick="deleteSaved('+p.id+')">Delete</button></div></div>';
   });
@@ -1410,7 +1517,7 @@ function renderSaved(){
 }
 function openSaved(id){ var p=findSaved(id); if(!p) return; var le=document.getElementById('letterEditor'); if(le) le.value=p.text; var es=document.getElementById('emptyState'); if(es) es.classList.add('gone'); goPage('writer'); if(typeof goTab==='function') goTab('letter', document.getElementById('t-letter')); if(typeof updateStats==='function') updateStats(); flash('Loaded into the editor'); }
 function copySaved(id){ var p=findSaved(id); if(!p) return; navigator.clipboard.writeText(p.text).then(function(){ flash('Copied'); }).catch(function(){}); }
-function deleteSaved(id){ savedList=savedList.filter(function(x){return x.id!==id;}); bwSet(BW_SAVED, savedList); renderSaved(); }
+function deleteSaved(id){ if(!confirm('Delete this saved proposal? This cannot be undone.')) return; savedList=savedList.filter(function(x){return x.id!==id;}); bwSet(BW_SAVED, savedList); renderSaved(); }
 
 /* ---- Bid tracker ---- */
 function addTrack(){
@@ -1451,7 +1558,7 @@ function renderTracker(){
   b.innerHTML=html;
 }
 function updateTrackStatus(id,val){ for(var i=0;i<trackList.length;i++){ if(trackList[i].id===id){ trackList[i].status=val; break; } } bwSet(BW_TRACK, trackList); renderTracker(); }
-function deleteTrack(id){ trackList=trackList.filter(function(x){return x.id!==id;}); bwSet(BW_TRACK, trackList); renderTracker(); }
+function deleteTrack(id){ if(!confirm('Delete this bid?')) return; trackList=trackList.filter(function(x){return x.id!==id;}); bwSet(BW_TRACK, trackList); renderTracker(); }
 
 /* ---- Tips: template cheat-sheet ---- */
 function renderTipTpls(){
@@ -1473,6 +1580,7 @@ var PAGES=[
   {id:'templates',label:'Templates',icon:'&#128218;'},
   {id:'saved',label:'Saved',icon:'&#128190;'},
   {id:'tracker',label:'Tracker',icon:'&#128200;'},
+  {id:'followups',label:'Follow-ups',icon:'&#128172;'},
   {id:'tips',label:'Tips',icon:'&#128161;'}
 ];
 function buildNav(el, active, topbar){
@@ -1518,6 +1626,7 @@ function renderHome(){
   if(rb.length){ rb.forEach(function(x){ h+='<div class="dash-item" style="cursor:default"><div class="di-main"><b>'+bwEsc(x.title)+'</b><i>'+bwDate(x.date)+'</i></div><span class="trk-badge st-'+x.status+'">'+x.status+'</span></div>'; }); }
   else h+='<div class="dash-empty">No bids tracked yet \u2014 add one in the Tracker.</div>';
   h+='</div></div>';
+  h+='<div class="dash-card" style="margin-top:14px;"><h3>Backup &amp; restore</h3><div class="dash-sub" style="margin-bottom:11px;">Your proposals and bids live in this browser. Export a backup to keep them safe or move them to another device.</div><div class="data-row"><button class="data-btn" onclick="exportData()">&#11015;&#65039; Export backup</button><label class="data-btn"><input type="file" accept="application/json" onchange="importData(this)" hidden>&#11014;&#65039; Import backup</label></div></div>';
   el.innerHTML=h;
 }
 
@@ -1556,6 +1665,116 @@ function useTemplate(k){
 }
 
 renderNavs('writer');
+
+
+// ===== Follow-up message templates =====
+var FOLLOWUPS=[
+  {title:"Gentle follow-up (no reply yet)", when:"A few days after applying, still no response.",
+   text:"Hi [Client name],\n\nJust following up on my proposal for [project]. I know your inbox is probably full, so no pressure if you are still reviewing.\n\nI am genuinely interested and already have a clear idea of how I would approach this. If it helps, I am happy to share a quick plan or hop on a short call.\n\nEither way, wishing you the best with the project.\n\nBest,\n[Your name]"},
+  {title:"After they viewed it", when:"Client opened your proposal but has not replied.",
+   text:"Hi [Client name],\n\nThanks for taking a look at my proposal for [project] - I appreciate you considering it.\n\nIf there is anything you would like me to clarify (scope, timeline, or how I would approach it), just say the word and I will get you the details right away.\n\nHappy to make this easy for you.\n\nBest,\n[Your name]"},
+  {title:"Replying to an interview / invite", when:"Client messaged you or invited you to interview.",
+   text:"Hi [Client name],\n\nThanks so much for reaching out - I am excited about [project].\n\nTo make sure I scope this perfectly, two quick questions:\n1. [Question about a key requirement]\n2. [Question about timeline or priority]\n\nI am also free for a quick call at [your availability] if that is easier. Looking forward to it!\n\nBest,\n[Your name]"},
+  {title:"Answering \u201cwhy should I hire you?\u201d", when:"Client asks why you are the right fit.",
+   text:"Great question - in short, I have done almost exactly this before and can start right away.\n\n[One relevant project + the result it delivered]. I keep communication clear with regular updates and a live preview, so you are never left guessing.\n\nMy focus is simple: get you [the outcome they want], on time and without surprises. Happy to share examples or a short plan whenever you are ready."},
+  {title:"Proposing a quick call", when:"The chat is warm - move it toward a decision.",
+   text:"Sounds great, [Client name]. The easiest next step is a quick 10-15 minute call so I can understand your goals and give you an accurate plan.\n\nI am free [day/time options] - does any of those work for you? If you would rather keep everything in chat, that is totally fine too.\n\nBest,\n[Your name]"},
+  {title:"Kickoff after being hired", when:"Client just hired you - set the tone.",
+   text:"Thank you, [Client name] - excited to get started on [project]!\n\nHere is what happens next:\n1. I will confirm the requirements and milestones today.\n2. You will get a short plan and timeline within 24 hours.\n3. From there: regular updates and a live preview link.\n\nIf you have any files, references, or access to share, feel free to drop them here. Let us build something great.\n\nBest,\n[Your name]"},
+  {title:"After delivery (review + repeat work)", when:"Project delivered successfully.",
+   text:"It has been a pleasure working with you on [project], [Client name]!\n\nEverything is delivered and ready to go. If anything comes up, I am here to help.\n\nIf you were happy with the work, a quick review would mean a lot - and I would love to be your go-to for any future [skill] work.\n\nThanks again,\n[Your name]"}
+];
+function renderFollowups(){
+  var el=document.getElementById('followBody'); if(!el) return;
+  var h='';
+  FOLLOWUPS.forEach(function(f,i){
+    h+='<div class="fu-card"><div class="fu-head"><div><div class="fu-title">'+bwEsc(f.title)+'</div><div class="fu-when">'+bwEsc(f.when)+'</div></div>'
+      +'<button class="fu-copy" onclick="copyFollow('+i+')">Copy</button></div>'
+      +'<div class="fu-body">'+bwEsc(f.text)+'</div></div>';
+  });
+  el.innerHTML=h;
+}
+function copyFollow(i){ var f=FOLLOWUPS[i]; if(!f) return; navigator.clipboard.writeText(f.text).then(function(){ flash('Message copied'); }).catch(function(){}); }
+
+
+// ===== Quick-track from Writer + data backup =====
+function trackThis(){
+  var title=gv('jobTitle')||'';
+  if(!title){ flash('Add a job title first'); return; }
+  var note=(((typeof TEMPLATES!=='undefined'&&TEMPLATES[tpl])||{}).name||'').replace(/^\S+\s*/,'');
+  trackList.unshift({id:Date.now(), title:title, status:'Sent', notes:note?(note+' template'):'From Proposal Writer', date:new Date().toISOString()});
+  bwSet(BW_TRACK, trackList);
+  flash('Added to Bid Tracker as \u201cSent\u201d');
+}
+function exportData(){
+  try{
+    var data={app:'Bidder Experts Proposal Writer', version:1, exported:new Date().toISOString(), saved:savedList, track:trackList};
+    var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a'); a.href=url;
+    a.download='bidder-experts-backup-'+new Date().toISOString().slice(0,10)+'.json';
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); }, 100);
+    flash('Backup downloaded');
+  }catch(e){ flash('Export failed'); }
+}
+function importData(input){
+  var file=input.files && input.files[0]; if(!file) return;
+  var r=new FileReader();
+  r.onload=function(){
+    try{
+      var d=JSON.parse(r.result); var aS=0, aT=0;
+      if(Array.isArray(d.saved)){ var ids={}; savedList.forEach(function(x){ids[x.id]=1;}); d.saved.forEach(function(x){ if(x&&x.id&&!ids[x.id]){ savedList.push(x); aS++; } }); savedList.sort(function(a,b){return b.id-a.id;}); bwSet(BW_SAVED, savedList); }
+      if(Array.isArray(d.track)){ var idt={}; trackList.forEach(function(x){idt[x.id]=1;}); d.track.forEach(function(x){ if(x&&x.id&&!idt[x.id]){ trackList.push(x); aT++; } }); trackList.sort(function(a,b){return b.id-a.id;}); bwSet(BW_TRACK, trackList); }
+      if(typeof renderHome==='function') renderHome();
+      flash('Imported '+aS+' proposal'+(aS===1?'':'s')+', '+aT+' bid'+(aT===1?'':'s'));
+    }catch(e){ flash('That does not look like a valid backup file'); }
+    input.value='';
+  };
+  r.readAsText(file);
+}
+
+
+// ===== PDF export (branded print-to-PDF) =====
+function buildPrintSheet(title, name, text){
+  var ps=document.getElementById('printSheet'); if(!ps) return;
+  var date=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+  var paras=(text||'').split(/\n{2,}/).map(function(p){ return '<p>'+bwEsc(p).replace(/\n/g,'<br>')+'</p>'; }).join('');
+  ps.innerHTML =
+     '<div class="ps-head"><div class="ps-brand"><div class="ps-logo">BE</div>'
+    +'<div><div class="ps-co">Bidder Experts</div><div class="ps-tag">Upwork Development Agency</div></div></div>'
+    +'<div class="ps-date">'+date+'</div></div>'
+    +(title?('<div class="ps-subject">Re: '+bwEsc(title)+'</div>'):'')
+    +'<div class="ps-body">'+paras+'</div>'
+    +'<div class="ps-foot">'+bwEsc(name||'Bidder Experts')+' &nbsp;&middot;&nbsp; Bidder Experts &nbsp;&middot;&nbsp; bidderexperts.com</div>';
+}
+function downloadPDF(){
+  var le=document.getElementById('letterEditor'); var text=(le&&le.value||'').trim();
+  if(!text){ flash('Generate or write a letter first!'); return; }
+  buildPrintSheet(gv('jobTitle'), gv('yourName'), text);
+  flash('Opening print \u2014 choose \u201cSave as PDF\u201d');
+  setTimeout(function(){ window.print(); }, 250);
+}
+function printSaved(id){
+  var p=findSaved(id); if(!p) return;
+  buildPrintSheet(p.title, gv('yourName'), p.text);
+  setTimeout(function(){ window.print(); }, 150);
+}
+
+
+// ===== Writer step wizard =====
+var wzCur=1, WZ_MAX=4;
+function goStep(n){
+  n=Math.max(1, Math.min(WZ_MAX, n)); wzCur=n;
+  document.querySelectorAll('.wz-step').forEach(function(s){ s.classList.toggle('on', +s.getAttribute('data-step')===n); });
+  document.querySelectorAll('.wz-pill').forEach(function(p){ var v=+p.getAttribute('data-s'); p.classList.toggle('on', v===n); p.classList.toggle('done', v<n); });
+  var fill=document.getElementById('wzBarFill'); if(fill) fill.style.width=((n-1)/(WZ_MAX-1)*100)+'%';
+  var back=document.getElementById('wzBack'); if(back) back.style.visibility = (n===1?'hidden':'visible');
+  var next=document.getElementById('wzNext'); if(next) next.innerHTML = (n===WZ_MAX ? '&#9997;&#65039; Generate Draft' : 'Next &rarr;');
+  var sb=document.querySelector('.sb-body'); if(sb) sb.scrollTop=0;
+}
+function wizNext(){ if(wzCur>=WZ_MAX){ if(typeof generateLetter==='function') generateLetter(); } else { goStep(wzCur+1); } }
+goStep(1);
 
 function buildPrompt(){
   var title=gv('jobTitle'), desc=gv('jobDesc'), plat=gv('platform');
