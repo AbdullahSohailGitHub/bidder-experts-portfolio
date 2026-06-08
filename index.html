@@ -7909,6 +7909,8 @@ async function adminLogin() {
 
   if (matched) {
     currentAdminUser = matched;
+    try { localStorage.setItem('be_current_user', JSON.stringify({ username: matched.username||'', owner: !!matched.owner, role: matched.role||'' })); } catch(e) {}
+    var _pc = document.getElementById('proposal-container'); if (_pc) { _pc.dataset.loaded=''; _pc.innerHTML=''; }
     adminLoggedIn = true;
     adminHideLogin();
     document.getElementById('admin-panel').classList.remove('hidden');
@@ -7936,6 +7938,8 @@ function adminLogout() {
   var w=document.getElementById('admin-whoami'); if(w) w.style.display='none';
   currentAllowedTabs = ['invoice','proposal','leads','stats','settings'];
   document.querySelectorAll('.admin-tab[data-tab]').forEach(function(b){ b.style.display=''; });
+  try { localStorage.removeItem('be_current_user'); } catch(e) {}
+  var _pc = document.getElementById('proposal-container'); if (_pc) { _pc.dataset.loaded=''; _pc.innerHTML=''; }
 }
 
 function adminTab(name, btn) {
