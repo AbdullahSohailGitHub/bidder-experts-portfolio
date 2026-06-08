@@ -8281,12 +8281,17 @@ async function changePassword() {
     var _codeLine = "var ADMIN_HASH = '" + newHash + "';";
     _msgEl.className = 'ap-msg success';
     _msgEl.style.display = 'block';
-    _msgEl.innerHTML = '<strong style="color:#4FC95A;">Password changed!</strong><br>'
-      + '<span style="font-size:11px;color:var(--muted);">Saved on this device &mdash; you can log in with the new password right now. To use it on your <b>other devices</b> too, replace this line in index.html on GitHub:</span>'
-      + '<div style="display:flex;align-items:center;gap:5px;margin-top:6px;">'
-      + '<code style="font-family:monospace;font-size:10px;background:rgba(0,0,0,0.25);padding:4px 7px;border-radius:5px;flex:1;word-break:break-all;color:#5DCAA5;">' + _codeLine + '</code>'
-      + '<button onclick="navigator.clipboard.writeText(this.dataset.v)" data-v="' + _codeLine + '" style="padding:5px 10px;background:var(--lime);color:#09100A;border:none;border-radius:6px;font-size:10px;font-weight:800;cursor:pointer;flex-shrink:0;">Copy</button>'
-      + '</div>';
+    _msgEl.innerHTML = '<strong style="color:#4FC95A;">&#10003; Password changed!</strong> '
+      + '<span style="font-size:12px;color:var(--muted);">You can log in with your new password right away.</span>'
+      + '<details style="margin-top:9px;">'
+        + '<summary style="cursor:pointer;font-size:11px;color:var(--muted);list-style:none;">&#9881;&#65039; Use this password on your other devices (advanced)</summary>'
+        + '<div style="margin-top:7px;font-size:11px;color:var(--muted);line-height:1.5;">Your password is saved on this device only. To use it on other devices too, replace this line in <b>index.html</b> on GitHub, then redeploy:'
+          + '<div style="display:flex;align-items:center;gap:5px;margin-top:6px;">'
+          + '<code style="font-family:monospace;font-size:10px;background:rgba(0,0,0,0.25);padding:4px 7px;border-radius:5px;flex:1;word-break:break-all;color:#5DCAA5;">' + _codeLine + '</code>'
+          + '<button onclick="navigator.clipboard.writeText(this.dataset.v)" data-v="' + _codeLine + '" style="padding:5px 10px;background:var(--lime);color:#09100A;border:none;border-radius:6px;font-size:10px;font-weight:800;cursor:pointer;flex-shrink:0;">Copy</button>'
+          + '</div>'
+        + '</div>'
+      + '</details>';
   }
 }
 
