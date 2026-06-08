@@ -7443,8 +7443,15 @@ function beQuick(topic) {
     <div class="admin-login-title">Admin Access</div>
     <div class="admin-login-sub">Bidder Experts &mdash; Restricted Area</div>
     <div class="admin-pw-wrap">
+      <input class="admin-pw-input" id="admin-user" type="text"
+        placeholder="Username"
+        autocomplete="username"
+        onkeydown="if(event.key==='Enter')document.getElementById('admin-pw').focus()">
+    </div>
+    <div class="admin-pw-wrap">
       <input class="admin-pw-input" id="admin-pw" type="password"
-        placeholder="Enter password"
+        placeholder="Password"
+        autocomplete="current-password"
         onkeydown="if(event.key==='Enter')adminLogin()">
       <button class="admin-pw-toggle" onclick="adminTogglePw()" tabindex="-1">
         <svg id="pw-eye" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -7486,6 +7493,7 @@ function beQuick(topic) {
       <div class="admin-topbar-logo">BE</div>
       <div class="admin-topbar-title">Admin Panel</div>
       <div class="admin-topbar-badge">&#128274; Secure</div>
+      <div class="admin-topbar-badge" id="admin-whoami" style="display:none;background:rgba(184,255,60,0.12);border-color:rgba(184,255,60,0.3);color:var(--lime);"></div>
     </div>
     <div class="admin-topbar-right">
       <button class="theme-toggle-btn" id="theme-toggle-btn" onclick="toggleAdminTheme()" title="Toggle theme">
@@ -7843,6 +7851,7 @@ function beQuick(topic) {
 // Admin Panel
 var ADMIN_HASH = '74496885c27097a88d74cd795c15e29a6d027fb9cb7b17bb0161cd4b9b34d388';
 var adminLoggedIn = false;
+var currentAdminUser = null;
 var contacts = JSON.parse(localStorage.getItem('be_contacts') || '[]');
 
 // Show tiny lock icon after 3 seconds hover on bottom-left
@@ -7855,14 +7864,17 @@ async function sha256(msg) {
 
 function adminShowLogin() {
   document.getElementById('admin-login').classList.remove('hidden');
-  setTimeout(function() { document.getElementById('admin-pw').focus(); }, 100);
+  setTimeout(function() { var u=document.getElementById('admin-user'); (u||document.getElementById('admin-pw')).focus(); }, 100);
 }
 
 function adminHideLogin() {
   document.getElementById('admin-login').classList.add('hidden');
   document.getElementById('admin-pw').value = '';
+  var u=document.getElementById('admin-user'); if(u) u.value='';
   document.getElementById('admin-error').style.display = 'none';
 }
+function showLoginError(msg){ var e=document.getElementById('admin-error'); if(e){ e.textContent=msg||'Incorrect username or password.'; e.style.display='block'; } }
+function updateAdminIdentity(acct){ var el=document.getElementById('admin-whoami'); if(el&&acct){ el.style.display='inline-flex'; el.innerHTML='&#128100; '+(acct.username||'Admin')+(acct.owner?'':(' &middot; '+(acct.role||'Admin'))); } }
 
 function adminTogglePw() {
   var inp = document.getElementById('admin-pw');
@@ -7870,29 +7882,40 @@ function adminTogglePw() {
 }
 
 async function adminLogin() {
+  var userEl = document.getElementById('admin-user');
+  var user = (userEl ? userEl.value : '').trim();
   var pw = document.getElementById('admin-pw').value;
-  if (!pw) return;
+  if (!pw) { showLoginError('Please enter your password.'); return; }
   var hash = await sha256(pw);
-
-  // Check sub-accounts
-  var matchedAccount = null;
+  var ownerHash = localStorage.getItem('be_admin_pw') || ADMIN_HASH;
   var subAccounts = JSON.parse(localStorage.getItem('be_admin_accounts') || '[]');
-  for (var i = 0; i < subAccounts.length; i++) {
-    if (subAccounts[i].hash === hash) { matchedAccount = subAccounts[i]; break; }
+  var ul = user.toLowerCase();
+  var matched = null;
+
+  // Owner login -- username optional, or 'abdullah' / 'owner' / 'admin'
+  if ((!user || ul === 'abdullah' || ul === 'owner' || ul === 'admin') && hash === ownerHash) {
+    matched = { username: 'Abdullah', role: 'Owner', owner: true };
   }
+  // Sub-account login -- BOTH username and password must match
+  if (!matched && user) {
+    for (var i = 0; i < subAccounts.length; i++) {
+      if (((subAccounts[i].username || '').toLowerCase() === ul) && subAccounts[i].hash === hash) { matched = subAccounts[i]; break; }
+    }
+  }
+  // Safety net: the correct owner password always grants owner access
+  if (!matched && hash === ownerHash) { matched = { username: 'Abdullah', role: 'Owner', owner: true }; }
 
-  // Only check hardcoded ADMIN_HASH -- same on every device
-  var isValid = (hash === ADMIN_HASH) || matchedAccount;
-
-  if (isValid) {
+  if (matched) {
+    currentAdminUser = matched;
     adminLoggedIn = true;
     adminHideLogin();
     document.getElementById('admin-panel').classList.remove('hidden');
+    updateAdminIdentity(matched);
     loadInvoiceMaker();
     renderContacts();
     renderAccounts();
   } else {
-    document.getElementById('admin-error').style.display = 'block';
+    showLoginError(user ? 'Incorrect username or password.' : 'Incorrect password. Please try again.');
     document.getElementById('admin-pw').value = '';
     document.getElementById('admin-pw').focus();
     var box = document.querySelector('.admin-login-box');
@@ -7903,9 +7926,11 @@ async function adminLogin() {
 
 function adminLogout() {
   adminLoggedIn = false;
+  currentAdminUser = null;
   document.getElementById('admin-panel').classList.add('hidden');
-  // Clear pw
   document.getElementById('admin-pw').value = '';
+  var u=document.getElementById('admin-user'); if(u) u.value='';
+  var w=document.getElementById('admin-whoami'); if(w) w.style.display='none';
 }
 
 function adminTab(name, btn) {
