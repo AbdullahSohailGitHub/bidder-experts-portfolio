@@ -8269,7 +8269,8 @@ async function changePassword() {
   }
   var newHash = await sha256(newPw);
 
-  // Update in-memory hash so current session stays logged in
+  // Persist the new password on this device, and update the in-memory hash
+  try { localStorage.setItem('be_admin_pw', newHash); } catch(e) {}
   ADMIN_HASH = newHash;
 
   document.getElementById('s-cur-pw').value  = '';
@@ -8281,7 +8282,7 @@ async function changePassword() {
     _msgEl.className = 'ap-msg success';
     _msgEl.style.display = 'block';
     _msgEl.innerHTML = '<strong style="color:#4FC95A;">Password changed!</strong><br>'
-      + '<span style="font-size:11px;color:var(--muted);">To make it work on ALL devices, replace line in index.html on GitHub:</span>'
+      + '<span style="font-size:11px;color:var(--muted);">Saved on this device &mdash; you can log in with the new password right now. To use it on your <b>other devices</b> too, replace this line in index.html on GitHub:</span>'
       + '<div style="display:flex;align-items:center;gap:5px;margin-top:6px;">'
       + '<code style="font-family:monospace;font-size:10px;background:rgba(0,0,0,0.25);padding:4px 7px;border-radius:5px;flex:1;word-break:break-all;color:#5DCAA5;">' + _codeLine + '</code>'
       + '<button onclick="navigator.clipboard.writeText(this.dataset.v)" data-v="' + _codeLine + '" style="padding:5px 10px;background:var(--lime);color:#09100A;border:none;border-radius:6px;font-size:10px;font-weight:800;cursor:pointer;flex-shrink:0;">Copy</button>'
@@ -8356,9 +8357,9 @@ async function createAccount() {
 
 // Restore saved password hash on load
 (function() {
-  // Do NOT read from localStorage -- use only the hardcoded hash.
-  // This ensures ALL devices use the same password from the source code.
-  // To change password: use Settings panel, copy the new line, update index.html on GitHub.
+  // If a password was set on THIS device via Settings > Change Password, use it.
+  // Otherwise fall back to the hardcoded hash from the source code (same on all devices).
+  try { var saved = localStorage.getItem('be_admin_pw'); if (saved) ADMIN_HASH = saved; } catch(e) {}
 })();
 
 
