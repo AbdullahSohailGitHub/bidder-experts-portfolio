@@ -1113,6 +1113,12 @@ button:focus-visible{ outline:2px solid var(--lime); outline-offset:2px; }
 <div class="flash" id="flash">Done!</div>
 <script>
 
+// ===== Logged-in user identity (set by the admin panel via same-origin localStorage) =====
+var BW_USER = (function(){ try { return JSON.parse(localStorage.getItem('be_current_user')||'null'); } catch(e){ return null; } })();
+var BW_IS_OWNER = !BW_USER || !!BW_USER.owner;   // standalone (no user) or owner = full access
+var BW_UKEY = BW_IS_OWNER ? 'owner' : ('u_' + String((BW_USER&&BW_USER.username)||'user').toLowerCase().replace(/[^a-z0-9_]/g,''));
+var BUILTIN_PROFILE_IDS = ['moeed','hassan','umair','hafiz','taha','salman','husnain','shahzeb','umar','daniyal','hassan_karim','saim','usman','design_team','abdullah'];
+
 var tpl  = 'solver';
 var tone = 'professional';
 var curTab = 'letter';
@@ -2233,6 +2239,7 @@ function detectCategory(title, desc) {
 }
 
 function autoMatchProfile() {
+  if (!BW_IS_OWNER) return; // built-in auto-match is owner-only
   var title = (document.getElementById('jobTitle').value || '').trim();
   var desc  = (document.getElementById('jobDesc').value  || '').trim();
   if (!title && !desc) return;
@@ -2260,6 +2267,7 @@ function autoMatchProfile() {
 }
 
 function selectProfile(pid) {
+  if (!BW_IS_OWNER && BUILTIN_PROFILE_IDS.indexOf(pid) !== -1) return; // sub-accounts cannot use the owner's built-in profiles
   var p = PROFILES[pid];
   if (!p) return;
   document.getElementById('yourName').value   = p.name;
@@ -2349,16 +2357,16 @@ function pickProject(btn) {
   document.getElementById('project-picker').style.display = 'none';
 }
 
-// Init: set first profile on load
+// Init: set first profile on load (owner only; sub-accounts are set up in loadCustomProfiles)
 (function() {
+  if (!BW_IS_OWNER) return;
   selectProfile('moeed');
-  // Sync dropdown
   var sel = document.getElementById('profileSelect');
   if (sel) sel.value = 'moeed';
 })();
 
 // ===== Custom (user-added) profiles =====
-var BW_PROFILES='bw_profiles';
+var BW_PROFILES = BW_IS_OWNER ? 'bw_profiles' : ('bw_profiles__' + BW_UKEY);
 var customProfiles=[];
 function registerProfileOption(p){
   if(!p||!p.id) return;
@@ -2370,10 +2378,40 @@ function registerProfileOption(p){
     sel.appendChild(o);
   }
 }
+function setupProfilesForSubaccount(){
+  var sel=document.getElementById('profileSelect');
+  if(sel){
+    BUILTIN_PROFILE_IDS.forEach(function(id){ var o=sel.querySelector('option[value="'+id+'"]'); if(o && o.parentNode) o.parentNode.removeChild(o); });
+    if(!sel.querySelector('option')){ var ph=document.createElement('option'); ph.value=''; ph.textContent='\u2014 Select your profile \u2014'; sel.appendChild(ph); }
+    sel.value='';
+  }
+  ['yourName','skills','experience','relProject'].forEach(function(id){ var e=document.getElementById(id); if(e) e.value=''; });
+}
+function selectDefaultProfile(){
+  if(BW_IS_OWNER){ var s0=document.getElementById('profileSelect'); if(s0) s0.value='moeed'; selectProfile('moeed'); return; }
+  var sel=document.getElementById('profileSelect');
+  if(sel && customProfiles.length){ sel.value=customProfiles[0].id; selectProfile(customProfiles[0].id); }
+  else { ['yourName','skills','experience','relProject'].forEach(function(id){ var e=document.getElementById(id); if(e) e.value=''; }); if(sel) sel.value=''; }
+}
+function loadAllUsersProfilesForOwner(){
+  for(var i=0;i<localStorage.length;i++){
+    var k=localStorage.key(i);
+    if(k && k.indexOf('bw_profiles__')===0){
+      var who=k.replace('bw_profiles__u_','').replace('bw_profiles__','');
+      var arr; try{ arr=JSON.parse(localStorage.getItem(k)||'[]'); }catch(e){ arr=[]; }
+      if(Array.isArray(arr)) arr.forEach(function(pr){
+        if(!pr||!pr.id) return;
+        registerProfileOption({ id:pr.id, name:pr.name, title:(pr.title?pr.title+' ':'')+'['+who+']', skills:pr.skills, experience:pr.experience, project:pr.project });
+      });
+    }
+  }
+}
 function loadCustomProfiles(){
+  if(!BW_IS_OWNER) setupProfilesForSubaccount();
   try{ customProfiles=JSON.parse(localStorage.getItem(BW_PROFILES)||'[]'); }catch(e){ customProfiles=[]; }
   if(!Array.isArray(customProfiles)) customProfiles=[];
   customProfiles.forEach(registerProfileOption);
+  if(BW_IS_OWNER) loadAllUsersProfilesForOwner();
   renderCustomProfileList();
 }
 function toggleAddProfile(){ var el=document.getElementById('addpPanel'); if(el) el.classList.toggle('on'); }
@@ -2397,7 +2435,7 @@ function deleteCustomProfile(id){
   try{ localStorage.setItem(BW_PROFILES, JSON.stringify(customProfiles)); }catch(e){}
   if(PROFILES[id]) delete PROFILES[id];
   var sel=document.getElementById('profileSelect');
-  if(sel){ var o=sel.querySelector('option[value="'+id+'"]'); if(o) o.remove(); if(sel.value===id){ sel.value='moeed'; selectProfile('moeed'); } }
+  if(sel){ var o=sel.querySelector('option[value="'+id+'"]'); if(o) o.remove(); if(sel.value===id){ selectDefaultProfile(); } }
   renderCustomProfileList();
 }
 function useCustomProfile(id){ var sel=document.getElementById('profileSelect'); if(sel) sel.value=id; selectProfile(id); if(typeof showProjectsForProfile==='function') showProjectsForProfile(id); flash('Profile selected'); }
