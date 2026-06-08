@@ -7807,6 +7807,40 @@ function beQuick(topic) {
             <div id="accounts-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;"></div>
             <div id="accounts-sync" style="margin-bottom:16px;"></div>
 
+            <!-- Cloud Login: work from anywhere -->
+            <div id="cloud-login-panel" style="margin-bottom:16px;background:var(--ap-card2);border:1px solid var(--ap-border2);border-radius:11px;padding:14px 16px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
+                <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:13px;color:var(--ap-text);">&#9729;&#65039; Cloud Login &mdash; log in from anywhere</div>
+                <div id="cloud-status" style="font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;padding:3px 9px;border-radius:20px;background:rgba(255,107,107,0.14);border:1px solid rgba(255,107,107,0.3);color:#FF8A8A;">Not connected</div>
+              </div>
+              <div style="font-size:11px;color:var(--ap-muted);line-height:1.55;margin-top:8px;">Store team accounts in a free online database so you and your team can sign in from any device. <a href="#" onclick="toggleCloudHelp();return false;" style="color:var(--lime);font-weight:700;">How to set it up (2 min) &rsaquo;</a></div>
+              <div style="display:flex;gap:8px;margin-top:11px;flex-wrap:wrap;">
+                <input id="cloud-url" class="ap-input" placeholder="Firebase Database URL (https://...firebaseio.com)" style="flex:2;min-width:230px;">
+                <input id="cloud-secret" class="ap-input" type="password" placeholder="Database secret (saves accounts)" style="flex:1;min-width:170px;">
+              </div>
+              <div style="display:flex;gap:8px;margin-top:9px;">
+                <button class="ap-save-btn" onclick="saveCloudConfig()">Save &amp; Connect</button>
+                <button class="ap-cancel-btn" onclick="testCloudConfig()">Test connection</button>
+              </div>
+              <div id="cloud-msg" class="ap-msg" style="display:none;margin-top:9px;"></div>
+              <div id="cloud-help" style="display:none;margin-top:11px;font-size:11px;color:var(--ap-muted);line-height:1.65;border-top:1px solid var(--ap-border2);padding-top:10px;">
+                <ol style="margin:0;padding-left:18px;">
+                  <li>Open <b>console.firebase.google.com</b> &rarr; <b>Add project</b> (free, no card).</li>
+                  <li>Build &rarr; <b>Realtime Database</b> &rarr; <b>Create Database</b> &rarr; start in locked mode.</li>
+                  <li>Open the <b>Rules</b> tab, paste this and Publish:<br><code style="display:block;font-family:monospace;font-size:10px;background:rgba(0,0,0,0.28);padding:6px 8px;border-radius:6px;margin-top:4px;color:#5DCAA5;white-space:pre-wrap;">{ "rules": { "be_accounts": { ".read": true, ".write": false } } }</code></li>
+                  <li>Copy your database URL (looks like <i>https://yourproject-default-rtdb.firebaseio.com</i>) into the URL box above.</li>
+                  <li>Project settings (gear) &rarr; <b>Service accounts</b> &rarr; <b>Database secrets</b> &rarr; copy the secret into the secret box (it stays only on your device &mdash; used to save accounts).</li>
+                  <li>Click <b>Save &amp; Connect</b>. Then make every device use it by baking this line into <b>index.html</b> on GitHub &amp; redeploying (one time):
+                    <div style="display:flex;align-items:center;gap:5px;margin-top:5px;">
+                      <code id="cloud-bake" style="font-family:monospace;font-size:10px;background:rgba(0,0,0,0.28);padding:6px 8px;border-radius:6px;flex:1;word-break:break-all;color:#5DCAA5;">var CLOUD_DB_URL = '';</code>
+                      <button onclick="navigator.clipboard.writeText(document.getElementById('cloud-bake').dataset.v||document.getElementById('cloud-bake').textContent)" style="padding:6px 11px;background:var(--lime);color:#09100A;border:none;border-radius:6px;font-size:10px;font-weight:800;cursor:pointer;flex-shrink:0;">Copy</button>
+                    </div>
+                  </li>
+                </ol>
+                <div style="margin-top:9px;color:#E0B341;">&#9888;&#65039; Use a strong, unique password for each account. Only hashed passwords are stored, and only you (with the secret) can add accounts &mdash; but keep your database URL private.</div>
+              </div>
+            </div>
+
             <!-- Add account form -->
             <div class="ap-form-card" id="add-acct-form" style="display:none;margin-bottom:12px;">
               <div class="ap-form-title">New Account</div>
@@ -7861,6 +7895,83 @@ var ADMIN_HASH = '74496885c27097a88d74cd795c15e29a6d027fb9cb7b17bb0161cd4b9b34d3
 // Team accounts baked into the source so they work on EVERY device/browser.
 // Add accounts here via Settings > "Make accounts work on all devices (sync)".
 var BUILTIN_ACCOUNTS = [];
+
+// ===== Cloud Login (work-from-anywhere) via Firebase Realtime Database REST =====
+// ONE-TIME: paste your Firebase Realtime Database URL below (or set it in Settings > Cloud Login).
+var CLOUD_DB_URL = '';
+(function(){ try { var u = localStorage.getItem('be_cloud_url'); if (u) CLOUD_DB_URL = u; } catch(e){} })();
+function cloudGetSecret(){ try { return localStorage.getItem('be_cloud_secret') || ''; } catch(e){ return ''; } }
+function cloudEndpoint(withSecret){
+  if(!CLOUD_DB_URL) return '';
+  var base = String(CLOUD_DB_URL).replace(/\/+$/,'');
+  if(base.indexOf('/be_accounts')===-1) base = base + '/be_accounts.json';
+  var sec = withSecret ? cloudGetSecret() : '';
+  return base + (sec ? ('?auth=' + encodeURIComponent(sec)) : '');
+}
+async function cloudFetchAccounts(){
+  if(!CLOUD_DB_URL) return [];
+  try {
+    var r = await fetch(cloudEndpoint(false), { cache:'no-store' });
+    if(!r.ok) return [];
+    var data = await r.json();
+    if(Array.isArray(data)) return data.filter(Boolean);
+    if(data && typeof data==='object') return Object.keys(data).map(function(k){ return data[k]; }).filter(Boolean);
+    return [];
+  } catch(e){ return []; }
+}
+async function cloudPushAccounts(){
+  if(!CLOUD_DB_URL) return { ok:false, reason:'No cloud URL set' };
+  try {
+    var r = await fetch(cloudEndpoint(true), { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(adminAccounts) });
+    return { ok: r.ok, status: r.status };
+  } catch(e){ return { ok:false, reason:String(e) }; }
+}
+async function syncAccountsFromCloud(){
+  if(!CLOUD_DB_URL) return;
+  var cloud = await cloudFetchAccounts();
+  if(cloud && cloud.length){
+    var seen={}, merged=[];
+    cloud.concat(adminAccounts).forEach(function(a){ if(!a||!a.username) return; var k=a.username.toLowerCase(); if(!seen[k]){ seen[k]=1; merged.push({username:a.username, role:a.role, hash:a.hash}); } });
+    adminAccounts = merged; saveAccounts();
+  }
+  renderAccounts();
+}
+function toggleCloudHelp(){ var e=document.getElementById('cloud-help'); if(e) e.style.display=(e.style.display==='none'?'block':'none'); }
+function cloudMsg(msg, ok){ var e=document.getElementById('cloud-msg'); if(!e) return; e.textContent=msg; e.className='ap-msg '+(ok?'success':'error'); e.style.display='block'; }
+function updateCloudStatus(){
+  var u=document.getElementById('cloud-url'), sec=document.getElementById('cloud-secret'), st=document.getElementById('cloud-status'), bake=document.getElementById('cloud-bake');
+  if(u && CLOUD_DB_URL && !u.value) u.value=CLOUD_DB_URL;
+  if(sec && !sec.value && cloudGetSecret()) sec.value=cloudGetSecret();
+  if(bake){ var line="var CLOUD_DB_URL = '"+(CLOUD_DB_URL||'')+"';"; bake.textContent=line; bake.dataset.v=line; }
+  if(st){
+    if(CLOUD_DB_URL){ st.textContent='Connected'; st.style.background='rgba(184,255,60,0.14)'; st.style.borderColor='rgba(184,255,60,0.35)'; st.style.color='#9fe030'; }
+    else { st.textContent='Not connected'; st.style.background='rgba(255,107,107,0.14)'; st.style.borderColor='rgba(255,107,107,0.3)'; st.style.color='#FF8A8A'; }
+  }
+}
+function saveCloudConfig(){
+  var u=(document.getElementById('cloud-url').value||'').trim().replace(/\/+$/,'');
+  var sec=(document.getElementById('cloud-secret').value||'').trim();
+  if(u && !/^https:\/\/.+/i.test(u)){ cloudMsg('Enter a valid https:// database URL.', false); return; }
+  try { if(u) localStorage.setItem('be_cloud_url', u); else localStorage.removeItem('be_cloud_url'); } catch(e){}
+  try { if(sec) localStorage.setItem('be_cloud_secret', sec); else localStorage.removeItem('be_cloud_secret'); } catch(e){}
+  CLOUD_DB_URL=u; updateCloudStatus();
+  if(u){ cloudMsg('Saved. Testing connection...', true); testCloudConfig(true); }
+  else { cloudMsg('Cloud login disabled.', true); }
+}
+async function testCloudConfig(silent){
+  if(!CLOUD_DB_URL){ cloudMsg('Set a database URL first.', false); return; }
+  cloudMsg('Testing connection...', true);
+  try {
+    var r = await fetch(cloudEndpoint(false), { cache:'no-store' });
+    if(r.ok){
+      if(cloudGetSecret()){
+        var w = await cloudPushAccounts();
+        cloudMsg(w.ok ? 'Connected! Read + write working \u2014 accounts will sync to all devices.' : ('Read works, but saving failed (HTTP '+(w.status||'?')+'). Check the secret and database rules.'), !!w.ok);
+      } else { cloudMsg('Read works. Add the database secret above to enable saving accounts.', true); }
+    } else { cloudMsg('Could not read (HTTP '+r.status+'). Check the URL and that read rules allow access.', false); }
+  } catch(e){ cloudMsg('Connection failed: '+e+'. Check the URL and your internet.', false); }
+  updateCloudStatus();
+}
 var adminLoggedIn = false;
 var currentAdminUser = null;
 var contacts = JSON.parse(localStorage.getItem('be_contacts') || '[]');
@@ -7899,7 +8010,8 @@ async function adminLogin() {
   if (!pw) { showLoginError('Please enter your password.'); return; }
   var hash = await sha256(pw);
   var ownerHash = localStorage.getItem('be_admin_pw') || ADMIN_HASH;
-  var subAccounts = (typeof BUILTIN_ACCOUNTS !== 'undefined' ? BUILTIN_ACCOUNTS : []).concat(JSON.parse(localStorage.getItem('be_admin_accounts') || '[]'));
+  var cloudAccts = await cloudFetchAccounts();
+  var subAccounts = (typeof BUILTIN_ACCOUNTS !== 'undefined' ? BUILTIN_ACCOUNTS : []).concat(cloudAccts).concat(JSON.parse(localStorage.getItem('be_admin_accounts') || '[]'));
   var ul = user.toLowerCase();
   var matched = null;
 
@@ -7928,6 +8040,7 @@ async function adminLogin() {
     if (tabAllowed('invoice')) loadInvoiceMaker();
     renderContacts();
     renderAccounts();
+    if (matched.owner && CLOUD_DB_URL) { syncAccountsFromCloud(); }
   } else {
     showLoginError(user ? 'Incorrect username or password.' : 'Incorrect password. Please try again.');
     document.getElementById('admin-pw').value = '';
@@ -7960,7 +8073,7 @@ function adminTab(name, btn) {
   document.getElementById('tab-' + name).classList.add('active');
   if (name === 'invoice')  loadInvoiceMaker();
   if (name === 'proposal') loadProposalWriter();
-  if (name === 'settings') renderAccounts();
+  if (name === 'settings') { renderAccounts(); if (typeof updateCloudStatus==='function') updateCloudStatus(); if (currentAdminUser && currentAdminUser.owner && typeof syncAccountsFromCloud==='function') syncAccountsFromCloud(); }
 }
 
 // Load invoice maker into the container
@@ -8374,11 +8487,12 @@ function renderAccountsSync(){
       + '</div>'
     + '</div></details>';
 }
-function deleteAccountByName(name){
+async function deleteAccountByName(name){
   var i = -1; for(var k=0;k<adminAccounts.length;k++){ if(adminAccounts[k].username===name){ i=k; break; } }
   if(i<0){ return; }
   if(!confirm('Delete "'+name+'"?')) return;
   adminAccounts.splice(i,1); saveAccounts(); renderAccounts();
+  if (CLOUD_DB_URL) { await cloudPushAccounts(); }
 }
 function renderAccounts() {
   var list = document.getElementById('accounts-list');
@@ -8445,7 +8559,16 @@ async function createAccount() {
   saveAccounts();
   renderAccounts();
   toggleAddForm();
-  showSettingsMsg('s-acct-msg', 'Account "' + uname + '" created. It works on this device now \u2014 use the sync box below to enable it on all devices.', 'success');
+  if (CLOUD_DB_URL) {
+    showSettingsMsg('s-acct-msg', 'Account "' + uname + '" created. Syncing to cloud...', 'success');
+    var res = await cloudPushAccounts();
+    showSettingsMsg('s-acct-msg', res.ok
+      ? ('Account "' + uname + '" created & synced \u2014 your team can now log in from anywhere.')
+      : ('Account "' + uname + '" saved on this device, but cloud sync failed (' + (res.reason || ('HTTP ' + res.status)) + '). Check Cloud Login below.'),
+      !!res.ok);
+  } else {
+    showSettingsMsg('s-acct-msg', 'Account "' + uname + '" created on this device. Set up Cloud Login below so your team can log in from anywhere.', 'success');
+  }
 }
 
 // Restore saved password hash on load
