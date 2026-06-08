@@ -575,6 +575,62 @@ nav{
 .addp-item .addp-del{background:none;border:none;color:var(--mt);font-size:16px;padding:0 4px;}
 .addp-item .addp-del:hover{color:#FF6B6B;}
 
+
+/* ==================== DETAILED BUTTON ANIMATIONS ==================== */
+button{ -webkit-tap-highlight-color:transparent; }
+
+/* springy hover easing on primary + interactive buttons */
+.btn-g,.btn-p,.wz-next,.wz-back,.w-cta,.pbar-btn,.n-link,.pg-nav button,.dash-actions button,
+.data-btn,.lib-use,.trk-add-btn,.sv-acts button,.fu-copy,.addp-toggle,.addp-save,.addp-cancel,
+.tp,.profile-pill,.right button{ transition:transform .22s cubic-bezier(.34,1.55,.64,1), background .18s ease, box-shadow .22s ease, color .18s ease, border-color .18s ease; }
+
+/* tactile press feedback */
+.btn-g:active,.btn-p:active,.wz-back:active,.wz-next:active,.tp:active,.pbar-btn:active,
+.n-link:active,.pg-nav button:active,.dash-actions button:active,.data-btn:active,.lib-use:active,
+.fu-copy:active,.trk-add-btn:active,.sv-acts button:active,.addp-toggle:active,.addp-save:active,
+.addp-cancel:active,.addp-item button:active,.w-cta:active,.profile-pill:active,.right button:active{
+  transform:scale(0.94)!important; transition:transform .09s ease!important; }
+.qb:active{ transform:scale(0.95)!important; }
+.qb:active .qb-ic{ transform:scale(0.88); }
+.tc:active{ transform:scale(0.97); }
+
+/* keyboard focus ring */
+button:focus-visible{ outline:2px solid var(--lime); outline-offset:2px; }
+
+/* icon micro-motion inside buttons */
+.pbar-btn svg,.n-link svg,.wz-back svg,.data-btn svg,.addp-toggle span{ transition:transform .18s ease; }
+.pbar-btn:hover svg,.n-link:hover svg{ transform:translateY(-1px) scale(1.08); }
+.data-btn:hover svg{ transform:translateY(-2px); }
+.addp-toggle:hover span{ transform:rotate(90deg); }
+
+/* click ripple */
+.ripple-dot{ position:absolute; border-radius:50%; background:currentColor; opacity:.26; transform:scale(0);
+  animation:rippleAnim .6s cubic-bezier(.22,.61,.36,1) forwards; pointer-events:none; z-index:-1; }
+@keyframes rippleAnim{ to{ transform:scale(2.5); opacity:0; } }
+
+/* sheen sweep on primary buttons */
+.btn-g,.wz-next,.w-cta,.trk-add-btn,.addp-save,.lib-use{ position:relative; overflow:hidden; }
+.btn-g::after,.wz-next::after,.w-cta::after,.trk-add-btn::after,.addp-save::after,.lib-use::after{
+  content:""; position:absolute; top:-10%; left:-130%; width:55%; height:120%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,0.5),transparent);
+  transform:skewX(-20deg); pointer-events:none; z-index:1; transition:left .55s ease; }
+.btn-g:hover::after,.wz-next:hover::after,.w-cta:hover::after,.trk-add-btn:hover::after,.addp-save:hover::after,.lib-use:hover::after{ left:150%; }
+
+/* active wizard step: gentle pulsing glow */
+.wz-pill.on b{ animation:pillPulse 2.2s ease-in-out infinite; }
+@keyframes pillPulse{ 0%,100%{ box-shadow:0 0 10px -2px var(--lime); } 50%{ box-shadow:0 0 18px 1px var(--lime); } }
+
+/* AI tool quick buttons (empty-state) + generate: lift on hover */
+.ai-btn,.wbig{ transition:transform .2s cubic-bezier(.34,1.55,.64,1), box-shadow .2s ease, filter .2s ease; }
+.ai-btn:hover,.wbig:hover{ transform:translateY(-2px); }
+.ai-btn:active,.wbig:active{ transform:scale(.95)!important; transition:transform .09s ease!important; }
+
+@media(prefers-reduced-motion:reduce){
+  .ripple-dot{ display:none!important; }
+  .btn-g::after,.wz-next::after,.w-cta::after,.trk-add-btn::after,.addp-save::after,.lib-use::after{ display:none!important; }
+  .wz-pill.on b{ animation:none!important; }
+}
+
 </style>
 </head>
 <body>
@@ -1821,6 +1877,29 @@ function goStep(n){
 }
 function wizNext(){ if(wzCur>=WZ_MAX){ if(typeof generateLetter==='function') generateLetter(); } else { goStep(wzCur+1); } }
 goStep(1);
+
+
+// ===== Global button click ripple =====
+(function(){
+  document.addEventListener('pointerdown', function(e){
+    var b = (e.target && e.target.closest) ? e.target.closest('button') : null;
+    if(!b || b.disabled) return;
+    if(b.classList.contains('qb')) return; // chips use their own motion
+    var rect=b.getBoundingClientRect();
+    if(!rect.width || !rect.height) return;
+    var size=Math.max(rect.width, rect.height);
+    var dot=document.createElement('span');
+    dot.className='ripple-dot';
+    dot.style.width=dot.style.height=size+'px';
+    dot.style.left=(e.clientX-rect.left-size/2)+'px';
+    dot.style.top=(e.clientY-rect.top-size/2)+'px';
+    var cs=getComputedStyle(b);
+    if(cs.position==='static') b.style.position='relative';
+    if(cs.overflow!=='hidden') b.style.overflow='hidden';
+    b.appendChild(dot);
+    setTimeout(function(){ if(dot.parentNode) dot.parentNode.removeChild(dot); }, 620);
+  }, true);
+})();
 
 function buildPrompt(){
   var title=gv('jobTitle'), desc=gv('jobDesc'), plat=gv('platform');
