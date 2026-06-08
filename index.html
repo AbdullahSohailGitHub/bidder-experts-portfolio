@@ -2180,6 +2180,11 @@
   .qc-mini.qc-del:hover{ color:#FF6B6B; border-color:rgba(255,107,107,0.3); }
   .qc-noresult{ grid-column:1 / -1; text-align:center; color:var(--ap-muted); padding:34px; font-size:13px; }
 
+
+  /* account sync badges */
+  .acct-tag{ display:inline-block; font-size:8px; font-weight:800; text-transform:uppercase; letter-spacing:.5px; padding:2px 7px; border-radius:20px; background:var(--ap-card2); border:1px solid var(--ap-border2); color:var(--ap-muted); vertical-align:middle; }
+  .acct-tag.on{ background:rgba(184,255,60,0.14); border-color:rgba(184,255,60,0.35); color:#9fe030; }
+
 </style>
   <!-- ===== STRUCTURED DATA (JSON-LD, added) ===== -->
   <script type="application/ld+json">
@@ -7800,6 +7805,7 @@ function beQuick(topic) {
           </div>
           <div class="ap-section-body">
             <div id="accounts-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;"></div>
+            <div id="accounts-sync" style="margin-bottom:16px;"></div>
 
             <!-- Add account form -->
             <div class="ap-form-card" id="add-acct-form" style="display:none;margin-bottom:12px;">
@@ -7852,6 +7858,9 @@ function beQuick(topic) {
 <script>
 // Admin Panel
 var ADMIN_HASH = '74496885c27097a88d74cd795c15e29a6d027fb9cb7b17bb0161cd4b9b34d388';
+// Team accounts baked into the source so they work on EVERY device/browser.
+// Add accounts here via Settings > "Make accounts work on all devices (sync)".
+var BUILTIN_ACCOUNTS = [];
 var adminLoggedIn = false;
 var currentAdminUser = null;
 var contacts = JSON.parse(localStorage.getItem('be_contacts') || '[]');
@@ -7890,7 +7899,7 @@ async function adminLogin() {
   if (!pw) { showLoginError('Please enter your password.'); return; }
   var hash = await sha256(pw);
   var ownerHash = localStorage.getItem('be_admin_pw') || ADMIN_HASH;
-  var subAccounts = JSON.parse(localStorage.getItem('be_admin_accounts') || '[]');
+  var subAccounts = (typeof BUILTIN_ACCOUNTS !== 'undefined' ? BUILTIN_ACCOUNTS : []).concat(JSON.parse(localStorage.getItem('be_admin_accounts') || '[]'));
   var ul = user.toLowerCase();
   var matched = null;
 
@@ -8338,24 +8347,60 @@ function applyRolePermissions(acct){
   }
 }
 
+function escName(x){ return String(x==null?'':x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function escAttr(x){ return String(x==null?'':x).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function mergedAccounts(){
+  var baked = (typeof BUILTIN_ACCOUNTS!=='undefined'?BUILTIN_ACCOUNTS:[]).map(function(a){ return { username:a.username, role:a.role, hash:a.hash, baked:true }; });
+  var local = adminAccounts.map(function(a){ return { username:a.username, role:a.role, hash:a.hash, baked:false }; });
+  var seen={}, out=[];
+  baked.concat(local).forEach(function(a){ var k=(a.username||'').toLowerCase(); if(k && !seen[k]){ seen[k]=1; out.push(a); } });
+  return out;
+}
+function accountsSyncLine(){
+  var merged = mergedAccounts().map(function(a){ return { username:a.username, role:a.role, hash:a.hash }; });
+  return 'var BUILTIN_ACCOUNTS = ' + JSON.stringify(merged) + ';';
+}
+function renderAccountsSync(){
+  var box = document.getElementById('accounts-sync'); if(!box) return;
+  var anyLocal = mergedAccounts().some(function(a){ return !a.baked; });
+  if(!mergedAccounts().length){ box.innerHTML=''; return; }
+  var line = accountsSyncLine();
+  box.innerHTML = '<details'+(anyLocal?' open':'')+' style="background:var(--ap-card2);border:1px solid var(--ap-border2);border-radius:9px;padding:10px 12px;">'
+    + '<summary style="cursor:pointer;font-size:11px;font-weight:700;color:var(--ap-muted);list-style:none;">&#128225; Make accounts work on ALL devices (sync)</summary>'
+    + '<div style="margin-top:8px;font-size:11px;color:var(--ap-muted);line-height:1.55;">Accounts you create are saved in <b>this browser only</b>. To use them on every device, replace this one line in <b>index.html</b> on GitHub, then redeploy:'
+      + '<div style="display:flex;align-items:center;gap:6px;margin-top:7px;">'
+      + '<code style="font-family:monospace;font-size:10px;background:rgba(0,0,0,0.28);padding:6px 8px;border-radius:6px;flex:1;word-break:break-all;color:#5DCAA5;max-height:90px;overflow:auto;">'+escName(line)+'</code>'
+      + '<button onclick="navigator.clipboard.writeText(this.dataset.v)" data-v="'+escAttr(line)+'" style="padding:6px 11px;background:var(--lime);color:#09100A;border:none;border-radius:6px;font-size:10px;font-weight:800;cursor:pointer;flex-shrink:0;">Copy</button>'
+      + '</div>'
+    + '</div></details>';
+}
+function deleteAccountByName(name){
+  var i = -1; for(var k=0;k<adminAccounts.length;k++){ if(adminAccounts[k].username===name){ i=k; break; } }
+  if(i<0){ return; }
+  if(!confirm('Delete "'+name+'"?')) return;
+  adminAccounts.splice(i,1); saveAccounts(); renderAccounts();
+}
 function renderAccounts() {
   var list = document.getElementById('accounts-list');
   var cnt  = document.getElementById('acct-count');
   if (!list) return;
-  var all = [{ username: 'Abdullah', role: 'Owner', owner: true }].concat(adminAccounts);
+  var all = [{ username: 'Abdullah', role: 'Owner', owner: true, baked: true }].concat(mergedAccounts());
   if (cnt) cnt.textContent = all.length;
-  list.innerHTML = all.map(function(a, i) {
+  list.innerHTML = all.map(function(a) {
     var ini = a.username.substring(0,2).toUpperCase();
+    var badge = a.owner ? '<span class="acct-owner">Owner</span>'
+              : (a.baked ? '<span class="acct-tag on">&#10003; All devices</span>'
+                         : '<span class="acct-tag">This device</span>');
+    var del = (a.owner || a.baked) ? '' : '<button class="acct-delete" onclick="deleteAccountByName(\''+(a.username||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'")+'\')" title="Delete">&#10005;</button>';
     return '<div class="acct-item">' +
-      '<div class="acct-avatar">' + ini + '</div>' +
+      '<div class="acct-avatar">' + escName(ini) + '</div>' +
       '<div class="acct-info">' +
-        '<div class="acct-name">' + a.username +
-          (a.owner ? ' <span class="acct-owner">Owner</span>' : '') + '</div>' +
+        '<div class="acct-name">' + escName(a.username) + ' ' + badge + '</div>' +
         '<div class="acct-role">' + roleLabel(a.role) + '</div>' +
-      '</div>' +
-      (a.owner ? '' : '<button class="acct-delete" onclick="deleteAccount('+(i-1)+')" title="Delete">&#10005;</button>') +
+      '</div>' + del +
     '</div>';
   }).join('');
+  renderAccountsSync();
 }
 
 function deleteAccount(i) {
@@ -8400,7 +8445,7 @@ async function createAccount() {
   saveAccounts();
   renderAccounts();
   toggleAddForm();
-  showSettingsMsg('s-acct-msg', 'Account "' + uname + '" created!', 'success');
+  showSettingsMsg('s-acct-msg', 'Account "' + uname + '" created. It works on this device now \u2014 use the sync box below to enable it on all devices.', 'success');
 }
 
 // Restore saved password hash on load
