@@ -2185,6 +2185,64 @@
   .acct-tag{ display:inline-block; font-size:8px; font-weight:800; text-transform:uppercase; letter-spacing:.5px; padding:2px 7px; border-radius:20px; background:var(--ap-card2); border:1px solid var(--ap-border2); color:var(--ap-muted); vertical-align:middle; }
   .acct-tag.on{ background:rgba(184,255,60,0.14); border-color:rgba(184,255,60,0.35); color:#9fe030; }
 
+
+  /* ==================== PROFESSIONAL POLISH: STATS & SETTINGS ==================== */
+  /* Page header */
+  .ap-title { letter-spacing:-0.4px; }
+
+  /* Stat cards -> dashboard style with icon badge on top + accent line */
+  .ap-stats-grid { gap:16px; }
+  .ap-stat-card { position:relative; padding:18px 18px 16px; gap:12px; border-radius:16px;
+    background:linear-gradient(160deg, rgba(184,255,60,0.055), rgba(255,255,255,0.012));
+    overflow:hidden; transition:transform .22s cubic-bezier(.34,1.5,.64,1), border-color .2s, box-shadow .22s; }
+  .ap-stat-card::before { content:""; position:absolute; top:0; left:0; right:0; height:3px;
+    background:linear-gradient(90deg,#93E223,#CCFF5C); transform:scaleX(0); transform-origin:left; transition:transform .28s ease; }
+  .ap-stat-card:hover { transform:translateY(-3px); border-color:rgba(184,255,60,0.32); box-shadow:0 18px 38px -20px rgba(0,0,0,0.6); }
+  .ap-stat-card:hover::before { transform:scaleX(1); }
+  .ap-stat-icon { order:-1; width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+    background:rgba(184,255,60,0.1); border:1px solid rgba(184,255,60,0.2); color:var(--lime);
+    box-shadow:0 5px 14px -7px rgba(184,255,60,0.5); transition:transform .22s cubic-bezier(.34,1.5,.64,1); }
+  .ap-stat-card:hover .ap-stat-icon { transform:scale(1.08) rotate(-4deg); }
+  .ap-stat-num { font-size:30px; letter-spacing:-0.5px; }
+  .ap-stat-label { font-size:10.5px; font-weight:700; letter-spacing:.7px; }
+
+  /* Section cards -> refined */
+  .ap-section-card { border-radius:16px; background:linear-gradient(170deg, rgba(255,255,255,0.02), rgba(255,255,255,0)); box-shadow:0 1px 0 rgba(255,255,255,0.03) inset; }
+  .ap-section-title { padding:15px 18px; font-size:11px; letter-spacing:1.2px; }
+  .ap-section-title svg { width:15px; height:15px; }
+  .ap-badge { font-weight:800; letter-spacing:.4px; }
+
+  /* Quick Links -> icon chips with lift + press */
+  .ap-links-grid { gap:11px; }
+  .ap-link-card { border-radius:12px; padding:13px 14px; gap:10px; transition:transform .18s cubic-bezier(.34,1.5,.64,1), filter .18s, box-shadow .18s; }
+  .ap-link-card:hover { transform:translateY(-2px); filter:brightness(1.08); box-shadow:0 12px 24px -15px rgba(0,0,0,0.7); }
+  .ap-link-card:active { transform:scale(.96); }
+  .ap-link-card svg { flex-shrink:0; }
+
+  /* Inputs -> premium focus */
+  .ap-input { padding:10px 36px 10px 12px; border-radius:9px; transition:border-color .18s, box-shadow .18s, background .18s; }
+  select.ap-input { padding-right:12px; }
+  .ap-input:focus { border-color:rgba(184,255,60,0.5); box-shadow:0 0 0 3px rgba(184,255,60,0.13); }
+  .ap-label { letter-spacing:.3px; }
+
+  /* Buttons -> lift + press */
+  .ap-save-btn { border-radius:9px; transition:transform .18s cubic-bezier(.34,1.5,.64,1), box-shadow .18s, background .18s; }
+  .ap-save-btn:hover { transform:translateY(-1px); box-shadow:0 9px 22px -10px rgba(184,255,60,0.55); }
+  .ap-save-btn:active { transform:scale(.96); }
+  .ap-action-btn { border-radius:10px; transition:transform .18s cubic-bezier(.34,1.5,.64,1), background .18s, border-color .18s; }
+  .ap-action-btn:hover { transform:translateY(-1px); }
+  .ap-action-btn:active { transform:scale(.96); }
+  .ap-cancel-btn { transition:transform .18s, background .18s, border-color .18s; }
+  .ap-cancel-btn:active { transform:scale(.96); }
+
+  /* Account rows -> refined */
+  .acct-item { border-radius:12px; padding:12px 14px; transition:border-color .18s, transform .18s, background .18s, box-shadow .18s; }
+  .acct-item:hover { border-color:rgba(184,255,60,0.22); transform:translateX(2px); box-shadow:0 8px 20px -16px rgba(0,0,0,0.6); }
+  .acct-avatar { width:38px; height:38px; border-radius:11px; box-shadow:0 4px 12px -6px rgba(184,255,60,0.4); }
+  .acct-delete { transition:transform .18s, color .18s, background .18s; border-radius:8px; }
+  .acct-delete:hover { transform:scale(1.12); }
+  .acct-delete:active { transform:scale(.9); }
+
 </style>
   <!-- ===== STRUCTURED DATA (JSON-LD, added) ===== -->
   <script type="application/ld+json">
