@@ -7900,6 +7900,7 @@ var BUILTIN_ACCOUNTS = [];
 // ONE-TIME: paste your Firebase Realtime Database URL below (or set it in Settings > Cloud Login).
 var CLOUD_DB_URL = 'https://gen-lang-client-0443565912-default-rtdb.asia-southeast1.firebasedatabase.app';
 (function(){ try { var u = localStorage.getItem('be_cloud_url'); if (u) CLOUD_DB_URL = u; } catch(e){} })();
+var cloudAccountUsernames = {}; // lowercased usernames currently stored in the cloud
 function cloudGetSecret(){ try { return localStorage.getItem('be_cloud_secret') || ''; } catch(e){ return ''; } }
 function cloudEndpoint(withSecret){
   if(!CLOUD_DB_URL) return '';
@@ -7914,26 +7915,27 @@ async function cloudFetchAccounts(){
     var r = await fetch(cloudEndpoint(false), { cache:'no-store' });
     if(!r.ok) return [];
     var data = await r.json();
-    if(Array.isArray(data)) return data.filter(Boolean);
-    if(data && typeof data==='object') return Object.keys(data).map(function(k){ return data[k]; }).filter(Boolean);
-    return [];
+    var arr = Array.isArray(data) ? data.filter(Boolean) : ((data && typeof data==='object') ? Object.keys(data).map(function(k){ return data[k]; }).filter(Boolean) : []);
+    cloudAccountUsernames = {}; arr.forEach(function(a){ if(a && a.username) cloudAccountUsernames[a.username.toLowerCase()]=1; });
+    return arr;
   } catch(e){ return []; }
 }
 async function cloudPushAccounts(){
   if(!CLOUD_DB_URL) return { ok:false, reason:'No cloud URL set' };
   try {
     var r = await fetch(cloudEndpoint(true), { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(adminAccounts) });
+    if(r.ok){ cloudAccountUsernames = {}; adminAccounts.forEach(function(a){ if(a && a.username) cloudAccountUsernames[a.username.toLowerCase()]=1; }); }
     return { ok: r.ok, status: r.status };
   } catch(e){ return { ok:false, reason:String(e) }; }
 }
 async function syncAccountsFromCloud(){
   if(!CLOUD_DB_URL) return;
   var cloud = await cloudFetchAccounts();
-  if(cloud && cloud.length){
-    var seen={}, merged=[];
-    cloud.concat(adminAccounts).forEach(function(a){ if(!a||!a.username) return; var k=a.username.toLowerCase(); if(!seen[k]){ seen[k]=1; merged.push({username:a.username, role:a.role, hash:a.hash}); } });
-    adminAccounts = merged; saveAccounts();
-  }
+  var seen={}, merged=[];
+  cloud.concat(adminAccounts).forEach(function(a){ if(!a||!a.username) return; var k=a.username.toLowerCase(); if(!seen[k]){ seen[k]=1; merged.push({username:a.username, role:a.role, hash:a.hash}); } });
+  var localExtra = adminAccounts.some(function(a){ return a && a.username && !cloud.some(function(c){ return c && (c.username||'').toLowerCase()===a.username.toLowerCase(); }); });
+  adminAccounts = merged; saveAccounts();
+  if(localExtra){ await cloudPushAccounts(); }  // upload accounts that existed only on this device
   renderAccounts();
 }
 function toggleCloudHelp(){ var e=document.getElementById('cloud-help'); if(e) e.style.display=(e.style.display==='none'?'block':'none'); }
@@ -8473,6 +8475,7 @@ function accountsSyncLine(){
 }
 function renderAccountsSync(){
   var box = document.getElementById('accounts-sync'); if(!box) return;
+  if(CLOUD_DB_URL){ box.innerHTML=''; return; }  // Cloud Login handles cross-device sync; manual bake box not needed
   var anyLocal = mergedAccounts().some(function(a){ return !a.baked; });
   if(!mergedAccounts().length){ box.innerHTML=''; return; }
   var line = accountsSyncLine();
@@ -8500,8 +8503,9 @@ function renderAccounts() {
   if (cnt) cnt.textContent = all.length;
   list.innerHTML = all.map(function(a) {
     var ini = a.username.substring(0,2).toUpperCase();
+    var inCloud = !!cloudAccountUsernames[(a.username||'').toLowerCase()];
     var badge = a.owner ? '<span class="acct-owner">Owner</span>'
-              : (a.baked ? '<span class="acct-tag on">&#10003; All devices</span>'
+              : ((a.baked || inCloud) ? '<span class="acct-tag on">&#10003; All devices</span>'
                          : '<span class="acct-tag">This device</span>');
     var del = (a.owner || a.baked) ? '' : '<button class="acct-delete" onclick="deleteAccountByName(\''+(a.username||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'")+'\')" title="Delete">&#10005;</button>';
     return '<div class="acct-item">' +
