@@ -2243,6 +2243,57 @@
   .acct-delete:hover { transform:scale(1.12); }
   .acct-delete:active { transform:scale(.9); }
 
+
+  /* ==================== WEBSITE-GRADE PREMIUM: ADMIN (dark) ==================== */
+  /* Ambient brand backdrop: radial glow orbs + faint lime grid (matches the public site hero) */
+  #admin-panel[data-theme="dark"] {
+    background-color: var(--ap-bg);
+    background-image:
+      radial-gradient(620px circle at 8% -10%, rgba(184,255,60,0.09), transparent 60%),
+      radial-gradient(560px circle at 99% 2%, rgba(93,202,165,0.07), transparent 55%),
+      radial-gradient(700px circle at 60% 120%, rgba(184,255,60,0.05), transparent 60%),
+      linear-gradient(rgba(184,255,60,0.028) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(184,255,60,0.028) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 100% 100%, 56px 56px, 56px 56px;
+    background-attachment: fixed;
+  }
+  #admin-panel .ap-wrap { position: relative; z-index: 1; }
+
+  /* Premium glass section cards */
+  #admin-panel[data-theme="dark"] .ap-section-card {
+    border: 1px solid rgba(184,255,60,0.13);
+    background: linear-gradient(180deg, rgba(21,29,21,0.72), rgba(13,18,13,0.6));
+    box-shadow: 0 28px 64px -36px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.02) inset;
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  }
+  #admin-panel[data-theme="dark"] .ap-section-title {
+    border-bottom: 1px solid rgba(184,255,60,0.1);
+    background: linear-gradient(90deg, rgba(184,255,60,0.06), transparent 70%);
+  }
+  #admin-panel[data-theme="dark"] .ap-stat-card {
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    box-shadow: 0 22px 52px -34px rgba(0,0,0,0.85);
+  }
+
+  /* Hero-style page header with lime eyebrow tag + glowing title */
+  .ap-eyebrow {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 2px; color: var(--lime);
+    background: rgba(184,255,60,0.08); border: 1px solid rgba(184,255,60,0.28);
+    border-radius: 20px; padding: 5px 13px; margin-bottom: 13px;
+    box-shadow: 0 0 22px -8px rgba(184,255,60,0.5);
+  }
+  .ap-eyebrow svg { width: 12px; height: 12px; }
+  .ap-title { font-size: 27px; letter-spacing: -0.6px; }
+  #admin-panel[data-theme="dark"] .ap-title { text-shadow: 0 0 28px rgba(184,255,60,0.14); }
+  .ap-page-header { padding-bottom: 20px; border-bottom: 1px solid rgba(184,255,60,0.09); margin-bottom: 26px; }
+  #admin-panel[data-theme="light"] .ap-eyebrow { color: #4f8a1e; background: rgba(120,180,40,0.1); border-color: rgba(120,180,40,0.3); box-shadow: none; }
+  #admin-panel[data-theme="light"] .ap-page-header { border-bottom-color: rgba(0,0,0,0.08); }
+
+  /* Cloud Login + sync boxes: match the glass treatment in dark */
+  #admin-panel[data-theme="dark"] #cloud-login-panel { background: linear-gradient(180deg, rgba(184,255,60,0.05), rgba(255,255,255,0.012)); border-color: rgba(184,255,60,0.15); }
+
 </style>
   <!-- ===== STRUCTURED DATA (JSON-LD, added) ===== -->
   <script type="application/ld+json">
@@ -7688,6 +7739,7 @@ function beQuick(topic) {
       <div class="ap-wrap">
         <div class="ap-page-header">
           <div>
+            <span class="ap-eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Performance</span>
             <h2 class="ap-title">Quick Stats</h2>
             <p class="ap-sub">Your Upwork performance at a glance.</p>
           </div>
@@ -7803,8 +7855,9 @@ function beQuick(topic) {
       <div class="ap-wrap">
         <div class="ap-page-header">
           <div>
+            <span class="ap-eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Account &amp; Security</span>
             <h2 class="ap-title">Settings</h2>
-            <p class="ap-sub">Manage admin credentials and accounts.</p>
+            <p class="ap-sub">Manage admin credentials and team accounts.</p>
           </div>
         </div>
 
