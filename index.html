@@ -7898,7 +7898,7 @@ var BUILTIN_ACCOUNTS = [];
 
 // ===== Cloud Login (work-from-anywhere) via Firebase Realtime Database REST =====
 // ONE-TIME: paste your Firebase Realtime Database URL below (or set it in Settings > Cloud Login).
-var CLOUD_DB_URL = '';
+var CLOUD_DB_URL = 'https://gen-lang-client-0443565912-default-rtdb.asia-southeast1.firebasedatabase.app';
 (function(){ try { var u = localStorage.getItem('be_cloud_url'); if (u) CLOUD_DB_URL = u; } catch(e){} })();
 function cloudGetSecret(){ try { return localStorage.getItem('be_cloud_secret') || ''; } catch(e){ return ''; } }
 function cloudEndpoint(withSecret){
@@ -7963,13 +7963,11 @@ async function testCloudConfig(silent){
   cloudMsg('Testing connection...', true);
   try {
     var r = await fetch(cloudEndpoint(false), { cache:'no-store' });
-    if(r.ok){
-      if(cloudGetSecret()){
-        var w = await cloudPushAccounts();
-        cloudMsg(w.ok ? 'Connected! Read + write working \u2014 accounts will sync to all devices.' : ('Read works, but saving failed (HTTP '+(w.status||'?')+'). Check the secret and database rules.'), !!w.ok);
-      } else { cloudMsg('Read works. Add the database secret above to enable saving accounts.', true); }
-    } else { cloudMsg('Could not read (HTTP '+r.status+'). Check the URL and that read rules allow access.', false); }
-  } catch(e){ cloudMsg('Connection failed: '+e+'. Check the URL and your internet.', false); }
+    if(!r.ok){ cloudMsg('Could not read the database (HTTP '+r.status+'). Check the URL and that your rules allow read.', false); updateCloudStatus(); return; }
+    var w = await cloudPushAccounts();
+    if(w.ok){ cloudMsg('Connected! Read + write working \u2014 accounts will sync so your team can log in from anywhere.', true); }
+    else { cloudMsg('Read works, but saving failed (HTTP '+(w.status||'?')+'). Either paste the Database secret above, or set ".write": true in your rules.', false); }
+  } catch(e){ cloudMsg('Connection failed: '+e+'. Check the URL and your internet connection.', false); }
   updateCloudStatus();
 }
 var adminLoggedIn = false;
