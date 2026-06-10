@@ -2397,6 +2397,37 @@
   .ap-pw-actions .ap-save-btn{ min-width:170px; justify-content:center; }
   @media(max-width:600px){ .ap-pw-actions{ justify-content:stretch; } .ap-pw-actions .ap-save-btn{ width:100%; } }
 
+
+  /* ==================== CRM — WEBSITE-GRADE PREMIUM (dark) ==================== */
+  #admin-panel[data-theme="dark"] .crm-kpi{ -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); box-shadow:0 20px 50px -32px rgba(0,0,0,0.8); }
+  #admin-panel[data-theme="dark"] .crm-kpi-num{ text-shadow:0 0 18px rgba(184,255,60,0.12); }
+  #admin-panel[data-theme="dark"] .crm-col{
+    position:relative; overflow:hidden;
+    background:linear-gradient(180deg, rgba(20,28,20,0.6), rgba(12,17,12,0.42));
+    border:1px solid rgba(184,255,60,0.1);
+    -webkit-backdrop-filter:blur(9px); backdrop-filter:blur(9px);
+    box-shadow:0 22px 52px -34px rgba(0,0,0,0.82);
+  }
+  #admin-panel[data-theme="dark"] .crm-col::before{ content:""; position:absolute; top:0; left:0; right:0; height:3px; opacity:.9; }
+  #admin-panel[data-theme="dark"] .crm-col[data-stage="new"]::before{ background:linear-gradient(90deg,#5DCAA5,transparent 80%); }
+  #admin-panel[data-theme="dark"] .crm-col[data-stage="contacted"]::before{ background:linear-gradient(90deg,#6CA8FF,transparent 80%); }
+  #admin-panel[data-theme="dark"] .crm-col[data-stage="proposal"]::before{ background:linear-gradient(90deg,#F5A623,transparent 80%); }
+  #admin-panel[data-theme="dark"] .crm-col[data-stage="negotiation"]::before{ background:linear-gradient(90deg,#C792EA,transparent 80%); }
+  #admin-panel[data-theme="dark"] .crm-col[data-stage="won"]::before{ background:linear-gradient(90deg,#B8FF3C,transparent 80%); }
+  #admin-panel[data-theme="dark"] .crm-col[data-stage="lost"]::before{ background:linear-gradient(90deg,#FF6B6B,transparent 80%); }
+  #admin-panel[data-theme="dark"] .crm-col-sum{ text-shadow:0 0 12px rgba(184,255,60,0.3); }
+  #admin-panel[data-theme="dark"] .crm-card{
+    background:linear-gradient(160deg, rgba(184,255,60,0.045), var(--ap-card,#141C14));
+    border:1px solid rgba(255,255,255,0.08);
+    box-shadow:0 4px 14px -8px rgba(0,0,0,0.5);
+    transition:transform .25s cubic-bezier(.34,1.4,.64,1), border-color .2s, box-shadow .25s;
+  }
+  #admin-panel[data-theme="dark"] .crm-card:hover{
+    border-color:rgba(184,255,60,0.35); transform:translateY(-3px);
+    box-shadow:0 18px 38px -20px rgba(0,0,0,0.72), 0 0 0 1px rgba(184,255,60,0.06), 0 0 22px -10px rgba(184,255,60,0.3);
+  }
+  #admin-panel[data-theme="dark"] .crm-val{ text-shadow:0 0 14px rgba(184,255,60,0.45); }
+
 </style>
   <!-- ===== STRUCTURED DATA (JSON-LD, added) ===== -->
   <script type="application/ld+json">
