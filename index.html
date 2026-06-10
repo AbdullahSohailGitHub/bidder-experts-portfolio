@@ -2347,6 +2347,50 @@
   #admin-panel[data-theme="dark"] .admin-exit-btn:active,
   #admin-panel[data-theme="dark"] .theme-toggle-btn:active{ transform:scale(.95); }
 
+
+  /* ==================== CRM PIPELINE ==================== */
+  .crm-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px;}
+  .crm-kpi{position:relative;background:linear-gradient(160deg,rgba(184,255,60,0.06),rgba(255,255,255,0.012));border:1px solid var(--ap-border2,rgba(184,255,60,0.1));border-radius:15px;padding:16px;display:flex;flex-direction:column;gap:9px;overflow:hidden;transition:transform .22s cubic-bezier(.34,1.5,.64,1),border-color .2s,box-shadow .2s;}
+  .crm-kpi:hover{transform:translateY(-3px);border-color:rgba(184,255,60,0.3);box-shadow:0 18px 40px -22px rgba(0,0,0,0.6);}
+  .crm-kpi-ic{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:rgba(184,255,60,0.1);border:1px solid rgba(184,255,60,0.2);color:var(--lime);box-shadow:0 4px 12px -6px rgba(184,255,60,0.4);}
+  .crm-kpi-ic svg{width:17px;height:17px;}
+  .crm-kpi-num{font-family:'Syne',sans-serif;font-size:25px;font-weight:800;color:var(--ap-text,#EEF4EE);line-height:1;letter-spacing:-0.5px;}
+  .crm-kpi-lbl{font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--ap-muted,#9aa);}
+
+  .crm-board{display:flex;gap:13px;overflow-x:auto;padding-bottom:14px;-webkit-overflow-scrolling:touch;}
+  .crm-col{flex:1;min-width:230px;background:var(--ap-card2,rgba(255,255,255,0.02));border:1px solid var(--ap-border,rgba(255,255,255,0.07));border-radius:14px;padding:12px;display:flex;flex-direction:column;transition:border-color .18s,background .18s,box-shadow .18s;}
+  .crm-col.drop{border-color:rgba(184,255,60,0.55);background:rgba(184,255,60,0.05);box-shadow:0 0 0 3px rgba(184,255,60,0.12) inset;}
+  .crm-col-h{display:flex;align-items:center;gap:8px;margin-bottom:3px;}
+  .crm-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;box-shadow:0 0 8px -1px currentColor;}
+  .crm-col-name{font-family:'Syne',sans-serif;font-size:12px;font-weight:800;color:var(--ap-text,#EEF4EE);text-transform:uppercase;letter-spacing:.6px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .crm-col-ct{font-size:11px;font-weight:800;color:var(--ap-muted,#9aa);background:rgba(255,255,255,0.06);border-radius:20px;padding:1px 8px;flex-shrink:0;}
+  .crm-col-sum{font-size:11px;font-weight:700;color:var(--lime);font-family:'JetBrains Mono',monospace;margin-bottom:11px;}
+  .crm-col-body{display:flex;flex-direction:column;gap:9px;flex:1;min-height:48px;}
+  .crm-col-empty{font-size:10.5px;color:var(--ap-muted,#9aa);text-align:center;padding:18px 6px;border:1px dashed var(--ap-border,rgba(255,255,255,0.1));border-radius:10px;opacity:.7;}
+
+  .crm-card{background:var(--ap-card,#141C14);border:1px solid var(--ap-border,rgba(255,255,255,0.08));border-radius:11px;padding:11px 12px;cursor:grab;transition:transform .15s,border-color .18s,box-shadow .18s;box-shadow:0 2px 8px -4px rgba(0,0,0,0.4);}
+  .crm-card:hover{border-color:rgba(184,255,60,0.32);box-shadow:0 10px 24px -14px rgba(0,0,0,0.65);transform:translateY(-1px);}
+  .crm-card:active{cursor:grabbing;}
+  .crm-card.dragging{opacity:.4;border-style:dashed;}
+  .crm-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+  .crm-card-name{font-size:12.5px;font-weight:700;color:var(--ap-text,#EEF4EE);line-height:1.3;}
+  .crm-val{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:var(--lime);flex-shrink:0;white-space:nowrap;}
+  .crm-card-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:7px;}
+  .crm-src{font-size:8.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:var(--lime);background:rgba(184,255,60,0.1);border:1px solid rgba(184,255,60,0.2);border-radius:20px;padding:2px 8px;}
+  .crm-note{font-size:10px;color:var(--ap-muted,#9aa);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:130px;}
+  .crm-card-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px;padding-top:9px;border-top:1px solid var(--ap-border,rgba(255,255,255,0.06));}
+  .crm-moves{display:flex;gap:4px;}
+  .crm-mv,.crm-ic-btn{background:rgba(255,255,255,0.05);border:1px solid var(--ap-border,rgba(255,255,255,0.08));color:var(--ap-muted,#9aa);border-radius:7px;width:25px;height:25px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;line-height:1;transition:transform .15s,color .15s,border-color .15s,background .15s;padding:0;text-decoration:none;}
+  .crm-mv:hover{color:var(--lime);border-color:rgba(184,255,60,0.4);transform:translateY(-1px);}
+  .crm-card-acts{display:flex;gap:5px;align-items:center;}
+  .crm-cta svg,.crm-ic-btn svg{width:13px;height:13px;}
+  .crm-cta:hover{color:var(--lime);border-color:rgba(184,255,60,0.4);}
+  .crm-ic-btn:hover{color:var(--ap-text,#fff);border-color:rgba(255,255,255,0.2);transform:translateY(-1px);}
+  .crm-del:hover{color:#FF6B6B;border-color:rgba(255,107,107,0.4);}
+  .crm-mv:active,.crm-ic-btn:active{transform:scale(.9);}
+  @media(max-width:920px){ .crm-kpis{grid-template-columns:repeat(2,1fr);} }
+  @media(max-width:560px){ .crm-col{min-width:200px;} }
+
 </style>
   <!-- ===== STRUCTURED DATA (JSON-LD, added) ===== -->
   <script type="application/ld+json">
@@ -7688,6 +7732,10 @@ function beQuick(topic) {
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
       Quick Contacts
     </button>
+    <button class="admin-tab" data-tab="crm" onclick="adminTab('crm', this)">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+      Pipeline
+    </button>
     <button class="admin-tab" data-tab="stats" onclick="adminTab('stats', this)">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
       Quick Stats
@@ -7786,6 +7834,44 @@ function beQuick(topic) {
 
         <!-- Contacts grid -->
         <div class="ap-contacts-grid" id="contacts-grid"></div>
+      </div>
+    </div>
+
+    <!-- CRM PIPELINE TAB -->
+    <div id="tab-crm" class="admin-tab-panel">
+      <div class="ap-wrap">
+        <div class="ap-page-header">
+          <div>
+            <span class="ap-eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>Pipeline</span>
+            <h2 class="ap-title">CRM Pipeline</h2>
+            <p class="ap-sub">Track every lead from first contact to a won deal &mdash; drag cards across stages.</p>
+          </div>
+          <button class="ap-action-btn" onclick="showAddDeal()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Deal
+          </button>
+        </div>
+
+        <div class="crm-kpis" id="crmKpis"></div>
+
+        <div class="ap-form-card" id="crm-form" style="display:none;margin-bottom:20px;">
+          <div class="ap-form-title" id="crm-form-title">New Deal</div>
+          <div class="ap-form-grid">
+            <div class="ap-field"><label class="ap-label">Client / Company</label><input class="ap-input" id="cd-name" placeholder="e.g. Acme Inc"></div>
+            <div class="ap-field"><label class="ap-label">Deal value (USD)</label><input class="ap-input" id="cd-value" type="number" min="0" placeholder="3000"></div>
+            <div class="ap-field"><label class="ap-label">Source</label><select class="ap-input" id="cd-source"><option>Upwork</option><option>Referral</option><option>Direct</option><option>LinkedIn</option><option>Other</option></select></div>
+            <div class="ap-field"><label class="ap-label">Stage</label><select class="ap-input" id="cd-stage"><option value="new">New Lead</option><option value="contacted">Contacted</option><option value="proposal">Proposal Sent</option><option value="negotiation">Negotiation</option><option value="won">Won</option><option value="lost">Lost</option></select></div>
+            <div class="ap-field"><label class="ap-label">Email <span style="color:var(--ap-muted);font-weight:500;">(optional)</span></label><input class="ap-input" id="cd-email" placeholder="client@email.com"></div>
+            <div class="ap-field"><label class="ap-label">WhatsApp <span style="color:var(--ap-muted);font-weight:500;">(optional)</span></label><input class="ap-input" id="cd-wa" placeholder="+1 555 123 4567"></div>
+            <div class="ap-field" style="grid-column:1/-1;"><label class="ap-label">Notes <span style="color:var(--ap-muted);font-weight:500;">(optional)</span></label><textarea class="ap-input" id="cd-notes" rows="2" placeholder="Context, requirements, next steps..."></textarea></div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:14px;">
+            <button class="ap-save-btn" onclick="saveDeal()">Save deal</button>
+            <button class="ap-cancel-btn" onclick="hideAddDeal()">Cancel</button>
+          </div>
+        </div>
+
+        <div class="crm-board" id="crmBoard"></div>
       </div>
     </div>
 
@@ -8223,7 +8309,7 @@ function adminLogout() {
   document.getElementById('admin-pw').value = '';
   var u=document.getElementById('admin-user'); if(u) u.value='';
   var w=document.getElementById('admin-whoami'); if(w) w.style.display='none';
-  currentAllowedTabs = ['invoice','proposal','leads','stats','settings'];
+  currentAllowedTabs = ['invoice','proposal','leads','crm','stats','settings'];
   document.querySelectorAll('.admin-tab[data-tab]').forEach(function(b){ b.style.display=''; });
   try { localStorage.removeItem('be_current_user'); } catch(e) {}
   var _pc = document.getElementById('proposal-container'); if (_pc) { _pc.dataset.loaded=''; _pc.innerHTML=''; }
@@ -8239,6 +8325,7 @@ function adminTab(name, btn) {
   if (name === 'invoice')  loadInvoiceMaker();
   if (name === 'proposal') loadProposalWriter();
   if (name === 'settings') { renderAccounts(); if (typeof updateCloudStatus==='function') updateCloudStatus(); if (currentAdminUser && currentAdminUser.owner && typeof syncAccountsFromCloud==='function') syncAccountsFromCloud(); }
+  if (name === 'crm') { if (typeof renderCRM==='function') renderCRM(); }
 }
 
 // Load invoice maker into the container
@@ -8594,15 +8681,15 @@ async function changePassword() {
 
 // ===== Role-based access control =====
 var ROLE_PERMS = {
-  owner:    ['invoice','proposal','leads','stats','settings'],
-  admin:    ['invoice','proposal','leads','stats','settings'],
+  owner:    ['invoice','proposal','leads','crm','stats','settings'],
+  admin:    ['invoice','proposal','leads','crm','stats','settings'],
   invoicer: ['invoice','proposal'],
   proposal: ['proposal'],
   invoice:  ['invoice'],
-  contacts: ['leads'],
+  contacts: ['leads','crm'],
   viewer:   ['invoice','proposal']
 };
-var currentAllowedTabs = ['invoice','proposal','leads','stats','settings'];
+var currentAllowedTabs = ['invoice','proposal','leads','crm','stats','settings'];
 function tabAllowed(name){ return currentAllowedTabs.indexOf(name) !== -1; }
 function roleLabel(r){
   var m={ owner:'Owner', admin:'Full Access', invoicer:'Proposal + Invoice', proposal:'Proposal only', invoice:'Invoice only', contacts:'Quick Contacts', viewer:'View only' };
@@ -8624,6 +8711,120 @@ function applyRolePermissions(acct){
     if (btn) adminTab(first, btn);
   }
 }
+
+// ===================== CRM PIPELINE =====================
+var BE_CRM_KEY = 'be_crm_deals';
+var CRM_STAGES = [
+  { id:'new',         label:'New Lead',      color:'#5DCAA5' },
+  { id:'contacted',   label:'Contacted',     color:'#6CA8FF' },
+  { id:'proposal',    label:'Proposal Sent', color:'#F5A623' },
+  { id:'negotiation', label:'Negotiation',   color:'#C792EA' },
+  { id:'won',         label:'Won',           color:'#B8FF3C' },
+  { id:'lost',        label:'Lost',          color:'#FF6B6B' }
+];
+var crmStageMeta = {}; CRM_STAGES.forEach(function(s){ crmStageMeta[s.id]=s; });
+var CRM_ICONS = {
+  briefcase:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>',
+  trending:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
+  award:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>',
+  wa:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.738-.957z"/></svg>',
+  mail:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>',
+  edit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>',
+  trash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>'
+};
+var crmDeals = [];
+function crmLoad(){ try { crmDeals = JSON.parse(localStorage.getItem(BE_CRM_KEY) || '[]') || []; } catch(e){ crmDeals = []; } if(!Array.isArray(crmDeals)) crmDeals = []; }
+function crmSave(){ try { localStorage.setItem(BE_CRM_KEY, JSON.stringify(crmDeals)); } catch(e){} }
+crmLoad();
+var crmEditId = null, crmDragId = null;
+function crmFmt(n){ n = Number(n) || 0; if(n >= 1000){ var v = n/1000; return '$' + (v % 1 === 0 ? v.toFixed(0) : v.toFixed(1)) + 'k'; } return '$' + n; }
+function crmStageLabel(id){ return (crmStageMeta[id] || {}).label || id; }
+function gvCRM(id){ var el = document.getElementById(id); return el ? (el.value || '') : ''; }
+function crmSetVal(id, v){ var el = document.getElementById(id); if(el) el.value = (v == null ? '' : v); }
+
+function crmKPIs(){
+  var pipeVal = 0, wonVal = 0, won = 0, lost = 0, active = 0;
+  crmDeals.forEach(function(d){
+    var v = Number(d.value) || 0;
+    if(d.stage === 'won'){ won++; wonVal += v; }
+    else if(d.stage === 'lost'){ lost++; }
+    else { active++; pipeVal += v; }
+  });
+  var decided = won + lost; var wr = decided ? Math.round(won / decided * 100) : 0;
+  return { total:crmDeals.length, pipeVal:pipeVal, wonVal:wonVal, won:won, lost:lost, active:active, wr:wr };
+}
+function renderCRM(){ crmLoad(); renderCRMKpis(); renderCRMBoard(); }
+function crmKpiCard(icon, num, label){ return '<div class="crm-kpi"><div class="crm-kpi-ic">' + (CRM_ICONS[icon]||'') + '</div><div class="crm-kpi-num">' + num + '</div><div class="crm-kpi-lbl">' + label + '</div></div>'; }
+function renderCRMKpis(){
+  var el = document.getElementById('crmKpis'); if(!el) return;
+  var k = crmKPIs();
+  el.innerHTML = crmKpiCard('briefcase', k.total, 'Total Deals')
+    + crmKpiCard('trending', crmFmt(k.pipeVal), 'Pipeline Value')
+    + crmKpiCard('check', crmFmt(k.wonVal), 'Won Value')
+    + crmKpiCard('award', k.wr + '%', 'Win Rate');
+}
+function renderCRMBoard(){
+  var board = document.getElementById('crmBoard'); if(!board) return;
+  var byStage = {}; CRM_STAGES.forEach(function(s){ byStage[s.id] = []; });
+  crmDeals.forEach(function(d){ if(!byStage[d.stage]){ d.stage = 'new'; } byStage[d.stage].push(d); });
+  var html = '';
+  CRM_STAGES.forEach(function(s){
+    var list = byStage[s.id]; var sum = list.reduce(function(a,d){ return a + (Number(d.value)||0); }, 0);
+    html += '<div class="crm-col" data-stage="' + s.id + '" ondragover="crmDragOver(event)" ondragleave="crmDragLeave(event)" ondrop="crmDrop(event,\'' + s.id + '\')">'
+      + '<div class="crm-col-h"><span class="crm-dot" style="background:' + s.color + ';color:' + s.color + '"></span><span class="crm-col-name">' + s.label + '</span><span class="crm-col-ct">' + list.length + '</span></div>'
+      + '<div class="crm-col-sum">' + crmFmt(sum) + '</div>'
+      + '<div class="crm-col-body">';
+    if(!list.length){ html += '<div class="crm-col-empty">Drop deals here</div>'; }
+    list.forEach(function(d){ html += crmCard(d); });
+    html += '</div></div>';
+  });
+  board.innerHTML = html;
+}
+function crmCard(d){
+  var idx = -1; for(var i=0;i<CRM_STAGES.length;i++){ if(CRM_STAGES[i].id===d.stage){ idx=i; break; } }
+  var prev = idx > 0 ? CRM_STAGES[idx-1].id : '';
+  var next = (idx > -1 && idx < CRM_STAGES.length-1) ? CRM_STAGES[idx+1].id : '';
+  var val = (Number(d.value)||0) ? '<span class="crm-val">' + crmFmt(d.value) + '</span>' : '';
+  var src = d.source ? '<span class="crm-src">' + escName(d.source) + '</span>' : '';
+  var note = d.notes ? '<span class="crm-note" title="' + escAttr(d.notes) + '">' + escName(d.notes.length>40 ? d.notes.slice(0,40)+'\u2026' : d.notes) + '</span>' : '';
+  var cta = '';
+  if(d.wa){ cta += '<a class="crm-ic-btn crm-cta" href="https://wa.me/' + encodeURIComponent(String(d.wa).replace(/[^0-9]/g,'')) + '" target="_blank" rel="noopener" title="WhatsApp">' + CRM_ICONS.wa + '</a>'; }
+  if(d.email){ cta += '<a class="crm-ic-btn crm-cta" href="mailto:' + escAttr(d.email) + '" title="Email">' + CRM_ICONS.mail + '</a>'; }
+  return '<div class="crm-card" draggable="true" ondragstart="crmDragStart(event,' + d.id + ')" ondragend="crmDragEnd(event)">'
+    + '<div class="crm-card-top"><span class="crm-card-name">' + escName(d.name || 'Untitled') + '</span>' + val + '</div>'
+    + ((src||note) ? ('<div class="crm-card-meta">' + src + note + '</div>') : '')
+    + '<div class="crm-card-foot">'
+    +   '<div class="crm-moves">'
+    +     (prev ? '<button class="crm-mv" onclick="moveDeal(' + d.id + ',\'' + prev + '\')" title="Move to ' + crmStageLabel(prev) + '">&larr;</button>' : '')
+    +     (next ? '<button class="crm-mv" onclick="moveDeal(' + d.id + ',\'' + next + '\')" title="Move to ' + crmStageLabel(next) + '">&rarr;</button>' : '')
+    +   '</div>'
+    +   '<div class="crm-card-acts">' + cta
+    +     '<button class="crm-ic-btn" onclick="editDeal(' + d.id + ')" title="Edit">' + CRM_ICONS.edit + '</button>'
+    +     '<button class="crm-ic-btn crm-del" onclick="deleteDeal(' + d.id + ')" title="Delete">' + CRM_ICONS.trash + '</button>'
+    +   '</div>'
+    + '</div></div>';
+}
+function moveDeal(id, stage){ for(var i=0;i<crmDeals.length;i++){ if(crmDeals[i].id===id){ crmDeals[i].stage = stage; break; } } crmSave(); renderCRM(); }
+function crmDragStart(ev, id){ crmDragId = id; try{ ev.dataTransfer.setData('text/plain', String(id)); ev.dataTransfer.effectAllowed='move'; }catch(e){} var c = ev.target.closest ? ev.target.closest('.crm-card') : null; if(c){ setTimeout(function(){ c.classList.add('dragging'); }, 0); } }
+function crmDragEnd(ev){ var c = ev.target.closest ? ev.target.closest('.crm-card') : null; if(c) c.classList.remove('dragging'); document.querySelectorAll('.crm-col.drop').forEach(function(x){ x.classList.remove('drop'); }); crmDragId = null; }
+function crmDragOver(ev){ ev.preventDefault(); try{ ev.dataTransfer.dropEffect='move'; }catch(e){} if(ev.currentTarget) ev.currentTarget.classList.add('drop'); }
+function crmDragLeave(ev){ if(ev.currentTarget) ev.currentTarget.classList.remove('drop'); }
+function crmDrop(ev, stage){ ev.preventDefault(); var id = crmDragId; try{ var t = ev.dataTransfer.getData('text/plain'); if(t) id = parseInt(t,10); }catch(e){} if(id != null && !isNaN(id)) moveDeal(id, stage); }
+function showAddDeal(){ crmEditId = null; var t=document.getElementById('crm-form-title'); if(t) t.textContent='New Deal'; crmClearForm(); var f=document.getElementById('crm-form'); if(f) f.style.display='block'; var n=document.getElementById('cd-name'); if(n) n.focus(); }
+function hideAddDeal(){ var f=document.getElementById('crm-form'); if(f) f.style.display='none'; crmEditId=null; }
+function crmClearForm(){ ['cd-name','cd-value','cd-email','cd-wa','cd-notes'].forEach(function(id){ crmSetVal(id,''); }); var s=document.getElementById('cd-source'); if(s) s.selectedIndex=0; crmSetVal('cd-stage','new'); }
+function saveDeal(){
+  var name = gvCRM('cd-name').trim();
+  if(!name){ var n=document.getElementById('cd-name'); if(n){ n.focus(); n.style.borderColor='rgba(255,107,107,0.6)'; setTimeout(function(){ n.style.borderColor=''; },1500); } return; }
+  var deal = { name:name, value:Number(gvCRM('cd-value'))||0, source:gvCRM('cd-source'), stage:gvCRM('cd-stage')||'new', email:gvCRM('cd-email').trim(), wa:gvCRM('cd-wa').trim(), notes:gvCRM('cd-notes').trim() };
+  if(crmEditId){ for(var i=0;i<crmDeals.length;i++){ if(crmDeals[i].id===crmEditId){ deal.id=crmEditId; deal.created=crmDeals[i].created; crmDeals[i]=deal; break; } } }
+  else { deal.id = Date.now(); deal.created = new Date().toISOString(); crmDeals.unshift(deal); }
+  crmSave(); hideAddDeal(); renderCRM();
+}
+function editDeal(id){ var d=null; for(var i=0;i<crmDeals.length;i++){ if(crmDeals[i].id===id){ d=crmDeals[i]; break; } } if(!d) return; crmEditId=id; var t=document.getElementById('crm-form-title'); if(t) t.textContent='Edit Deal'; crmSetVal('cd-name',d.name); crmSetVal('cd-value',d.value); crmSetVal('cd-source',d.source); crmSetVal('cd-stage',d.stage); crmSetVal('cd-email',d.email); crmSetVal('cd-wa',d.wa); crmSetVal('cd-notes',d.notes); var f=document.getElementById('crm-form'); if(f){ f.style.display='block'; try{ f.scrollIntoView({behavior:'smooth',block:'nearest'}); }catch(e){} } }
+function deleteDeal(id){ if(!confirm('Delete this deal?')) return; crmDeals = crmDeals.filter(function(d){ return d.id!==id; }); crmSave(); renderCRM(); }
+// =================== END CRM PIPELINE ===================
 
 function escName(x){ return String(x==null?'':x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function escAttr(x){ return String(x==null?'':x).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
