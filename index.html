@@ -2428,6 +2428,69 @@
   }
   #admin-panel[data-theme="dark"] .crm-val{ text-shadow:0 0 14px rgba(184,255,60,0.45); }
 
+
+  /* ==================== CLICKUP-STYLE LAYOUT: LEFT SIDEBAR ==================== */
+  .admin-body{ display:flex; flex:1 1 auto; min-height:0; align-items:stretch; }
+  .admin-tabs{
+    flex-direction:column !important; width:236px; flex-shrink:0; gap:4px !important;
+    padding:16px 12px !important; overflow-y:auto; overflow-x:hidden;
+    border-right:1px solid rgba(184,255,60,0.1); border-bottom:none !important;
+    -webkit-mask-image:none !important; mask-image:none !important; align-items:stretch;
+  }
+  .admin-tabs::before{ content:"MENU"; display:block; font-family:'DM Sans',sans-serif; font-size:9px; font-weight:700; letter-spacing:1.5px; color:var(--ap-muted,#5A7A5E); padding:2px 13px 8px; }
+  .admin-tab{ width:100%; justify-content:flex-start !important; gap:11px; border-radius:10px; padding:11px 13px !important; border-bottom:none !important; position:relative; text-align:left; }
+  .admin-tab svg{ flex-shrink:0; }
+  .admin-content{ flex:1 1 auto; min-width:0; }
+
+  #admin-panel[data-theme="dark"] .admin-tab{ border-bottom:none !important; }
+  #admin-panel[data-theme="dark"] .admin-tab:hover:not(.active){ background:rgba(184,255,60,0.07); color:var(--lime); transform:none; }
+  #admin-panel[data-theme="dark"] .admin-tab.active{
+    background:linear-gradient(90deg, rgba(184,255,60,0.16), rgba(184,255,60,0.04)) !important;
+    color:var(--lime); border-bottom:none !important; box-shadow:0 4px 14px -9px rgba(184,255,60,0.5);
+  }
+  #admin-panel[data-theme="dark"] .admin-tab.active::before{ content:""; position:absolute; left:0; top:8px; bottom:8px; width:3px; border-radius:0 3px 3px 0; background:var(--lime); box-shadow:0 0 10px rgba(184,255,60,0.7); }
+
+  #admin-panel[data-theme="light"] .admin-tabs{ border-right:1px solid rgba(0,0,0,0.08); }
+  #admin-panel[data-theme="light"] .admin-tab.active{ background:rgba(120,180,40,0.12) !important; }
+  #admin-panel[data-theme="light"] .admin-tab.active::before{ content:""; position:absolute; left:0; top:8px; bottom:8px; width:3px; border-radius:0 3px 3px 0; background:#6fae2a; }
+
+  @media(max-width:900px){
+    .admin-body{ flex-direction:column; }
+    .admin-tabs{ flex-direction:row !important; width:auto; flex-shrink:0; border-right:none !important; border-bottom:1px solid rgba(184,255,60,0.1) !important; overflow-x:auto; overflow-y:hidden; padding:6px 10px !important; gap:2px !important; }
+    .admin-tabs::before{ display:none; }
+    .admin-tab{ width:auto; flex-shrink:0; border-radius:10px 10px 0 0; }
+    #admin-panel[data-theme="dark"] .admin-tab.active::before,
+    #admin-panel[data-theme="light"] .admin-tab.active::before{ left:8px; right:8px; top:auto; bottom:0; width:auto; height:3px; border-radius:3px 3px 0 0; }
+  }
+
+
+  /* ==================== CRM — List view + view switcher (ClickUp-style) ==================== */
+  .crm-views{ display:inline-flex; gap:4px; background:var(--ap-card2,rgba(255,255,255,0.03)); border:1px solid var(--ap-border,rgba(255,255,255,0.08)); border-radius:10px; padding:4px; margin-bottom:18px; }
+  .crm-vbtn{ display:inline-flex; align-items:center; gap:6px; background:none; border:none; color:var(--ap-muted,#9aa); font-family:'DM Sans',sans-serif; font-size:12.5px; font-weight:700; padding:7px 14px; border-radius:7px; cursor:pointer; transition:background .18s, color .18s; }
+  .crm-vbtn svg{ width:14px; height:14px; }
+  .crm-vbtn:hover{ color:var(--ap-text,#EEF4EE); }
+  .crm-vbtn.active{ background:rgba(184,255,60,0.14); color:var(--lime); box-shadow:0 0 14px -7px rgba(184,255,60,0.5); }
+
+  .crm-list{ display:flex; flex-direction:column; gap:20px; }
+  .crml-gh{ display:flex; align-items:center; gap:9px; padding:8px 4px; margin-bottom:7px; border-bottom:1px solid var(--ap-border,rgba(255,255,255,0.08)); }
+  .crml-gname{ font-family:'Syne',sans-serif; font-size:13px; font-weight:800; color:var(--ap-text,#EEF4EE); text-transform:uppercase; letter-spacing:.6px; }
+  .crml-gct{ font-size:11px; font-weight:800; color:var(--ap-muted,#9aa); background:rgba(255,255,255,0.06); border-radius:20px; padding:1px 8px; }
+  .crml-gsum{ margin-left:auto; font-size:12px; font-weight:700; color:var(--lime); font-family:'JetBrains Mono',monospace; }
+  .crml-row{ display:grid; grid-template-columns:128px 1fr auto auto auto; align-items:center; gap:12px; padding:10px 13px; border-radius:10px; background:var(--ap-card,rgba(255,255,255,0.015)); border:1px solid var(--ap-border,rgba(255,255,255,0.06)); margin-bottom:7px; transition:border-color .18s, transform .15s, box-shadow .18s; }
+  .crml-row:hover{ border-color:rgba(184,255,60,0.28); transform:translateX(2px); box-shadow:0 8px 20px -16px rgba(0,0,0,0.6); }
+  .crml-stage{ font-size:9px; font-weight:800; letter-spacing:.4px; text-transform:uppercase; border:1px solid; border-radius:20px; padding:3px 9px; text-align:center; white-space:nowrap; }
+  .crml-name{ font-size:13px; font-weight:700; color:var(--ap-text,#EEF4EE); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .crml-val{ font-family:'Syne',sans-serif; font-size:14px; font-weight:800; color:var(--lime); text-align:right; white-space:nowrap; }
+  .crml-acts{ display:flex; gap:5px; align-items:center; }
+  #admin-panel[data-theme="dark"] .crml-row{ background:linear-gradient(160deg, rgba(184,255,60,0.03), var(--ap-card,#141C14)); }
+  #admin-panel[data-theme="dark"] .crml-val{ text-shadow:0 0 12px rgba(184,255,60,0.35); }
+  @media(max-width:680px){
+    .crml-row{ grid-template-columns:1fr auto; row-gap:9px; }
+    .crml-stage{ grid-column:1; justify-self:start; }
+    .crml-row .crm-src{ display:none; }
+    .crml-acts{ grid-column:1 / -1; justify-content:flex-end; }
+  }
+
 </style>
   <!-- ===== STRUCTURED DATA (JSON-LD, added) ===== -->
   <script type="application/ld+json">
@@ -7756,6 +7819,7 @@ function beQuick(topic) {
     </div>
   </div>
 
+  <div class="admin-body">
   <div class="admin-tabs">
     <button class="admin-tab active" data-tab="invoice" onclick="adminTab('invoice', this)">
 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
@@ -7908,7 +7972,12 @@ function beQuick(topic) {
           </div>
         </div>
 
+        <div class="crm-views">
+          <button class="crm-vbtn" id="crm-vb-board" onclick="setCrmView('board')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="18" rx="1"/><rect x="14" y="3" width="7" height="11" rx="1"/></svg>Board</button>
+          <button class="crm-vbtn" id="crm-vb-list" onclick="setCrmView('list')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>List</button>
+        </div>
         <div class="crm-board" id="crmBoard"></div>
+        <div class="crm-list" id="crmList" style="display:none;"></div>
       </div>
     </div>
 
@@ -8173,6 +8242,7 @@ function beQuick(topic) {
 
       </div>
     </div>
+  </div>
   </div>
 </div>
 
@@ -8791,7 +8861,50 @@ function crmKPIs(){
   var decided = won + lost; var wr = decided ? Math.round(won / decided * 100) : 0;
   return { total:crmDeals.length, pipeVal:pipeVal, wonVal:wonVal, won:won, lost:lost, active:active, wr:wr };
 }
-function renderCRM(){ crmLoad(); renderCRMKpis(); renderCRMBoard(); }
+var crmView = (function(){ try{ return localStorage.getItem('be_crm_view') || 'board'; }catch(e){ return 'board'; } })();
+function setCrmView(v){ crmView = (v==='list' ? 'list' : 'board'); try{ localStorage.setItem('be_crm_view', crmView); }catch(e){} renderCRM(); }
+function renderCRM(){
+  crmLoad(); renderCRMKpis();
+  var board=document.getElementById('crmBoard'), list=document.getElementById('crmList');
+  var vbB=document.getElementById('crm-vb-board'), vbL=document.getElementById('crm-vb-list');
+  if(vbB) vbB.classList.toggle('active', crmView==='board');
+  if(vbL) vbL.classList.toggle('active', crmView==='list');
+  if(crmView==='list'){ if(board) board.style.display='none'; if(list) list.style.display='block'; renderCRMList(); }
+  else { if(list) list.style.display='none'; if(board) board.style.display='flex'; renderCRMBoard(); }
+}
+function renderCRMList(){
+  var el=document.getElementById('crmList'); if(!el) return;
+  if(!crmDeals.length){ el.innerHTML='<div class="crm-col-empty" style="border:none;">No deals yet. Click \u201cAdd Deal\u201d to start.</div>'; return; }
+  var byStage={}; CRM_STAGES.forEach(function(s){ byStage[s.id]=[]; });
+  crmDeals.forEach(function(d){ if(!byStage[d.stage]){ d.stage='new'; } byStage[d.stage].push(d); });
+  var html='';
+  CRM_STAGES.forEach(function(s){
+    var list=byStage[s.id]; if(!list.length) return;
+    var sum=list.reduce(function(a,d){ return a+(Number(d.value)||0); },0);
+    html += '<div class="crml-group"><div class="crml-gh"><span class="crm-dot" style="background:'+s.color+';color:'+s.color+'"></span><span class="crml-gname">'+s.label+'</span><span class="crml-gct">'+list.length+'</span><span class="crml-gsum">'+crmFmt(sum)+'</span></div>';
+    list.forEach(function(d){
+      var idx=-1; for(var i=0;i<CRM_STAGES.length;i++){ if(CRM_STAGES[i].id===d.stage){ idx=i; break; } }
+      var prev=idx>0?CRM_STAGES[idx-1].id:''; var next=(idx>-1&&idx<CRM_STAGES.length-1)?CRM_STAGES[idx+1].id:'';
+      var cta='';
+      if(d.wa){ cta+='<a class="crm-ic-btn crm-cta" href="https://wa.me/'+encodeURIComponent(String(d.wa).replace(/[^0-9]/g,''))+'" target="_blank" rel="noopener" title="WhatsApp">'+CRM_ICONS.wa+'</a>'; }
+      if(d.email){ cta+='<a class="crm-ic-btn crm-cta" href="mailto:'+escAttr(d.email)+'" title="Email">'+CRM_ICONS.mail+'</a>'; }
+      html += '<div class="crml-row">'
+        + '<span class="crml-stage" style="background:'+s.color+'1f;color:'+s.color+';border-color:'+s.color+'55">'+s.label+'</span>'
+        + '<span class="crml-name">'+escName(d.name||'Untitled')+'</span>'
+        + (d.source?('<span class="crm-src">'+escName(d.source)+'</span>'):'<span></span>')
+        + '<span class="crml-val">'+((Number(d.value)||0)?crmFmt(d.value):'\u2014')+'</span>'
+        + '<span class="crml-acts">'
+        +   (prev?'<button class="crm-mv" onclick="moveDeal('+d.id+',\''+prev+'\')" title="Back">&larr;</button>':'')
+        +   (next?'<button class="crm-mv" onclick="moveDeal('+d.id+',\''+next+'\')" title="Advance">&rarr;</button>':'')
+        +   cta
+        +   '<button class="crm-ic-btn" onclick="editDeal('+d.id+')" title="Edit">'+CRM_ICONS.edit+'</button>'
+        +   '<button class="crm-ic-btn crm-del" onclick="deleteDeal('+d.id+')" title="Delete">'+CRM_ICONS.trash+'</button>'
+        + '</span></div>';
+    });
+    html += '</div>';
+  });
+  el.innerHTML=html;
+}
 function crmKpiCard(icon, num, label){ return '<div class="crm-kpi"><div class="crm-kpi-ic">' + (CRM_ICONS[icon]||'') + '</div><div class="crm-kpi-num">' + num + '</div><div class="crm-kpi-lbl">' + label + '</div></div>'; }
 function renderCRMKpis(){
   var el = document.getElementById('crmKpis'); if(!el) return;
