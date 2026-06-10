@@ -2391,6 +2391,15 @@
   @media(max-width:920px){ .crm-kpis{grid-template-columns:repeat(2,1fr);} }
   @media(max-width:560px){ .crm-col{min-width:200px;} }
 
+
+  /* Bidder Experts logo lockup in Services section */
+  .svc-logo-lockup{ display:flex; align-items:center; gap:12px; margin-bottom:20px; width:fit-content; }
+  .svc-logo-svg{ width:46px; height:46px; display:block; overflow:visible; animation:floatAnimNav 3.5s ease-in-out infinite; flex-shrink:0; }
+  .svc-logo-text{ display:flex; flex-direction:column; line-height:1; gap:2px; }
+  .svc-logo-bidders{ font-family:'Syne',sans-serif; font-size:20px; font-weight:800; letter-spacing:3px; color:#B8FF3C; line-height:1; animation:glowPulseNav 2.5s ease-in-out infinite; }
+  .svc-logo-expert{ font-family:'DM Sans',sans-serif; font-size:9px; font-weight:600; letter-spacing:5px; color:rgba(255,255,255,0.45); text-transform:uppercase; line-height:1; }
+  @media(max-width:600px){ .svc-logo-svg{ width:38px; height:38px; } .svc-logo-bidders{ font-size:17px; } }
+
 </style>
   <!-- ===== STRUCTURED DATA (JSON-LD, added) ===== -->
   <script type="application/ld+json">
@@ -2744,6 +2753,81 @@
 
 <!-- SERVICES -->
 <section id="services">
+  <div class="svc-logo-lockup reveal">
+  <svg class="svc-logo-svg" viewBox="0 0 230 230" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="nsphS" cx="36%" cy="30%" r="65%">
+          <stop offset="0%" stop-color="#1a1a1a"/>
+          <stop offset="55%" stop-color="#0d0d0d"/>
+          <stop offset="100%" stop-color="#050505"/>
+        </radialGradient>
+        <radialGradient id="nsphHS" cx="32%" cy="25%" r="38%">
+          <stop offset="0%" stop-color="rgba(200,255,0,0.15)"/>
+          <stop offset="100%" stop-color="rgba(200,255,0,0)"/>
+        </radialGradient>
+        <linearGradient id="nbg1S" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#c6ff00"/>
+          <stop offset="100%" stop-color="#6a8800"/>
+        </linearGradient>
+        <linearGradient id="nbg2S" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#d4ff33"/>
+          <stop offset="100%" stop-color="#7a9a00"/>
+        </linearGradient>
+        <linearGradient id="narrGradS" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="rgba(200,255,0,0.6)"/>
+          <stop offset="100%" stop-color="#d4ff33"/>
+        </linearGradient>
+        <filter id="nbarGlowS" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="2.5" result="g"/>
+          <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="nouterGlowS" x="-8%" y="-8%" width="116%" height="116%">
+          <feGaussianBlur stdDeviation="7" result="g"/>
+          <feColorMatrix in="g" type="matrix" values="0.6 0 0 0 0  0.9 0 0 0 0  0 0 0 0 0  0 0 0 0.6 0" result="green"/>
+          <feMerge><feMergeNode in="green"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <clipPath id="ncircClipS"><circle cx="115" cy="115" r="100"/></clipPath>
+      </defs>
+      <circle cx="115" cy="115" r="100" fill="none" stroke="rgba(180,255,0,0.18)" stroke-width="2" filter="url(#nouterGlowS)"/>
+      <circle cx="115" cy="115" r="100" fill="url(#nsphS)"/>
+      <circle cx="115" cy="115" r="100" fill="url(#nsphHS)"/>
+      <circle cx="115" cy="115" r="100" fill="none" stroke="rgba(180,255,0,0.3)" stroke-width="1.5"/>
+      <g clip-path="url(#ncircClipS)" filter="url(#nbarGlowS)">
+        <rect x="52" y="98" width="17" height="67" rx="3" fill="url(#nbg1S)" opacity="0.75">
+          <animate attributeName="height" values="67;77;67" dur="2.3s" repeatCount="indefinite"/>
+          <animate attributeName="y" values="98;88;98" dur="2.3s" repeatCount="indefinite"/>
+        </rect>
+        <rect x="74" y="75" width="17" height="90" rx="3" fill="url(#nbg2S)">
+          <animate attributeName="height" values="90;100;90" dur="2.7s" repeatCount="indefinite" begin="0.3s"/>
+          <animate attributeName="y" values="75;65;75" dur="2.7s" repeatCount="indefinite" begin="0.3s"/>
+        </rect>
+        <rect x="96" y="84" width="17" height="81" rx="3" fill="url(#nbg1S)" opacity="0.85">
+          <animate attributeName="height" values="81;91;81" dur="2.1s" repeatCount="indefinite" begin="0.6s"/>
+          <animate attributeName="y" values="84;74;84" dur="2.1s" repeatCount="indefinite" begin="0.6s"/>
+        </rect>
+        <rect x="118" y="60" width="17" height="105" rx="3" fill="url(#nbg2S)">
+          <animate attributeName="height" values="105;118;105" dur="2.9s" repeatCount="indefinite" begin="0.15s"/>
+          <animate attributeName="y" values="60;47;60" dur="2.9s" repeatCount="indefinite" begin="0.15s"/>
+        </rect>
+        <rect x="140" y="46" width="17" height="119" rx="3" fill="url(#nbg1S)">
+          <animate attributeName="height" values="119;132;119" dur="2.5s" repeatCount="indefinite" begin="0.45s"/>
+          <animate attributeName="y" values="46;33;46" dur="2.5s" repeatCount="indefinite" begin="0.45s"/>
+        </rect>
+      </g>
+      <g clip-path="url(#ncircClipS)">
+        <polyline points="38,162 72,178 108,145 145,160 182,102" fill="none" stroke="url(#narrGradS)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="310" stroke-dashoffset="310">
+          <animate attributeName="stroke-dashoffset" values="310;0;0;310" keyTimes="0;0.48;0.78;1" dur="3.6s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0 0 1 1;0.4 0 0.2 1"/>
+        </polyline>
+        <polygon points="182,102 166,94 170,111" fill="#c8ff00" opacity="0">
+          <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.44;0.5;0.78;1" dur="3.6s" repeatCount="indefinite"/>
+        </polygon>
+      </g>
+    </svg>
+    <div class="svc-logo-text">
+      <span class="svc-logo-bidders">BIDDER</span>
+      <span class="svc-logo-expert">EXPERTS</span>
+    </div>
+  </div>
   <div class="section-tag">-- What We Do</div>
   <h2>Services &amp;<br><span style="color:var(--lime);">Expertise</span></h2>
   <p class="section-sub">From mobile apps to full-stack platforms, AI automation to Web3 &mdash; we ship production-grade solutions for clients worldwide.</p>
