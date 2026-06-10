@@ -2391,6 +2391,12 @@
   @media(max-width:920px){ .crm-kpis{grid-template-columns:repeat(2,1fr);} }
   @media(max-width:560px){ .crm-col{min-width:200px;} }
 
+
+  /* Change Password: action button on its own row */
+  .ap-pw-actions{ display:flex; justify-content:flex-end; margin-top:18px; }
+  .ap-pw-actions .ap-save-btn{ min-width:170px; justify-content:center; }
+  @media(max-width:600px){ .ap-pw-actions{ justify-content:stretch; } .ap-pw-actions .ap-save-btn{ width:100%; } }
+
 </style>
   <!-- ===== STRUCTURED DATA (JSON-LD, added) ===== -->
   <script type="application/ld+json">
@@ -8036,12 +8042,12 @@ function beQuick(topic) {
                   </button>
                 </div>
               </div>
-              <div class="ap-field" style="display:flex;align-items:flex-end;">
-                <button class="ap-save-btn" onclick="changePassword()" style="width:100%;">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                  Save Password
-                </button>
-              </div>
+            </div>
+            <div class="ap-pw-actions">
+              <button class="ap-save-btn" onclick="changePassword()">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                Save Password
+              </button>
             </div>
             <div id="s-pw-msg" class="ap-msg" style="display:none;"></div>
           </div>
