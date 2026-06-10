@@ -631,6 +631,48 @@ button:focus-visible{ outline:2px solid var(--lime); outline-offset:2px; }
   .wz-pill.on b{ animation:none!important; }
 }
 
+
+/* New-proposal completion popup */
+.np-overlay{position:fixed;inset:0;z-index:1200;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(4,9,5,0.72);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);}
+.np-overlay.on{display:flex;animation:npFade .2s ease both;}
+.np-card{position:relative;width:100%;max-width:420px;background:linear-gradient(180deg,#141C14,#0C110C);border:1px solid var(--lb);border-radius:20px;padding:32px 26px 24px;text-align:center;box-shadow:0 40px 90px -30px rgba(0,0,0,0.85),0 0 0 1px rgba(184,255,60,0.05) inset;animation:npPop .28s cubic-bezier(.34,1.5,.64,1) both;}
+.np-check{width:58px;height:58px;margin:0 auto 16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:800;color:#0A1207;background:linear-gradient(135deg,#CCFF5C,#93E223);box-shadow:0 10px 28px -8px rgba(184,255,60,0.6);}
+.np-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--wh);margin-bottom:8px;text-shadow:0 0 24px rgba(184,255,60,0.2);}
+.np-sub{font-size:13px;line-height:1.55;color:var(--tx);margin-bottom:22px;}
+.np-sub b{color:var(--lime);font-weight:700;}
+.np-acts{display:flex;flex-direction:column;gap:10px;}
+.np-new{padding:13px 18px;border:none;border-radius:11px;background:linear-gradient(135deg,#CCFF5C,#93E223);color:#0A1207;font-family:'Syne',sans-serif;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 8px 22px -8px rgba(184,255,60,0.55);transition:transform .18s cubic-bezier(.34,1.5,.64,1),box-shadow .18s;}
+.np-new:hover{transform:translateY(-2px);box-shadow:0 12px 28px -8px rgba(184,255,60,0.7);}
+.np-new:active{transform:scale(.96);}
+.np-stay{padding:11px 18px;border:1px solid var(--b1);border-radius:11px;background:transparent;color:var(--mt);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:color .18s,border-color .18s;}
+.np-stay:hover{color:var(--wh);border-color:var(--lb);}
+.np-x{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--mt);font-size:22px;line-height:1;cursor:pointer;padding:4px;border-radius:6px;transition:color .18s;}
+.np-x:hover{color:var(--wh);}
+@keyframes npFade{from{opacity:0}to{opacity:1}}
+@keyframes npPop{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.np-overlay.on,.np-card{animation:none!important}.np-new,.np-stay{transition:none!important}}
+
+
+/* Tracker breakdowns: by profile + by month */
+.trk-breakdowns{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+.trk-bd{background:rgba(255,255,255,0.02);border:1px solid var(--b1);border-radius:12px;padding:14px 15px;}
+.trk-bd-h{display:flex;align-items:center;gap:8px;font-family:'Syne',sans-serif;font-size:12px;font-weight:800;color:var(--wh);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
+.trk-bd-ico{font-size:14px;}
+.trk-bd-hint{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:600;letter-spacing:.3px;color:var(--mt);text-transform:none;margin-left:auto;}
+.trk-bd-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.045);}
+.trk-bd-row:last-child{border-bottom:none;}
+.trk-bd-av{width:27px;height:27px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:10px;font-weight:800;color:#0A1207;}
+.trk-bd-main{flex:1;min-width:0;}
+.trk-bd-name{font-size:12px;color:var(--wh);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.trk-bd-meta{font-size:9.5px;color:var(--mt);font-family:'JetBrains Mono',monospace;margin-top:1px;}
+.trk-bd-bar{height:5px;border-radius:3px;background:rgba(255,255,255,0.06);overflow:hidden;margin-top:5px;}
+.trk-bd-bar span{display:block;height:100%;border-radius:3px;background:linear-gradient(90deg,#93E223,#CCFF5C);}
+.trk-bd-val{flex-shrink:0;text-align:right;min-width:46px;}
+.trk-bd-val b{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--wh);display:block;line-height:1;}
+.trk-bd-val .wr{font-size:9px;color:var(--lime);font-weight:700;margin-top:3px;letter-spacing:.3px;}
+.trk-bd-empty{font-size:11px;color:var(--mt);text-align:center;padding:14px 0;}
+@media(max-width:720px){.trk-breakdowns{grid-template-columns:1fr;}}
+
 </style>
 </head>
 <body>
@@ -1027,6 +1069,16 @@ button:focus-visible{ outline:2px solid var(--lime); outline-offset:2px; }
       <input class="inp" id="trkNotes" placeholder="Notes (optional)" style="flex:2;min-width:140px;">
       <button class="trk-add-btn" onclick="addTrack()">+ Add Bid</button>
     </div>
+    <div class="trk-breakdowns" id="trkBreakdowns" style="display:none;">
+      <div class="trk-bd">
+        <div class="trk-bd-h"><span class="trk-bd-ico">&#128100;</span> By Profile <span class="trk-bd-hint">who wins most</span></div>
+        <div id="trkByProfile"></div>
+      </div>
+      <div class="trk-bd">
+        <div class="trk-bd-h"><span class="trk-bd-ico">&#128197;</span> By Month <span class="trk-bd-hint">your bidding trend</span></div>
+        <div id="trkByMonth"></div>
+      </div>
+    </div>
     <div id="trackBody"></div>
   </div>
 </section>
@@ -1110,6 +1162,19 @@ button:focus-visible{ outline:2px solid var(--lime); outline-offset:2px; }
 </section>
 
 <div id="printSheet" aria-hidden="true"></div>
+<!-- New-proposal completion popup -->
+<div class="np-overlay" id="newPropModal" onclick="if(event.target===this)closeNewPropModal()">
+  <div class="np-card">
+    <button class="np-x" onclick="closeNewPropModal()" aria-label="Close">&#215;</button>
+    <div class="np-check">&#10003;</div>
+    <div class="np-title">Proposal ready!</div>
+    <div class="np-sub">Your draft is in the editor and has been logged in your <b>Bid Tracker</b>. Want to start your next one?</div>
+    <div class="np-acts">
+      <button class="np-new" onclick="startNewProposal()">&#9997;&#65039; Write a new proposal</button>
+      <button class="np-stay" onclick="closeNewPropModal()">Keep this draft</button>
+    </div>
+  </div>
+</div>
 <div class="flash" id="flash">Done!</div>
 <script>
 
@@ -1426,7 +1491,9 @@ function generateLetter(){
   var es = document.getElementById('emptyState'); if (es) es.classList.add('gone');
   if (typeof goTab === 'function') goTab('letter', document.getElementById('t-letter'));
   updateStats();
-  flash('Draft ready — edit it here, or send to an AI to refine');
+  try { autoTrackProposal(d); } catch(e){}
+  flash('Draft ready \u2014 added to your tracker');
+  npTimer=setTimeout(showNewPropModal, 450);
 }
 
 
@@ -1632,7 +1699,7 @@ function addTrack(){
   if(!title){ if(t) t.focus(); flash('Add a client or job title'); return; }
   var status=(document.getElementById('trkStatus')||{}).value||'Sent';
   var notes=((document.getElementById('trkNotes')||{}).value||'').trim();
-  trackList.unshift({id:Date.now(), title:title, status:status, notes:notes, date:new Date().toISOString()});
+  trackList.unshift({id:Date.now(), title:title, status:status, notes:notes, date:new Date().toISOString(), profile:(typeof gv==='function'?(gv('yourName')||'').trim():'')});
   bwSet(BW_TRACK, trackList);
   if(t) t.value=''; var n=document.getElementById('trkNotes'); if(n) n.value='';
   renderTracker(); flash('Bid added');
@@ -1646,6 +1713,8 @@ function trackStats(){
 function renderTracker(){
   var st=document.getElementById('trackStats'); var b=document.getElementById('trackBody'); if(!b) return;
   var s=trackStats();
+  var bd=document.getElementById('trkBreakdowns'); if(bd) bd.style.display=trackList.length?'grid':'none';
+  if(trackList.length){ renderTrkByProfile(); renderTrkByMonth(); }
   if(st) st.innerHTML=
     '<div class="trk-stat"><div class="num">'+s.total+'</div><div class="lbl">Total Bids</div></div>'+
     '<div class="trk-stat"><div class="num">'+s.active+'</div><div class="lbl">In Play</div></div>'+
@@ -1659,7 +1728,7 @@ function renderTracker(){
     opts.forEach(function(o){ sel+='<option'+(o===x.status?' selected':'')+'>'+o+'</option>'; });
     sel+='</select>';
     html+='<div class="trk-row"><span class="trk-badge st-'+x.status+'">'+x.status+'</span>'
-      +'<div class="trk-main"><b>'+bwEsc(x.title)+'</b><div class="trk-sub">'+bwDate(x.date)+(x.notes?(' \u00b7 '+bwEsc(x.notes)):'')+'</div></div>'
+      +'<div class="trk-main"><b>'+bwEsc(x.title)+'</b><div class="trk-sub">'+bwDate(x.date)+(x.profile?(' \u00b7 '+bwEsc(x.profile.split(/\s+/)[0])):'')+(x.notes?(' \u00b7 '+bwEsc(x.notes)):'')+'</div></div>'
       +sel+'<button class="trk-del" onclick="deleteTrack('+x.id+')" title="Delete">\u00d7</button></div>';
   });
   b.innerHTML=html;
@@ -1906,6 +1975,72 @@ goStep(1);
     setTimeout(function(){ if(dot.parentNode) dot.parentNode.removeChild(dot); }, 620);
   }, true);
 })();
+
+function showNewPropModal(){ var m=document.getElementById('newPropModal'); if(m) m.classList.add('on'); }
+var npTimer=null;
+function closeNewPropModal(){ if(npTimer){ clearTimeout(npTimer); npTimer=null; } var m=document.getElementById('newPropModal'); if(m) m.classList.remove('on'); }
+function startNewProposal(){
+  ['jobTitle','jobDesc','budget','timeline','relProject'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
+  var le=document.getElementById('letterEditor'); if(le){ le.value=''; }
+  var es=document.getElementById('emptyState'); if(es) es.classList.remove('gone');
+  if(typeof updateStats==='function') updateStats();
+  if(typeof goPage==='function') goPage('writer');
+  if(typeof goStep==='function') goStep(1);
+  if(typeof goTab==='function'){ var tl=document.getElementById('t-letter'); if(tl) goTab('letter', tl); }
+  closeNewPropModal();
+  var jt=document.getElementById('jobTitle'); if(jt) jt.focus();
+  var sb=document.querySelector('.sb-body'); if(sb) sb.scrollTop=0;
+  try{ window.scrollTo(0,0); }catch(e){}
+  flash('Ready for your next proposal');
+}
+function autoTrackProposal(d){
+  if(typeof trackList==='undefined' || typeof BW_TRACK==='undefined') return;
+  var title=(d&&d.title&&d.title!=='your project')?d.title:'';
+  if(!title){ var jd=((typeof gv==='function'?gv('jobDesc'):'')||'').trim(); title=jd?(jd.slice(0,50).replace(/\s+\S*$/,'')+'\u2026'):'Untitled proposal'; }
+  var lc=title.toLowerCase();
+  if(trackList.some(function(x){ return (x.title||'').toLowerCase()===lc; })) return;
+  var parts=[]; if(d&&d.cat) parts.push(d.cat); if(d&&d.bud) parts.push(d.bud);
+  trackList.unshift({ id:Date.now(), title:title, status:'Sent', notes:parts.join(' \u00b7 '), date:new Date().toISOString(), auto:true, profile:(d&&d.name)?d.name:'' });
+  bwSet(BW_TRACK, trackList);
+  if(typeof renderTracker==='function') renderTracker();
+}
+
+function trkHue(str){ var h=0; str=str||''; for(var i=0;i<str.length;i++){ h=(h*31+str.charCodeAt(i))%360; } return h; }
+function trkInitials(str){ str=(str||'').trim(); if(!str) return '?'; var p=str.split(/\s+/); var a=(p[0]||'')[0]||''; var b=p.length>1?((p[p.length-1]||'')[0]||''):''; return (a+b).toUpperCase()||'?'; }
+function renderTrkByProfile(){
+  var el=document.getElementById('trkByProfile'); if(!el) return;
+  if(!trackList.length){ el.innerHTML='<div class="trk-bd-empty">No bids yet.</div>'; return; }
+  var map={};
+  trackList.forEach(function(x){ var pf=((x.profile||'').trim())||'Unassigned'; if(!map[pf]) map[pf]={name:pf,total:0,won:0,lost:0}; map[pf].total++; if(x.status==='Won') map[pf].won++; else if(x.status==='Lost') map[pf].lost++; });
+  var arr=Object.keys(map).map(function(k){ return map[k]; }); arr.sort(function(a,b){ return b.total-a.total; });
+  var max=arr.reduce(function(m,x){ return Math.max(m,x.total); },1); var html='';
+  arr.forEach(function(x){
+    var dec=x.won+x.lost; var wr=dec?Math.round(x.won/dec*100):0; var hue=trkHue(x.name); var fn=x.name.split(/\s+/)[0];
+    html+='<div class="trk-bd-row">'
+      +'<div class="trk-bd-av" style="background:linear-gradient(135deg,hsl('+hue+',70%,72%),hsl('+((hue+40)%360)+',75%,60%))">'+trkInitials(x.name)+'</div>'
+      +'<div class="trk-bd-main"><div class="trk-bd-name">'+bwEsc(fn)+'</div>'
+      +'<div class="trk-bd-meta">'+x.won+'W \u00b7 '+x.lost+'L</div>'
+      +'<div class="trk-bd-bar"><span style="width:'+Math.round(x.total/max*100)+'%"></span></div></div>'
+      +'<div class="trk-bd-val"><b>'+x.total+'</b><div class="wr">'+wr+'% win</div></div></div>';
+  });
+  el.innerHTML=html;
+}
+function renderTrkByMonth(){
+  var el=document.getElementById('trkByMonth'); if(!el) return;
+  if(!trackList.length){ el.innerHTML='<div class="trk-bd-empty">No bids yet.</div>'; return; }
+  var map={};
+  trackList.forEach(function(x){ var d=x.date?new Date(x.date):null; if(!d||isNaN(d.getTime())) return; var key=d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2); if(!map[key]) map[key]={key:key,total:0,won:0,label:d.toLocaleDateString(undefined,{month:'short',year:'numeric'})}; map[key].total++; if(x.status==='Won') map[key].won++; });
+  var arr=Object.keys(map).map(function(k){ return map[k]; }); arr.sort(function(a,b){ return a.key<b.key?1:-1; }); arr=arr.slice(0,8);
+  var max=arr.reduce(function(m,x){ return Math.max(m,x.total); },1); var html='';
+  arr.forEach(function(x){
+    html+='<div class="trk-bd-row">'
+      +'<div class="trk-bd-main"><div class="trk-bd-name">'+x.label+'</div>'
+      +'<div class="trk-bd-meta">'+x.won+' won</div>'
+      +'<div class="trk-bd-bar"><span style="width:'+Math.round(x.total/max*100)+'%"></span></div></div>'
+      +'<div class="trk-bd-val"><b>'+x.total+'</b><div class="wr">bids</div></div></div>';
+  });
+  el.innerHTML=html;
+}
 
 function buildPrompt(){
   var title=gv('jobTitle'), desc=gv('jobDesc'), plat=gv('platform');
