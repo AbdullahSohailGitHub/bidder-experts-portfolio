@@ -2294,6 +2294,59 @@
   /* Cloud Login + sync boxes: match the glass treatment in dark */
   #admin-panel[data-theme="dark"] #cloud-login-panel { background: linear-gradient(180deg, rgba(184,255,60,0.05), rgba(255,255,255,0.012)); border-color: rgba(184,255,60,0.15); }
 
+
+  /* ==================== FULL WEBSITE LOOK: ADMIN CHROME (dark) ==================== */
+  /* Glassy topbar — lets the ambient glow + grid show through, like the site nav */
+  #admin-panel[data-theme="dark"] .admin-topbar{
+    background:linear-gradient(180deg, rgba(13,18,13,0.82), rgba(9,16,10,0.6));
+    border-bottom:1px solid rgba(184,255,60,0.14);
+    -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px);
+    box-shadow:0 1px 0 rgba(184,255,60,0.05), 0 12px 32px -24px rgba(0,0,0,0.85);
+    position:relative; z-index:3;
+  }
+  /* "BE" logo — glowing lime mark like the website logo */
+  #admin-panel[data-theme="dark"] .admin-topbar-logo{
+    background:linear-gradient(135deg, rgba(184,255,60,0.2), rgba(147,226,35,0.07));
+    border-color:rgba(184,255,60,0.42); color:var(--lime);
+    animation:beLogoPulse 2.8s ease-in-out infinite;
+  }
+  @keyframes beLogoPulse{
+    0%,100%{box-shadow:0 0 16px -6px rgba(184,255,60,0.45), 0 0 0 1px rgba(184,255,60,0.08) inset;}
+    50%{box-shadow:0 0 28px -2px rgba(184,255,60,0.85), 0 0 0 1px rgba(184,255,60,0.14) inset;}
+  }
+  #admin-panel[data-theme="dark"] .admin-topbar-title{ letter-spacing:0.5px; text-shadow:0 0 18px rgba(184,255,60,0.12); }
+  #admin-panel[data-theme="dark"] .admin-topbar-badge{ box-shadow:0 0 16px -7px rgba(184,255,60,0.4); }
+
+  /* Tabs bar — translucent so the glow shows behind it */
+  #admin-panel[data-theme="dark"] .admin-tabs{
+    background:linear-gradient(180deg, rgba(13,18,13,0.58), rgba(9,16,10,0.32));
+    border-bottom:1px solid rgba(184,255,60,0.1);
+    -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+    position:relative; z-index:2; gap:6px; padding-top:6px;
+  }
+  /* Tabs as premium nav pills (matches site nav hover + accent) */
+  #admin-panel[data-theme="dark"] .admin-tab{
+    position:relative; border-radius:10px 10px 0 0; padding:13px 18px;
+    border-bottom:2px solid transparent; transition:color .2s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease, transform .15s ease;
+  }
+  #admin-panel[data-theme="dark"] .admin-tab:hover:not(.active){ background:rgba(184,255,60,0.08); color:var(--lime); }
+  #admin-panel[data-theme="dark"] .admin-tab.active{
+    color:var(--lime); border-bottom-color:var(--lime);
+    background:linear-gradient(180deg, rgba(184,255,60,0.16), rgba(184,255,60,0.02));
+    text-shadow:0 0 14px rgba(184,255,60,0.4);
+    box-shadow:0 3px 16px -7px rgba(184,255,60,0.65);
+  }
+  #admin-panel[data-theme="dark"] .admin-tab svg{ transition:transform .2s ease; }
+  #admin-panel[data-theme="dark"] .admin-tab:hover svg{ transform:translateY(-1px) scale(1.08); }
+
+  /* Topbar action buttons — springy, on-brand */
+  #admin-panel[data-theme="dark"] .admin-exit-btn,
+  #admin-panel[data-theme="dark"] .theme-toggle-btn{ transition:transform .18s cubic-bezier(.34,1.5,.64,1), border-color .2s, color .2s, background .2s; }
+  #admin-panel[data-theme="dark"] .theme-toggle-btn:hover{ transform:translateY(-1px); border-color:rgba(184,255,60,0.4); color:var(--lime); }
+  #admin-panel[data-theme="dark"] .admin-exit-btn:hover{ transform:translateY(-1px); border-color:rgba(255,107,107,0.45); color:#FF8A8A; }
+  #admin-panel[data-theme="dark"] .admin-exit-btn:active,
+  #admin-panel[data-theme="dark"] .theme-toggle-btn:active{ transform:scale(.95); }
+
 </style>
   <!-- ===== STRUCTURED DATA (JSON-LD, added) ===== -->
   <script type="application/ld+json">
@@ -7662,6 +7715,7 @@ function beQuick(topic) {
       <div class="ap-wrap">
         <div class="ap-page-header">
           <div>
+            <span class="ap-eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Contacts</span>
             <h2 class="ap-title">Quick Contacts</h2>
             <p class="ap-sub">One-click to reach clients or team via WhatsApp or Email.</p>
           </div>
