@@ -2491,6 +2491,28 @@
     .crml-acts{ grid-column:1 / -1; justify-content:flex-end; }
   }
 
+
+  /* ==================== THE SQUAD — 3D stat tiles (Completed / In Progress / Earned) ==================== */
+  #team .stat3d{
+    transform-style:preserve-3d;
+    transition:transform .32s cubic-bezier(.34,1.45,.6,1), box-shadow .32s;
+    box-shadow:0 5px 0 -1px rgba(0,0,0,0.4), 0 12px 22px -8px rgba(0,0,0,0.6);
+    will-change:transform;
+  }
+  #team .stat3d:hover{
+    transform:perspective(620px) rotateX(11deg) translateY(-4px) scale(1.03);
+    box-shadow:0 13px 0 -2px rgba(0,0,0,0.45), 0 26px 40px -10px rgba(0,0,0,0.72);
+  }
+  /* 3D extruded number ("3d type") */
+  #team .stat3d > div:first-child{
+    text-shadow:0 1px 0 rgba(0,0,0,.5), 0 2px 0 rgba(0,0,0,.45), 0 3px 0 rgba(0,0,0,.4), 0 4px 0 rgba(0,0,0,.32), 0 6px 12px rgba(0,0,0,.6);
+    transform:translateZ(16px);
+    letter-spacing:-0.5px;
+  }
+  @media (prefers-reduced-motion: reduce){
+    #team .stat3d, #team .stat3d:hover{ transition:none; transform:none; }
+  }
+
 </style>
   <!-- ===== STRUCTURED DATA (JSON-LD, added) ===== -->
   <script type="application/ld+json">
@@ -4004,15 +4026,15 @@
           </div>
         </div>
         <div style="display:flex;gap:16px;flex-wrap:wrap;">
-          <div style="text-align:center;background:rgba(93,202,165,0.08);border:1px solid rgba(93,202,165,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(93,202,165,0.08);border:1px solid rgba(93,202,165,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#5DCAA5;line-height:1;">54</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Completed</div>
           </div>
-          <div style="text-align:center;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#F5A623;line-height:1;">20</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">In Progress</div>
           </div>
-          <div style="text-align:center;background:rgba(184,255,60,0.08);border:1px solid rgba(184,255,60,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(184,255,60,0.08);border:1px solid rgba(184,255,60,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--lime);line-height:1;">$76K+</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Total Earned</div>
           </div>
@@ -4257,15 +4279,15 @@
           </div>
         </div>
         <div style="display:flex;gap:16px;flex-wrap:wrap;">
-          <div style="text-align:center;background:rgba(93,202,165,0.08);border:1px solid rgba(93,202,165,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(93,202,165,0.08);border:1px solid rgba(93,202,165,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#5DCAA5;line-height:1;">109</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Completed</div>
           </div>
-          <div style="text-align:center;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#F5A623;line-height:1;">9</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">In Progress</div>
           </div>
-          <div style="text-align:center;background:rgba(184,255,60,0.08);border:1px solid rgba(184,255,60,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(184,255,60,0.08);border:1px solid rgba(184,255,60,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--lime);line-height:1;">$250K+</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Total Earned</div>
           </div>
@@ -4498,15 +4520,15 @@
           </div>
         </div>
         <div style="display:flex;gap:16px;flex-wrap:wrap;">
-          <div style="text-align:center;background:rgba(93,202,165,0.08);border:1px solid rgba(93,202,165,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(93,202,165,0.08);border:1px solid rgba(93,202,165,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#5DCAA5;line-height:1;">48</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Completed</div>
           </div>
-          <div style="text-align:center;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#F5A623;line-height:1;">21</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">In Progress</div>
           </div>
-          <div style="text-align:center;background:rgba(184,255,60,0.08);border:1px solid rgba(184,255,60,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(184,255,60,0.08);border:1px solid rgba(184,255,60,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--lime);line-height:1;">$350K+</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Total Earned</div>
           </div>
@@ -4740,15 +4762,15 @@
           </div>
         </div>
         <div style="display:flex;gap:16px;flex-wrap:wrap;">
-          <div style="text-align:center;background:rgba(93,202,165,0.08);border:1px solid rgba(93,202,165,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(93,202,165,0.08);border:1px solid rgba(93,202,165,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#5DCAA5;line-height:1;">60</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Completed</div>
           </div>
-          <div style="text-align:center;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#F5A623;line-height:1;">15</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">In Progress</div>
           </div>
-          <div style="text-align:center;background:rgba(184,255,60,0.08);border:1px solid rgba(184,255,60,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(184,255,60,0.08);border:1px solid rgba(184,255,60,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--lime);line-height:1;">$60K+</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Total Earned</div>
           </div>
@@ -4970,15 +4992,15 @@
           </div>
         </div>
         <div style="display:flex;gap:16px;flex-wrap:wrap;">
-          <div style="text-align:center;background:rgba(93,202,165,0.08);border:1px solid rgba(93,202,165,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(93,202,165,0.08);border:1px solid rgba(93,202,165,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#5DCAA5;line-height:1;">12</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Completed</div>
           </div>
-          <div style="text-align:center;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#F5A623;line-height:1;">2</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">In Progress</div>
           </div>
-          <div style="text-align:center;background:rgba(184,255,60,0.08);border:1px solid rgba(184,255,60,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(184,255,60,0.08);border:1px solid rgba(184,255,60,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--lime);line-height:1;">$28K+</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Total Earned</div>
           </div>
@@ -5103,19 +5125,19 @@
           </div>
         </div>
         <div style="display:flex;gap:16px;flex-wrap:wrap;">
-          <div style="text-align:center;background:rgba(93,202,165,0.08);border:1px solid rgba(93,202,165,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(93,202,165,0.08);border:1px solid rgba(93,202,165,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#5DCAA5;line-height:1;">50</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Completed</div>
           </div>
-          <div style="text-align:center;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#F5A623;line-height:1;">27</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">In Progress</div>
           </div>
-          <div style="text-align:center;background:rgba(184,255,60,0.08);border:1px solid rgba(184,255,60,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(184,255,60,0.08);border:1px solid rgba(184,255,60,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--lime);line-height:1;">$85K+</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Total Earned</div>
           </div>
-          <div style="text-align:center;background:rgba(184,255,60,0.1);border:1px solid rgba(184,255,60,0.3);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(184,255,60,0.1);border:1px solid rgba(184,255,60,0.3);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--lime);line-height:1;">TOP 3%</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Upwork Ranking</div>
           </div>
@@ -5392,15 +5414,15 @@
           </div>
         </div>
         <div style="display:flex;gap:16px;flex-wrap:wrap;">
-          <div style="text-align:center;background:rgba(93,202,165,0.08);border:1px solid rgba(93,202,165,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(93,202,165,0.08);border:1px solid rgba(93,202,165,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#5DCAA5;line-height:1;">4</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Completed</div>
           </div>
-          <div style="text-align:center;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#F5A623;line-height:1;">1</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">In Progress</div>
           </div>
-          <div style="text-align:center;background:rgba(184,255,60,0.08);border:1px solid rgba(184,255,60,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(184,255,60,0.08);border:1px solid rgba(184,255,60,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--lime);line-height:1;">$1.1K+</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Total Earned</div>
           </div>
@@ -5485,15 +5507,15 @@
           </div>
         </div>
         <div style="display:flex;gap:16px;flex-wrap:wrap;">
-          <div style="text-align:center;background:rgba(93,202,165,0.08);border:1px solid rgba(93,202,165,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(93,202,165,0.08);border:1px solid rgba(93,202,165,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#5DCAA5;line-height:1;">11</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Completed</div>
           </div>
-          <div style="text-align:center;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#F5A623;line-height:1;">6</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">In Progress</div>
           </div>
-          <div style="text-align:center;background:rgba(184,255,60,0.08);border:1px solid rgba(184,255,60,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(184,255,60,0.08);border:1px solid rgba(184,255,60,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--lime);line-height:1;">$1.9K+</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Total Earned</div>
           </div>
@@ -5626,15 +5648,15 @@
           </div>
         </div>
         <div style="display:flex;gap:16px;flex-wrap:wrap;">
-          <div style="text-align:center;background:rgba(93,202,165,0.08);border:1px solid rgba(93,202,165,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(93,202,165,0.08);border:1px solid rgba(93,202,165,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#5DCAA5;line-height:1;">5</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Completed</div>
           </div>
-          <div style="text-align:center;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#F5A623;line-height:1;">2</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">In Progress</div>
           </div>
-          <div style="text-align:center;background:rgba(184,255,60,0.08);border:1px solid rgba(184,255,60,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(184,255,60,0.08);border:1px solid rgba(184,255,60,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--lime);line-height:1;">$3.2K+</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Total Earned</div>
           </div>
@@ -5727,15 +5749,15 @@
           </div>
         </div>
         <div style="display:flex;gap:16px;flex-wrap:wrap;">
-          <div style="text-align:center;background:rgba(93,202,165,0.08);border:1px solid rgba(93,202,165,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(93,202,165,0.08);border:1px solid rgba(93,202,165,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#5DCAA5;line-height:1;">55</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Completed</div>
           </div>
-          <div style="text-align:center;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#F5A623;line-height:1;">8</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">In Progress</div>
           </div>
-          <div style="text-align:center;background:rgba(184,255,60,0.08);border:1px solid rgba(184,255,60,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(184,255,60,0.08);border:1px solid rgba(184,255,60,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--lime);line-height:1;">$40K+</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Total Earned</div>
           </div>
@@ -5933,15 +5955,15 @@
           </div>
         </div>
         <div style="display:flex;gap:16px;flex-wrap:wrap;">
-          <div style="text-align:center;background:rgba(93,202,165,0.08);border:1px solid rgba(93,202,165,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(93,202,165,0.08);border:1px solid rgba(93,202,165,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#5DCAA5;line-height:1;">2</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Completed</div>
           </div>
-          <div style="text-align:center;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#F5A623;line-height:1;">3</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">In Progress</div>
           </div>
-          <div style="text-align:center;background:rgba(184,255,60,0.08);border:1px solid rgba(184,255,60,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(184,255,60,0.08);border:1px solid rgba(184,255,60,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--lime);line-height:1;">$1.9K+</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Total Earned</div>
           </div>
@@ -6026,15 +6048,15 @@
           </div>
         </div>
         <div style="display:flex;gap:16px;flex-wrap:wrap;">
-          <div style="text-align:center;background:rgba(93,202,165,0.08);border:1px solid rgba(93,202,165,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(93,202,165,0.08);border:1px solid rgba(93,202,165,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#5DCAA5;line-height:1;">30</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Completed</div>
           </div>
-          <div style="text-align:center;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#F5A623;line-height:1;">5</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">In Progress</div>
           </div>
-          <div style="text-align:center;background:rgba(184,255,60,0.08);border:1px solid rgba(184,255,60,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(184,255,60,0.08);border:1px solid rgba(184,255,60,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--lime);line-height:1;">$35K+</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Total Earned</div>
           </div>
@@ -6188,15 +6210,15 @@
           </div>
         </div>
         <div style="display:flex;gap:16px;flex-wrap:wrap;">
-          <div style="text-align:center;background:rgba(93,202,165,0.08);border:1px solid rgba(93,202,165,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(93,202,165,0.08);border:1px solid rgba(93,202,165,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#5DCAA5;line-height:1;">25</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Completed</div>
           </div>
-          <div style="text-align:center;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#F5A623;line-height:1;">7</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">In Progress</div>
           </div>
-          <div style="text-align:center;background:rgba(184,255,60,0.08);border:1px solid rgba(184,255,60,0.2);border-radius:10px;padding:8px 16px;">
+          <div class="stat3d" style="text-align:center;background:rgba(184,255,60,0.08);border:1px solid rgba(184,255,60,0.2);border-radius:10px;padding:8px 16px;">
             <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--lime);line-height:1;">$120K+</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Total Earned</div>
           </div>
