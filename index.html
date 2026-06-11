@@ -1306,156 +1306,260 @@
     transition: opacity 0.3s;
   }
   #admin-login.hidden { opacity: 0; pointer-events: none; }
-  .admin-login-box {
-    background: #111811; border: 1px solid rgba(184,255,60,0.2);
-    border-radius: 20px; padding: 40px 44px;
-    width: 100%; max-width: 380px;
-    text-align: center;
-    box-shadow: 0 32px 80px rgba(0,0,0,0.8);
-  }
-  .admin-login-icon {
-    width: 56px; height: 56px; border-radius: 16px;
-    background: rgba(184,255,60,0.1); border: 1px solid rgba(184,255,60,0.3);
+  /* ==================== ADMIN LOGIN — ADVANCED FULLSCREEN ==================== */
+
+  /* Fullscreen overlay */
+  #admin-login {
+    position: fixed; inset: 0; z-index: 9999;
     display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 20px; font-family: 'Syne',sans-serif;
-    font-size: 20px; font-weight: 800; color: var(--lime);
+    background: #040D06;
+    overflow: hidden;
   }
+  #admin-login.hidden { display: none !important; }
+
+  /* Animated dot-grid background */
+  #admin-login::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image:
+      radial-gradient(circle, rgba(184,255,60,0.18) 1px, transparent 1px);
+    background-size: 36px 36px;
+    animation: loginGridDrift 18s linear infinite;
+    opacity: .55;
+  }
+  @keyframes loginGridDrift {
+    0%   { background-position: 0 0; }
+    100% { background-position: 36px 36px; }
+  }
+
+  /* Ambient radial glow orbs */
+  #admin-login::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 60% 50% at 20% 40%, rgba(184,255,60,0.10) 0%, transparent 65%),
+      radial-gradient(ellipse 50% 60% at 80% 65%, rgba(93,202,165,0.09) 0%, transparent 65%),
+      radial-gradient(ellipse 40% 40% at 55% 15%, rgba(108,168,255,0.06) 0%, transparent 60%);
+    animation: loginOrbPulse 6s ease-in-out infinite alternate;
+  }
+  @keyframes loginOrbPulse {
+    0%   { opacity: .7; transform: scale(1); }
+    100% { opacity: 1;  transform: scale(1.04); }
+  }
+
+  /* Scanline overlay */
+  .admin-login-scanlines {
+    position: absolute; inset: 0; pointer-events: none; z-index: 1;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent, transparent 2px,
+      rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px
+    );
+  }
+
+  /* Card */
+  .admin-login-box {
+    position: relative; z-index: 2;
+    background: linear-gradient(160deg, rgba(20,30,20,0.92), rgba(10,16,10,0.88));
+    border: 1px solid rgba(184,255,60,0.22);
+    border-radius: 24px; padding: 44px 48px;
+    width: 100%; max-width: 400px;
+    text-align: center;
+    box-shadow:
+      0 0 0 1px rgba(184,255,60,0.06) inset,
+      0 40px 90px -20px rgba(0,0,0,0.9),
+      0 0 60px -20px rgba(184,255,60,0.12);
+    -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px);
+    animation: loginCardIn .55s cubic-bezier(.22,1,.36,1) both;
+  }
+  @keyframes loginCardIn {
+    from { opacity: 0; transform: translateY(28px) scale(.96); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* Top accent line */
+  .admin-login-box::before {
+    content: ""; position: absolute; top: 0; left: 10%; right: 10%; height: 2px;
+    background: linear-gradient(90deg, transparent, #B8FF3C, #5DCAA5, transparent);
+    border-radius: 2px; opacity: .85;
+  }
+
+  /* BE logo orb */
+  .admin-login-icon {
+    width: 68px; height: 68px; border-radius: 20px;
+    background: linear-gradient(135deg, rgba(184,255,60,0.18), rgba(184,255,60,0.04));
+    border: 1px solid rgba(184,255,60,0.35);
+    box-shadow: 0 0 28px -8px rgba(184,255,60,0.5), 0 8px 20px -8px rgba(0,0,0,0.6);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 22px;
+    font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 900;
+    color: var(--lime);
+    animation: loginOrbFloat 3.5s ease-in-out infinite, loginOrbGlow 2.8s ease-in-out infinite alternate;
+  }
+  @keyframes loginOrbFloat {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-5px); }
+  }
+  @keyframes loginOrbGlow {
+    from { box-shadow: 0 0 22px -8px rgba(184,255,60,0.4), 0 8px 20px -8px rgba(0,0,0,0.6); }
+    to   { box-shadow: 0 0 38px -4px rgba(184,255,60,0.7), 0 8px 20px -8px rgba(0,0,0,0.6); }
+  }
+
+  /* Eyebrow badge */
+  .admin-login-eyebrow {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 9px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--lime); background: rgba(184,255,60,0.1);
+    border: 1px solid rgba(184,255,60,0.25); border-radius: 20px;
+    padding: 4px 12px; margin-bottom: 12px;
+  }
+  .admin-login-eyebrow::before {
+    content: ""; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--lime);
+    box-shadow: 0 0 8px rgba(184,255,60,0.8);
+    animation: loginDotPulse 1.6s ease-in-out infinite;
+  }
+  @keyframes loginDotPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: .4; transform: scale(.7); }
+  }
+
   .admin-login-title {
-    font-family: 'Syne',sans-serif; font-size: 20px; font-weight: 800;
-    color: var(--white); margin-bottom: 6px;
+    font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 900;
+    color: #fff; margin-bottom: 5px; letter-spacing: -.3px;
   }
-  .admin-login-sub { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
-  .admin-pw-wrap {
-    position: relative; margin-bottom: 16px;
+  .admin-login-sub {
+    font-size: 12px; color: rgba(255,255,255,0.35);
+    margin-bottom: 28px; letter-spacing: .3px;
   }
+
+  /* Divider */
+  .admin-login-divider {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 20px;
+  }
+  .admin-login-divider::before, .admin-login-divider::after {
+    content: ""; flex: 1; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(184,255,60,0.18), transparent);
+  }
+  .admin-login-divider span {
+    font-size: 9px; font-weight: 700; letter-spacing: 2px;
+    color: rgba(255,255,255,0.2); text-transform: uppercase;
+  }
+
+  /* Inputs */
+  .admin-pw-wrap { position: relative; margin-bottom: 12px; }
   .admin-pw-input {
-    width: 100%; padding: 13px 44px 13px 16px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 12px; color: var(--white);
-    font-family: 'DM Sans',sans-serif; font-size: 14px;
+    width: 100%; padding: 13px 44px 13px 40px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 13px; color: #fff;
+    font-family: 'DM Sans', sans-serif; font-size: 14px;
     outline: none; box-sizing: border-box;
-    transition: border-color 0.2s;
+    transition: border-color .2s, box-shadow .2s, background .2s;
   }
-  .admin-pw-input:focus { border-color: rgba(184,255,60,0.4); }
+  .admin-pw-input:focus {
+    border-color: rgba(184,255,60,0.5);
+    background: rgba(184,255,60,0.04);
+    box-shadow: 0 0 0 3px rgba(184,255,60,0.08), 0 0 20px -8px rgba(184,255,60,0.3);
+  }
+  .admin-pw-input::placeholder { color: rgba(255,255,255,0.22); }
+
+  /* Input prefix icons */
+  .admin-pw-icon {
+    position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+    color: rgba(255,255,255,0.22); pointer-events: none;
+    transition: color .2s;
+  }
+  .admin-pw-wrap:focus-within .admin-pw-icon { color: var(--lime); }
   .admin-pw-toggle {
     position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
-    background: none; border: none; cursor: pointer; color: var(--muted);
-    padding: 4px; transition: color 0.2s;
+    background: none; border: none; cursor: pointer;
+    color: rgba(255,255,255,0.25); padding: 4px; transition: color .2s;
   }
   .admin-pw-toggle:hover { color: var(--lime); }
+
+  /* Unlock button */
   .admin-login-btn {
-    width: 100%; padding: 13px;
-    background: var(--lime); color: #0A0E0A;
-    font-family: 'Syne',sans-serif; font-size: 14px; font-weight: 800;
-    border: none; border-radius: 12px; cursor: pointer;
-    transition: all 0.2s; margin-bottom: 12px;
+    width: 100%; padding: 14px;
+    background: linear-gradient(135deg, #B8FF3C, #93E223);
+    color: #080E08; font-family: 'Syne', sans-serif;
+    font-size: 14px; font-weight: 900; letter-spacing: .5px;
+    border: none; border-radius: 13px; cursor: pointer;
+    transition: transform .18s cubic-bezier(.34,1.5,.64,1), box-shadow .2s, filter .2s;
+    margin-bottom: 14px;
+    box-shadow: 0 6px 22px -8px rgba(184,255,60,0.55), 0 3px 0 rgba(0,0,0,0.3);
+    position: relative; overflow: hidden;
   }
-  .admin-login-btn:hover { background: #9fe030; }
-  .admin-login-btn:active { transform: scale(0.98); }
-  .admin-error {
-    font-size: 12px; color: #FF5C5C;
-    background: rgba(255,92,92,0.1); border: 1px solid rgba(255,92,92,0.2);
-    border-radius: 8px; padding: 8px 12px; margin-top: 8px;
-    display: none;
+  .admin-login-btn::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.22) 50%, transparent 65%);
+    transform: translateX(-110%); transition: transform .5s ease;
   }
+  .admin-login-btn:hover {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 12px 28px -8px rgba(184,255,60,0.65), 0 3px 0 rgba(0,0,0,0.3);
+    filter: brightness(1.06);
+  }
+  .admin-login-btn:hover::after { transform: translateX(110%); }
+  .admin-login-btn:active { transform: translateY(1px) scale(.99); }
+
+  /* Footer links */
+  .admin-login-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 4px;
+  }
+  .admin-forgot-btn {
+    background: none; border: none; cursor: pointer;
+    font-size: 12px; color: rgba(255,255,255,0.3);
+    font-family: 'DM Sans', sans-serif; padding: 4px 0;
+    transition: color .18s;
+  }
+  .admin-forgot-btn:hover { color: var(--lime); }
   .admin-close-login {
-    font-size: 12px; color: var(--muted); cursor: pointer;
-    background: none; border: none; margin-top: 4px;
-    transition: color 0.2s;
+    background: none; border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px; cursor: pointer;
+    font-size: 12px; color: rgba(255,255,255,0.3);
+    font-family: 'DM Sans', sans-serif; padding: 5px 12px;
+    transition: color .18s, border-color .18s;
   }
-  .admin-close-login:hover { color: var(--white); }
+  .admin-close-login:hover { color: #ff6b6b; border-color: rgba(255,107,107,0.35); }
 
-  /* Admin Panel */
-  #admin-panel {
-    position: fixed; inset: 0; z-index: 99989;
-    background: #09100A;
-    display: flex; flex-direction: column;
-    transition: opacity 0.3s, transform 0.3s;
-    transform-origin: center;
+  .admin-error {
+    font-size: 12px; color: #FF6B6B;
+    background: rgba(255,107,107,0.1); border: 1px solid rgba(255,107,107,0.2);
+    border-radius: 10px; padding: 9px 14px; margin-bottom: 12px;
+    display: none; animation: loginShake .4s ease;
   }
-  #admin-panel.hidden { opacity: 0; pointer-events: none; transform: scale(0.97); }
+  @keyframes loginShake {
+    0%,100%{ transform:translateX(0); }
+    20%    { transform:translateX(-6px); }
+    40%    { transform:translateX(6px); }
+    60%    { transform:translateX(-4px); }
+    80%    { transform:translateX(4px); }
+  }
+  .admin-success {
+    font-size: 12px; color: #5DCAA5;
+    background: rgba(93,202,165,0.1); border: 1px solid rgba(93,202,165,0.2);
+    border-radius: 10px; padding: 9px 14px; margin-bottom: 12px; display: none;
+  }
 
-  .admin-topbar {
-    background: #0D120D; border-bottom: 1px solid rgba(184,255,60,0.12);
-    padding: 14px 24px; display: flex; align-items: center;
-    justify-content: space-between; gap: 16px; flex-shrink: 0;
+  /* Forgot box */
+  .admin-forgot-box {
+    background: linear-gradient(160deg, rgba(20,30,20,0.92), rgba(10,16,10,0.88));
+    border: 1px solid rgba(184,255,60,0.18); border-radius: 24px; padding: 40px 44px;
+    width: 100%; max-width: 400px; text-align: center;
+    position: relative; z-index: 2;
+    -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px);
+    box-shadow: 0 40px 90px -20px rgba(0,0,0,0.9);
+    animation: loginCardIn .4s cubic-bezier(.22,1,.36,1) both;
   }
-  .admin-topbar-left { display: flex; align-items: center; gap: 12px; }
-  .admin-topbar-logo {
-    width: 32px; height: 32px; border-radius: 8px;
-    background: rgba(184,255,60,0.12); border: 1px solid rgba(184,255,60,0.3);
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Syne',sans-serif; font-size: 11px; font-weight: 800; color: var(--lime);
-  }
-  .admin-topbar-title {
-    font-family: 'Syne',sans-serif; font-size: 15px; font-weight: 700; color: var(--white);
-  }
-  .admin-topbar-badge {
-    font-size: 10px; padding: 2px 8px; border-radius: 10px;
-    background: rgba(184,255,60,0.1); border: 1px solid rgba(184,255,60,0.25);
-    color: var(--lime); font-weight: 700;
-  }
-  .admin-topbar-right { display: flex; align-items: center; gap: 10px; }
-  .admin-exit-btn {
-    display: flex; align-items: center; gap: 6px;
-    font-size: 12px; color: var(--muted); cursor: pointer;
-    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 8px; padding: 7px 14px;
-    font-family: 'DM Sans',sans-serif; transition: all 0.2s;
-  }
-  .admin-exit-btn:hover { color: var(--white); border-color: rgba(255,255,255,0.15); }
 
-  .admin-tabs {
-    background: #0D120D; border-bottom: 1px solid rgba(184,255,60,0.08);
-    padding: 0 24px; display: flex; gap: 4px; flex-shrink: 0;
-  }
-  .admin-tab {
-    padding: 12px 20px; font-size: 12px; font-weight: 600;
-    color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent;
-    transition: all 0.2s; display: flex; align-items: center; gap: 7px;
-    font-family: 'Syne',sans-serif; background: none; border-top: none;
-    border-left: none; border-right: none;
-  }
-  .admin-tab.active { color: var(--lime); border-bottom-color: var(--lime); }
-  .admin-tab:hover:not(.active) { color: var(--white); }
-
-  .admin-content { flex: 1; overflow: hidden; display: flex; flex-direction: column; min-height: 0; }
-  .admin-tab-panel { height: 100%; display: none; overflow: hidden; }
-  .admin-tab-panel.active { display: flex; flex-direction: column; }
-
-  /* Invoice iframe-like container */
-  #invoice-container {
-    height: 100%; overflow-y: auto; background: #09100A;
+  /* Mobile */
+  @media(max-width: 480px){
+    .admin-login-box, .admin-forgot-box { padding: 32px 24px; border-radius: 18px; max-width: calc(100vw - 32px); }
+    .admin-login-title { font-size: 18px; }
   }
 
 
-  /* Admin FAB tooltip */
-  #admin-fab { position:fixed; bottom:24px; left:24px; z-index:8888; display:flex; flex-direction:column; align-items:flex-start; gap:6px; }
-  #admin-fab::before {
-    content: 'Admin';
-    font-family: 'Syne', sans-serif;
-    font-size: 9px; font-weight: 700;
-    color: var(--lime);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    opacity: 0.7;
-    padding-left: 4px;
-  }
-
-
-  /* ================================================
-     FULL RESPONSIVE -- ADMIN PANEL + ALL SECTIONS
-  ================================================ */
-
-  /* -- ADMIN LOGIN BOX -- */
-  @media (max-width: 480px) {
-    .admin-login-box { padding: 28px 20px; border-radius: 16px; }
-    .admin-login-title { font-size: 17px; }
-    .admin-login-sub { font-size: 12px; margin-bottom: 20px; }
-  }
-
-  /* -- ADMIN PANEL TOPBAR -- */
+    /* -- ADMIN PANEL TOPBAR -- */
   @media (max-width: 768px) {
     .admin-topbar { padding: 10px 14px; gap: 10px; }
     .admin-topbar-title { font-size: 13px; }
@@ -7911,17 +8015,22 @@ function beQuick(topic) {
 
 <!-- ADMIN LOGIN -->
 <div id="admin-login" class="hidden">
+  <div class="admin-login-scanlines"></div>
   <div class="admin-login-box">
     <div class="admin-login-icon">BE</div>
+    <div class="admin-login-eyebrow">Restricted Access</div>
     <div class="admin-login-title">Admin Access</div>
-    <div class="admin-login-sub">Bidder Experts &mdash; Restricted Area</div>
+    <div class="admin-login-sub">Bidder Experts &mdash; Authorised Personnel Only</div>
+    <div class="admin-login-divider"><span>Credentials</span></div>
     <div class="admin-pw-wrap">
+      <span class="admin-pw-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
       <input class="admin-pw-input" id="admin-user" type="text"
         placeholder="Username"
         autocomplete="username"
         onkeydown="if(event.key==='Enter')document.getElementById('admin-pw').focus()">
     </div>
     <div class="admin-pw-wrap">
+      <span class="admin-pw-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
       <input class="admin-pw-input" id="admin-pw" type="password"
         placeholder="Password"
         autocomplete="current-password"
@@ -7930,12 +8039,15 @@ function beQuick(topic) {
         <svg id="pw-eye" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
       </button>
     </div>
+    <div class="admin-error" id="admin-error">Incorrect password. Please try again.</div>
     <button class="admin-login-btn" onclick="adminLogin()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline;vertical-align:middle;margin-right:7px;"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
       Unlock Admin Panel
     </button>
-    <div class="admin-error" id="admin-error">Incorrect password. Please try again.</div>
-    <button class="admin-forgot-btn" onclick="adminShowForgot()">Forgot password?</button>
-    <button class="admin-close-login" onclick="adminHideLogin()">&#x2715; Cancel</button>
+    <div class="admin-login-footer">
+      <button class="admin-forgot-btn" onclick="adminShowForgot()">Forgot password?</button>
+      <button class="admin-close-login" onclick="adminHideLogin()">&#x2715; Cancel</button>
+    </div>
   </div>
 
   <!-- FORGOT PASSWORD BOX (hidden by default) -->
