@@ -1298,73 +1298,287 @@
   #admin-fab-btn:hover svg { opacity: 1; }
 
   /* Login Overlay */
+  /* ── ADMIN LOGIN — ADVANCED 3D ─────────────────────────── */
   #admin-login {
     position: fixed; inset: 0; z-index: 99990;
-    background: rgba(9,16,10,0.97);
     display: flex; align-items: center; justify-content: center;
-    backdrop-filter: blur(20px);
-    transition: opacity 0.3s;
+    transition: opacity 0.4s;
+    perspective: 1200px;
+    overflow: hidden;
   }
   #admin-login.hidden { opacity: 0; pointer-events: none; }
+
+  /* layered backdrop */
+  .alog-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(184,255,60,0.13) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 100% 100%, rgba(93,202,165,0.08) 0%, transparent 55%),
+      #06090A;
+  }
+  /* animated dot grid */
+  .alog-grid {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(rgba(184,255,60,0.18) 1px, transparent 1px);
+    background-size: 32px 32px;
+    -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 30%, transparent 100%);
+    mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 30%, transparent 100%);
+    animation: alog-grid-drift 18s linear infinite;
+  }
+  @keyframes alog-grid-drift {
+    0%   { background-position: 0 0; }
+    100% { background-position: 32px 32px; }
+  }
+  /* floating orbs */
+  .alog-orb {
+    position: absolute; border-radius: 50%; filter: blur(72px); pointer-events: none;
+    animation: alog-orb-float 10s ease-in-out infinite;
+  }
+  .alog-orb1 { width:340px; height:340px; background:rgba(184,255,60,0.22); top:-120px; left:-80px; animation-duration:12s; }
+  .alog-orb2 { width:280px; height:280px; background:rgba(93,202,165,0.18); bottom:-80px; right:-60px; animation-duration:9s; animation-direction:reverse; }
+  .alog-orb3 { width:180px; height:180px; background:rgba(184,255,60,0.10); top:40%; right:8%; animation-duration:15s; animation-delay:-4s; }
+  @keyframes alog-orb-float {
+    0%,100% { transform: translate(0,0) scale(1); }
+    50%      { transform: translate(20px,-28px) scale(1.07); }
+  }
+  /* scan line */
+  .alog-scan {
+    position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+  }
+  .alog-scan::after {
+    content: '';
+    position: absolute; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(184,255,60,0.35), transparent);
+    animation: alog-scan-move 5s linear infinite;
+    top: -2px;
+  }
+  @keyframes alog-scan-move { 0%{ top:-2px } 100%{ top:101% } }
+
+  /* 3-D card */
   .admin-login-box {
-    background: #111811; border: 1px solid rgba(184,255,60,0.2);
-    border-radius: 20px; padding: 40px 44px;
-    width: 100%; max-width: 380px;
+    position: relative; z-index: 2;
+    width: 100%; max-width: 400px;
     text-align: center;
-    box-shadow: 0 32px 80px rgba(0,0,0,0.8);
+    transform-style: preserve-3d;
+    animation: alog-card-in 0.6s cubic-bezier(0.22,1,0.36,1) both;
   }
+  @keyframes alog-card-in {
+    from { opacity:0; transform: translateY(30px) rotateX(8deg); }
+    to   { opacity:1; transform: translateY(0) rotateX(0); }
+  }
+  /* depth shadow layers behind card */
+  .admin-login-box::before,
+  .admin-login-box::after {
+    content: '';
+    position: absolute; inset: 0;
+    border-radius: 24px;
+    pointer-events: none;
+  }
+  .admin-login-box::before {
+    transform: translateY(6px) translateZ(-10px) scale(0.97);
+    background: rgba(184,255,60,0.08);
+    border: 1px solid rgba(184,255,60,0.12);
+    filter: blur(2px);
+  }
+  .admin-login-box::after {
+    transform: translateY(14px) translateZ(-20px) scale(0.93);
+    background: rgba(184,255,60,0.04);
+    filter: blur(6px);
+  }
+  /* card face */
+  .alog-face {
+    position: relative; z-index: 1;
+    background: linear-gradient(160deg, #141d14 0%, #0d140d 100%);
+    border: 1px solid rgba(184,255,60,0.22);
+    border-radius: 24px;
+    padding: 38px 40px 32px;
+    box-shadow:
+      0 0 0 1px rgba(184,255,60,0.06) inset,
+      0 40px 80px -20px rgba(0,0,0,0.9),
+      0 0 60px -20px rgba(184,255,60,0.12);
+  }
+  /* top accent bar */
+  .alog-face::before {
+    content: '';
+    position: absolute; top: 0; left: 20%; right: 20%; height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(184,255,60,0.7), transparent);
+    border-radius: 0 0 4px 4px;
+  }
+
+  /* logo */
   .admin-login-icon {
-    width: 56px; height: 56px; border-radius: 16px;
-    background: rgba(184,255,60,0.1); border: 1px solid rgba(184,255,60,0.3);
+    width: 64px; height: 64px; border-radius: 18px;
+    background: linear-gradient(145deg, rgba(184,255,60,0.22), rgba(184,255,60,0.06));
+    border: 1px solid rgba(184,255,60,0.35);
+    box-shadow: 0 0 28px -6px rgba(184,255,60,0.5), inset 0 1px 0 rgba(255,255,255,0.12);
     display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 20px; font-family: 'Syne',sans-serif;
-    font-size: 20px; font-weight: 800; color: var(--lime);
+    margin: 0 auto 18px; font-family: 'Syne',sans-serif;
+    font-size: 22px; font-weight: 800; color: var(--lime);
+    animation: alog-icon-pulse 3s ease-in-out infinite;
   }
+  @keyframes alog-icon-pulse {
+    0%,100% { box-shadow: 0 0 28px -6px rgba(184,255,60,0.5), inset 0 1px 0 rgba(255,255,255,0.12); }
+    50%      { box-shadow: 0 0 44px -4px rgba(184,255,60,0.75), inset 0 1px 0 rgba(255,255,255,0.15); }
+  }
+
   .admin-login-title {
-    font-family: 'Syne',sans-serif; font-size: 20px; font-weight: 800;
-    color: var(--white); margin-bottom: 6px;
+    font-family: 'Syne',sans-serif; font-size: 26px; font-weight: 800; letter-spacing: -0.5px;
+    color: var(--white); margin-bottom: 5px;
   }
-  .admin-login-sub { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
-  .admin-pw-wrap {
-    position: relative; margin-bottom: 16px;
+  .admin-login-sub {
+    font-size: 12px; color: var(--muted); margin-bottom: 6px; letter-spacing: 0.3px;
   }
+
+  /* security badges row */
+  .alog-badges {
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    margin-bottom: 26px;
+  }
+  .alog-badge {
+    display: flex; align-items: center; gap: 4px;
+    font-size: 9px; font-weight: 700; font-family: 'Syne',sans-serif;
+    text-transform: uppercase; letter-spacing: 0.8px;
+    padding: 3px 8px; border-radius: 20px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    color: var(--muted);
+  }
+  .alog-badge.green {
+    background: rgba(184,255,60,0.08); border-color: rgba(184,255,60,0.22);
+    color: var(--lime);
+  }
+  .alog-badge-dot {
+    width: 5px; height: 5px; border-radius: 50%; background: currentColor;
+    box-shadow: 0 0 6px currentColor; animation: alog-dot-blink 2s ease-in-out infinite;
+  }
+  @keyframes alog-dot-blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  /* inputs */
+  .admin-pw-wrap { position: relative; margin-bottom: 12px; }
+  .alog-input-icon {
+    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    color: rgba(255,255,255,0.2); pointer-events: none; transition: color 0.2s;
+  }
+  .admin-pw-wrap:focus-within .alog-input-icon { color: var(--lime); }
   .admin-pw-input {
-    width: 100%; padding: 13px 44px 13px 16px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
+    width: 100%; padding: 13px 44px 13px 42px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-bottom: 2px solid rgba(255,255,255,0.09);
     border-radius: 12px; color: var(--white);
     font-family: 'DM Sans',sans-serif; font-size: 14px;
     outline: none; box-sizing: border-box;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
   }
-  .admin-pw-input:focus { border-color: rgba(184,255,60,0.4); }
+  .admin-pw-input:focus {
+    background: rgba(184,255,60,0.05);
+    border-color: rgba(184,255,60,0.35);
+    border-bottom-color: rgba(184,255,60,0.6);
+    box-shadow: 0 4px 20px -8px rgba(184,255,60,0.3), 0 0 0 3px rgba(184,255,60,0.07);
+  }
+  .admin-pw-input::placeholder { color: rgba(255,255,255,0.18); }
   .admin-pw-toggle {
     position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
-    background: none; border: none; cursor: pointer; color: var(--muted);
+    background: none; border: none; cursor: pointer; color: rgba(255,255,255,0.25);
     padding: 4px; transition: color 0.2s;
   }
   .admin-pw-toggle:hover { color: var(--lime); }
+
+  /* 3-D unlock button */
   .admin-login-btn {
-    width: 100%; padding: 13px;
-    background: var(--lime); color: #0A0E0A;
-    font-family: 'Syne',sans-serif; font-size: 14px; font-weight: 800;
-    border: none; border-radius: 12px; cursor: pointer;
-    transition: all 0.2s; margin-bottom: 12px;
+    width: 100%; padding: 0;
+    background: none; border: none; cursor: pointer;
+    margin-bottom: 14px; margin-top: 6px;
+    -webkit-tap-highlight-color: transparent;
   }
-  .admin-login-btn:hover { background: #9fe030; }
-  .admin-login-btn:active { transform: scale(0.98); }
+  .alog-btn-inner {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; padding: 14px 20px;
+    background: linear-gradient(145deg, #CCFF5C, #93E223);
+    color: #07100A;
+    font-family: 'Syne',sans-serif; font-size: 14px; font-weight: 800; letter-spacing: 0.3px;
+    border-radius: 13px;
+    /* 3D effect: top highlight + bottom shadow border */
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.45) inset,
+      0 -1px 0 rgba(0,0,0,0.2) inset,
+      0 6px 0 #5a8a12,
+      0 8px 16px -4px rgba(147,226,35,0.5),
+      0 2px 40px -10px rgba(184,255,60,0.6);
+    transform: translateY(0);
+    transition: transform 0.1s, box-shadow 0.1s, filter 0.15s;
+    position: relative; overflow: hidden;
+  }
+  /* shimmer sweep */
+  .alog-btn-inner::after {
+    content: '';
+    position: absolute; top: 0; left: -75%;
+    width: 50%; height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.5s;
+  }
+  .admin-login-btn:hover .alog-btn-inner::after { left: 150%; }
+  .admin-login-btn:hover .alog-btn-inner {
+    filter: brightness(1.08);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.5) inset,
+      0 -1px 0 rgba(0,0,0,0.2) inset,
+      0 6px 0 #5a8a12,
+      0 12px 24px -4px rgba(147,226,35,0.65),
+      0 2px 50px -8px rgba(184,255,60,0.75);
+  }
+  .admin-login-btn:active .alog-btn-inner {
+    transform: translateY(4px);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.3) inset,
+      0 -1px 0 rgba(0,0,0,0.2) inset,
+      0 2px 0 #5a8a12,
+      0 4px 10px -4px rgba(147,226,35,0.4);
+  }
+
+  /* divider */
+  .alog-divider {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+  }
+  .alog-divider::before, .alog-divider::after {
+    content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.07);
+  }
+  .alog-divider span { font-size: 9px; color: rgba(255,255,255,0.2); font-family: 'JetBrains Mono',monospace; letter-spacing: 1px; }
+
+  /* bottom action row */
+  .alog-actions {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  }
+  .admin-forgot-btn {
+    font-size: 11px; color: var(--muted); cursor: pointer;
+    background: none; border: none; font-family: 'DM Sans',sans-serif;
+    transition: color 0.2s; padding: 0;
+  }
+  .admin-forgot-btn:hover { color: var(--lime); }
+  .admin-close-login {
+    font-size: 11px; color: rgba(255,255,255,0.2); cursor: pointer;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 7px; padding: 5px 12px;
+    font-family: 'DM Sans',sans-serif; transition: all 0.2s;
+  }
+  .admin-close-login:hover { color: var(--white); border-color: rgba(255,255,255,0.15); }
+
   .admin-error {
     font-size: 12px; color: #FF5C5C;
-    background: rgba(255,92,92,0.1); border: 1px solid rgba(255,92,92,0.2);
-    border-radius: 8px; padding: 8px 12px; margin-top: 8px;
-    display: none;
+    background: rgba(255,92,92,0.08); border: 1px solid rgba(255,92,92,0.2);
+    border-radius: 9px; padding: 9px 13px; margin-bottom: 10px;
+    display: none; text-align: left;
+    animation: alog-shake 0.35s ease;
   }
-  .admin-close-login {
-    font-size: 12px; color: var(--muted); cursor: pointer;
-    background: none; border: none; margin-top: 4px;
-    transition: color 0.2s;
+  @keyframes alog-shake {
+    0%,100%{transform:translateX(0)} 20%{transform:translateX(-5px)} 60%{transform:translateX(5px)} 80%{transform:translateX(-3px)}
   }
-  .admin-close-login:hover { color: var(--white); }
+
+  /* responsive */
+  @media (max-width: 480px) {
+    .alog-face { padding: 28px 22px 24px; border-radius: 18px; }
+    .admin-login-title { font-size: 22px; }
+  }
 
   /* Admin Panel */
   #admin-panel {
@@ -1450,9 +1664,9 @@
 
   /* -- ADMIN LOGIN BOX -- */
   @media (max-width: 480px) {
-    .admin-login-box { padding: 28px 20px; border-radius: 16px; }
-    .admin-login-title { font-size: 17px; }
-    .admin-login-sub { font-size: 12px; margin-bottom: 20px; }
+    .alog-face { padding: 28px 20px 22px; border-radius: 18px; }
+    .admin-login-title { font-size: 20px; }
+    .admin-login-sub { font-size: 12px; }
   }
 
   /* -- ADMIN PANEL TOPBAR -- */
@@ -7911,31 +8125,76 @@ function beQuick(topic) {
 
 <!-- ADMIN LOGIN -->
 <div id="admin-login" class="hidden">
+  <!-- background layers -->
+  <div class="alog-bg"></div>
+  <div class="alog-grid"></div>
+  <div class="alog-orb alog-orb1"></div>
+  <div class="alog-orb alog-orb2"></div>
+  <div class="alog-orb alog-orb3"></div>
+  <div class="alog-scan"></div>
+
   <div class="admin-login-box">
-    <div class="admin-login-icon">BE</div>
-    <div class="admin-login-title">Admin Access</div>
-    <div class="admin-login-sub">Bidder Experts &mdash; Restricted Area</div>
-    <div class="admin-pw-wrap">
-      <input class="admin-pw-input" id="admin-user" type="text"
-        placeholder="Username"
-        autocomplete="username"
-        onkeydown="if(event.key==='Enter')document.getElementById('admin-pw').focus()">
-    </div>
-    <div class="admin-pw-wrap">
-      <input class="admin-pw-input" id="admin-pw" type="password"
-        placeholder="Password"
-        autocomplete="current-password"
-        onkeydown="if(event.key==='Enter')adminLogin()">
-      <button class="admin-pw-toggle" onclick="adminTogglePw()" tabindex="-1">
-        <svg id="pw-eye" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+    <div class="alog-face">
+      <!-- logo -->
+      <div class="admin-login-icon">BE</div>
+
+      <div class="admin-login-title">Admin Access</div>
+      <div class="admin-login-sub">Bidder Experts &mdash; Restricted Area</div>
+
+      <!-- security badges -->
+      <div class="alog-badges">
+        <div class="alog-badge green"><span class="alog-badge-dot"></span>Secured</div>
+        <div class="alog-badge"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Encrypted</div>
+        <div class="alog-badge"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>SHA-256</div>
+      </div>
+
+      <!-- username -->
+      <div class="admin-pw-wrap">
+        <span class="alog-input-icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </span>
+        <input class="admin-pw-input" id="admin-user" type="text"
+          placeholder="Username"
+          autocomplete="username"
+          onkeydown="if(event.key==='Enter')document.getElementById('admin-pw').focus()">
+      </div>
+
+      <!-- password -->
+      <div class="admin-pw-wrap">
+        <span class="alog-input-icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </span>
+        <input class="admin-pw-input" id="admin-pw" type="password"
+          placeholder="Password"
+          autocomplete="current-password"
+          onkeydown="if(event.key==='Enter')adminLogin()">
+        <button class="admin-pw-toggle" onclick="adminTogglePw()" tabindex="-1">
+          <svg id="pw-eye" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+
+      <!-- error -->
+      <div class="admin-error" id="admin-error">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;margin-right:6px;vertical-align:middle"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Incorrect credentials. Please try again.
+      </div>
+
+      <!-- 3D unlock button -->
+      <button class="admin-login-btn" onclick="adminLogin()">
+        <div class="alog-btn-inner">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Unlock Admin Panel
+        </div>
       </button>
+
+      <div class="alog-divider"><span>or</span></div>
+
+      <!-- bottom actions -->
+      <div class="alog-actions">
+        <button class="admin-forgot-btn" onclick="adminShowForgot()">Forgot password?</button>
+        <button class="admin-close-login" onclick="adminHideLogin()">&#x2715; Cancel</button>
+      </div>
     </div>
-    <button class="admin-login-btn" onclick="adminLogin()">
-      Unlock Admin Panel
-    </button>
-    <div class="admin-error" id="admin-error">Incorrect password. Please try again.</div>
-    <button class="admin-forgot-btn" onclick="adminShowForgot()">Forgot password?</button>
-    <button class="admin-close-login" onclick="adminHideLogin()">&#x2715; Cancel</button>
   </div>
 
   <!-- FORGOT PASSWORD BOX (hidden by default) -->
