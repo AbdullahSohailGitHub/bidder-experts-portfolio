@@ -507,20 +507,6 @@ nav{
 .data-btn:hover{border-color:var(--lb);color:var(--lime);background:var(--ld);transform:translateY(-1px);}
 
 
-/* ===================== PRES TEMPLATE SELECTOR ===================== */
-.pres-tpl-wrap{padding:8px 10px 6px;border-bottom:1px solid var(--b2);background:rgba(255,200,61,0.03);}
-.pres-tpl-label{font-size:8.5px;text-transform:uppercase;letter-spacing:1.4px;color:#FFC83D;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:6px;}
-.pres-tpl-label::after{content:'';flex:1;height:1px;background:rgba(255,200,61,0.15);}
-.ptc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:5px;}
-.ptc{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 4px 5px;border-radius:7px;background:rgba(255,255,255,0.025);border:1px solid var(--b1);cursor:pointer;transition:all .16s;position:relative;text-align:center;}
-.ptc:hover{border-color:rgba(255,200,61,0.4);background:rgba(255,200,61,0.06);}
-.ptc-on{background:rgba(255,200,61,0.10)!important;border-color:rgba(255,200,61,0.55)!important;box-shadow:0 0 0 1px rgba(255,200,61,0.25) inset;}
-.ptc-rec{box-shadow:0 0 10px -3px rgba(255,200,61,0.5);}
-.ptc-ic{font-size:14px;line-height:1;}
-.ptc-name{font-size:8px;font-weight:700;font-family:'Syne',sans-serif;color:var(--mt);line-height:1.2;transition:color .15s;}
-.ptc-on .ptc-name,.ptc:hover .ptc-name{color:#FFC83D;}
-.ptc-badge{position:absolute;top:-4px;right:-3px;font-size:7px;font-weight:800;background:#FFC83D;color:#0A0E0A;border-radius:10px;padding:1px 4px;letter-spacing:.3px;white-space:nowrap;}
-.pres-rec-banner{display:none;align-items:center;gap:6px;background:rgba(255,200,61,0.07);border:1px solid rgba(255,200,61,0.2);border-radius:6px;padding:5px 8px;margin-top:2px;}
 /* ===================== PDF / PRINT SHEET ===================== */
 #printSheet{display:none;}
 .pbar-pdf{color:var(--lime)!important;border-color:var(--lb)!important;background:var(--ld)!important;}
@@ -1003,26 +989,12 @@ button:focus-visible{ outline:2px solid var(--lime); outline-offset:2px; }
 
   <!-- Presentation Panel -->
   <div class="panel" id="p-pres">
-    <div class="pbar" style="flex-wrap:wrap;gap:6px;">
-      <span class="pbar-t">&#127912; Presentation prompt</span>
-      <div style="display:flex;gap:5px;margin-left:auto;">
-        <button class="pbar-btn" onclick="genPres()">&#8635; Regenerate</button>
-        <button class="pbar-btn" onclick="doCopy()">Copy</button>
-      </div>
-    </div>
-    <!-- Template selector -->
-    <div class="pres-tpl-wrap">
-      <div class="pres-tpl-label">&#127912; Presentation Style</div>
-      <div class="ptc-grid" id="presTplGrid"></div>
-      <div class="pres-rec-banner" id="presRecBanner"></div>
-    </div>
-    <textarea class="editor mono" id="presEditor" placeholder="Select a template above, then click &#127912; Presentation..." readonly></textarea>
+    <div class="pbar"><span class="pbar-t">&#127912; 7-slide presentation prompt</span><button class="pbar-btn" onclick="doCopy()">Copy</button></div>
+    <textarea class="editor mono" id="presEditor" placeholder="Click Presentation to generate..." readonly></textarea>
     <div class="send-row">
-      <span class="s-lbl">Open in:</span>
       <button class="snd g" style="flex:1" onclick="presTo('gemini')">Gemini</button>
       <button class="snd c" style="flex:1" onclick="presTo('gpt')">ChatGPT</button>
       <button class="snd a" style="flex:1" onclick="presTo('claude')">Claude</button>
-      <button class="snd d" style="flex:1" onclick="presTo('deepseek')">DeepSeek</button>
     </div>
   </div>
 
@@ -1391,7 +1363,6 @@ function setTpl(el,key){
   renderTplDesc();
 }
 renderTemplates();
-renderPresTplSelector();
 function setTone(el,t){
   tone=t;
   document.querySelectorAll('.tp').forEach(function(p){p.classList.remove('on');});
@@ -1414,7 +1385,6 @@ function goTab(name,el){
   document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});
   el.classList.add('on');
   document.getElementById('p-'+name).classList.add('on');
-  if(name==='pres') renderPresTplSelector();
   updateStats();
 }
 function doCopy(){
@@ -2138,192 +2108,29 @@ function openAI(ai){
   setTimeout(function(){window.open(AI_URLS[ai],'_blank');},500);
 }
 
-// ---- PRESENTATION TEMPLATES ----
-var PRES_TEMPLATES = {
-  saas: {
-    tag:'SaaS / Web App', icon:'&#128640;', rec:['saas','dashboard','web app','platform','subscription','portal','admin panel','crm','erp','management system','user auth','stripe','multi-tenant'],
-    slides: function(t,n,sk,bud,tl,exp){return [
-      'Slide 1 - COVER: "'+t+' — Project Proposal" | Developer: '+n+' | Clean dark premium design',
-      'Slide 2 - CLIENT PROBLEM: The exact SaaS challenge from the job post. Pain points around scale, user management, billing, or speed.',
-      'Slide 3 - SOLUTION ARCHITECTURE: Core modules (auth, dashboard, API, DB) + tech stack ('+sk+'). Show how each piece solves their problem.',
-      'Slide 4 - FEATURE BREAKDOWN: 3-4 key features this sprint. Each with a one-line description of what value it delivers.',
-      'Slide 5 - ROADMAP: Phase 1 Setup & Auth → Phase 2 Core Features → Phase 3 Testing & Launch'+(tl?' (Total: '+tl+')':''),
-      'Slide 6 - DEVELOPER: '+n+(exp?' | '+exp:' | Relevant SaaS experience')+(sk?' | Stack: '+sk:''),
-      bud?'Slide 7 - INVESTMENT: '+bud+' | What\'s included: build + testing + docs + post-launch support. What\'s NOT included (scope boundary).':''
-    ];}
-  },
-  agency: {
-    tag:'Agency / Marketing', icon:'&#127760;', rec:['agency','marketing','landing page','branding','website','wordpress','webflow','redesign','portfolio','corporate','business website','seo'],
-    slides: function(t,n,sk,bud,tl,exp){return [
-      'Slide 1 - COVER: "'+t+'" | Proposal by '+n+' | Bold, premium design',
-      'Slide 2 - YOUR VISION: Restate the client\'s brand goals and target audience from the job post.',
-      'Slide 3 - DESIGN APPROACH: Visual strategy — layout philosophy, color/typography rationale, mobile-first. Reference 1-2 similar past projects.',
-      'Slide 4 - DELIVERABLES: Exactly what\'s being built (pages, sections, features, integrations).',
-      'Slide 5 - PROCESS: Discovery & Wireframe → Design → Dev → Review → Launch'+(tl?' ('+tl+')':''),
-      'Slide 6 - DEVELOPER: '+n+(exp?' | '+exp:'')+(sk?' | Tools: '+sk:''),
-      bud?'Slide 7 - INVESTMENT: '+bud+' | Includes revisions, responsive design, and handover files.':''
-    ];}
-  },
-  mvp: {
-    tag:'MVP / Startup', icon:'&#9889;', rec:['mvp','startup','founder','idea','prototype','validate','poc','proof of concept','early stage','v1','version 1','build from scratch','launch'],
-    slides: function(t,n,sk,bud,tl,exp){return [
-      'Slide 1 - COVER: "'+t+' — MVP Proposal" | '+n+' | Lean. Fast. Launch-ready.',
-      'Slide 2 - THE PROBLEM YOU\'RE SOLVING: Restate the startup\'s core hypothesis and the user problem they want to validate.',
-      'Slide 3 - MVP SCOPE: Only the features needed to validate the core idea. What\'s IN scope vs deliberately OUT of scope.',
-      'Slide 4 - TECH STACK & SPEED: Why '+sk+' gets this to market fastest. Architecture decisions for speed-to-launch.',
-      'Slide 5 - SHIPPING PLAN: Week-by-week milestones. First working version in'+(tl?' '+tl:' 2-3 weeks')+'. Iteration approach.',
-      'Slide 6 - DEVELOPER: '+n+(exp?' | '+exp:'')+(sk?' | Stack: '+sk:''),
-      bud?'Slide 7 - INVESTMENT: '+bud+' | Fixed scope. No scope creep. What happens after launch (optional retainer).':''
-    ];}
-  },
-  technical: {
-    tag:'Technical / API', icon:'&#128296;', rec:['api','backend','microservice','integration','migration','refactor','performance','database','node','python','django','fastapi','architecture','infrastructure','devops','aws','docker'],
-    slides: function(t,n,sk,bud,tl,exp){return [
-      'Slide 1 - COVER: "'+t+'" | Technical Proposal | '+n,
-      'Slide 2 - TECHNICAL CHALLENGE: Precise restatement of the engineering problem — performance bottleneck, API design issue, migration complexity, or architecture gap.',
-      'Slide 3 - PROPOSED ARCHITECTURE: Diagram-level description of the solution. Data flow, key components, APIs. Stack: '+sk+'.',
-      'Slide 4 - IMPLEMENTATION PLAN: Phases with technical milestones. Code standards, testing approach, documentation.',
-      'Slide 5 - RISK MITIGATION: Top 2-3 technical risks and exactly how each will be handled.',
-      'Slide 6 - DEVELOPER: '+n+(exp?' | '+exp:'')+(sk?' | Stack: '+sk:''),
-      bud?'Slide 7 - SCOPE & COST: '+bud+' | Deliverables: working code + tests + documentation + deployment guide.':''
-    ];}
-  },
-  ecommerce: {
-    tag:'E-commerce', icon:'&#128722;', rec:['shopify','woocommerce','ecommerce','e-commerce','store','shop','product','checkout','payment','cart','inventory','magento','bigcommerce','retail'],
-    slides: function(t,n,sk,bud,tl,exp){return [
-      'Slide 1 - COVER: "'+t+' — E-commerce Proposal" | '+n+' | Convert. Sell. Scale.',
-      'Slide 2 - STORE GOALS: Restate the client\'s revenue goals, target market, and the conversion problem they\'re solving.',
-      'Slide 3 - STORE FEATURES: Product catalog setup, checkout flow, payment gateways, inventory, and any custom integrations.',
-      'Slide 4 - DESIGN & UX: Mobile-first, conversion-optimized layout. Speed & performance. Trust signals.',
-      'Slide 5 - LAUNCH PLAN: Store setup → Product import → Payment & shipping config → Testing → Go-live'+(tl?' ('+tl+')':''),
-      'Slide 6 - DEVELOPER: '+n+(exp?' | '+exp:'')+(sk?' | Platform: '+sk:''),
-      bud?'Slide 7 - INVESTMENT: '+bud+' | Includes full store setup, testing, and post-launch checklist.':''
-    ];}
-  },
-  ai: {
-    tag:'AI / Automation', icon:'&#129504;', rec:['ai','llm','langchain','openai','chatbot','automation','n8n','zapier','voice','rag','machine learning','ml','gpt','claude','gemini','agent','workflow'],
-    slides: function(t,n,sk,bud,tl,exp){return [
-      'Slide 1 - COVER: "'+t+' — AI Solution Proposal" | '+n+' | Intelligent. Automated. ROI-driven.',
-      'Slide 2 - THE PROBLEM AI WILL SOLVE: Restate what manual/repetitive process or intelligence gap this project addresses.',
-      'Slide 3 - AI ARCHITECTURE: Model selection ('+sk+'), data pipeline, integrations, and how the AI loop works end-to-end.',
-      'Slide 4 - KEY CAPABILITIES: 3-4 specific AI features — what the system will be able to DO that it can\'t today.',
-      'Slide 5 - IMPLEMENTATION: Data prep → Model/integration setup → Testing & refinement → Deployment'+(tl?' ('+tl+')':''),
-      'Slide 6 - DEVELOPER: '+n+(exp?' | '+exp:'')+(sk?' | Stack: '+sk:''),
-      bud?'Slide 7 - INVESTMENT: '+bud+' | Deliverables: working AI system + integration + testing + handover docs.':''
-    ];}
-  },
-  design: {
-    tag:'UI/UX Design', icon:'&#127912;', rec:['figma','ui','ux','design','wireframe','prototype','mockup','user interface','user experience','app design','redesign','design system','branding'],
-    slides: function(t,n,sk,bud,tl,exp){return [
-      'Slide 1 - COVER: "'+t+' — Design Proposal" | '+n+' | Beautiful. Functional. User-centric.',
-      'Slide 2 - USER PROBLEM: Restate the UX challenge — what pain does the current design cause for users?',
-      'Slide 3 - DESIGN APPROACH: Design philosophy, component strategy, accessibility, and how '+sk+' will be used.',
-      'Slide 4 - DELIVERABLES: Wireframes, hi-fi mockups, prototype, design system, and handover specs.',
-      'Slide 5 - DESIGN PROCESS: Research & audit → Wireframes → Hi-fi → Prototype → Revisions → Handover'+(tl?' ('+tl+')':''),
-      'Slide 6 - DESIGNER: '+n+(exp?' | '+exp:'')+(sk?' | Tools: '+sk:''),
-      bud?'Slide 7 - INVESTMENT: '+bud+' | Includes '+(tl||'2')+'  of work, unlimited revisions (fair use), and all source files.':''
-    ];}
-  },
-  rescue: {
-    tag:'Project Rescue', icon:'&#128737;', rec:['fix','broken','bug','previous developer','took over','existing code','half done','incomplete','unfinished','abandoned','not working','rescue','redo','legacy','inherited','clean up'],
-    slides: function(t,n,sk,bud,tl,exp){return [
-      'Slide 1 - COVER: "'+t+' — Rescue Plan" | '+n+' | Diagnose. Fix. Deliver.',
-      'Slide 2 - THE SITUATION: Acknowledge the frustration of a failed project without judgment. Show you understand exactly what went wrong.',
-      'Slide 3 - AUDIT PLAN: Step 1 is a full code/system audit (max 2-3 days). Deliverable: a written report of what\'s salvageable vs what needs rebuilding.',
-      'Slide 4 - RESCUE ROADMAP: Stabilize → Fix critical bugs → Rebuild broken modules → Test → Handover. No surprises.',
-      'Slide 5 - RISK MANAGEMENT: How scope will be controlled, how changes are communicated, and how budget surprises are avoided.',
-      'Slide 6 - DEVELOPER: '+n+(exp?' | '+exp:'')+(sk?' | Stack: '+sk:''),
-      bud?'Slide 7 - INVESTMENT: Starting audit: small fixed fee. Full rescue: '+bud+' (after audit confirms scope). Pay only for what you approve.':''
-    ];}
-  }
-};
-
-var presTpl = 'saas'; // default selected pres template
-var presRecTpl = null;
-
-function recommendPresTemplate(){
-  var text = ((gv('jobTitle')||'')+' '+(gv('jobDesc')||'')).toLowerCase();
-  var best=null, bestScore=0;
-  Object.keys(PRES_TEMPLATES).forEach(function(k){
-    var hits=0;
-    PRES_TEMPLATES[k].rec.forEach(function(w){ if(text.indexOf(w)!==-1) hits++; });
-    if(hits>bestScore){ bestScore=hits; best=k; }
-  });
-  return best||'saas';
-}
-
-function renderPresTplSelector(){
-  var g=document.getElementById('presTplGrid'); if(!g) return;
-  presRecTpl = recommendPresTemplate();
-  var html='';
-  Object.keys(PRES_TEMPLATES).forEach(function(k){
-    var t=PRES_TEMPLATES[k];
-    var isRec=(k===presRecTpl), isSel=(k===presTpl);
-    html+='<div class="ptc'+(isSel?' ptc-on':'')+(isRec?' ptc-rec':'')+'" onclick="selectPresTpl(\''+k+'\')">'+
-      '<span class="ptc-ic">'+t.icon+'</span>'+
-      '<span class="ptc-name">'+t.tag+'</span>'+
-      (isRec?'<span class="ptc-badge">✦ Match</span>':'')+
-      '</div>';
-  });
-  g.innerHTML=html;
-  renderPresRecBanner();
-}
-
-function selectPresTpl(k){
-  presTpl=k;
-  renderPresTplSelector();
-}
-
-function renderPresRecBanner(){
-  var b=document.getElementById('presRecBanner'); if(!b) return;
-  if(presRecTpl && presRecTpl!==presTpl){
-    var rt=PRES_TEMPLATES[presRecTpl];
-    b.style.display='flex';
-    b.innerHTML='<span style="color:var(--lime);font-size:10px;">&#128161; Suggested: <b>'+rt.tag+'</b> for this job</span><button onclick="selectPresTpl(\''+presRecTpl+'\')" style="margin-left:auto;padding:2px 10px;border-radius:5px;background:var(--ld);border:1px solid var(--lb);color:var(--lime);font-size:9px;font-weight:700;cursor:pointer;font-family:Syne,sans-serif;">Use it</button>';
-  } else if(presRecTpl && presRecTpl===presTpl){
-    b.style.display='flex';
-    b.innerHTML='<span style="color:var(--lime);font-size:10px;">&#10024; Best template match for this job post</span>';
-  } else {
-    b.style.display='none';
-  }
-}
-
 function genPres(){
   var title=gv('jobTitle'), desc=gv('jobDesc'), cat=gv('category');
-  var bud=gv('budget'), tl=gv('timeline'), name=gv('yourName'), sk=gv('skills'), exp=gv('experience');
-  var tplDef=PRES_TEMPLATES[presTpl]||PRES_TEMPLATES.saas;
-  var slides=tplDef.slides(title||'[Project]',name||'[Developer]',sk||'',bud,tl,exp).filter(function(s){return s;}).join('\n');
-  var p='Create a SHORT, VISUALLY STUNNING client-facing project proposal presentation (5-7 slides).\n'+
-    'TEMPLATE STYLE: '+tplDef.tag+'\n\n'+
-    'PROJECT DETAILS:\n'+
-    'Title: '+(title||'[Project Title]')+'\n'+
-    'Category: '+cat+'\n'+
-    (bud?'Budget: '+bud+'\n':'')+
-    (tl?'Timeline: '+tl+'\n':'')+
-    '\nCLIENT JOB POST:\n'+(desc||'[Paste job description]')+
-    '\n\nDEVELOPER PRESENTING:\n'+
-    'Name: '+name+'\n'+
-    'Skills: '+sk+'\n'+
-    (exp?'Experience: '+exp+'\n':'')+
-    '\nIMPORTANT RULES — FOLLOW STRICTLY:\n'+
-    '- This is a CLIENT-FACING presentation. Focus 80% on the client\'s project, goals and outcomes.\n'+
-    '- DO NOT include any phone numbers, WhatsApp links, email addresses or personal contact info.\n'+
-    '- DO NOT mention "Bidder Experts" or any agency name anywhere in the slides.\n'+
-    '- The developer\'s name is fine. No other personal/company details.\n'+
-    '- Every slide must speak to the CLIENT\'s needs, not the developer\'s background.\n'+
-    '\nSLIDE STRUCTURE:\n'+slides+'\n\n'+
-    'DESIGN RULES:\n'+
-    '- Dark background (#09100A), lime/green accent (#B8FF3C), clean white text\n'+
-    '- Bold punchy headlines (max 6 words)\n'+
-    '- Max 4 bullet points per slide, each under 10 words\n'+
-    '- 1 relevant visual/icon concept per slide\n'+
-    '- Premium, minimal, modern — not generic\n'+
-    '\nOutput: "SLIDE 1:", "SLIDE 2:" etc. with headline + bullet points.';
+  var bud=gv('budget'), tl=gv('timeline'), name=gv('yourName'), sk=gv('skills');
+  var slides=[
+    'Slide 1 - COVER: "Project Proposal: '+title+'" | By '+name+' - Bidder Experts | Dark premium design',
+    'Slide 2 - I UNDERSTAND YOUR PROBLEM: Restate their core challenge + 2-3 specific pain points from the job',
+    'Slide 3 - MY SOLUTION: 3-4 specific deliverables for THIS project + unique approach',
+    'Slide 4 - 3-STEP ROADMAP: Discovery -> Development (weekly updates) -> Handover + docs',
+    'Slide 5 - WHY ME: 100+ contracts, $500K+ earned, 5.0 star + 1 most relevant past project',
+    bud?'Slide 6 - INVESTMENT: Package for '+bud+' | Core build + testing + docs + 30-day support | '+tl:'',
+    'Slide 7 - NEXT STEPS: Reply -> 15-min call -> Start | WhatsApp: +92 321 4900839'
+  ].filter(function(s){return s;}).join('\n');
+  var p='Create a SHORT, ATTRACTIVE freelancer presentation (5-7 slides).\n\n'+
+    'PROJECT: '+(title||'[Project]')+'\nCATEGORY: '+cat+'\n'+(bud?'BUDGET: '+bud+'\n':'')+(tl?'TIMELINE: '+tl+'\n':'')+
+    'JOB:\n'+(desc||'[Description]')+'\n\nFREELANCER: '+name+'\nSkills: '+sk+'\nStats: 100+ contracts, $500K+, 5.0 star, 95%+ JSS\n\n'+
+    'SLIDES:\n'+slides+'\n\n'+
+    'DESIGN: Dark bg (#09100A), lime/green accent, bold headlines, max 6 words per bullet, 1 visual per slide.\n'+
+    'Output as "SLIDE 1:", "SLIDE 2:" etc. Premium quality -- not generic.';
   var pe=document.getElementById('presEditor');
   pe.removeAttribute('readonly'); pe.value=p; pe.setAttribute('readonly','');
   navigator.clipboard.writeText(p).catch(function(){});
   goTab('pres',document.getElementById('t-pres'));
-  flash('Presentation prompt ready — '+tplDef.tag+' template!');
+  flash('Presentation prompt ready! Choose an AI to open.');
 }
 
 function presTo(ai){
@@ -2644,7 +2451,7 @@ function getMatchedPortfolioProjects(title, desc) {
 var autoMatchTimer = null;
 function scheduleAutoMatch() {
   clearTimeout(autoMatchTimer);
-  autoMatchTimer = setTimeout(function(){ autoMatchProfile(); renderPresTplSelector(); }, 800);
+  autoMatchTimer = setTimeout(autoMatchProfile, 800);
 }
 
 function selectProfileFromDropdown(pid) {
