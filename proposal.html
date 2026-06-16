@@ -2407,6 +2407,30 @@ function renderPresRecBanner(){
   }
 }
 
+// ── Presentation color palettes per job category ────────────────
+var PRES_PALETTES = {
+  'Full-Stack Web':    {bg:'#0A0E1A', accent:'#4F8EF7', accent2:'#7B61FF', text:'#FFFFFF', name:'Deep Navy + Electric Blue',    mood:'professional and technical'},
+  'Ruby on Rails':    {bg:'#1A0A0A', accent:'#E53E3E', accent2:'#F6AD55', text:'#FFFFFF', name:'Deep Crimson + Amber',          mood:'bold and energetic'},
+  'UI/UX Design':     {bg:'#0F0A1E', accent:'#9F7AEA', accent2:'#F687B3', text:'#FFFFFF', name:'Deep Violet + Soft Pink',       mood:'creative and elegant'},
+  'Mobile App':       {bg:'#0A1628', accent:'#38BDF8', accent2:'#34D399', text:'#FFFFFF', name:'Midnight Blue + Cyan + Teal',   mood:'modern and vibrant'},
+  'AI & Automation':  {bg:'#080B14', accent:'#818CF8', accent2:'#22D3EE', text:'#FFFFFF', name:'Deep Indigo + Electric Cyan',   mood:'futuristic and intelligent'},
+  'Blockchain/Web3':  {bg:'#06111A', accent:'#2DD4BF', accent2:'#F59E0B', text:'#FFFFFF', name:'Dark Teal + Gold',              mood:'premium and trustworthy'},
+  'WordPress/Shopify':{bg:'#0A0F0A', accent:'#10B981', accent2:'#F59E0B', text:'#FFFFFF', name:'Forest Green + Warm Amber',     mood:'friendly and conversion-focused'},
+  'Data Science':     {bg:'#060D1A', accent:'#0EA5E9', accent2:'#8B5CF6', text:'#FFFFFF', name:'Deep Ocean + Electric Blue + Purple', mood:'analytical and sharp'},
+  'Other':            {bg:'#0A0E0A', accent:'#B8FF3C', accent2:'#5DCAA5', text:'#FFFFFF', name:'Dark Forest + Lime Green',      mood:'confident and modern'}
+};
+
+function presColorPalette(cat){
+  var p = PRES_PALETTES[cat] || PRES_PALETTES['Other'];
+  return '- COLOR PALETTE: '+p.name+'\n'+
+    '  Background: '+p.bg+' (dark, premium)\n'+
+    '  Primary accent: '+p.accent+'\n'+
+    '  Secondary accent: '+p.accent2+'\n'+
+    '  Text: '+p.text+'\n'+
+    '  Mood: '+p.mood+'\n'+
+    '  Apply: accent on headlines, CTAs, key numbers, and slide dividers. Secondary accent on icons, highlights, and supporting elements. Keep it consistent across all slides.';
+}
+
 function genPres(){
   var title=gv('jobTitle'), desc=gv('jobDesc'), cat=gv('category');
   var bud=gv('budget'), tl=gv('timeline'), name=gv('yourName'), sk=gv('skills'), exp=gv('experience');
@@ -2434,7 +2458,7 @@ function genPres(){
     '- Every slide must speak to the CLIENT\'s needs, not the developer\'s background.\n'+
     '\nSLIDE STRUCTURE:\n'+slides+'\n\n'+
     'DESIGN RULES:\n'+
-    '- Dark background (#09100A), lime/green accent (#B8FF3C), clean white text\n'+
+    presColorPalette(cat)+'\n'+
     '- Bold punchy headlines (max 6 words)\n'+
     '- Max 4 bullet points per slide, each under 10 words\n'+
     '- 1 relevant visual/icon concept per slide\n'+
