@@ -1522,121 +1522,235 @@ function generateLetter(){
 // ===== Figma Make design-prompt generator (per platform type) =====
 function openFigma(){ window.open('https://www.figma.com/make/', '_blank'); }
 
+// ── Screen sets per category ─────────────────────────────────────
 var FIG_WEB = [
-  ["Landing / Marketing Page","Design a high-converting landing page: a bold hero (headline, subheadline, primary + secondary CTA) with a clean product mockup, a logo cloud, a 3-column feature section with icons, a stats band, one testimonial, a pricing teaser, and a footer. Animations: hero text fades and slides in, the product mockup floats with subtle parallax, feature cards lift on hover, the stat numbers count up, and a soft gradient glow sits behind the hero."],
-  ["Sign Up & Login","Design an auth screen as a split layout: left a branded panel with a gradient and 3 short value props, right a clean card with email + password, social sign-in buttons, and a Login / Sign Up toggle. Animations: input focus glow, button press feedback, gentle motion on the panel illustration, and a smooth cross-fade when switching between Login and Sign Up."],
-  ["Dashboard / Overview","Design the main dashboard: a left sidebar nav, a top bar with search and avatar, a row of KPI cards, a large primary chart (area or line) plus a secondary donut chart, and a recent-activity table. Animations: KPI cards stagger in, the numbers count up, the charts draw in, hover tooltips on data points, and skeleton loaders before content appears."],
-  ["Core Feature - Management","Design the core working screen: a data table with search, filters and status badges, row actions and pagination, plus a slide-in detail drawer on the right and bulk-action support. Animations: rows fade in, the drawer slides in from the right, status badges pulse on change, and inline edits transition smoothly."],
-  ["Settings & Profile","Design a settings area with tabs (Profile, Account, Notifications, Billing): avatar upload, form fields, toggle switches, and a sticky save bar. Animations: tab content cross-fades, toggles animate on and off, and the save button shows a success check animation."]
+  ["Landing / Marketing Page","Design a high-converting landing page for THIS platform. Bold 3D hero section: headline with a kinetic gradient text effect, a floating 3D product mockup (rotate on scroll), and dual CTAs with glowing hover states. Below: a trust/logo cloud, a 3-column feature grid with icon cards that flip to reveal detail on hover, an animated stats band where numbers count up with a spring easing, a testimonial carousel with card depth shadows, and a footer. Animations: hero text splits and slides in staggered by word, the 3D mockup floats and casts a dynamic shadow, feature cards tilt on mouse-move (CSS perspective), stat counters ease in with a bounce, and a radial glow follows the cursor across the hero."],
+  ["Sign Up / Login","Design an auth screen: full-bleed split layout — left panel is a 3D branded scene with a rotating logo, floating value-prop pills, and a soft particle field; right panel is a frosted-glass card with email/password inputs, social sign-in buttons, and a Login↔Sign Up toggle. Inputs have a glowing focus ring with a short height-expand animation. The card itself has a subtle 3D tilt that follows the mouse. Form submit triggers a button morph to a spinner then a checkmark. Error states shake the field with a red glow. Light and dark modes both polished."],
+  ["Dashboard / Overview","Design the main app dashboard. Left: a collapsible icon sidebar with tooltip labels and an active-page glow indicator. Top: a search bar and avatar with a notification bell badge that bounces on new items. Content: 4 KPI cards that stagger-fly in and have a 3D lift on hover (box-shadow depth + translateY); a full-width area chart with animated draw-in and live-updating data points; a secondary donut chart beside a ranked list; and a recent-activity feed with row-reveal animations. Skeleton loaders pulse before content. All charts have smooth animated transitions when filters change."],
+  ["Core Feature Screen","Design the primary working screen for this platform's main feature. Full data table: search bar + multi-filter chips, sortable columns, inline status badges that pulse on 'processing', row hover glow, and a slide-in detail panel from the right with a spring animation. Bulk actions appear in a sticky bar that slides up from the bottom. Pagination with smooth number transitions. Empty state has a subtle floating illustration."],
+  ["Settings / Profile","Design a settings area: tabbed layout (Profile, Security, Notifications, Billing, Integrations). Profile tab: avatar with an upload ring animation, editable fields with inline-save micro-interactions. Toggles animate on/off with a spring. Billing tab: current plan card with a glowing active indicator and an upgrade CTA. A sticky bottom save bar slides in when changes are detected, with a success-check morph animation on save."]
 ];
 var FIG_MOBILE = [
-  ["Splash & Onboarding","Design a mobile splash plus a 3-slide onboarding flow: each slide has an illustration, a short headline, body text, and progress dots, ending on a Get Started CTA. Animations: smooth slide transitions, the illustration floats, the progress dots morph, and the CTA gently pulses."],
-  ["Sign Up & Login","Design a mobile auth screen: logo, email + password inputs, social sign-in, a biometric hint, and a Sign Up link. Animations: field focus states, a button loading spinner, and a keyboard-aware layout that animates up."],
-  ["Home","Design the app home: a top app bar with greeting and search, horizontally scrollable category chips, a vertical feed of rich content cards, and a bottom tab bar. Animations: cards stagger in, pull-to-refresh, the active bottom tab morphs, and cards scale slightly on press."],
-  ["Detail / Action","Design a detail screen: a hero image header, title and meta, description, primary action buttons, and a related-items row. Animations: a shared-element transition from the list, the header collapses on scroll, and the like/save button has a small burst animation."],
-  ["Profile & Settings","Design a profile screen: header with avatar and key stats, a list of settings rows with icons, toggles, and a logout button. Animations: header parallax on scroll, row press highlight, and animated toggles."]
+  ["Splash & Onboarding","Design a mobile splash screen: full-bleed animated gradient, 3D logo that scales in with a depth bounce. Onboarding: 3 slides, each with a floating Lottie-style illustration, bold headline, and subtle particle background. Progress dots morph between states. Slide transitions use a parallax offset (background moves slower than foreground). Final slide: a pulsing 'Get Started' CTA with a ripple press effect."],
+  ["Sign Up / Login","Mobile auth: logo centered, email + password inputs with focus-glow states, biometric hint button, social sign-in pills, and a Sign Up toggle. The entire form floats on a soft glassmorphism card. Keyboard-aware layout animates the card upward when the keyboard opens. Button loading state: morphs to a spinner, then a check or shake on success/error."],
+  ["Home Feed","App home: greeting header with avatar and a search/filter bar. Horizontally scrollable category chips with an active-slide underline animation. Vertical card feed: each card has a hero image, title, meta, and a quick-action button. Cards stagger in on scroll (Intersection Observer style). Pull-to-refresh triggers a branded 3D spin animation. Bottom tab bar: active tab scales up with a glow dot beneath it."],
+  ["Detail Screen","Detail view: hero image with a parallax scroll effect as the user scrolls down, collapsing into a compact sticky header. Title, meta, description, an action button row. A related-items horizontal scroll below. Floating back button with a blur background. Shared-element transition from the list card. Like/save: heart icon bursts with a particle animation. Add-to-cart or primary CTA has a press-depth 3D effect."],
+  ["Profile & Settings","Profile: header with a large avatar that has a ring progress animation (e.g. completion or level), key stats displayed as animated count-up numbers, and a follow/edit button. Settings rows have icons, right-aligned values, and a press-scale feedback. Destructive actions (logout, delete) show a bottom-sheet confirm dialog that slides up with a spring. Animated toggle switches throughout."]
 ];
 var FIG_AI = [
-  ["Landing","Design an AI-product landing page: a hero with a bold promise and CTA, an animated gradient-mesh background, a live typing demo of the AI in action, a feature grid, and social proof. Animations: the demo types out text, a glowing orb pulses, feature cards lift on hover, and stats count up."],
-  ["Dashboard","Design an AI dashboard: usage-metric cards, a recent-runs list, model/agent cards, and credits remaining. Animations: counters animate, the activity stream updates live, and accent glows pulse softly."],
-  ["AI Chat / Assistant","Design a chat assistant: a conversation with user and AI message bubbles, a typing indicator, a prompt input with attach and send, suggestion chips, and streaming AI responses. Animations: messages slide in, animated typing dots, a streaming text reveal, and a send button that morphs while sending."],
-  ["Workflow / Automation Builder","Design a node-based automation canvas: draggable nodes (Trigger, Action, Condition) connected by smooth curved edges, a left panel of building blocks, zoom controls, and a minimap. Animations: nodes drop in, edges draw between them, nodes glow on hover, and a satisfying connect animation when linking."],
-  ["Settings & Integrations","Design an integrations screen: a grid of integration cards with connect/disconnect states, API keys with copy, and model settings. Animations: card connect-state transition, animated toggles, and copy-key confirmation feedback."]
+  ["Landing","AI product landing: full-bleed animated mesh-gradient hero (three.js style noise field), large bold headline with a word-by-word reveal, and a primary CTA button with a shimmer sweep. Live demo embed shows the AI typing in real-time. Features grid: icon cards that float and cast soft shadows. Social proof ticker. Orb/glow accents pulse and drift. Stats count up. Scroll-triggered sections reveal with a slight 3D rotate-in."],
+  ["AI Dashboard","AI dashboard: usage KPI cards with animated sparklines, a model/agent card grid with glowing active-agent indicators, a recent-runs list with status badges (running = pulsing), and a credits-remaining progress ring. A floating 'New Run' FAB. Background: very subtle animated dot-grid or noise texture. Data updates trigger smooth value-swap animations."],
+  ["Chat / Assistant","AI chat interface: messages area with user bubbles (right, dark) and AI bubbles (left, glass/frosted). Typing indicator: three dots with a wave animation. Streaming response: text reveals character by character with a cursor blink. Prompt input bar at bottom: expandable textarea, attach icon, and a send button that morphs to a stop button while generating. Suggestion chips slide in above the input. The entire panel has a subtle radial glow behind the AI avatar."],
+  ["Workflow / Automation Builder","Node-based canvas: draggable nodes (Trigger, Action, Condition, Output) with icon headers and field previews. Bezier edge curves with animated dashes flowing in the direction of data. Nodes glow on hover. A connect-drag interaction draws a live edge from the source port. Left panel: scrollable block library with category sections. Zoom/fit controls. Minimap in bottom-right. Running state: nodes pulse green as execution passes through them."],
+  ["Integrations & Settings","Integrations grid: cards with service logos, connection status (green dot = connected, animated), and a Connect/Disconnect button with a state-transition animation. API key row with a masked value and a copy-with-confirmation action. Model settings: slider inputs for temperature/tokens with live-preview value bubbles. All toggles spring-animated."]
 ];
 var FIG_WEB3 = [
-  ["Landing","Design a Web3 landing page: a bold hero with an animated 3D coin/token, key stats, a how-it-works section, audited/secure badges, and a footer. Animations: the 3D coin floats and rotates, numbers count up, and a gradient glow sits behind the hero."],
-  ["Connect Wallet","Design a connect-wallet screen/modal: cards for MetaMask, WalletConnect and Coinbase Wallet, each with logo and a short label. Animations: the modal scales in, wallet cards glow on hover, and a connecting spinner appears on select."],
-  ["Portfolio Dashboard","Design a portfolio dashboard: total balance, an asset-allocation donut, a holdings list with mini sparklines and 24h change, and overall P&L. Animations: the balance counts up, the donut draws in, sparklines animate, and values flash green or red on change."],
-  ["Swap / Trade","Design a token-swap screen: a swap card with from/to token selectors, amount input, exchange rate, slippage, and a swap button, beside a price chart. Animations: a token-select modal, a rotating swap arrow, animated button states, and a live-updating chart."],
-  ["Transactions / Activity","Design a transactions screen: a list of transactions with status (pending/confirmed), shortened hashes, timestamps, and filters. Animations: rows fade in, pending rows pulse, and a confirmed check animates in."]
+  ["Landing","Web3 landing: dark background, hero with a 3D rotating token/coin (WebGL-style), bold headline, and a Connect Wallet CTA with a rainbow-border glow animation. Tokenomics section: animated pie/donut chart drawing in. How-it-works: numbered steps with connecting animated line. Audited-by badges. Partners strip. Footer with social links. Floating particles/dust throughout."],
+  ["Connect Wallet","Wallet connect modal: scales in with a spring over a blurred backdrop. Wallet option cards: MetaMask, WalletConnect, Coinbase — each with logo, name, and a hover glow. Selecting triggers a connecting spinner with a pulsing ring. Success: card fills green and animates a checkmark. Error: shake + red flash. Mobile: bottom-sheet version with swipe-to-dismiss."],
+  ["Portfolio Dashboard","Portfolio home: total balance counter animates up with a shimmer. Asset-allocation donut chart draws in segment by segment. Holdings list: each row has token logo, name, balance, price, 24h change (green/red animated flip), and a mini sparkline. P&L card with trend arrow. Filter chips. Refresh icon spins and data rows fade-swap on update."],
+  ["Swap / Trade","Swap card: from/to token selector dropdowns with search and token logos, amount input with a live USD conversion below, an animated rotating swap arrow button, slippage settings, and a prominent Swap CTA. Beside it: a price chart with timeframe tabs (1H/1D/1W) and animated draw-in. Token select modal: slides in from bottom, full list with logos and balances, search bar. Swap CTA: loading state with orbiting dots, then success/fail state."],
+  ["Transactions","Transaction history: filter tabs (All, Sent, Received, Swaps), search bar. Each row: icon, type, token amounts, status badge (Confirmed = green / Pending = pulsing amber / Failed = red), timestamp, and a shortened hash with copy button. Pending rows have a continuous shimmer. Tapping a row expands an inline detail panel with block explorer link."]
 ];
 var FIG_SHOP = [
-  ["Storefront Home","Design an e-commerce home: a hero promo banner, category tiles, a featured-products carousel, a deals strip, and a newsletter signup. Animations: a subtle ken-burns on the banner, product cards lift with a quick-add reveal, and the carousel auto-scrolls."],
-  ["Product Listing","Design a product listing/collection page: a filter sidebar (price, category, rating), a responsive product grid with image, price, rating and hover quick-view, and a sort bar. Animations: the grid staggers in, cards swap image and reveal an add-to-cart on hover, and filters apply with a smooth transition."],
-  ["Product Detail","Design a product detail page: an image gallery with thumbnails, title, price, variant swatches (size/color), add-to-cart, an accordion for details, and reviews. Animations: gallery image zoom, swatch selection, an add-to-cart fly-to-cart animation, and a sticky buy bar on scroll."],
-  ["Cart & Checkout","Design cart + checkout: cart line items with quantity steppers and an order summary, then a multi-step checkout (information, shipping, payment) with a progress indicator. Animations: quantity changes animate, steps transition smoothly, fields validate inline, and a success state with subtle confetti."],
-  ["Account & Orders","Design an account area: profile details, order-history cards with status, saved addresses, and a wishlist. Animations: order cards expand for detail, animated status badges, and tab transitions."]
+  ["Storefront Home","E-commerce home: hero promo banner with a Ken-Burns zoom animation and overlay text that slides in. Category tiles in a scroll-snap row. Featured products grid: cards have image, name, price, rating, and a hover state that reveals a Quick Add button with a scale-in animation. Add-to-cart triggers a fly-to-cart animation (product image flies into the cart icon). Deals countdown timer with flip-card digit animation. Newsletter signup with an input focus-glow."],
+  ["Product Listing","Collection page: filter sidebar (price range slider, category checkboxes, rating stars — all animated) with a mobile slide-in drawer version. Product grid: cards stagger in with a slight 3D tilt on hover, image swaps to second photo on hover with a crossfade, and an add-to-cart button reveals from the bottom. Sort dropdown. Filter chips with an animated dismiss. Loading: skeleton grid pulses."],
+  ["Product Detail","PDP: image gallery with a zoom-on-hover effect and a smooth thumbnail-swap. Title, price (sale price with strikethrough and a red badge), variant swatches (color circles scale and get a checkmark on select, size buttons highlight). Quantity stepper. Add-to-cart: full-width button with a 3D press depth effect and a cart-fly animation on click. Sticky buy bar appears when the main button scrolls out of view. Accordion sections expand with a smooth height animation."],
+  ["Cart & Checkout","Cart: item rows with image, name, variant, quantity stepper (animated +/−), and a remove button with a collapse animation. Order summary with an animated subtotal update. Checkout: a step progress bar (Information → Shipping → Payment → Confirm) with smooth transitions. Each step slides in from the right. Payment step: card input fields with a card-flip preview. Order confirmation: success animation (checkmark draw, subtle confetti burst)."],
+  ["Account & Orders","Account area: profile header with avatar and member badge. Order cards with status timeline (Ordered → Shipped → Delivered) animated with a progress line. Expand a card to see items. Saved addresses with an edit-in-place interaction. Wishlist grid matches the product grid style. Tabs cross-fade. All status badges animate to their state."]
 ];
 var FIG_DATA = [
-  ["Landing","Design an analytics-product landing page: a hero with a bold data-driven promise and CTA, a dashboard preview mockup, a feature grid, and social proof. Animations: the dashboard preview animates, charts draw in, and stats count up."],
-  ["Analytics Dashboard","Design a data dashboard: a row of KPI cards, multiple charts (line, bar, and a heatmap), a date-range picker, and filters. Animations: charts draw in, numbers count up, and filter/date changes transition smoothly."],
-  ["Data Explorer","Design a data explorer: a query/filter panel, a results table with sortable columns and column controls, and a pivot/group option. Animations: skeleton loading, smooth sort/filter transitions, and row hover highlights."],
-  ["Insights / Report","Design an insights report: a narrative layout with section headings, embedded charts, key-finding callout cards, and an export button. Animations: sections reveal on scroll, charts animate, and key numbers highlight."],
-  ["Settings","Design a settings screen: data sources, team members, and notification preferences with toggles and a save bar. Animations: tab cross-fades, animated toggles, and a save success check."]
+  ["Landing","Analytics landing: hero with a live animated dashboard mockup preview (charts drawing, numbers ticking), bold data-driven headline, and a CTA with a glow pulse. Feature grid: cards reveal on scroll with a 3D flip-in. Social proof: client logo strip and a quote rotator. Pricing section: toggle between monthly/annual with a smooth content swap."],
+  ["Analytics Dashboard","Data dashboard: date-range picker at the top that triggers animated data refresh. KPI cards stagger in with count-up numbers and trend arrows. Primary line/area chart with animated draw-in and interactive hover tooltips. Bar chart with staggered bar growth. Heatmap calendar. Donut chart. All charts smooth-transition when filters or dates change."],
+  ["Data Explorer","Query builder: a filter panel on the left with field selectors, operators, and value inputs that dynamically add/remove rows. Results table on the right: skeleton loads, then rows fade in. Column headers sort with an animated arrow. Pagination. Column visibility toggle. Export button with a dropdown (CSV, Excel, PDF). Pivot/group toggle with a smooth layout shift."],
+  ["Insights / Report","Narrative report layout: section headings, embedded charts (same animated style), key-finding callout cards with bold numbers and a subtle background glow, and an AI-summary box with streaming text. Sections reveal on scroll with a slight translate-up. Charts animate into view. Export to PDF button triggers a generation-progress animation."],
+  ["Settings","Settings: left nav tabs (Sources, Team, Notifications, API, Billing). Data sources tab: connected source cards with status dots, add-source modal (slides in). Team tab: member list with role badges, invite flow with an email input animation. All toggles spring-animated. Billing: current plan card, usage bar, upgrade CTA."]
 ];
 
 var FIG_SETS = {
-  "Full-Stack Web":    {accent:"an indigo-blue", domain:"full-stack web", flow:"Landing -> Sign Up -> Dashboard -> Management -> Settings", screens:FIG_WEB},
-  "Ruby on Rails":     {accent:"an indigo-blue", domain:"web application", flow:"Landing -> Sign Up -> Dashboard -> Management -> Settings", screens:FIG_WEB},
-  "UI/UX Design":      {accent:"a violet", domain:"product", flow:"Landing -> Sign Up -> Dashboard -> Management -> Settings", screens:FIG_WEB},
-  "Other":             {accent:"an indigo-blue", domain:"software", flow:"Landing -> Sign Up -> Dashboard -> Management -> Settings", screens:FIG_WEB},
-  "Mobile App":        {accent:"a violet", domain:"mobile app", flow:"Onboarding -> Sign Up -> Home -> Detail -> Profile", screens:FIG_MOBILE},
-  "AI & Automation":   {accent:"an electric purple and cyan", domain:"AI", flow:"Landing -> Dashboard -> AI Chat -> Workflow Builder -> Settings", screens:FIG_AI},
-  "Blockchain/Web3":   {accent:"an emerald-teal with subtle gold", domain:"Web3", flow:"Landing -> Connect Wallet -> Portfolio -> Swap -> Transactions", screens:FIG_WEB3},
-  "WordPress/Shopify": {accent:"a warm coral", domain:"e-commerce", flow:"Home -> Listing -> Product Detail -> Cart & Checkout -> Account", screens:FIG_SHOP},
-  "Data Science":      {accent:"a blue-teal", domain:"data analytics", flow:"Landing -> Dashboard -> Data Explorer -> Insights -> Settings", screens:FIG_DATA}
+  "Full-Stack Web":    {accent:"an indigo-blue and electric teal", domain:"full-stack web application", flow:"Landing → Sign Up → Dashboard → Core Feature → Settings", screens:FIG_WEB},
+  "Ruby on Rails":     {accent:"an indigo-blue", domain:"web application", flow:"Landing → Sign Up → Dashboard → Core Feature → Settings", screens:FIG_WEB},
+  "UI/UX Design":      {accent:"a rich violet and warm cream", domain:"product", flow:"Landing → Sign Up → Dashboard → Core Feature → Settings", screens:FIG_WEB},
+  "Other":             {accent:"an indigo-blue and teal", domain:"software platform", flow:"Landing → Sign Up → Dashboard → Core Feature → Settings", screens:FIG_WEB},
+  "Mobile App":        {accent:"a vibrant violet and electric lime", domain:"mobile app", flow:"Splash → Sign Up → Home → Detail → Profile", screens:FIG_MOBILE},
+  "AI & Automation":   {accent:"an electric purple, cyan, and deep charcoal", domain:"AI platform", flow:"Landing → Dashboard → AI Chat → Workflow Builder → Integrations", screens:FIG_AI},
+  "Blockchain/Web3":   {accent:"an emerald-teal with gold highlights", domain:"Web3 platform", flow:"Landing → Connect Wallet → Portfolio → Swap → Transactions", screens:FIG_WEB3},
+  "WordPress/Shopify": {accent:"a warm coral and deep navy", domain:"e-commerce store", flow:"Home → Product Listing → Product Detail → Cart & Checkout → Account", screens:FIG_SHOP},
+  "Data Science":      {accent:"a blue-teal and deep slate", domain:"data analytics platform", flow:"Landing → Dashboard → Data Explorer → Insights → Settings", screens:FIG_DATA}
 };
+
+// Extract key feature keywords from job description
+function extractJobFeatures(desc){
+  if(!desc) return [];
+  var keywords = [
+    'payment','stripe','subscription','auth','login','signup','dashboard','chart','analytics',
+    'map','calendar','booking','chat','messaging','notification','search','filter','upload',
+    'video','audio','profile','admin','role','permission','api','integration','export','import',
+    'real-time','realtime','live','websocket','multi-tenant','saas','mobile','responsive',
+    'dark mode','theme','onboarding','wizard','kanban','table','report','invoice','email',
+    'social','feed','comment','like','share','follow','review','rating','wishlist','cart',
+    'checkout','wallet','blockchain','nft','token','swap','ai','chatbot','automation','workflow',
+    'drag','drop','editor','rich text','markdown','gallery','portfolio','landing','pricing'
+  ];
+  var found = [];
+  var lower = desc.toLowerCase();
+  keywords.forEach(function(k){ if(lower.indexOf(k) !== -1 && found.indexOf(k) === -1) found.push(k); });
+  return found.slice(0, 12);
+}
 
 function genFigma(){
   var title = gv('jobTitle') || 'Untitled Platform';
   var cat   = gv('category') || 'Other';
-  var desc  = gv('jobDesc') || '';
+  var desc  = gv('jobDesc')  || '';
+  var bud   = gv('budget')   || '';
+  var tl    = gv('timeline') || '';
   var s = FIG_SETS[cat] || FIG_SETS['Other'];
-  var shortDesc = desc ? (desc.length > 260 ? desc.slice(0,260).trim() + '...' : desc.trim()) : '(briefly describe what the platform does here)';
+  var shortDesc = desc ? (desc.length > 320 ? desc.slice(0,320).trim()+'...' : desc.trim()) : '(paste job description for fully customised output)';
+  var features = extractJobFeatures(desc);
   var L = [];
-  L.push('====================================================');
-  L.push('  FIGMA MAKE - DESIGN PROMPTS');
-  L.push('  Platform: ' + title);
-  L.push('  Type: ' + cat + (s.domain ? (' (' + s.domain + ')') : ''));
-  L.push('====================================================');
+  L.push('╔══════════════════════════════════════════════════════╗');
+  L.push('║        FIGMA MAKE — AI DESIGN PROMPTS                ║');
+  L.push('║  Platform : ' + (title).slice(0,42) + '║');
+  L.push('║  Type     : ' + (cat).slice(0,42) + '║');
+  if(bud) L.push('║  Budget   : ' + (bud).slice(0,42) + '║');
+  if(tl)  L.push('║  Timeline : ' + (tl).slice(0,42) + '║');
+  L.push('╚══════════════════════════════════════════════════════╝');
   L.push('');
-  L.push('HOW TO USE: Open Figma Make. Paste STEP 0 first to lock the style, then paste each SCREEN prompt one at a time (or paste everything for a full multi-screen flow). Finish with the PROTOTYPE prompt to make it clickable for the client.');
+  L.push('HOW TO USE');
+  L.push('──────────');
+  L.push('1. Open figma.com/make in your browser');
+  L.push('2. Paste STEP 0 first — locks the visual identity for all screens');
+  L.push('3. Paste each SCREEN prompt one at a time — OR paste all for a full flow');
+  L.push('4. Paste the PROTOTYPE prompt last to make it clickable for the client');
+  L.push('5. On any screen add: "make it more premium and more animated" to push quality');
   L.push('');
-  L.push('----------------------------------------------------');
-  L.push('STEP 0 - DESIGN SYSTEM & STYLE   (paste first)');
-  L.push('----------------------------------------------------');
-  L.push('Create a modern, premium design system for "' + title + '", a ' + (s.domain || 'software') + ' platform.');
-  L.push('What it does: ' + shortDesc);
-  L.push('Style: clean and spacious, with ' + s.accent + ' accent on a neutral base, soft layered shadows, 14-16px rounded corners, generous whitespace, crisp icons, and a clear type scale (large bold display headings, comfortable readable body). Provide BOTH light and dark themes.');
-  L.push('Reusable components: primary / secondary / ghost buttons, inputs and dropdowns, cards, top nav, sidebar, tabs, badges and chips, tooltips, modals, data tables, and chart styles.');
-  L.push('Overall feel: polished, trustworthy and high-effort -- like a well-funded product, not a template.');
+  L.push('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  L.push('STEP 0 — DESIGN SYSTEM & VISUAL IDENTITY  (paste first)');
+  L.push('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  L.push('');
+  L.push('Create a complete, production-ready design system for "'+title+'", a '+s.domain+'.');
+  L.push('');
+  L.push('WHAT IT DOES:');
+  L.push(shortDesc);
+  L.push('');
+  if(features.length > 0){
+    L.push('KEY FEATURES FROM JOB:');
+    features.forEach(function(f){ L.push('• '+f.charAt(0).toUpperCase()+f.slice(1)); });
+    L.push('');
+  }
+  L.push('VISUAL STYLE:');
+  L.push('• Color: '+s.accent+' accent palette. Primary surface: deep #0D0D12 dark. Secondary: frosted-glass cards (backdrop-filter:blur(20px), bg:rgba(255,255,255,0.05)).');
+  L.push('• 3D & Depth: every interactive element feels physical. Cards: multi-layer box-shadow (0 1px 0 rgba(255,255,255,0.08) inset top highlight + 0 20px 60px rgba(0,0,0,0.5) drop shadow). Buttons: 3D press-depth (translateY + bottom-shadow shrinks on active). Hero elements tilt with mouse-move using CSS perspective(1200px).');
+  L.push('• Typography: large bold display headings (700-900 weight), comfortable body, JetBrains Mono for data/code.');
+  L.push('• Spacing: generous — 24/32/48/64px grid. Cards: 20-28px padding, 16px border-radius minimum.');
+  L.push('• Provide BOTH dark mode (primary) and light mode, fully polished.');
+  L.push('');
+  L.push('REQUIRED COMPONENTS (build all):');
+  L.push('• Buttons: Primary/Secondary/Ghost/Destructive — each with hover, active 3D-press, loading spinner-morph, success checkmark-morph states');
+  L.push('• Inputs/Textareas/Dropdowns — focus glow ring, error shake animation');
+  L.push('• Cards: flat, elevated, glass, interactive (lifts on hover with glow)');
+  L.push('• Nav: top navbar (blur backdrop), collapsible sidebar (icon+label, active glow), breadcrumbs');
+  L.push('• Tabs, Modals (spring slide-in + backdrop blur), Bottom sheets, Toasts (slide from top-right)');
+  L.push('• Badges, Status pills (pulsing dot for live/active), Progress bars (animated fill), Skeleton loaders');
+  L.push('• Data table (sortable, hover rows, row actions, pagination), Charts (line/bar/donut — all animated)');
+  L.push('');
+  L.push('ANIMATION LANGUAGE (apply consistently to ALL screens):');
+  L.push('• Page load: elements stagger-fade and slide up (translateY 16px→0, opacity 0→1), 60-80ms delay between items, cubic-bezier(0.22,1,0.36,1)');
+  L.push('• Hover: cards translateY(-4px) + box-shadow deepens + radial glow behind card');
+  L.push('• 3D tilt: interactive cards respond to mouse position rotateX/rotateY (max ±6deg), CSS perspective(800px)');
+  L.push('• Numbers: count-up animation with spring easing when entering viewport');
+  L.push('• Charts: draw-in animation (SVG stroke-dashoffset or bar height from 0)');
+  L.push('• Buttons: 3D press (translateY(2px) + shadow shrinks on :active)');
+  L.push('• Shimmer sweep: skeleton loaders and idle hero elements have moving highlight');
+  L.push('• Cursor glow: soft radial gradient follows cursor on hero and card sections');
+  L.push('• Micro-interactions: checkbox draws in, toggles spring, copy button flashes green');
   L.push('');
   s.screens.forEach(function(sc, i){
-    L.push('----------------------------------------------------');
-    L.push('SCREEN ' + (i+1) + ' - ' + sc[0]);
-    L.push('----------------------------------------------------');
+    L.push('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    L.push('SCREEN '+(i+1)+' — '+sc[0].toUpperCase());
+    L.push('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    L.push('');
+    L.push('Platform: "'+title+'" | Type: '+s.domain);
+    if(features.length > 0 && i < 2) L.push('Incorporate: '+features.slice(0,5).join(', '));
+    L.push('');
     L.push(sc[1]);
     L.push('');
+    L.push('Design both DESKTOP (1440px) and MOBILE (390px). Apply STEP 0 design system throughout.');
+    L.push('');
   });
-  L.push('----------------------------------------------------');
-  L.push('GLOBAL ANIMATIONS & POLISH   (apply to every screen)');
-  L.push('----------------------------------------------------');
-  L.push('- Staggered entrance: elements fade and slide up on load, about 70ms apart');
-  L.push('- Hover/active states everywhere: cards lift with a soft glow, buttons press');
-  L.push('- Animated data: numbers count up, charts draw in, progress bars fill');
-  L.push('- Loading skeletons and friendly empty states');
-  L.push('- Smooth transitions between screens (smart-animate)');
-  L.push('- Subtle gradient/glow accents and light glassmorphism on key surfaces');
-  L.push('- Fully responsive: design BOTH desktop and mobile versions');
+  if(features.length > 0){
+    var extraScreens = [];
+    if(features.indexOf('payment') !== -1 || features.indexOf('stripe') !== -1)
+      extraScreens.push(['Payment Screen','Design a payment screen: floating-label card inputs, a live 3D card-flip preview that updates as the user types. Payment button: 3D press effect, morphs to spinner, then checkmark with green glow. Trust badges row. Error state: red glow + field shake animation.']);
+    if(features.indexOf('chat') !== -1 || features.indexOf('messaging') !== -1)
+      extraScreens.push(['Real-time Chat','Chat screen: contact list left (online dot pulses), message thread right with frosted-glass bubbles, typing indicator (animated dots), streaming message reveal. Input bar: emoji picker, attach, send button morphs on send. Unread badge animates in.']);
+    if(features.indexOf('kanban') !== -1 || features.indexOf('drag') !== -1)
+      extraScreens.push(['Kanban Board','Kanban: frosted-glass column panels, task cards with priority color, avatar, progress bar. Dragging lifts card (scale 1.04, deep shadow, slight rotation), ghost placeholder appears. Drop snaps with spring. Inline add-card form.']);
+    if(features.indexOf('calendar') !== -1 || features.indexOf('booking') !== -1)
+      extraScreens.push(['Calendar / Booking','Calendar: month grid with event dots, hover-expand cards. Clicking date opens time-slot picker (slides in). Booking confirmation: modal with confetti burst + checkmark draw animation.']);
+    if(features.indexOf('map') !== -1)
+      extraScreens.push(['Map View','Full-bleed dark-mode map, floating blur-backdrop card panels. Map pins: drop-in animation + glow-pulse. Selected pin expands to rich info card. Bottom sheet slides up on mobile.']);
+    if(extraScreens.length > 0){
+      L.push('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      L.push('BONUS SCREENS — BASED ON YOUR JOB FEATURES');
+      L.push('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      L.push('');
+      extraScreens.forEach(function(sc, i){
+        L.push('BONUS '+(i+1)+' — '+sc[0].toUpperCase());
+        L.push('');
+        L.push('Platform: "'+title+'" | Apply STEP 0 design system.');
+        L.push(sc[1]);
+        L.push('Design DESKTOP (1440px) and MOBILE (390px).');
+        L.push('');
+      });
+    }
+  }
+  L.push('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  L.push('GLOBAL 3D POLISH & ANIMATION CHECKLIST');
+  L.push('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
   L.push('');
-  L.push('----------------------------------------------------');
-  L.push('PROTOTYPE / FLOW   (paste last)');
-  L.push('----------------------------------------------------');
-  L.push('Connect the screens into an interactive prototype: ' + s.flow + ', using smart-animate transitions, so I can show the client a clickable demo.');
+  L.push('3D DEPTH LAYERS:');
+  L.push('• BG: dark base with animated gradient mesh / dot-grid moving softly');
+  L.push('• MID: frosted-glass cards floating above, casting soft shadows');
+  L.push('• FG: buttons, tooltips, modals — highest elevation');
+  L.push('• Every card: top-edge highlight (1px rgba(255,255,255,0.10)) + deep drop shadow + hover accent glow');
   L.push('');
-  L.push('TIP: On any screen you can add "make it look more premium and more animated" to push the quality even higher.');
+  L.push('ANIMATION CHECKLIST:');
+  L.push('☑ Staggered page entrance — nothing appears all at once');
+  L.push('☑ Hover lift + glow on every interactive card');
+  L.push('☑ 3D mouse-tilt on hero and feature cards (CSS perspective)');
+  L.push('☑ All numbers count-up when entering viewport');
+  L.push('☑ All charts animate in (draw-in lines, grow-up bars)');
+  L.push('☑ Cursor glow on hero/card areas');
+  L.push('☑ Button 3D press on :active');
+  L.push('☑ Skeleton shimmer loaders');
+  L.push('☑ Modal/drawer spring entrance + backdrop blur');
+  L.push('☑ Form validation: inline error shake + success glow');
+  L.push('☑ Smooth screen-to-screen smart-animate transitions');
+  L.push('');
+  L.push('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  L.push('INTERACTIVE PROTOTYPE  (paste last)');
+  L.push('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  L.push('');
+  L.push('Connect all screens into a fully interactive prototype for "'+title+'".');
+  L.push('User flow: '+s.flow);
+  L.push('');
+  L.push('Requirements: Figma Smart Animate transitions (400ms ease), nav links work, CTAs trigger next step,');
+  L.push('modals open/close, forms submit to confirmation, back buttons work.');
+  L.push('Result must be presentable to the client as a complete clickable demo.');
+  L.push('');
+  L.push('UPGRADE TIP: paste on any screen →');
+  L.push('"Make this more premium: deepen 3D depth, add micro-animations, bolder typography, world-class visual quality."');
   var out = L.join('\n');
-
   var fe = document.getElementById('figmaEditor');
-  if (fe) { fe.removeAttribute('readonly'); fe.value = out; fe.setAttribute('readonly',''); }
+  if(fe){ fe.removeAttribute('readonly'); fe.value = out; fe.setAttribute('readonly',''); }
   navigator.clipboard.writeText(out).catch(function(){});
   document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('on'); });
   document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('on'); });
-  var tb = document.getElementById('t-figma'); if (tb) tb.classList.add('on');
-  var pf = document.getElementById('p-figma'); if (pf) pf.classList.add('on');
+  var tb = document.getElementById('t-figma'); if(tb) tb.classList.add('on');
+  var pf = document.getElementById('p-figma'); if(pf) pf.classList.add('on');
   curTab = 'figma';
   updateStats();
-  flash('Figma Make prompts ready -- copied to clipboard!');
+  flash('Figma prompts ready — '+s.screens.length+' screens'+(features.length?' + bonus screens':'')+'!');
 }
 
 
