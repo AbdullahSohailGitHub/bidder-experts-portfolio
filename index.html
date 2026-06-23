@@ -476,13 +476,6 @@
   .pay-cta-btn:hover { transform:translateY(-2px); box-shadow:0 12px 32px rgba(184,255,60,0.45); }
   .pay-cta-btn svg { width:18px; height:18px; }
 
-  #pay-overlay { position:fixed; inset:0; z-index:9995; background:rgba(5,8,5,0.74); backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; padding:20px; opacity:0; transition:opacity .25s ease; overflow-y:auto; }
-  #pay-overlay[hidden] { display:none; }
-  #pay-overlay.open { opacity:1; }
-  #pay-modal { width:100%; max-width:540px; background:#0C110C; border:1px solid rgba(184,255,60,0.25); border-radius:22px; padding:26px 26px 22px; box-shadow:0 30px 90px rgba(0,0,0,0.8); position:relative; transform:scale(0.92) translateY(14px); transition:transform .32s cubic-bezier(0.34,1.56,0.64,1); margin:auto; }
-  #pay-overlay.open #pay-modal { transform:scale(1) translateY(0); }
-  .pay-close { position:absolute; top:16px; right:18px; width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,0.04); border:1px solid var(--border); color:var(--muted); font-size:20px; line-height:1; cursor:pointer; transition:all .25s; display:flex; align-items:center; justify-content:center; z-index:5; }
-  .pay-close:hover { color:var(--lime); border-color:rgba(184,255,60,0.4); transform:rotate(90deg); }
   .pay-title { display:flex; align-items:center; gap:9px; font-family:'Syne',sans-serif; font-size:19px; font-weight:800; color:var(--white); margin-bottom:5px; }
   .pay-title svg { width:20px; height:20px; color:var(--lime); }
   .pay-sub { font-size:12.5px; color:var(--muted); line-height:1.5; margin-bottom:16px; }
@@ -571,19 +564,10 @@
 
   /* entrance + reduced motion */
   @keyframes payCardIn { from{ opacity:0; transform:translateY(14px); } to{ opacity:1; transform:translateY(0); } }
-  #pay-overlay.open .pay-list .pay-mcard { animation:payCardIn .4s ease backwards; }
-  #pay-overlay.open .pay-grid .pay-mcard:nth-child(1){ animation-delay:.05s; }
-  #pay-overlay.open .pay-grid .pay-mcard:nth-child(2){ animation-delay:.10s; }
-  #pay-overlay.open .pay-grid .pay-mcard:nth-child(3){ animation-delay:.15s; }
-  #pay-overlay.open .pay-grid .pay-mcard:nth-child(4){ animation-delay:.20s; }
-  #pay-overlay.open .pay-grid .pay-mcard:nth-child(5){ animation-delay:.25s; }
   @media (prefers-reduced-motion: reduce) {
-    .pay-cta-box::before, .pay-mcard::after, #pay-overlay.open .pay-list .pay-mcard, .pay-detail.show { animation:none !important; }
-    .pay-close:hover { transform:none; }
     .pay-mcard:hover .pay-arrow { transform:none; }
   }
   @media (max-width:560px){
-    #pay-modal { padding:22px 18px; }
     .pay-grid { grid-template-columns:1fr; }
     .pay-cta-box { padding:22px; } .pay-cta-btn { width:100%; justify-content:center; }
     .pay-bank-actions { grid-template-columns:1fr; }
@@ -1298,287 +1282,73 @@
   #admin-fab-btn:hover svg { opacity: 1; }
 
   /* Login Overlay */
-  /* ── ADMIN LOGIN — ADVANCED 3D ─────────────────────────── */
   #admin-login {
     position: fixed; inset: 0; z-index: 99990;
+    background: rgba(9,16,10,0.97);
     display: flex; align-items: center; justify-content: center;
-    transition: opacity 0.4s;
-    perspective: 1200px;
-    overflow: hidden;
+    backdrop-filter: blur(20px);
+    transition: opacity 0.3s;
   }
   #admin-login.hidden { opacity: 0; pointer-events: none; }
-
-  /* layered backdrop */
-  .alog-bg {
-    position: absolute; inset: 0;
-    background:
-      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(184,255,60,0.13) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 50% at 100% 100%, rgba(93,202,165,0.08) 0%, transparent 55%),
-      #06090A;
-  }
-  /* animated dot grid */
-  .alog-grid {
-    position: absolute; inset: 0; pointer-events: none;
-    background-image: radial-gradient(rgba(184,255,60,0.18) 1px, transparent 1px);
-    background-size: 32px 32px;
-    -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 30%, transparent 100%);
-    mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 30%, transparent 100%);
-    animation: alog-grid-drift 18s linear infinite;
-  }
-  @keyframes alog-grid-drift {
-    0%   { background-position: 0 0; }
-    100% { background-position: 32px 32px; }
-  }
-  /* floating orbs */
-  .alog-orb {
-    position: absolute; border-radius: 50%; filter: blur(72px); pointer-events: none;
-    animation: alog-orb-float 10s ease-in-out infinite;
-  }
-  .alog-orb1 { width:340px; height:340px; background:rgba(184,255,60,0.22); top:-120px; left:-80px; animation-duration:12s; }
-  .alog-orb2 { width:280px; height:280px; background:rgba(93,202,165,0.18); bottom:-80px; right:-60px; animation-duration:9s; animation-direction:reverse; }
-  .alog-orb3 { width:180px; height:180px; background:rgba(184,255,60,0.10); top:40%; right:8%; animation-duration:15s; animation-delay:-4s; }
-  @keyframes alog-orb-float {
-    0%,100% { transform: translate(0,0) scale(1); }
-    50%      { transform: translate(20px,-28px) scale(1.07); }
-  }
-  /* scan line */
-  .alog-scan {
-    position: absolute; inset: 0; pointer-events: none; overflow: hidden;
-  }
-  .alog-scan::after {
-    content: '';
-    position: absolute; left: 0; right: 0; height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(184,255,60,0.35), transparent);
-    animation: alog-scan-move 5s linear infinite;
-    top: -2px;
-  }
-  @keyframes alog-scan-move { 0%{ top:-2px } 100%{ top:101% } }
-
-  /* 3-D card */
   .admin-login-box {
-    position: relative; z-index: 2;
-    width: 100%; max-width: 400px;
+    background: #111811; border: 1px solid rgba(184,255,60,0.2);
+    border-radius: 20px; padding: 40px 44px;
+    width: 100%; max-width: 380px;
     text-align: center;
-    transform-style: preserve-3d;
-    animation: alog-card-in 0.6s cubic-bezier(0.22,1,0.36,1) both;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.8);
   }
-  @keyframes alog-card-in {
-    from { opacity:0; transform: translateY(30px) rotateX(8deg); }
-    to   { opacity:1; transform: translateY(0) rotateX(0); }
-  }
-  /* depth shadow layers behind card */
-  .admin-login-box::before,
-  .admin-login-box::after {
-    content: '';
-    position: absolute; inset: 0;
-    border-radius: 24px;
-    pointer-events: none;
-  }
-  .admin-login-box::before {
-    transform: translateY(6px) translateZ(-10px) scale(0.97);
-    background: rgba(184,255,60,0.08);
-    border: 1px solid rgba(184,255,60,0.12);
-    filter: blur(2px);
-  }
-  .admin-login-box::after {
-    transform: translateY(14px) translateZ(-20px) scale(0.93);
-    background: rgba(184,255,60,0.04);
-    filter: blur(6px);
-  }
-  /* card face */
-  .alog-face {
-    position: relative; z-index: 1;
-    background: linear-gradient(160deg, #141d14 0%, #0d140d 100%);
-    border: 1px solid rgba(184,255,60,0.22);
-    border-radius: 24px;
-    padding: 38px 40px 32px;
-    box-shadow:
-      0 0 0 1px rgba(184,255,60,0.06) inset,
-      0 40px 80px -20px rgba(0,0,0,0.9),
-      0 0 60px -20px rgba(184,255,60,0.12);
-  }
-  /* top accent bar */
-  .alog-face::before {
-    content: '';
-    position: absolute; top: 0; left: 20%; right: 20%; height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(184,255,60,0.7), transparent);
-    border-radius: 0 0 4px 4px;
-  }
-
-  /* logo */
   .admin-login-icon {
-    width: 64px; height: 64px; border-radius: 18px;
-    background: linear-gradient(145deg, rgba(184,255,60,0.22), rgba(184,255,60,0.06));
-    border: 1px solid rgba(184,255,60,0.35);
-    box-shadow: 0 0 28px -6px rgba(184,255,60,0.5), inset 0 1px 0 rgba(255,255,255,0.12);
+    width: 56px; height: 56px; border-radius: 16px;
+    background: rgba(184,255,60,0.1); border: 1px solid rgba(184,255,60,0.3);
     display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 18px; font-family: 'Syne',sans-serif;
-    font-size: 22px; font-weight: 800; color: var(--lime);
-    animation: alog-icon-pulse 3s ease-in-out infinite;
+    margin: 0 auto 20px; font-family: 'Syne',sans-serif;
+    font-size: 20px; font-weight: 800; color: var(--lime);
   }
-  @keyframes alog-icon-pulse {
-    0%,100% { box-shadow: 0 0 28px -6px rgba(184,255,60,0.5), inset 0 1px 0 rgba(255,255,255,0.12); }
-    50%      { box-shadow: 0 0 44px -4px rgba(184,255,60,0.75), inset 0 1px 0 rgba(255,255,255,0.15); }
-  }
-
   .admin-login-title {
-    font-family: 'Syne',sans-serif; font-size: 26px; font-weight: 800; letter-spacing: -0.5px;
-    color: var(--white); margin-bottom: 5px;
+    font-family: 'Syne',sans-serif; font-size: 20px; font-weight: 800;
+    color: var(--white); margin-bottom: 6px;
   }
-  .admin-login-sub {
-    font-size: 12px; color: var(--muted); margin-bottom: 6px; letter-spacing: 0.3px;
+  .admin-login-sub { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+  .admin-pw-wrap {
+    position: relative; margin-bottom: 16px;
   }
-
-  /* security badges row */
-  .alog-badges {
-    display: flex; align-items: center; justify-content: center; gap: 6px;
-    margin-bottom: 26px;
-  }
-  .alog-badge {
-    display: flex; align-items: center; gap: 4px;
-    font-size: 9px; font-weight: 700; font-family: 'Syne',sans-serif;
-    text-transform: uppercase; letter-spacing: 0.8px;
-    padding: 3px 8px; border-radius: 20px;
-    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
-    color: var(--muted);
-  }
-  .alog-badge.green {
-    background: rgba(184,255,60,0.08); border-color: rgba(184,255,60,0.22);
-    color: var(--lime);
-  }
-  .alog-badge-dot {
-    width: 5px; height: 5px; border-radius: 50%; background: currentColor;
-    box-shadow: 0 0 6px currentColor; animation: alog-dot-blink 2s ease-in-out infinite;
-  }
-  @keyframes alog-dot-blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
-  /* inputs */
-  .admin-pw-wrap { position: relative; margin-bottom: 12px; }
-  .alog-input-icon {
-    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
-    color: rgba(255,255,255,0.2); pointer-events: none; transition: color 0.2s;
-  }
-  .admin-pw-wrap:focus-within .alog-input-icon { color: var(--lime); }
   .admin-pw-input {
-    width: 100%; padding: 13px 44px 13px 42px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.09);
-    border-bottom: 2px solid rgba(255,255,255,0.09);
+    width: 100%; padding: 13px 44px 13px 16px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
     border-radius: 12px; color: var(--white);
     font-family: 'DM Sans',sans-serif; font-size: 14px;
     outline: none; box-sizing: border-box;
-    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    transition: border-color 0.2s;
   }
-  .admin-pw-input:focus {
-    background: rgba(184,255,60,0.05);
-    border-color: rgba(184,255,60,0.35);
-    border-bottom-color: rgba(184,255,60,0.6);
-    box-shadow: 0 4px 20px -8px rgba(184,255,60,0.3), 0 0 0 3px rgba(184,255,60,0.07);
-  }
-  .admin-pw-input::placeholder { color: rgba(255,255,255,0.18); }
+  .admin-pw-input:focus { border-color: rgba(184,255,60,0.4); }
   .admin-pw-toggle {
     position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
-    background: none; border: none; cursor: pointer; color: rgba(255,255,255,0.25);
+    background: none; border: none; cursor: pointer; color: var(--muted);
     padding: 4px; transition: color 0.2s;
   }
   .admin-pw-toggle:hover { color: var(--lime); }
-
-  /* 3-D unlock button */
   .admin-login-btn {
-    width: 100%; padding: 0;
-    background: none; border: none; cursor: pointer;
-    margin-bottom: 14px; margin-top: 6px;
-    -webkit-tap-highlight-color: transparent;
+    width: 100%; padding: 13px;
+    background: var(--lime); color: #0A0E0A;
+    font-family: 'Syne',sans-serif; font-size: 14px; font-weight: 800;
+    border: none; border-radius: 12px; cursor: pointer;
+    transition: all 0.2s; margin-bottom: 12px;
   }
-  .alog-btn-inner {
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    width: 100%; padding: 14px 20px;
-    background: linear-gradient(145deg, #CCFF5C, #93E223);
-    color: #07100A;
-    font-family: 'Syne',sans-serif; font-size: 14px; font-weight: 800; letter-spacing: 0.3px;
-    border-radius: 13px;
-    /* 3D effect: top highlight + bottom shadow border */
-    box-shadow:
-      0 1px 0 rgba(255,255,255,0.45) inset,
-      0 -1px 0 rgba(0,0,0,0.2) inset,
-      0 6px 0 #5a8a12,
-      0 8px 16px -4px rgba(147,226,35,0.5),
-      0 2px 40px -10px rgba(184,255,60,0.6);
-    transform: translateY(0);
-    transition: transform 0.1s, box-shadow 0.1s, filter 0.15s;
-    position: relative; overflow: hidden;
-  }
-  /* shimmer sweep */
-  .alog-btn-inner::after {
-    content: '';
-    position: absolute; top: 0; left: -75%;
-    width: 50%; height: 100%;
-    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
-    transform: skewX(-20deg);
-    transition: left 0.5s;
-  }
-  .admin-login-btn:hover .alog-btn-inner::after { left: 150%; }
-  .admin-login-btn:hover .alog-btn-inner {
-    filter: brightness(1.08);
-    box-shadow:
-      0 1px 0 rgba(255,255,255,0.5) inset,
-      0 -1px 0 rgba(0,0,0,0.2) inset,
-      0 6px 0 #5a8a12,
-      0 12px 24px -4px rgba(147,226,35,0.65),
-      0 2px 50px -8px rgba(184,255,60,0.75);
-  }
-  .admin-login-btn:active .alog-btn-inner {
-    transform: translateY(4px);
-    box-shadow:
-      0 1px 0 rgba(255,255,255,0.3) inset,
-      0 -1px 0 rgba(0,0,0,0.2) inset,
-      0 2px 0 #5a8a12,
-      0 4px 10px -4px rgba(147,226,35,0.4);
-  }
-
-  /* divider */
-  .alog-divider {
-    display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
-  }
-  .alog-divider::before, .alog-divider::after {
-    content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.07);
-  }
-  .alog-divider span { font-size: 9px; color: rgba(255,255,255,0.2); font-family: 'JetBrains Mono',monospace; letter-spacing: 1px; }
-
-  /* bottom action row */
-  .alog-actions {
-    display: flex; align-items: center; justify-content: space-between; gap: 8px;
-  }
-  .admin-forgot-btn {
-    font-size: 11px; color: var(--muted); cursor: pointer;
-    background: none; border: none; font-family: 'DM Sans',sans-serif;
-    transition: color 0.2s; padding: 0;
-  }
-  .admin-forgot-btn:hover { color: var(--lime); }
-  .admin-close-login {
-    font-size: 11px; color: rgba(255,255,255,0.2); cursor: pointer;
-    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 7px; padding: 5px 12px;
-    font-family: 'DM Sans',sans-serif; transition: all 0.2s;
-  }
-  .admin-close-login:hover { color: var(--white); border-color: rgba(255,255,255,0.15); }
-
+  .admin-login-btn:hover { background: #9fe030; }
+  .admin-login-btn:active { transform: scale(0.98); }
   .admin-error {
     font-size: 12px; color: #FF5C5C;
-    background: rgba(255,92,92,0.08); border: 1px solid rgba(255,92,92,0.2);
-    border-radius: 9px; padding: 9px 13px; margin-bottom: 10px;
-    display: none; text-align: left;
-    animation: alog-shake 0.35s ease;
+    background: rgba(255,92,92,0.1); border: 1px solid rgba(255,92,92,0.2);
+    border-radius: 8px; padding: 8px 12px; margin-top: 8px;
+    display: none;
   }
-  @keyframes alog-shake {
-    0%,100%{transform:translateX(0)} 20%{transform:translateX(-5px)} 60%{transform:translateX(5px)} 80%{transform:translateX(-3px)}
+  .admin-close-login {
+    font-size: 12px; color: var(--muted); cursor: pointer;
+    background: none; border: none; margin-top: 4px;
+    transition: color 0.2s;
   }
-
-  /* responsive */
-  @media (max-width: 480px) {
-    .alog-face { padding: 28px 22px 24px; border-radius: 18px; }
-    .admin-login-title { font-size: 22px; }
-  }
+  .admin-close-login:hover { color: var(--white); }
 
   /* Admin Panel */
   #admin-panel {
@@ -1664,9 +1434,9 @@
 
   /* -- ADMIN LOGIN BOX -- */
   @media (max-width: 480px) {
-    .alog-face { padding: 28px 20px 22px; border-radius: 18px; }
-    .admin-login-title { font-size: 20px; }
-    .admin-login-sub { font-size: 12px; }
+    .admin-login-box { padding: 28px 20px; border-radius: 16px; }
+    .admin-login-title { font-size: 17px; }
+    .admin-login-sub { font-size: 12px; margin-bottom: 20px; }
   }
 
   /* -- ADMIN PANEL TOPBAR -- */
@@ -4071,147 +3841,14 @@
         <span class="pay-cta-badge">Western Union</span>
       </div>
     </div>
-    <button class="pay-cta-btn" onclick="openPayModal()">
+    <a class="pay-cta-btn" href="/payments.html">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
       View Payment Options
-    </button>
+    </a>
   </div>
 </div>
 
 <!-- ADVANCED MULTI-METHOD PAYMENT MODAL -->
-<div id="pay-overlay" hidden>
-  <div id="pay-modal">
-    <button class="pay-close" onclick="closePayModal()" aria-label="Close">&times;</button>
-    <div class="pay-title">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
-      Choose a payment method
-    </div>
-    <div class="pay-sub">All transfers go to Bidder Experts (Muhammad Abdullah Sohail). Pick a method to see step-by-step details.</div>
-
-    <!-- CHOOSER VIEW -->
-    <div class="pay-list" id="pay-list">
-      <div class="pay-geo-label">Where are you paying from? <span style="opacity:.7;">(optional — we’ll recommend the best options)</span></div>
-      <div class="pay-geo" id="payGeo">
-        <button class="pay-geo-btn" data-geo="us"    onclick="payGeo('us',this)">🇺🇸 USA</button>
-        <button class="pay-geo-btn" data-geo="uk"    onclick="payGeo('uk',this)">🇬🇧 UK</button>
-        <button class="pay-geo-btn" data-geo="uae"   onclick="payGeo('uae',this)">🇦🇪 UAE</button>
-        <button class="pay-geo-btn" data-geo="ca"    onclick="payGeo('ca',this)">🇨🇦 Canada</button>
-        <button class="pay-geo-btn" data-geo="pk"    onclick="payGeo('pk',this)">🇵🇰 Pakistan</button>
-        <button class="pay-geo-btn" data-geo="other" onclick="payGeo('other',this)">🌍 Other</button>
-      </div>
-
-      <div class="pay-cat">💳 International</div>
-      <div class="pay-grid">
-        <button class="pay-mcard" data-id="payoneer" style="--m:#FF7A00;--mbg:rgba(255,122,0,0.14);--mbd:rgba(255,122,0,0.30);--mgl:rgba(255,122,0,0.45)" onclick="paySelect('payoneer')">
-          <span class="pay-mico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18"/></svg></span>
-          <span class="pay-minfo">
-            <span class="pay-mname">Payoneer</span>
-            <span class="pay-mtag">US · UK · EU · CA · UAE</span>
-            <span class="pay-meta-row"><span class="pay-eta">≈ 2 hours</span><span class="pay-rec-badge">★ Recommended</span></span>
-          </span>
-          <span class="pay-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
-        </button>
-        <button class="pay-mcard" data-id="wise" style="--m:#6FE26F;--mbg:rgba(111,226,111,0.14);--mbd:rgba(111,226,111,0.30);--mgl:rgba(111,226,111,0.45)" onclick="paySelect('wise')">
-          <span class="pay-mico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg></span>
-          <span class="pay-minfo">
-            <span class="pay-mname">Wise</span>
-            <span class="pay-mtag">Low fees · real FX rate</span>
-            <span class="pay-meta-row"><span class="pay-eta">Same day</span><span class="pay-rec-badge">★ Recommended</span></span>
-          </span>
-          <span class="pay-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
-        </button>
-        <button class="pay-mcard" data-id="skrill" style="--m:#A24CC8;--mbg:rgba(162,76,200,0.14);--mbd:rgba(162,76,200,0.30);--mgl:rgba(162,76,200,0.45)" onclick="paySelect('skrill')">
-          <span class="pay-mico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a2 2 0 0 1 2-2h12l3 3v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M17 6V4H6"/><circle cx="16.5" cy="13" r="1.3"/></svg></span>
-          <span class="pay-minfo">
-            <span class="pay-mname">Skrill</span>
-            <span class="pay-mtag">Fast global e-wallet</span>
-            <span class="pay-meta-row"><span class="pay-eta">Instant</span><span class="pay-rec-badge">★ Recommended</span></span>
-          </span>
-          <span class="pay-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
-        </button>
-        <button class="pay-mcard" data-id="bankintl" style="--m:#4DA8FF;--mbg:rgba(77,168,255,0.14);--mbd:rgba(77,168,255,0.30);--mgl:rgba(77,168,255,0.45)" onclick="paySelect('bankintl')">
-          <span class="pay-mico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V10M9 21V10M15 21V10M19 21V10"/><path d="M12 3 21 8H3z"/></svg></span>
-          <span class="pay-minfo">
-            <span class="pay-mname">Bank / SWIFT Wire</span>
-            <span class="pay-mtag">International wire</span>
-            <span class="pay-meta-row"><span class="pay-eta">1–3 days</span><span class="pay-rec-badge">★ Recommended</span></span>
-          </span>
-          <span class="pay-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
-        </button>
-        <button class="pay-mcard" data-id="crypto" style="--m:#26C2A3;--mbg:rgba(38,194,163,0.14);--mbd:rgba(38,194,163,0.30);--mgl:rgba(38,194,163,0.45)" onclick="paySelect('crypto')">
-          <span class="pay-mico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 6.5v11"/><path d="M14.8 9a2.6 2.6 0 0 0-2.8-1.6c-1.5 0-2.7.9-2.7 2.1s1.1 1.8 2.7 2.1 2.8.9 2.8 2.1-1.2 2.1-2.7 2.1A2.6 2.6 0 0 1 9.2 15"/></svg></span>
-          <span class="pay-minfo">
-            <span class="pay-mname">Crypto · USDT</span>
-            <span class="pay-mtag">USDT · Binance Pay</span>
-            <span class="pay-meta-row"><span class="pay-eta">Minutes</span><span class="pay-rec-badge">★ Recommended</span></span>
-          </span>
-          <span class="pay-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
-        </button>
-      </div>
-
-      <div class="pay-cat">🇵🇰 Local · Pakistan</div>
-      <div class="pay-grid">
-        <button class="pay-mcard" data-id="bankloc" style="--m:#B8FF3C;--mbg:rgba(184,255,60,0.14);--mbd:rgba(184,255,60,0.30);--mgl:rgba(184,255,60,0.45)" onclick="paySelect('bankloc')">
-          <span class="pay-mico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V10M9 21V10M15 21V10M19 21V10"/><path d="M12 3 21 8H3z"/></svg></span>
-          <span class="pay-minfo">
-            <span class="pay-mname">Bank Transfer / Raast</span>
-            <span class="pay-mtag">HBL · Alfalah · Meezan · IBFT</span>
-            <span class="pay-meta-row"><span class="pay-eta">Instant (Raast)</span><span class="pay-rec-badge">★ Recommended</span></span>
-          </span>
-          <span class="pay-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
-        </button>
-        <button class="pay-mcard" data-id="jazzcash" style="--m:#FF4D5E;--mbg:rgba(255,77,94,0.14);--mbd:rgba(255,77,94,0.30);--mgl:rgba(255,77,94,0.45)" onclick="paySelect('jazzcash')">
-          <span class="pay-mico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a2 2 0 0 1 2-2h12l3 3v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M17 6V4H6"/><circle cx="16.5" cy="13" r="1.3"/></svg></span>
-          <span class="pay-minfo">
-            <span class="pay-mname">JazzCash</span>
-            <span class="pay-mtag">Mobile wallet</span>
-            <span class="pay-meta-row"><span class="pay-eta">Instant</span><span class="pay-rec-badge">★ Recommended</span></span>
-          </span>
-          <span class="pay-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
-        </button>
-        <button class="pay-mcard" data-id="easypaisa" style="--m:#2ED47A;--mbg:rgba(46,212,122,0.14);--mbd:rgba(46,212,122,0.30);--mgl:rgba(46,212,122,0.45)" onclick="paySelect('easypaisa')">
-          <span class="pay-mico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M10.5 18h3"/></svg></span>
-          <span class="pay-minfo">
-            <span class="pay-mname">Easypaisa</span>
-            <span class="pay-mtag">Mobile wallet</span>
-            <span class="pay-meta-row"><span class="pay-eta">Instant</span><span class="pay-rec-badge">★ Recommended</span></span>
-          </span>
-          <span class="pay-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
-        </button>
-        <button class="pay-mcard" data-id="sadapay" style="--m:#7C6CFF;--mbg:rgba(124,108,255,0.14);--mbd:rgba(124,108,255,0.30);--mgl:rgba(124,108,255,0.45)" onclick="paySelect('sadapay')">
-          <span class="pay-mico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2.5"/><path d="M2 10h20"/><path d="M6 15h4"/></svg></span>
-          <span class="pay-minfo">
-            <span class="pay-mname">SadaPay / NayaPay</span>
-            <span class="pay-mtag">Digital bank · IBAN</span>
-            <span class="pay-meta-row"><span class="pay-eta">Instant (Raast)</span><span class="pay-rec-badge">★ Recommended</span></span>
-          </span>
-          <span class="pay-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
-        </button>
-        <button class="pay-mcard" data-id="wu" style="--m:#FFC83D;--mbg:rgba(255,200,61,0.14);--mbd:rgba(255,200,61,0.30);--mgl:rgba(255,200,61,0.45)" onclick="paySelect('wu')">
-          <span class="pay-mico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M7.5 12h7"/><path d="M12 8.5 15.5 12 12 15.5"/></svg></span>
-          <span class="pay-minfo">
-            <span class="pay-mname">Western Union / Ria</span>
-            <span class="pay-mtag">Cash from any country</span>
-            <span class="pay-meta-row"><span class="pay-eta">Minutes</span><span class="pay-rec-badge">★ Recommended</span></span>
-          </span>
-          <span class="pay-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
-        </button>
-      </div>
-    </div>
-
-    <!-- DETAIL VIEW (rendered by JS) -->
-    <div class="pay-detail" id="pay-detail"></div>
-
-    <div class="pay-trust">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-      All methods are verified &amp; secure &middot; Need help? <a href="https://wa.me/923214900839" target="_blank" rel="noopener">WhatsApp us</a>
-    </div>
-
-    <script id="pay-data" type="application/json">{"methods": [{"id": "payoneer", "name": "Payoneer", "color": "#FF7A00", "icon": "globe", "group": "intl", "tag": "US · UK · EU · CA · UAE", "eta": "≈ 2 hours", "sub": "Best for US, UK, EU, Canada & UAE clients. Funds typically arrive within 2 hours.", "rtype": "email", "action_label": "Open Payoneer →", "action_href": "https://login.payoneer.com/", "steps": ["Sign in to your <strong>Payoneer</strong> account.", "Click <strong>Pay</strong> → <strong>Make a Payment</strong>.", "Paste the email above as recipient, enter the amount, confirm."], "note": "", "bank_rows": [], "mbg": "rgba(255,122,0,0.14)", "mbd": "rgba(255,122,0,0.30)", "mgl": "rgba(255,122,0,0.45)", "svg": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M3 12h18\"/><path d=\"M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18\"/>", "value": "Abdullahsohail63@gmail.com"}, {"id": "wise", "name": "Wise", "color": "#6FE26F", "icon": "send", "group": "intl", "tag": "Low fees · real FX rate", "eta": "Same day", "sub": "Excellent for US, UK & EU clients — low fees, real exchange rates, fast.", "rtype": "email", "action_label": "Open Wise →", "action_href": "https://wise.com/", "steps": ["Sign in (or sign up free) at <strong>wise.com</strong>.", "Click <strong>Send money</strong> → <strong>Email recipient</strong>.", "Paste the email above, enter the amount, confirm."], "note": "New to Wise? It’s free to sign up and takes ~2 minutes.", "bank_rows": [], "mbg": "rgba(111,226,111,0.14)", "mbd": "rgba(111,226,111,0.30)", "mgl": "rgba(111,226,111,0.45)", "svg": "<path d=\"M22 2 11 13\"/><path d=\"M22 2 15 22l-4-9-9-4z\"/>", "value": "Abdullahsohail63@gmail.com"}, {"id": "skrill", "name": "Skrill", "color": "#A24CC8", "icon": "wallet", "group": "intl", "tag": "Fast global e-wallet", "eta": "Instant", "sub": "Works worldwide including Pakistan — instant wallet-to-wallet transfers.", "rtype": "email", "action_label": "Open Skrill →", "action_href": "https://www.skrill.com/", "steps": ["Log in to <strong>Skrill</strong>.", "Choose <strong>Send money</strong> → to an email address.", "Paste the email above, enter the amount, confirm."], "note": "", "bank_rows": [], "mbg": "rgba(162,76,200,0.14)", "mbd": "rgba(162,76,200,0.30)", "mgl": "rgba(162,76,200,0.45)", "svg": "<path d=\"M3 8a2 2 0 0 1 2-2h12l3 3v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/><path d=\"M17 6V4H6\"/><circle cx=\"16.5\" cy=\"13\" r=\"1.3\"/>", "value": "Abdullahsohail63@gmail.com"}, {"id": "bankintl", "name": "Bank / SWIFT Wire", "color": "#4DA8FF", "icon": "bank", "group": "intl", "tag": "International wire", "eta": "1–3 days", "sub": "Direct SWIFT wire transfer from any US, UK, UAE or EU bank to my account in Pakistan.", "rtype": "private", "action_label": "Get IBAN & SWIFT on WhatsApp →", "action_href": "https://wa.me/923214900839?text=Hi%20Abdullah%2C%20I%27d%20like%20to%20send%20an%20INTERNATIONAL%20SWIFT%20wire%20transfer.%20Please%20share%20your%20IBAN%20and%20SWIFT/BIC%20code.", "steps": [], "note": "For your security, full account number, IBAN and SWIFT/BIC code are shared privately. Tap below and I’ll reply within minutes.", "bank_rows": [["Account Holder", "Muhammad Abdullah Sohail"], ["Country", "Pakistan"], ["City", "Lahore"], ["__secure__", "IBAN & SWIFT — shared privately via WhatsApp"]], "mbg": "rgba(77,168,255,0.14)", "mbd": "rgba(77,168,255,0.30)", "mgl": "rgba(77,168,255,0.45)", "svg": "<path d=\"M3 21h18\"/><path d=\"M5 21V10M9 21V10M15 21V10M19 21V10\"/><path d=\"M12 3 21 8H3z\"/>"}, {"id": "crypto", "name": "Crypto · USDT", "color": "#26C2A3", "icon": "coin", "group": "intl", "tag": "USDT · Binance Pay", "eta": "Minutes", "sub": "Pay in stablecoin (USDT) via Binance Pay or on-chain (TRC20 / BEP20). Great for any country, fast and low fee.", "rtype": "private", "action_label": "Get wallet address on WhatsApp →", "action_href": "https://wa.me/923214900839?text=Hi%20Abdullah%2C%20I%27d%20like%20to%20pay%20in%20crypto%20%28USDT%29.%20Please%20share%20your%20wallet%20address%20/%20Binance%20Pay%20ID%20and%20the%20network%20%28TRC20/BEP20%29.", "steps": [], "note": "For your security I’ll share the exact wallet address & network on request — please always confirm it with me before sending.", "bank_rows": [["Receiver", "Muhammad Abdullah Sohail"], ["Asset", "USDT (Tether)"], ["Networks", "TRC20 / BEP20 / Binance Pay"], ["__secure__", "Wallet address — shared privately via WhatsApp"]], "mbg": "rgba(38,194,163,0.14)", "mbd": "rgba(38,194,163,0.30)", "mgl": "rgba(38,194,163,0.45)", "svg": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 6.5v11\"/><path d=\"M14.8 9a2.6 2.6 0 0 0-2.8-1.6c-1.5 0-2.7.9-2.7 2.1s1.1 1.8 2.7 2.1 2.8.9 2.8 2.1-1.2 2.1-2.7 2.1A2.6 2.6 0 0 1 9.2 15\"/>"}, {"id": "bankloc", "name": "Bank Transfer / Raast", "color": "#B8FF3C", "icon": "bank", "group": "local", "tag": "HBL · Alfalah · Meezan · IBFT", "eta": "Instant (Raast)", "sub": "Local Pakistani bank transfer via IBFT / Raast / 1Link from any PK bank or app — instant and free.", "rtype": "private", "action_label": "Get account & IBAN on WhatsApp →", "action_href": "https://wa.me/923214900839?text=Hi%20Abdullah%2C%20I%27d%20like%20to%20send%20a%20LOCAL%20Pakistani%20bank%20transfer%20%28IBFT/Raast%29.%20Please%20share%20your%20bank%20account%20number%20/%20IBAN.", "steps": [], "note": "Full account number & IBAN are shared privately for your security. Tap below to receive them instantly.", "bank_rows": [["Account Holder", "Muhammad Abdullah Sohail"], ["Country", "Pakistan"], ["City", "Lahore"], ["__secure__", "Account # & IBAN — shared privately via WhatsApp"]], "mbg": "rgba(184,255,60,0.14)", "mbd": "rgba(184,255,60,0.30)", "mgl": "rgba(184,255,60,0.45)", "svg": "<path d=\"M3 21h18\"/><path d=\"M5 21V10M9 21V10M15 21V10M19 21V10\"/><path d=\"M12 3 21 8H3z\"/>"}, {"id": "jazzcash", "name": "JazzCash", "color": "#FF4D5E", "icon": "wallet", "group": "local", "tag": "Mobile wallet", "eta": "Instant", "sub": "Send straight to my JazzCash mobile wallet from the JazzCash app, any bank, or a retailer.", "rtype": "private", "action_label": "Get JazzCash number on WhatsApp →", "action_href": "https://wa.me/923214900839?text=Hi%20Abdullah%2C%20I%27d%20like%20to%20send%20money%20to%20your%20JazzCash%20wallet.%20Please%20share%20your%20JazzCash%20account%20number.", "steps": [], "note": "My JazzCash number is shared privately on request for security.", "bank_rows": [["Wallet", "JazzCash"], ["Account Title", "Muhammad Abdullah Sohail"], ["__secure__", "Wallet number — shared privately via WhatsApp"]], "mbg": "rgba(255,77,94,0.14)", "mbd": "rgba(255,77,94,0.30)", "mgl": "rgba(255,77,94,0.45)", "svg": "<path d=\"M3 8a2 2 0 0 1 2-2h12l3 3v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/><path d=\"M17 6V4H6\"/><circle cx=\"16.5\" cy=\"13\" r=\"1.3\"/>"}, {"id": "easypaisa", "name": "Easypaisa", "color": "#2ED47A", "icon": "mobile", "group": "local", "tag": "Mobile wallet", "eta": "Instant", "sub": "Send to my Easypaisa wallet from the Easypaisa app, any bank, or a retailer shop.", "rtype": "private", "action_label": "Get Easypaisa number on WhatsApp →", "action_href": "https://wa.me/923214900839?text=Hi%20Abdullah%2C%20I%27d%20like%20to%20send%20money%20to%20your%20Easypaisa%20wallet.%20Please%20share%20your%20Easypaisa%20account%20number.", "steps": [], "note": "My Easypaisa number is shared privately on request for security.", "bank_rows": [["Wallet", "Easypaisa"], ["Account Title", "Muhammad Abdullah Sohail"], ["__secure__", "Wallet number — shared privately via WhatsApp"]], "mbg": "rgba(46,212,122,0.14)", "mbd": "rgba(46,212,122,0.30)", "mgl": "rgba(46,212,122,0.45)", "svg": "<rect x=\"6\" y=\"2\" width=\"12\" height=\"20\" rx=\"2.5\"/><path d=\"M10.5 18h3\"/>"}, {"id": "sadapay", "name": "SadaPay / NayaPay", "color": "#7C6CFF", "icon": "card", "group": "local", "tag": "Digital bank · IBAN", "eta": "Instant (Raast)", "sub": "Transfer to my SadaPay / NayaPay account via Raast or IBFT using the IBAN.", "rtype": "private", "action_label": "Get IBAN on WhatsApp →", "action_href": "https://wa.me/923214900839?text=Hi%20Abdullah%2C%20I%27d%20like%20to%20send%20to%20your%20SadaPay/NayaPay%20account.%20Please%20share%20your%20IBAN.", "steps": [], "note": "The IBAN is shared privately on request for your security.", "bank_rows": [["Provider", "SadaPay / NayaPay"], ["Account Title", "Muhammad Abdullah Sohail"], ["__secure__", "IBAN — shared privately via WhatsApp"]], "mbg": "rgba(124,108,255,0.14)", "mbd": "rgba(124,108,255,0.30)", "mgl": "rgba(124,108,255,0.45)", "svg": "<rect x=\"2\" y=\"5\" width=\"20\" height=\"14\" rx=\"2.5\"/><path d=\"M2 10h20\"/><path d=\"M6 15h4\"/>"}, {"id": "wu", "name": "Western Union / Ria", "color": "#FFC83D", "icon": "globe_arrow", "group": "local", "tag": "Cash from any country", "eta": "Minutes", "sub": "Quick cash transfer from any country to Pakistan via Western Union, Ria or MoneyGram. Pickup or direct deposit.", "rtype": "private", "action_label": "Get receiver details on WhatsApp →", "action_href": "https://wa.me/923214900839?text=Hi%20Abdullah%2C%20I%27d%20like%20to%20send%20a%20Western%20Union%20/%20Ria%20transfer%20%E2%80%94%20please%20share%20the%20receiver%20phone/CNIC%20details.", "steps": [], "note": "After sending, share the <strong>MTCN tracking code</strong> with me on WhatsApp.", "bank_rows": [["Receiver Name", "Muhammad Abdullah Sohail"], ["Country", "Pakistan"], ["City", "Lahore"], ["__secure__", "Phone / CNIC — shared on request"]], "mbg": "rgba(255,200,61,0.14)", "mbd": "rgba(255,200,61,0.30)", "mgl": "rgba(255,200,61,0.45)", "svg": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M7.5 12h7\"/><path d=\"M12 8.5 15.5 12 12 15.5\"/>"}], "geo": {"us": ["payoneer", "wise", "skrill", "bankintl", "crypto"], "uk": ["payoneer", "wise", "skrill", "bankintl", "crypto"], "uae": ["payoneer", "wise", "bankintl", "crypto", "wu"], "ca": ["payoneer", "wise", "skrill", "bankintl", "crypto"], "pk": ["bankloc", "jazzcash", "easypaisa", "sadapay"], "other": ["payoneer", "wise", "crypto", "wu"]}}</script>
-  </div>
-</div>
-  </div>
-</div>
 
 <div class="divider"></div>
 
@@ -8125,76 +7762,31 @@ function beQuick(topic) {
 
 <!-- ADMIN LOGIN -->
 <div id="admin-login" class="hidden">
-  <!-- background layers -->
-  <div class="alog-bg"></div>
-  <div class="alog-grid"></div>
-  <div class="alog-orb alog-orb1"></div>
-  <div class="alog-orb alog-orb2"></div>
-  <div class="alog-orb alog-orb3"></div>
-  <div class="alog-scan"></div>
-
   <div class="admin-login-box">
-    <div class="alog-face">
-      <!-- logo -->
-      <div class="admin-login-icon">BE</div>
-
-      <div class="admin-login-title">Admin Access</div>
-      <div class="admin-login-sub">Bidder Experts &mdash; Restricted Area</div>
-
-      <!-- security badges -->
-      <div class="alog-badges">
-        <div class="alog-badge green"><span class="alog-badge-dot"></span>Secured</div>
-        <div class="alog-badge"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Encrypted</div>
-        <div class="alog-badge"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>SHA-256</div>
-      </div>
-
-      <!-- username -->
-      <div class="admin-pw-wrap">
-        <span class="alog-input-icon">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        </span>
-        <input class="admin-pw-input" id="admin-user" type="text"
-          placeholder="Username"
-          autocomplete="username"
-          onkeydown="if(event.key==='Enter')document.getElementById('admin-pw').focus()">
-      </div>
-
-      <!-- password -->
-      <div class="admin-pw-wrap">
-        <span class="alog-input-icon">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        </span>
-        <input class="admin-pw-input" id="admin-pw" type="password"
-          placeholder="Password"
-          autocomplete="current-password"
-          onkeydown="if(event.key==='Enter')adminLogin()">
-        <button class="admin-pw-toggle" onclick="adminTogglePw()" tabindex="-1">
-          <svg id="pw-eye" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-        </button>
-      </div>
-
-      <!-- error -->
-      <div class="admin-error" id="admin-error">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;margin-right:6px;vertical-align:middle"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        Incorrect credentials. Please try again.
-      </div>
-
-      <!-- 3D unlock button -->
-      <button class="admin-login-btn" onclick="adminLogin()">
-        <div class="alog-btn-inner">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          Unlock Admin Panel
-        </div>
-      </button>
-
-      <div class="alog-divider"><span>or</span></div>
-
-      <!-- bottom actions -->
-      <div class="alog-actions">
-        <button class="admin-forgot-btn" onclick="adminShowForgot()">Forgot password?</button>
-        <button class="admin-close-login" onclick="adminHideLogin()">&#x2715; Cancel</button>
-      </div>
+    <div class="admin-login-icon">BE</div>
+    <div class="admin-login-title">Admin Access</div>
+    <div class="admin-login-sub">Bidder Experts &mdash; Restricted Area</div>
+    <div class="admin-pw-wrap">
+      <input class="admin-pw-input" id="admin-user" type="text"
+        placeholder="Username"
+        autocomplete="username"
+        onkeydown="if(event.key==='Enter')document.getElementById('admin-pw').focus()">
     </div>
+    <div class="admin-pw-wrap">
+      <input class="admin-pw-input" id="admin-pw" type="password"
+        placeholder="Password"
+        autocomplete="current-password"
+        onkeydown="if(event.key==='Enter')adminLogin()">
+      <button class="admin-pw-toggle" onclick="adminTogglePw()" tabindex="-1">
+        <svg id="pw-eye" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+    </div>
+    <button class="admin-login-btn" onclick="adminLogin()">
+      Unlock Admin Panel
+    </button>
+    <div class="admin-error" id="admin-error">Incorrect password. Please try again.</div>
+    <button class="admin-forgot-btn" onclick="adminShowForgot()">Forgot password?</button>
+    <button class="admin-close-login" onclick="adminHideLogin()">&#x2715; Cancel</button>
   </div>
 
   <!-- FORGOT PASSWORD BOX (hidden by default) -->
@@ -10062,121 +9654,6 @@ async function createAccount() {
     </div>
   </div>
 </div>
-<script>
-/* ===== Advanced multi-method payment ===== */
-(function(){
-  var overlay = document.getElementById('pay-overlay');
-  if (!overlay) return;
-  var DATA = {};
-  try { DATA = JSON.parse(document.getElementById('pay-data').textContent); } catch(e){}
-  var METHODS = {};
-  (DATA.methods||[]).forEach(function(m){ METHODS[m.id]=m; });
-  var GEO = DATA.geo||{};
-  var listEl = document.getElementById('pay-list');
-  var detailEl = document.getElementById('pay-detail');
-  var WA = '923214900839';
-
-  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-  function waLink(text){ return 'https://wa.me/'+WA+'?text='+encodeURIComponent(text); }
-
-  window.openPayModal = function(){
-    overlay.hidden = false;
-    requestAnimationFrame(function(){ overlay.classList.add('open'); });
-  };
-  window.closePayModal = function(){
-    overlay.classList.remove('open');
-    setTimeout(function(){ overlay.hidden = true; payBack(); }, 250);
-  };
-  overlay.addEventListener('click', function(e){ if (e.target === overlay) window.closePayModal(); });
-  document.addEventListener('keydown', function(e){
-    if (e.key === 'Escape' && !overlay.hidden){
-      if (detailEl && detailEl.classList.contains('show')) payBack(); else window.closePayModal();
-    }
-  });
-
-  window.copyPayField = function(elementId, btn){
-    var el = document.getElementById(elementId); if(!el) return;
-    var val = el.textContent.trim();
-    var txt = btn.querySelector('span');
-    function done(){ var old = txt.textContent; txt.textContent='Copied!'; btn.classList.add('copied'); setTimeout(function(){ txt.textContent=old; btn.classList.remove('copied'); },1800); }
-    if (navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(val).then(done).catch(function(){ window.prompt('Copy this:', val); }); }
-    else { window.prompt('Copy this:', val); }
-  };
-
-  window.payGeo = function(geo, btn){
-    var on = !btn.classList.contains('active');
-    document.querySelectorAll('.pay-geo-btn').forEach(function(b){ b.classList.remove('active'); });
-    var rec = on ? (GEO[geo]||[]) : [];
-    if (on) btn.classList.add('active');
-    document.querySelectorAll('.pay-mcard').forEach(function(c){
-      var id = c.getAttribute('data-id');
-      var isRec = rec.indexOf(id) !== -1;
-      c.classList.toggle('rec', on && isRec);
-      c.classList.toggle('dim', on && !isRec);
-    });
-  };
-
-  window.paySelect = function(id){
-    var m = METHODS[id]; if(!m || !detailEl) return;
-    detailEl.style.setProperty('--m', m.color);
-    detailEl.style.setProperty('--mbg', m.mbg);
-    detailEl.style.setProperty('--mbd', m.mbd);
-    detailEl.style.setProperty('--mgl', m.mgl);
-    var h = '';
-    h += '<button class="pay-back" onclick="payBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg> All methods</button>';
-    h += '<div class="pay-dhead"><span class="pay-dico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+m.svg+'</svg></span>';
-    h += '<div><div class="pay-method-title">'+esc(m.name)+'</div><div class="pay-method-sub">'+esc(m.sub)+'</div></div></div>';
-    if (m.rtype === 'email'){
-      h += '<div class="pay-label">Send payment to this email</div>';
-      h += '<div class="pay-email-row"><div class="pay-email" id="payField">'+esc(m.value)+'</div>';
-      h += '<button class="pay-copy" onclick="copyPayField(\'payField\',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Copy</span></button></div>';
-    }
-    if (m.bank_rows && m.bank_rows.length){
-      h += '<div class="pay-bank-card">';
-      m.bank_rows.forEach(function(row){
-        var k=row[0], v=row[1];
-        if (k === '__secure__') h += '<div class="pay-bank-row pay-bank-secure"><span class="pay-bank-k">\uD83D\uDD12 Secure</span><span class="pay-bank-v">'+esc(v)+'</span></div>';
-        else h += '<div class="pay-bank-row"><span class="pay-bank-k">'+esc(k)+'</span><span class="pay-bank-v">'+esc(v)+'</span></div>';
-      });
-      h += '</div>';
-    }
-    if (m.steps && m.steps.length){
-      h += '<div class="pay-steps">';
-      m.steps.forEach(function(s,i){ h += '<div class="pay-step"><span class="pay-step-num">'+(i+1)+'</span><span>'+s+'</span></div>'; });
-      h += '</div>';
-    }
-    if (m.note) h += '<p class="pay-note">'+m.note+'</p>';
-    h += '<a class="pay-go" href="'+m.action_href+'" target="_blank" rel="noopener">'+esc(m.action_label)+'</a>';
-    h += '<div class="pay-amt"><div class="pay-amt-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Tell me the amount (optional)</div>';
-    h += '<div class="pay-amt-row"><input id="payAmtInput" type="number" min="0" inputmode="decimal" placeholder="e.g. 500"><select id="payAmtCur"><option>USD</option><option>GBP</option><option>EUR</option><option>AED</option><option>CAD</option><option>PKR</option></select></div>';
-    h += '<a class="pay-go alt pay-amt-go" href="#" onclick="return payConfirmAmt(\''+m.id+'\')">Confirm &amp; notify me on WhatsApp \u2192</a></div>';
-    detailEl.innerHTML = h;
-    listEl.classList.add('hide');
-    detailEl.classList.remove('show'); void detailEl.offsetWidth; detailEl.classList.add('show');
-    var modal = document.getElementById('pay-modal'); if (modal) modal.scrollTop = 0;
-  };
-
-  window.payBack = function(){
-    if (!detailEl) return;
-    detailEl.classList.remove('show');
-    detailEl.innerHTML = '';
-    if (listEl) listEl.classList.remove('hide');
-  };
-
-  window.payConfirmAmt = function(id){
-    var m = METHODS[id]; if(!m) return false;
-    var amtEl = document.getElementById('payAmtInput');
-    var curEl = document.getElementById('payAmtCur');
-    var amt = amtEl ? amtEl.value : '';
-    var cur = curEl ? curEl.value : '';
-    var msg;
-    if (amt && parseFloat(amt) > 0) msg = "Hi Abdullah, I'd like to pay "+amt+" "+cur+" via "+m.name+". Please confirm the details so I can send it.";
-    else msg = "Hi Abdullah, I'd like to pay via "+m.name+". Please confirm the details.";
-    window.open(waLink(msg), '_blank', 'noopener');
-    return false;
-  };
-})();
-</script>
 <script>
 /* ===== Flip-card transform for project achievement cards ===== */
 (function() {
