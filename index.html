@@ -1284,29 +1284,119 @@
   /* Login Overlay */
   #admin-login {
     position: fixed; inset: 0; z-index: 99990;
-    background: rgba(9,16,10,0.97);
     display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
     backdrop-filter: blur(20px);
     transition: opacity 0.3s;
+    background-color: #09100A;
+    background-image:
+      radial-gradient(620px circle at 12% 8%, rgba(184,255,60,0.15), transparent 60%),
+      radial-gradient(560px circle at 92% 12%, rgba(93,202,165,0.11), transparent 55%),
+      radial-gradient(760px circle at 50% 118%, rgba(184,255,60,0.09), transparent 60%),
+      linear-gradient(rgba(184,255,60,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(184,255,60,0.035) 1px, transparent 1px),
+      rgba(9,16,10,0.97);
+    background-size: 100% 100%, 100% 100%, 100% 100%, 48px 48px, 48px 48px, 100% 100%;
   }
   #admin-login.hidden { opacity: 0; pointer-events: none; }
-  .admin-login-box {
-    background: #111811; border: 1px solid rgba(184,255,60,0.2);
-    border-radius: 20px; padding: 40px 44px;
+  #admin-login .al-orb { position: absolute; border-radius: 50%; filter: blur(90px); pointer-events: none; }
+  #admin-login .al-orb1 { width: 460px; height: 460px; background: radial-gradient(circle,rgba(184,255,60,0.18),transparent 70%); top: -120px; left: -100px; animation: orb 9s ease-in-out infinite alternate; }
+  #admin-login .al-orb2 { width: 420px; height: 420px; background: radial-gradient(circle,rgba(93,202,165,0.14),transparent 70%); bottom: -140px; right: -80px; animation: orb 11s ease-in-out infinite alternate-reverse; }
+  /* Receding 3D grid floor -- vanishing-point horizon beneath the card */
+  #admin-login .al-floor {
+    position: absolute; left: 50%; bottom: -16%; width: 220%; height: 58%;
+    transform: translateX(-50%) perspective(500px) rotateX(78deg);
+    background-image: linear-gradient(rgba(184,255,60,0.16) 1px, transparent 1px), linear-gradient(90deg, rgba(184,255,60,0.16) 1px, transparent 1px);
+    background-size: 42px 42px;
+    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.95), transparent 82%);
+    mask-image: linear-gradient(to top, rgba(0,0,0,0.95), transparent 82%);
+    opacity: 0.55; pointer-events: none;
+  }
+  /* Floating depth-blurred bokeh particles for atmospheric parallax */
+  #admin-login .al-particle { position: absolute; border-radius: 50%; pointer-events: none; background: radial-gradient(circle, rgba(184,255,60,0.9), rgba(184,255,60,0) 70%); animation-name: alDrift; animation-timing-function: ease-in-out; animation-iteration-count: infinite; }
+  @keyframes alDrift { 0%,100%{ transform: translateY(0) scale(1); } 50%{ transform: translateY(-22px) scale(1.1); } }
+  /* Outer wrap holds the spinning rainbow ring glow behind the card */
+  .al-card-wrap { position: relative; }
+  .al-card-wrap::before {
+    content: ''; position: absolute; inset: -3px; border-radius: 24px; z-index: -1;
+    background: conic-gradient(from var(--ring-ang,0deg), rgba(93,202,165,0), #5DCAA5, #B8FF3C, #6CA8FF, #C792EA, rgba(93,202,165,0));
+    opacity: 0; filter: blur(11px); transition: opacity 0.4s;
+  }
+  .al-card-wrap.al-hover::before { opacity: 0.85; animation: statRingSpin 3.2s linear infinite; }
+  .al-card-wrap::after {
+    content: ''; position: absolute; left: 8%; right: 8%; bottom: -22px; height: 26px; z-index: -2;
+    background: radial-gradient(ellipse, rgba(0,0,0,0.55), rgba(0,0,0,0) 72%);
+    opacity: 0.6; transform: scaleX(0.92); transition: opacity 0.3s, transform 0.3s;
+  }
+  .al-card-wrap.al-hover::after { opacity: 0.85; transform: scaleX(1.04); }
+  .admin-login-box, .admin-forgot-box {
+    position: relative; isolation: isolate; overflow: hidden;
+    background: linear-gradient(180deg, rgba(23,32,23,0.85), rgba(11,16,11,0.9));
+    border: 1px solid rgba(184,255,60,0.22);
+    border-radius: 22px; padding: 40px 44px;
     width: 100%; max-width: 380px;
     text-align: center;
-    box-shadow: 0 32px 80px rgba(0,0,0,0.8);
+    box-shadow: 0 40px 90px -20px rgba(0,0,0,0.85), 0 20px 45px -18px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.03) inset;
+    -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
+    animation: alBoxIn 0.5s cubic-bezier(.22,1,.36,1);
+    transform-style: preserve-3d; will-change: transform;
+    transition: box-shadow 0.3s;
+    box-sizing: border-box;
+  }
+  .admin-login-box::before, .admin-forgot-box::before {
+    content: ''; position: absolute; top: 0; left: 14px; right: 14px; height: 2px; border-radius: 2px;
+    background: linear-gradient(90deg, transparent, #B8FF3C, #5DCAA5, transparent);
+    background-size: 200% 100%; animation: alShine 3.2s ease-in-out infinite;
+    z-index: 3;
+  }
+  .admin-login-box::after, .admin-forgot-box::after {
+    content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 2;
+    background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,0.28), rgba(255,255,255,0) 45%);
+    opacity: 0; transition: opacity 0.25s; mix-blend-mode: overlay;
+  }
+  .admin-login-box.al-hover::after, .admin-forgot-box.al-hover::after { opacity: 1; }
+  @keyframes alShine { 0%{background-position:200% 0;} 100%{background-position:-200% 0;} }
+  @keyframes alBoxIn { from{opacity:0; transform:translateY(14px) scale(0.96);} to{opacity:1; transform:translateY(0) scale(1);} }
+  /* Staggered reveal for each field once the card mounts */
+  @keyframes alFieldIn { from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+  .admin-login-box > *:not(.admin-login-icon):not(.admin-login-title), .admin-forgot-box > *:not(.admin-login-icon):not(.admin-login-title) { animation: alFieldIn 0.45s cubic-bezier(.22,1,.36,1) both; }
+  .admin-login-box > *:nth-child(1), .admin-forgot-box > *:nth-child(1) { animation-delay: .05s; }
+  .admin-login-box > *:nth-child(2), .admin-forgot-box > *:nth-child(2) { animation-delay: .10s; }
+  .admin-login-box > *:nth-child(3), .admin-forgot-box > *:nth-child(3) { animation-delay: .15s; }
+  .admin-login-box > *:nth-child(4), .admin-forgot-box > *:nth-child(4) { animation-delay: .20s; }
+  .admin-login-box > *:nth-child(5), .admin-forgot-box > *:nth-child(5) { animation-delay: .25s; }
+  .admin-login-box > *:nth-child(6), .admin-forgot-box > *:nth-child(6) { animation-delay: .30s; }
+  .admin-login-box > *:nth-child(7), .admin-forgot-box > *:nth-child(7) { animation-delay: .35s; }
+  .admin-login-box > *:nth-child(8), .admin-forgot-box > *:nth-child(8) { animation-delay: .40s; }
+  @keyframes alIconIn {
+    from{ opacity:0; transform: translateZ(30px) translateY(10px) scale(0.9); }
+    to{ opacity:1; transform: translateZ(30px) translateY(0) scale(1); }
+  }
+  @keyframes alTitleIn {
+    from{ opacity:0; transform: translateZ(18px) translateY(10px); }
+    to{ opacity:1; transform: translateZ(18px) translateY(0); }
   }
   .admin-login-icon {
+    position: relative; z-index: 1;
     width: 56px; height: 56px; border-radius: 16px;
-    background: rgba(184,255,60,0.1); border: 1px solid rgba(184,255,60,0.3);
+    background: linear-gradient(160deg, rgba(184,255,60,0.24), rgba(184,255,60,0.05));
+    border: 1px solid rgba(184,255,60,0.3);
     display: flex; align-items: center; justify-content: center;
     margin: 0 auto 20px; font-family: 'Syne',sans-serif;
     font-size: 20px; font-weight: 800; color: var(--lime);
+    animation: alIconIn 0.5s cubic-bezier(.22,1,.36,1) both, alIconGlow 2.6s ease-in-out infinite 0.5s;
+  }
+  @keyframes alIconGlow {
+    0%,100%{ box-shadow: 0 10px 22px -10px rgba(184,255,60,0.45), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 -6px 10px -4px rgba(0,0,0,0.32); }
+    50%{ box-shadow: 0 14px 32px -8px rgba(184,255,60,0.78), inset 0 1px 0 rgba(255,255,255,0.3), inset 0 -6px 10px -4px rgba(0,0,0,0.32); }
   }
   .admin-login-title {
+    position: relative; z-index: 1;
     font-family: 'Syne',sans-serif; font-size: 20px; font-weight: 800;
     color: var(--white); margin-bottom: 6px;
+    text-shadow: 0 1px 0 rgba(0,0,0,.5), 0 2px 0 rgba(0,0,0,.42), 0 3px 0 rgba(0,0,0,.35), 0 4px 8px rgba(0,0,0,.5), 0 0 26px rgba(184,255,60,0.2);
+    animation: alTitleIn 0.5s cubic-bezier(.22,1,.36,1) both;
+    animation-delay: .12s;
   }
   .admin-login-sub { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
   .admin-pw-wrap {
@@ -1319,9 +1409,13 @@
     border-radius: 12px; color: var(--white);
     font-family: 'DM Sans',sans-serif; font-size: 14px;
     outline: none; box-sizing: border-box;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
   }
-  .admin-pw-input:focus { border-color: rgba(184,255,60,0.4); }
+  .admin-pw-input:focus {
+    border-color: rgba(184,255,60,0.45);
+    box-shadow: 0 0 0 3px rgba(184,255,60,0.12), 0 6px 16px -8px rgba(184,255,60,0.4);
+    transform: translateY(-1px);
+  }
   .admin-pw-toggle {
     position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
     background: none; border: none; cursor: pointer; color: var(--muted);
@@ -1329,14 +1423,22 @@
   }
   .admin-pw-toggle:hover { color: var(--lime); }
   .admin-login-btn {
+    position: relative; overflow: hidden;
     width: 100%; padding: 13px;
     background: var(--lime); color: #0A0E0A;
     font-family: 'Syne',sans-serif; font-size: 14px; font-weight: 800;
     border: none; border-radius: 12px; cursor: pointer;
+    box-shadow: 0 10px 22px -10px rgba(184,255,60,0.55), inset 0 1px 0 rgba(255,255,255,0.4), inset 0 -3px 6px rgba(0,0,0,0.15);
     transition: all 0.2s; margin-bottom: 12px;
   }
-  .admin-login-btn:hover { background: #9fe030; }
-  .admin-login-btn:active { transform: scale(0.98); }
+  .admin-login-btn:hover {
+    background: #9fe030; transform: translateY(-2px);
+    box-shadow: 0 16px 28px -10px rgba(184,255,60,0.65), inset 0 1px 0 rgba(255,255,255,0.4), inset 0 -3px 6px rgba(0,0,0,0.15);
+  }
+  .admin-login-btn:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 4px 10px -6px rgba(184,255,60,0.5), inset 0 2px 5px rgba(0,0,0,0.25);
+  }
   .admin-error {
     font-size: 12px; color: #FF5C5C;
     background: rgba(255,92,92,0.1); border: 1px solid rgba(255,92,92,0.2);
@@ -1929,10 +2031,6 @@
     display: block; width: 100%; text-align: center;
   }
   .admin-forgot-btn:hover { color: var(--lime); }
-  .admin-forgot-box {
-    padding: 10px 0;
-    animation: fadeInUp 0.3s ease;
-  }
   @keyframes fadeInUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
   .admin-success {
     font-size: 12px; color: #5DCAA5;
@@ -7762,6 +7860,16 @@ function beQuick(topic) {
 
 <!-- ADMIN LOGIN -->
 <div id="admin-login" class="hidden">
+  <div class="al-orb al-orb1"></div>
+  <div class="al-orb al-orb2"></div>
+  <div class="al-floor"></div>
+  <div class="al-particle" style="width:6px;height:6px;top:22%;left:18%;opacity:0.7;animation-duration:5.5s;"></div>
+  <div class="al-particle" style="width:4px;height:4px;top:68%;left:14%;opacity:0.45;filter:blur(0.5px);animation-duration:7s;animation-delay:-2s;"></div>
+  <div class="al-particle" style="width:9px;height:9px;top:15%;right:16%;opacity:0.5;filter:blur(1px);animation-duration:8.5s;animation-delay:-4s;background:radial-gradient(circle,rgba(93,202,165,0.9),rgba(93,202,165,0) 70%);"></div>
+  <div class="al-particle" style="width:5px;height:5px;top:78%;right:20%;opacity:0.65;animation-duration:6.2s;animation-delay:-1s;"></div>
+  <div class="al-particle" style="width:3px;height:3px;top:40%;left:8%;opacity:0.35;filter:blur(0.8px);animation-duration:9s;animation-delay:-3.5s;"></div>
+  <div class="al-particle" style="width:7px;height:7px;top:32%;right:9%;opacity:0.4;filter:blur(1px);animation-duration:7.8s;animation-delay:-5s;background:radial-gradient(circle,rgba(93,202,165,0.9),rgba(93,202,165,0) 70%);"></div>
+  <div class="al-card-wrap">
   <div class="admin-login-box">
     <div class="admin-login-icon">BE</div>
     <div class="admin-login-title">Admin Access</div>
@@ -7788,9 +7896,11 @@ function beQuick(topic) {
     <button class="admin-forgot-btn" onclick="adminShowForgot()">Forgot password?</button>
     <button class="admin-close-login" onclick="adminHideLogin()">&#x2715; Cancel</button>
   </div>
+  </div>
 
   <!-- FORGOT PASSWORD BOX (hidden by default) -->
-  <div class="admin-forgot-box" id="admin-forgot-box" style="display:none;">
+  <div class="al-card-wrap" id="admin-forgot-wrap" style="display:none;">
+  <div class="admin-forgot-box" id="admin-forgot-box">
     <div class="admin-login-icon" style="background:rgba(93,202,165,0.1);border-color:rgba(93,202,165,0.3);">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5DCAA5" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
     </div>
@@ -7807,6 +7917,7 @@ function beQuick(topic) {
     <div class="admin-error" id="reset-error" style="display:none;"></div>
     <div class="admin-success" id="reset-success" style="display:none;"></div>
     <button class="admin-forgot-btn" onclick="adminHideForgot()" style="margin-top:8px;">&#8592; Back to login</button>
+  </div>
   </div>
 </div>
 
@@ -8360,6 +8471,75 @@ function adminShowLogin() {
   setTimeout(function() { var u=document.getElementById('admin-user'); (u||document.getElementById('admin-pw')).focus(); }, 100);
 }
 
+/* ===== Admin login scene: 3D pointer tilt + glare + spinning ring + parallax ===== */
+(function(){
+  var reduce = false;
+  try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches || window.matchMedia('(hover:none)').matches; } catch(e){}
+  if (reduce) return;
+  var scene = document.getElementById('admin-login');
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.admin-login-box, .admin-forgot-box'));
+  if (!scene || !cards.length) return;
+  var TILT = 9;
+
+  cards.forEach(function(card){
+    var wrap = card.closest('.al-card-wrap');
+    if (!wrap) return;
+    var raf = null;
+    card.addEventListener('mouseenter', function(){
+      card.classList.add('al-hover'); wrap.classList.add('al-hover');
+      card.style.transition = 'transform .07s linear, box-shadow .2s';
+    });
+    card.addEventListener('mousemove', function(e){
+      var r = card.getBoundingClientRect();
+      var px = (e.clientX - r.left) / r.width;
+      var py = (e.clientY - r.top) / r.height;
+      if (raf) return;
+      raf = requestAnimationFrame(function(){
+        raf = null;
+        var rx = (0.5 - py) * TILT;
+        var ry = (px - 0.5) * TILT;
+        card.style.transform = 'perspective(1000px) rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg) scale(1.015)';
+        card.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
+        card.style.setProperty('--my', (py * 100).toFixed(1) + '%');
+      });
+    });
+    card.addEventListener('mouseleave', function(){
+      card.classList.remove('al-hover'); wrap.classList.remove('al-hover');
+      card.style.transition = 'transform .5s cubic-bezier(.2,1,.3,1), box-shadow .3s';
+      card.style.transform = '';
+      card.style.removeProperty('--mx'); card.style.removeProperty('--my');
+    });
+  });
+
+  /* Whole-scene parallax: orbs/floor/particles drift opposite the cursor for depth */
+  var orb1 = scene.querySelector('.al-orb1'), orb2 = scene.querySelector('.al-orb2'), floor = scene.querySelector('.al-floor');
+  var particles = Array.prototype.slice.call(scene.querySelectorAll('.al-particle'));
+  var praf = null;
+  scene.addEventListener('mousemove', function(e){
+    var r = scene.getBoundingClientRect();
+    var px = (e.clientX - r.left) / r.width - 0.5;
+    var py = (e.clientY - r.top) / r.height - 0.5;
+    if (praf) return;
+    praf = requestAnimationFrame(function(){
+      praf = null;
+      if (orb1) { orb1.style.marginLeft = (px * -26).toFixed(1) + 'px'; orb1.style.marginTop = (py * -26).toFixed(1) + 'px'; }
+      if (orb2) { orb2.style.marginLeft = (px * 22).toFixed(1) + 'px'; orb2.style.marginTop = (py * 22).toFixed(1) + 'px'; }
+      if (floor) floor.style.marginLeft = (px * -14).toFixed(1) + 'px';
+      particles.forEach(function(p, i){
+        var depth = (i % 3 === 0) ? 18 : (i % 3 === 1 ? 11 : 6);
+        p.style.marginLeft = (px * depth).toFixed(1) + 'px';
+        p.style.marginTop = (py * depth).toFixed(1) + 'px';
+      });
+    });
+  });
+  scene.addEventListener('mouseleave', function(){
+    if (orb1) { orb1.style.marginLeft=''; orb1.style.marginTop=''; }
+    if (orb2) { orb2.style.marginLeft=''; orb2.style.marginTop=''; }
+    if (floor) floor.style.marginLeft = '';
+    particles.forEach(function(p){ p.style.marginLeft=''; p.style.marginTop=''; });
+  });
+})();
+
 function adminHideLogin() {
   document.getElementById('admin-login').classList.add('hidden');
   document.getElementById('admin-pw').value = '';
@@ -8621,15 +8801,15 @@ function renderContacts(){
 }
 
 function adminShowForgot() {
-  document.querySelector('.admin-login-box').style.display = 'none';
-  var fb = document.getElementById('admin-forgot-box');
-  if (fb) fb.style.display = 'block';
+  document.querySelector('.admin-login-box').closest('.al-card-wrap').style.display = 'none';
+  var fw = document.getElementById('admin-forgot-wrap');
+  if (fw) fw.style.display = 'block';
 }
 
 function adminHideForgot() {
-  document.querySelector('.admin-login-box').style.display = 'block';
-  var fb = document.getElementById('admin-forgot-box');
-  if (fb) fb.style.display = 'none';
+  document.querySelector('.admin-login-box').closest('.al-card-wrap').style.display = 'block';
+  var fw = document.getElementById('admin-forgot-wrap');
+  if (fw) fw.style.display = 'none';
   var re = document.getElementById('reset-error');
   var rs = document.getElementById('reset-success');
   if (re) re.style.display = 'none';
